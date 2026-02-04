@@ -1,0 +1,30 @@
+
+<odoo>
+    <record id="woo_connector_action" model="ir.actions.act_window">
+        <field name="name">WooCommerce Connector</field>
+        <field name="res_model">woo.connector</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <record id="woo_connector_form" model="ir.ui.view">
+        <field name="name">woo.connector.form</field>
+        <field name="model">woo.connector</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="woo_url"/>
+                        <field name="consumer_key"/>
+                        <field name="consumer_secret"/>
+                    </group>
+                    <footer>
+                        <button name="action_sync_products"
+                                string="Sync Products"
+                                type="object"
+                                class="btn-primary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,14 @@
+<odoo>
+    <record id="view_woo_inventory_list" model="ir.ui.view">
+        <field name="name">woo.inventory.list</field>
+        <field name="model">woo.inventory</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="product_name"/>
+                <field name="sku"/>
+                <field name="quantity"/>
+                <field name="stock_status"/>
+            </list>
+        </field>
+    </record>
+</odoo>

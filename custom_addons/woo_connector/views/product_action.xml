@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_open_new_odoo_product" model="ir.actions.act_window">
+        <field name="name">New Product</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">current</field>
+        <field name="context">
+            {
+                'form_view_initial_mode': 'edit',
+                'default_detailed_type': 'product'
+            }
+        </field>
+    </record>
+
+</odoo>

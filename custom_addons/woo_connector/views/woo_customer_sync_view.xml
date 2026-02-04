@@ -1,0 +1,95 @@
+<odoo>
+
+    <!-- LIST VIEW -->
+    <record id="woo_customer_sync_list_view" model="ir.ui.view">
+        <field name="name">woo.customer.sync.list</field>
+        <field name="model">woo.customer.sync</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="woo_customer_id"/>
+                <field name="state"/>
+                <field name="synced_on"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="woo_customer_sync_form_view" model="ir.ui.view">
+        <field name="name">woo.customer.sync.form</field>
+        <field name="model">woo.customer.sync</field>
+        <field name="priority" eval="30"/>
+        <field name="arch" type="xml">
+            <form string="WooCommerce Customer">
+
+                <!-- HEADER -->
+                <header>
+                    <button name="action_push_to_woo"
+                            type="object"
+                            string="Create / Update in WooCommerce"
+                            class="btn-primary"/>
+
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,synced,error"/>
+                </header>
+
+                <sheet>
+
+                    <!-- SMART BUTTON -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_orders"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-shopping-cart">
+                            <field name="order_count"
+                                   widget="statinfo"
+                                   string="Orders"/>
+                        </button>
+                    </div>
+
+                    <!-- TITLE -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <!-- MAIN INFO -->
+                    <group>
+                        <group>
+                            <field name="email"/>
+                            <field name="phone"/>
+                        </group>
+
+                        <group>
+                            <field name="instance_id"/>
+                            <field name="woo_customer_id" readonly="1"/>
+                            <field name="synced_on" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <!-- NOTEBOOK -->
+                    <notebook>
+                        <page string="General">
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </page>
+
+                        <page string="WooCommerce">
+                            <group>
+                                <field name="woo_customer_id"/>
+                                <field name="instance_id"/>
+                            </group>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

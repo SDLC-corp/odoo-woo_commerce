@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Search view -->
+    <record id="view_woo_sales_report_search" model="ir.ui.view">
+        <field name="name">woo.sales.report.search</field>
+        <field name="model">woo.order.sync</field>
+        <field name="arch" type="xml">
+            <search string="Woo Sales">
+                <field name="instance_id"/>
+                <field name="status"/>
+                <field name="customer_email"/>
+                <filter name="woo_orders" string="Woo Orders"
+                        domain="[('woo_order_id','!=',False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="grp_instance" string="Instance" context="{'group_by':'instance_id'}"/>
+                    <filter name="grp_status" string="Status" context="{'group_by':'status'}"/>
+                    <filter name="grp_customer" string="Customer" context="{'group_by':'customer_email'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Pivot view -->
+    <record id="view_woo_sales_report_pivot" model="ir.ui.view">
+        <field name="name">woo.sales.report.pivot</field>
+        <field name="model">woo.order.sync</field>
+        <field name="arch" type="xml">
+            <pivot string="Woo Sales" disable_linking="False">
+                <field name="total_amount" type="measure"/>
+                <field name="instance_id" type="row"/>
+                <field name="status" type="row"/>
+                <field name="date_created" type="col" interval="month"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Graph view -->
+    <record id="view_woo_sales_report_graph" model="ir.ui.view">
+        <field name="name">woo.sales.report.graph</field>
+        <field name="model">woo.order.sync</field>
+        <field name="arch" type="xml">
+            <graph string="Woo Sales" type="bar" stacked="True">
+                <field name="date_created" interval="month"/>
+                <field name="total_amount" type="measure"/>
+                <field name="instance_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- List view -->
+    <record id="view_woo_sales_report_tree" model="ir.ui.view">
+        <field name="name">woo.sales.report.tree</field>
+        <field name="model">woo.order.sync</field>
+        <field name="arch" type="xml">
+            <list string="Woo Sales" create="false" edit="false">
+                <field name="name"/>
+                <field name="date_created"/>
+                <field name="customer_name"/>
+                <field name="customer_email"/>
+                <field name="instance_id"/>
+                <field name="woo_order_id"/>
+                <field name="status"/>
+                <field name="total_amount" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_woo_sales_report" model="ir.actions.act_window">
+        <field name="name">Sales Report</field>
+        <field name="res_model">woo.order.sync</field>
+        <field name="view_mode">graph,pivot,list</field>
+        <field name="view_id" ref="view_woo_sales_report_graph"/>
+        <field name="search_view_id" ref="view_woo_sales_report_search"/>
+        <field name="domain">[('woo_order_id','!=',False)]</field>
+        <field name="context">{'search_default_woo_orders':1, 'group_by':'instance_id'}</field>
+    </record>
+
+</odoo>

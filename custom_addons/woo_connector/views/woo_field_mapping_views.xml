@@ -1,0 +1,98 @@
+<odoo>
+
+    <!-- FORM VIEW (UNCHANGED) -->
+    <record id="view_woo_field_mapping_form" model="ir.ui.view">
+        <field name="name">woo.field.mapping.form</field>
+        <field name="model">woo.field.mapping</field>
+        <field name="arch" type="xml">
+            <form string="Woo Field Mapping">
+                <header>
+                    <button name="action_test_mapping"
+                            type="object"
+                            string="Test Mapping"
+                            class="btn-primary"/>
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="instance_id"/>
+                        <field name="model" invisible="1"/>
+                        <field name="active"/>
+                    </group>
+
+                    <group>
+                        <field name="odoo_field_id"/>
+<!--                        <field name="product_tmpl_id"/>-->
+                        <field name="woo_field_key"/>
+                    </group>
+
+<!--                    <group string="Live Preview">-->
+<!--                        <field name="woo_preview"/>-->
+<!--                        <field name="odoo_preview"/>-->
+<!--                    </group>-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- PRODUCT -->
+    <record id="view_woo_field_mapping_tree_product" model="ir.ui.view">
+        <field name="name">woo.field.mapping.tree.product</field>
+        <field name="model">woo.field.mapping</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="instance_id"/>
+                <field name="odoo_field_id"/>
+<!--                <field name="product_tmpl_id" string="Product"/>-->
+                <field name="woo_field_key"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- CUSTOMER -->
+    <record id="view_woo_field_mapping_tree_customer" model="ir.ui.view">
+        <field name="name">woo.field.mapping.tree.customer</field>
+        <field name="model">woo.field.mapping</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="instance_id"/>
+                <field name="odoo_field_id"/>
+<!--                <field name="product_tmpl_id" string="Customer"/>-->
+                <field name="woo_field_key"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ORDER -->
+    <record id="view_woo_field_mapping_tree_order" model="ir.ui.view">
+        <field name="name">woo.field.mapping.tree.order</field>
+        <field name="model">woo.field.mapping</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="instance_id"/>
+                <field name="odoo_field_id"/>
+<!--                <field name="product_tmpl_id" string="Order"/>-->
+                <field name="woo_field_key"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- CATEGORY -->
+    <record id="view_woo_field_mapping_tree_category" model="ir.ui.view">
+        <field name="name">woo.field.mapping.tree.category</field>
+        <field name="model">woo.field.mapping</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="instance_id"/>
+                <field name="odoo_field_id"/>
+<!--                <field name="product_tmpl_id" string="Category"/>-->
+                <field name="woo_field_key"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

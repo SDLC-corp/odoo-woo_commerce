@@ -1,0 +1,18 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_woo_instance,woo.instance,model_woo_instance,base.group_system,1,1,1,1
+access_woo_dashboard,woo.dashboard,model_woo_dashboard,base.group_user,1,0,0,0
+access_woo_product_sync,woo.product.sync,model_woo_product_sync,base.group_user,1,1,1,1
+access_woo_customer_sync,woo.customer.sync,model_woo_customer_sync,base.group_user,1,1,1,1
+access_woo_order_sync,woo.order.sync,model_woo_order_sync,base.group_user,1,1,1,1
+access_woo_category_sync,woo.category.sync,model_woo_category_sync,base.group_user,1,1,1,1
+access_woo_report,woo.report,model_woo_report,base.group_user,1,1,1,1
+access_woo_coupon_sync,woo.coupon.sync,model_woo_coupon_sync,base.group_user,1,1,1,0
+access_woo_report,access_woo_report,model_woo_report,base.group_user,1,1,1,1
+access_woo_report_line,woo.report.line,model_woo_report_line,base.group_user,1,1,1,1
+access_woo_order_line_sync,woo.order.line.sync,model_woo_order_line_sync,,1,1,1,1
+access_woo_sync_status,access.woo.sync.status,model_woo_sync_status,base.group_system,1,1,1,1
+access_woo_field_mapping,woo.field.mapping,model_woo_field_mapping,,1,1,1,1
+access_woo_instance,woo.instance,model_woo_instance,,1,1,1,1
+access_woo_field_user,woo.field user,model_woo_field,base.group_user,1,1,1,1
+access_woo_field_mapping_user,woo.field.mapping user,model_woo_field_mapping,base.group_user,1,1,1,1
+access_woo_inventory_user,woo.inventory user,model_woo_inventory,base.group_user,1,1,1,1

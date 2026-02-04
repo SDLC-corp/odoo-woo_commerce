@@ -1,0 +1,74 @@
+<odoo>
+
+    <!-- LIST VIEW -->
+    <record id="woo_report_list_view" model="ir.ui.view">
+        <field name="name">woo.report.list</field>
+        <field name="model">woo.report</field>
+        <field name="arch" type="xml">
+            <list string="WooCommerce Sync Reports">
+                <field name="create_date"/>
+                <field name="instance_id"/>
+                <field name="operation"/>
+                <field name="mode"/>
+                <field name="source_action"/>
+                <field name="status"/>
+                <field name="run_on"/>
+                <field name="message"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- FORM VIEW -->
+    <record id="woo_report_form_view" model="ir.ui.view">
+        <field name="name">woo.report.form</field>
+        <field name="model">woo.report</field>
+        <field name="arch" type="xml">
+            <form string="WooCommerce Sync Report">
+                <sheet>
+                    <group col="4">
+                        <field name="instance_id"/>
+                        <field name="operation"/>
+                        <field name="mode"/>
+                        <field name="source_action"/>
+                        <field name="reference"/>
+                        <field name="status"/>
+                        <field name="run_on"/>
+                    </group>
+                    <group col="2">
+                        <field name="message"/>
+                    </group>
+                    <notebook>
+                        <page string="Lines">
+                            <field name="line_ids">
+                                <list>
+                                    <field name="source_action"/>
+                                    <field name="record_type"/>
+                                    <field name="woo_id"/>
+                                    <field name="name"/>
+                                    <field name="status"/>
+                                    <field name="error_message"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTIONS -->
+    <record id="action_woo_sync_reports" model="ir.actions.act_window">
+        <field name="name">Sync Reports</field>
+        <field name="res_model">woo.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('has_webhook', '=', False)]</field>
+    </record>
+
+    <record id="action_woo_webhook_reports" model="ir.actions.act_window">
+        <field name="name">Webhook Reports</field>
+        <field name="res_model">woo.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('has_webhook', '=', True)]</field>
+    </record>
+
+</odoo>

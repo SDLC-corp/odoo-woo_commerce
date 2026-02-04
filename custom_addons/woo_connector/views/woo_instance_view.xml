@@ -1,0 +1,324 @@
+<odoo>
+
+    <record id="woo_instance_form_view" model="ir.ui.view">
+        <field name="name">woo.instance.form</field>
+        <field name="model">woo.instance</field>
+        <field name="arch" type="xml">
+
+            <form string="WooCommerce Instance">
+
+                <header>
+                    <button name="action_test_connection"
+                            string="Test Connection"
+                            type="object"
+                            class="btn-primary"/>
+
+                    <button name="action_sync_products"
+                            string="Sync Products"
+                            type="object"
+                            class="btn-secondary"/>
+
+<!--                    <button name="action_sync_customers"-->
+<!--                            string="Sync Customers"-->
+<!--                            type="object"/>-->
+
+                    <button name="action_sync_orders"
+                            string="Sync Orders"
+                            type="object"/>
+
+                    <button name="action_sync_categories"
+                            string="Sync Categories"
+                            type="object"/>
+
+                    <button name="action_sync_coupons"
+                            string="Sync Coupons"
+                            type="object"/>
+
+<!--                    <button name="action_inventory_report"-->
+<!--                            string="Inventory Report"-->
+<!--                            type="object"/>-->
+                    <button name="sync_inventory_from_woo"
+                            type="object"
+                            string="Sync Inventory"/>
+
+<!--                    <button name="action_sync_reports"-->
+<!--                            string="Sync Reports"-->
+<!--                            type="object"/>-->
+                </header>
+
+                <sheet>
+
+                    <group string="Basic Configuration" col="2">
+                        <group>
+                            <field name="name"/>
+                            <field name="shop_url"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="consumer_key"/>
+                            <field name="consumer_secret" password="True"/>
+                            <field name="wp_username"/>
+                            <field name="application_password" password="True"/>
+                            <field name="webhook_secret"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+
+                        <!-- WEBHOOK AUTO SYNC -->
+                        <page string="Webhook Auto Sync">
+                            <div class="o_group o_inner_group">
+                                <table class="o_group o_inner_group" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Entity</th>
+                                            <th>Create</th>
+                                            <th>Update</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="o_form_label">Product</span></td>
+                                            <td><field name="webhook_product_create" nolabel="1" string=""/></td>
+                                            <td><field name="webhook_product_update" nolabel="1" string=""/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="o_form_label">Customer</span></td>
+                                            <td><field name="webhook_customer_create" nolabel="1" string=""/></td>
+                                            <td><field name="webhook_customer_update" nolabel="1" string=""/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="o_form_label">Order</span></td>
+                                            <td><field name="webhook_order_create" nolabel="1" string=""/></td>
+                                            <td><field name="webhook_order_update" nolabel="1" string=""/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="o_form_label">Category</span></td>
+                                            <td><field name="webhook_category_create" nolabel="1" string=""/></td>
+                                            <td><field name="webhook_category_update" nolabel="1" string=""/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="o_form_label">Coupon</span></td>
+                                            <td><field name="webhook_giftcard_create" nolabel="1" string=""/></td>
+                                            <td><field name="webhook_giftcard_update" nolabel="1" string=""/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </page>
+
+                        <!-- AUTO SYNC (CRON) -->
+                        <page string="Auto Sync (Cron)">
+                            <group col="2">
+                                <group string="Products">
+                                    <field name="auto_product_sync"/>
+                                    <field name="auto_product_interval_type" invisible="not auto_product_sync"/>
+                                    <group invisible="auto_product_interval_type != 'hours' or not auto_product_sync">
+                                        <field name="auto_sync_hour"/>
+                                    </group>
+                                    <group invisible="auto_product_interval_type != 'days' or not auto_product_sync">
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                    <group invisible="auto_product_interval_type != 'weeks' or not auto_product_sync">
+                                        <field name="auto_sync_weekday"/>
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                    <group invisible="auto_product_interval_type != 'months' or not auto_product_sync">
+                                        <field name="auto_sync_month_day"/>
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                </group>
+                                <group string="Customers">
+                                    <field name="auto_customer_sync"/>
+                                    <field name="auto_customer_interval_type" invisible="not auto_customer_sync"/>
+                                    <group invisible="auto_customer_interval_type != 'hours' or not auto_customer_sync">
+                                        <field name="auto_sync_hour"/>
+                                    </group>
+                                    <group invisible="auto_customer_interval_type != 'days' or not auto_customer_sync">
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                    <group invisible="auto_customer_interval_type != 'weeks' or not auto_customer_sync">
+                                        <field name="auto_sync_weekday"/>
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                    <group invisible="auto_customer_interval_type != 'months' or not auto_customer_sync">
+                                        <field name="auto_sync_month_day"/>
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                </group>
+                                <group string="Orders">
+                                    <field name="auto_order_sync"/>
+                                    <field name="auto_order_interval_type" invisible="not auto_order_sync"/>
+                                    <group invisible="auto_order_interval_type != 'hours' or not auto_order_sync">
+                                        <field name="auto_sync_hour"/>
+                                    </group>
+                                    <group invisible="auto_order_interval_type != 'days' or not auto_order_sync">
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                    <group invisible="auto_order_interval_type != 'weeks' or not auto_order_sync">
+                                        <field name="auto_sync_weekday"/>
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                    <group invisible="auto_order_interval_type != 'months' or not auto_order_sync">
+                                        <field name="auto_sync_month_day"/>
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                </group>
+                                <group string="Categories">
+                                    <field name="auto_category_sync"/>
+                                    <field name="auto_category_interval_type" invisible="not auto_category_sync"/>
+                                    <group invisible="auto_category_interval_type != 'hours' or not auto_category_sync">
+                                        <field name="auto_sync_hour"/>
+                                    </group>
+                                    <group invisible="auto_category_interval_type != 'days' or not auto_category_sync">
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                    <group invisible="auto_category_interval_type != 'weeks' or not auto_category_sync">
+                                        <field name="auto_sync_weekday"/>
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                    <group invisible="auto_category_interval_type != 'months' or not auto_category_sync">
+                                        <field name="auto_sync_month_day"/>
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                </group>
+                                <group string="Coupons">
+                                    <field name="auto_coupon_sync"/>
+                                    <field name="auto_coupon_interval_type" invisible="not auto_coupon_sync"/>
+                                    <group invisible="auto_coupon_interval_type != 'hours' or not auto_coupon_sync">
+                                        <field name="auto_sync_hour"/>
+                                    </group>
+                                    <group invisible="auto_coupon_interval_type != 'days' or not auto_coupon_sync">
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                    <group invisible="auto_coupon_interval_type != 'weeks' or not auto_coupon_sync">
+                                        <field name="auto_sync_weekday"/>
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                    <group invisible="auto_coupon_interval_type != 'months' or not auto_coupon_sync">
+                                        <field name="auto_sync_month_day"/>
+                                        <field name="auto_sync_hour"/>
+                                        <field name="auto_sync_minute"/>
+                                    </group>
+                                </group>
+                            </group>
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+     <!-- ============================= -->
+    <!-- WOO INSTANCE LIST VIEW -->
+    <!-- ============================= -->
+    <record id="view_woo_instance_list" model="ir.ui.view">
+        <field name="name">woo.instance.list</field>
+        <field name="model">woo.instance</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="shop_url"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================= -->
+    <!-- WOO INSTANCE KANBAN VIEW -->
+    <!-- ============================= -->
+    <record id="view_woo_instance_kanban" model="ir.ui.view">
+        <field name="name">woo.instance.kanban</field>
+        <field name="model">woo.instance</field>
+        <field name="arch" type="xml">
+            <kanban class="o_woo_instance_kanban" default_group_by="active">
+                <field name="name"/>
+                <field name="shop_url"/>
+                <field name="active"/>
+                <field name="total_products"/>
+                <field name="total_orders"/>
+                <field name="total_customers"/>
+                <field name="total_revenue"/>
+                <field name="last_sync"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="o_kanban_record woo-instance-card #{record.active.raw_value ? 'is-active' : 'is-inactive'}">
+                            <div class="woo-card-header">
+                                <div class="woo-title">
+                                    <strong><field name="name"/></strong>
+                                    <span class="woo-status">
+                                        <t t-esc="record.active.raw_value ? 'Active' : 'Inactive'"/>
+                                    </span>
+                                </div>
+                                <div class="woo-url">
+                                    <field name="shop_url"/>
+                                </div>
+                            </div>
+
+                            <div class="woo-metrics">
+                                <div class="metric">
+                                    <div class="label">Orders</div>
+                                    <div class="value"><field name="total_orders"/></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="label">Products</div>
+                                    <div class="value"><field name="total_products"/></div>
+                                </div>
+                                <div class="metric">
+                                    <div class="label">Customers</div>
+                                    <div class="value"><field name="total_customers"/></div>
+                                </div>
+                                <div class="metric revenue">
+                                    <div class="label">Revenue</div>
+                                    <div class="value">$<field name="total_revenue"/></div>
+                                </div>
+                            </div>
+
+                            <div class="woo-card-footer">
+                                <div class="sync">
+                                    <span class="label">Last Sync</span>
+                                    <field name="last_sync"/>
+                                </div>
+                                <div>
+                                    <button type="object"
+                                            name="action_sync_reports"
+                                            class="btn btn-primary btn-sm">
+                                        Sync Analytics
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+<!-- ============================= -->
+<!-- WOO INSTANCE ACTION -->
+<!-- ============================= -->
+<record id="action_woo_instance" model="ir.actions.act_window">
+    <field name="name">WooCommerce Instances</field>
+    <field name="res_model">woo.instance</field>
+    <field name="view_mode">kanban,list,form</field>
+    <field name="view_id" ref="view_woo_instance_list"/>
+</record>
+
+</odoo>

@@ -1,0 +1,97 @@
+.o_woo_instance_kanban .woo-instance-card {
+    background: linear-gradient(135deg, #f7f6f1 0%, #ffffff 70%);
+    border: 1px solid #e6e2d9;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 6px 16px rgba(30, 30, 30, 0.06);
+}
+
+.o_woo_instance_kanban .woo-instance-card.is-active {
+    border-left: 6px solid #2f7a44;
+}
+
+.o_woo_instance_kanban .woo-instance-card.is-inactive {
+    border-left: 6px solid #a36b2b;
+    opacity: 0.85;
+}
+
+.o_woo_instance_kanban .woo-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.o_woo_instance_kanban .woo-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 16px;
+}
+
+.o_woo_instance_kanban .woo-status {
+    background: #eef4ec;
+    color: #2f7a44;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.o_woo_instance_kanban .is-inactive .woo-status {
+    background: #f7efe6;
+    color: #a36b2b;
+}
+
+.o_woo_instance_kanban .woo-url {
+    color: #5b6a73;
+    font-size: 12px;
+}
+
+.o_woo_instance_kanban .woo-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.o_woo_instance_kanban .metric {
+    background: #ffffff;
+    border: 1px solid #ebe8df;
+    border-radius: 10px;
+    padding: 8px 10px;
+}
+
+.o_woo_instance_kanban .metric.revenue {
+    background: #e8f2ea;
+    border-color: #cfe3d2;
+}
+
+.o_woo_instance_kanban .metric .label {
+    color: #6c6a5f;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.o_woo_instance_kanban .metric .value {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2b2b2b;
+}
+
+.o_woo_instance_kanban .woo-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px dashed #e6e2d9;
+    padding-top: 10px;
+}
+
+.o_woo_instance_kanban .woo-card-footer .label {
+    color: #6c6a5f;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}

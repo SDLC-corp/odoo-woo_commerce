@@ -1,0 +1,150 @@
+<odoo>
+
+    <!-- ================= ROOT MENU ================= -->
+    <menuitem id="woo_root_menu"
+              name="WooCommerce"
+              action="action_woo_dashboard"
+              sequence="10"
+              groups="base.group_user"/>
+
+    <!-- ================= MAIN MENUS ================= -->
+    <menuitem id="woo_instance_menu"
+              name="Instances"
+              parent="woo_root_menu"
+              action="action_woo_instance"
+              sequence="1"/>
+
+    <menuitem id="woo_dashboard_menu"
+              name="Dashboard"
+              parent="woo_root_menu"
+              action="action_woo_dashboard"
+              sequence="2"/>
+
+    <menuitem id="woo_data_menu"
+              name="WooCommerce Data"
+              parent="woo_root_menu"
+              sequence="3"/>
+
+    <!-- ================= DATA SUB MENUS ================= -->
+    <menuitem id="woo_product_menu"
+              name="Products"
+              parent="woo_data_menu"
+              action="action_woo_products"
+              sequence="1"/>
+
+    <menuitem id="woo_customer_menu"
+              name="Customers"
+              parent="woo_data_menu"
+              action="action_woo_customers"
+              sequence="2"/>
+
+    <menuitem id="woo_order_menu"
+              name="Orders"
+              parent="woo_data_menu"
+              action="action_woo_orders"
+              sequence="3"/>
+
+    <menuitem id="woo_category_menu"
+              name="Categories"
+              parent="woo_data_menu"
+              action="action_woo_categories"
+              sequence="4"/>
+
+
+
+
+    <!-- ================= OTHER MENUS ================= -->
+    <menuitem id="woo_coupon_menu"
+              name="Coupons"
+              parent="woo_root_menu"
+              action="action_woo_coupons"
+              sequence="4"/>
+
+    <menuitem id="woo_field_mapping_root_menu"
+              name="Field Mapping"
+              parent="woo_root_menu"
+              sequence="5"/>
+
+    <menuitem id="woo_field_mapping_product_menu"
+              name="Product Field Mapping"
+              parent="woo_field_mapping_root_menu"
+              action="action_woo_field_mapping_product"
+              sequence="1"/>
+
+    <menuitem id="woo_field_mapping_customer_menu"
+              name="Customer Field Mapping"
+              parent="woo_field_mapping_root_menu"
+              action="action_woo_field_mapping_customer"
+              sequence="2"/>
+
+<!--    <menuitem id="woo_field_mapping_order_menu"-->
+<!--              name="Order Field Mapping"-->
+<!--              parent="woo_field_mapping_root_menu"-->
+<!--              action="action_woo_field_mapping_order"-->
+<!--              sequence="3"/>-->
+
+    <menuitem id="woo_field_mapping_category_menu"
+              name="Category Field Mapping"
+              parent="woo_field_mapping_root_menu"
+              action="action_woo_field_mapping_category"
+              sequence="4"/>
+
+    <menuitem id="woo_inventory_menu"
+              name="Inventory"
+              parent="woo_root_menu"
+              action="action_woo_inventory"
+              sequence="6"/>
+
+    <menuitem id="woo_shipping_menu"
+              name="Shipping"
+              parent="woo_root_menu"
+              sequence="7"/>
+
+    <menuitem id="woo_delivery_orders_menu"
+              name="Delivery Orders"
+              parent="woo_shipping_menu"
+              action="action_woo_delivery_orders"
+              sequence="1"/>
+
+    <menuitem id="woo_tracking_menu"
+              name="Woo Tracking"
+              parent="woo_shipping_menu"
+              action="action_woo_tracking"
+              sequence="2"/>
+
+    <menuitem id="woo_reports_menu"
+              name="Reports"
+              parent="woo_root_menu"
+              sequence="8"/>
+
+    <menuitem id="woo_sync_reports_menu"
+              name="Sync Reports"
+              parent="woo_reports_menu"
+              action="action_woo_sync_reports"
+              sequence="1"/>
+
+    <menuitem id="woo_sales_report_menu"
+              name="Sales Report"
+              parent="woo_reports_menu"
+              action="action_woo_sales_report"
+              sequence="3"/>
+
+    <menuitem id="woo_webhook_reports_menu"
+              name="Webhook Reports"
+              parent="woo_reports_menu"
+              action="action_woo_webhook_reports"
+              sequence="5"/>
+
+    <menuitem id="woo_cancelled_orders_menu"
+              name="Cancelled Orders"
+              parent="woo_reports_menu"
+              action="action_woo_cancelled_orders"
+              sequence="7"/>
+
+    <menuitem id="woo_mapping_reports_menu"
+              name="Mapping Reports"
+              parent="woo_reports_menu"
+              action="action_woo_mapping_reports"
+              sequence="50"/>
+
+</odoo>

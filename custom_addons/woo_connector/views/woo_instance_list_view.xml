@@ -1,0 +1,15 @@
+<odoo>
+
+    <record id="woo_instance_list_view" model="ir.ui.view">
+        <field name="name">woo.instance.list</field>
+        <field name="model">woo.instance</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="shop_url"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

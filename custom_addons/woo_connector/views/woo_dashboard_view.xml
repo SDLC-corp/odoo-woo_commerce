@@ -1,0 +1,17 @@
+<form string="WooCommerce Analytics" create="0" edit="0">
+    <sheet>
+
+        <group col="5" string="Overview">
+            <field name="total_products"/>
+            <field name="total_orders"/>
+            <field name="total_customers"/>
+            <field name="total_categories"/>
+            <field name="total_revenue"/>
+        </group>
+
+        <group>
+            <field name="last_sync"/>
+        </group>
+
+    </sheet>
+</form>

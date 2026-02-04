@@ -1,0 +1,102 @@
+<odoo>
+
+    <!-- ORDER LIST -->
+    <record id="woo_order_sync_list_view" model="ir.ui.view">
+        <field name="name">woo.order.sync.list</field>
+        <field name="model">woo.order.sync</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="woo_order_id"/>
+                <field name="customer_name"/>
+                <field name="total_amount"/>
+                <field name="status"/>
+                <field name="synced_on"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ORDER FORM -->
+    <record id="woo_order_sync_form_view" model="ir.ui.view">
+        <field name="name">woo.order.sync.form</field>
+        <field name="model">woo.order.sync</field>
+        <field name="arch" type="xml">
+            <form string="WooCommerce Order">
+                <header>
+                    <field name="woo_status"
+                       widget="statusbar"
+                       statusbar_visible="draft,pending,confirmed,shipped,delivered,cancelled,refunded"/>
+
+<!--                   <field name="woo_status"-->
+<!--                       widget="statusbar"-->
+<!--                       statusbar_visible="pending,processing,on-hold,completed,cancelled,refunded,failed"-->
+<!--                       decoration-success="woo_status == 'completed'"-->
+<!--                       decoration-warning="woo_status in ('processing','pending','on-hold')"-->
+<!--                       decoration-danger="woo_status in ('cancelled','failed','refunded')"/>-->
+
+
+
+                    <button name="action_add_order"
+                            string="Add Order"
+                            type="object"
+                            class="btn-primary"
+                            invisible="id"/>
+
+                    <button name="action_update_order"
+                            string="Update Order"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="not id"/>
+
+                    <button name="action_create_sale_order"
+                            string="Create Sale Order"
+                            type="object"
+                            class="btn-primary"
+                            invisible="sale_order_id"/>
+
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="woo_order_id"/>
+                        <field name="status"/>
+                    </group>
+
+                    <group>
+                        <field name="customer_name"/>
+                        <field name="customer_email"/>
+                        <field name="total_amount"/>
+                        <field name="currency"/>
+                        <field name="instance_id"/>
+                        <field name="synced_on"/>
+                        <field name="sale_order_id" readonly="1"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Order Lines">
+                            <field name="line_ids">
+                                <list>
+                                    <field name="product_name"/>
+                                    <field name="sku"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="subtotal"/>
+                                    <field name="product_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_woo_order_sync" model="ir.actions.act_window">
+        <field name="name">WooCommerce Orders</field>
+        <field name="res_model">woo.order.sync</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

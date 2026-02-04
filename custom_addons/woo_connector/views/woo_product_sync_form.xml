@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_woo_product_sync_form" model="ir.ui.view">
+        <field name="name">woo.product.sync.form</field>
+        <field name="model">woo.product.sync</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false" delete="false">
+
+                <!-- ✅ WORKING BUTTON -->
+                <header>
+                    <button name="%(action_open_new_odoo_product)d"
+                            type="action"
+                            string="New Product"
+                            class="btn-primary"/>
+
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="product_tmpl_id"
+                               widget="many2one"
+                               options="{'no_create': false, 'no_open': false}"/>
+                        <field name="name"/>
+                        <field name="sku"/>
+                        <field name="woo_product_id"/>
+                        <field name="state"/>
+                        <field name="synced_on"/>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+</odoo>

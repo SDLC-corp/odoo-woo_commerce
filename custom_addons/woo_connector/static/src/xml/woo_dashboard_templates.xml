@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="woo_dashboard_template">
+  <div class="o_woo_dashboard">
+
+    <!-- HEADER -->
+    <div class="woo-hero">
+      <div class="woo-hero-left">
+        <div class="woo-title">WooCommerce Dashboard</div>
+        <div class="woo-subtitle">
+          <span class="woo-badge">LIVE</span>
+          <span class="woo-instance-name">
+            <t t-esc="state.data.meta.instance_name"/>
+          </span>
+        </div>
+      </div>
+      <div class="woo-hero-right">
+        <div class="woo-control">
+          <label>Instance</label>
+          <select t-model="state.instanceId" t-on-change="loadData">
+            <option value="all">All</option>
+            <option t-foreach="state.instances" t-as="i" t-key="i.id" t-att-value="i.id">
+              <t t-esc="i.name"/>
+            </option>
+          </select>
+        </div>
+        <div class="woo-control">
+          <label>Date Range</label>
+          <select t-model="state.range" t-on-change="loadData">
+            <option value="7">Last 7 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="90">Last 90 days</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" t-on-click="syncNow">
+          Sync Now
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI GRID -->
+    <div class="woo-kpis">
+      <div class="kpi-card soft-blue">
+        <div class="label">Instances</div>
+        <div class="value"><t t-esc="state.data.totals.instances"/></div>
+      </div>
+      <div class="kpi-card soft-green">
+        <div class="label">Customers</div>
+        <div class="value"><t t-esc="state.data.totals.customers"/></div>
+      </div>
+      <div class="kpi-card soft-yellow">
+        <div class="label">Products</div>
+        <div class="value"><t t-esc="state.data.totals.products"/></div>
+      </div>
+      <div class="kpi-card soft-pink">
+        <div class="label">Categories</div>
+        <div class="value"><t t-esc="state.data.totals.categories"/></div>
+      </div>
+      <div class="kpi-card soft-lavender">
+        <div class="label">Orders</div>
+        <div class="value"><t t-esc="state.data.totals.orders"/></div>
+      </div>
+      <div class="kpi-card soft-cream">
+        <div class="label">Coupons</div>
+        <div class="value"><t t-esc="state.data.totals.coupons"/></div>
+      </div>
+      <div class="kpi-card soft-slate">
+        <div class="label">Revenue</div>
+        <div class="value">$<t t-esc="state.data.totals.total_sales"/></div>
+      </div>
+      <div class="kpi-card soft-ice">
+        <div class="label">Selected Range</div>
+        <div class="value small">
+          From: <t t-esc="state.data.meta.date_from"/><br/>
+          To: <t t-esc="state.data.meta.date_to"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- PULSE VIEW -->
+    <div class="woo-pulse">
+      <div class="pulse-card">
+        <div class="pulse-title">Order Mix</div>
+        <div class="pulse-list">
+          <div class="pulse-row" t-foreach="state.viz.statusRows" t-as="row" t-key="row.key">
+            <div class="pulse-label"><t t-esc="row.label"/></div>
+            <div class="pulse-bar">
+              <div class="pulse-fill" t-att-style="'width:' + row.pct + '%'"/>
+            </div>
+            <div class="pulse-value"><t t-esc="row.value"/></div>
+          </div>
+        </div>
+        <div class="pulse-spectrum">
+          <div class="spectrum-dot" t-foreach="state.viz.statusRows" t-as="row" t-key="row.key"
+               t-att-style="'--dot:' + row.pct + '%'"></div>
+        </div>
+      </div>
+      <div class="pulse-card">
+        <div class="pulse-title">Revenue Ring</div>
+        <div class="ring-wrap">
+          <div class="ring" t-att-style="'--ring:' + state.viz.revenuePct + '%'">
+            <div class="ring-core">
+              <div class="ring-value">$<t t-esc="state.data.totals.total_sales"/></div>
+              <div class="ring-sub">Net sales</div>
+            </div>
+          </div>
+          <div class="ring-meta">
+            <div>Orders: <strong><t t-esc="state.data.totals.orders"/></strong></div>
+            <div>Products: <strong><t t-esc="state.data.totals.products"/></strong></div>
+            <div>Customers: <strong><t t-esc="state.data.totals.customers"/></strong></div>
+          </div>
+        </div>
+        <div class="ring-glow"></div>
+      </div>
+    </div>
+
+  </div>
+</t>
+
+</templates>

@@ -1,0 +1,168 @@
+<odoo>
+
+    <!-- ================= INSTANCES ================= -->
+    <record id="action_woo_instance" model="ir.actions.act_window">
+        <field name="name">WooCommerce Instances</field>
+        <field name="res_model">woo.instance</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <!-- ================= PRODUCTS ================= -->
+    <record id="action_woo_products" model="ir.actions.act_window">
+        <field name="name">WooCommerce Products</field>
+        <field name="res_model">woo.product.sync</field>
+        <field name="view_mode">list,form</field>
+<!--        <field name="domain">[('woo_product_id','!=',False)]</field>-->
+    </record>
+
+    <!-- ================= CUSTOMERS ================= -->
+    <record id="action_woo_customers" model="ir.actions.act_window">
+        <field name="name">WooCommerce Customers</field>
+        <field name="res_model">woo.customer.sync</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= ORDERS ================= -->
+    <record id="action_woo_orders" model="ir.actions.act_window">
+        <field name="name">WooCommerce Orders</field>
+        <field name="res_model">woo.order.sync</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="woo_order_sync_list_view"/>
+    </record>
+
+    <!-- ================= CATEGORIES ================= -->
+    <record id="action_woo_categories" model="ir.actions.act_window">
+        <field name="name">WooCommerce Categories</field>
+        <field name="res_model">woo.category.sync</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= COUPONS ================= -->
+    <record id="action_woo_coupons" model="ir.actions.act_window">
+        <field name="name">WooCommerce Coupons</field>
+        <field name="res_model">woo.coupon.sync</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= FIELD MAPPING ================= -->
+    <record id="action_woo_field_mapping" model="ir.actions.act_window">
+        <field name="name">WooCommerce Field Mapping</field>
+        <field name="res_model">woo.field.mapping</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= REPORTS ================= -->
+    <record id="action_woo_reports_window" model="ir.actions.act_window">
+        <field name="name">WooCommerce Reports</field>
+        <field name="res_model">woo.report</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_woo_mapping_reports" model="ir.actions.act_window">
+        <field name="name">Mapping Reports</field>
+        <field name="res_model">woo.field.mapping</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================= CLIENT PLACEHOLDERS ================= -->
+<!--    <record id="action_woo_dashboard" model="ir.actions.client">-->
+<!--        <field name="name">WooCommerce Dashboard</field>-->
+<!--        <field name="tag">display_notification</field>-->
+<!--        <field name="params"-->
+<!--               eval="{'title': 'Dashboard', 'message': 'Dashboard coming soon', 'type': 'info'}"/>-->
+<!--    </record>-->
+    <record id="action_woo_dashboard" model="ir.actions.client">
+        <field name="name">Woo Dashboard</field>
+        <field name="tag">woo_dashboard</field>
+    </record>
+
+    <record id="action_woo_data" model="ir.actions.client">
+        <field name="name">WooCommerce Data</field>
+        <field name="tag">display_notification</field>
+        <field name="params"
+               eval="{'title': 'Data', 'message': 'WooCommerce Data coming soon', 'type': 'info'}"/>
+    </record>
+
+    <record id="action_woo_reports" model="ir.actions.client">
+        <field name="name">Reports</field>
+        <field name="tag">display_notification</field>
+        <field name="params"
+               eval="{'title': 'Reports', 'message': 'Reports coming soon', 'type': 'info'}"/>
+    </record>
+
+    <!-- PRODUCT FIELD MAPPING -->
+    <record id="action_woo_field_mapping_product" model="ir.actions.act_window">
+        <field name="name">Product Field Mapping</field>
+        <field name="res_model">woo.field.mapping</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_woo_field_mapping_tree_product"/>
+        <field name="domain">[('model','=','product')]</field>
+        <field name="context">{'default_model':'product'}</field>
+    </record>
+
+    <!-- CUSTOMER FIELD MAPPING -->
+    <record id="action_woo_field_mapping_customer" model="ir.actions.act_window">
+        <field name="name">Customer Field Mapping</field>
+        <field name="res_model">woo.field.mapping</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_woo_field_mapping_tree_customer"/>
+        <field name="domain">[('model','=','customer')]</field>
+        <field name="context">{'default_model':'customer'}</field>
+    </record>
+
+    <!-- ORDER FIELD MAPPING -->
+    <record id="action_woo_field_mapping_order" model="ir.actions.act_window">
+        <field name="name">Order Field Mapping</field>
+        <field name="res_model">woo.field.mapping</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_woo_field_mapping_tree_order"/>
+        <field name="domain">[('model','=','order')]</field>
+        <field name="context">{'default_model':'order'}</field>
+    </record>
+
+    <!-- CATEGORY FIELD MAPPING -->
+    <record id="action_woo_field_mapping_category" model="ir.actions.act_window">
+        <field name="name">Category Field Mapping</field>
+        <field name="res_model">woo.field.mapping</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_woo_field_mapping_tree_category"/>
+        <field name="domain">[('model','=','category')]</field>
+        <field name="context">{'default_model':'category'}</field>
+    </record>
+
+    <record id="action_woo_inventory" model="ir.actions.act_window">
+        <field name="name">Woo Inventory</field>
+        <field name="res_model">woo.inventory</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- ================= SHIPPING ================= -->
+    <record id="action_woo_delivery_orders" model="ir.actions.act_window">
+        <field name="name">Delivery Orders</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('picking_type_code','=','outgoing')]</field>
+    </record>
+
+    <record id="action_woo_tracking" model="ir.actions.act_window">
+        <field name="name">Woo Tracking</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('picking_type_code','=','outgoing'),('state','=','done')]</field>
+    </record>
+
+
+    <record id="action_open_new_odoo_product" model="ir.actions.act_window">
+        <field name="name">New Product</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">current</field>
+        <field name="context">
+            {
+                'form_view_initial_mode': 'edit',
+                'default_detailed_type': 'product'
+            }
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,57 @@
+<odoo>
+
+<record id="view_product_template_form_woo" model="ir.ui.view">
+    <field name="name">product.template.form.woo</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_only_form_view"/>
+    <field name="arch" type="xml">
+
+        <!-- ========================= -->
+        <!-- HEADER BUTTONS -->
+        <!-- ========================= -->
+        <xpath expr="//header" position="inside">
+
+            <button
+                name="action_woo_create"
+                string="Create in WooCommerce"
+                type="object"
+                class="btn-primary"
+                invisible="woo_product_id"/>
+
+            <button
+                name="action_woo_update"
+                string="Update in WooCommerce"
+                type="object"
+                class="btn-secondary"
+                invisible="not woo_product_id"/>
+
+        </xpath>
+
+        <!-- ========================= -->
+        <!-- WOO TAB -->
+        <!-- ========================= -->
+        <xpath expr="//notebook" position="inside">
+            <page string="WooCommerce">
+                <group col="4">
+
+                    <group string="Connection">
+                        <field name="woo_instance_id"
+                               options="{'no_create': True}"
+                               placeholder="Select Woo Instance"/>
+                    </group>
+
+                    <group string="Sync Info">
+                        <field name="woo_product_id" readonly="1"/>
+                        <field name="woo_status"/>
+                        <field name="woo_last_sync" readonly="1"/>
+                    </group>
+
+                </group>
+            </page>
+        </xpath>
+
+
+    </field>
+</record>
+
+</odoo>

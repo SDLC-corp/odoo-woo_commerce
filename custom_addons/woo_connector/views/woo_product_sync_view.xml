@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ========================================================= -->
+    <!-- LIST VIEW (Odoo 18) -->
+    <!-- ========================================================= -->
+    <record id="view_woo_product_sync_list" model="ir.ui.view">
+        <field name="name">woo.product.sync.list</field>
+        <field name="model">woo.product.sync</field>
+        <field name="arch" type="xml">
+            <list create="false" class="o_woo_product_list">
+
+
+                <field name="product_tmpl_id"
+                       widget="many2one"
+                       options="{'no_create': true, 'no_open': false}" />
+                <field name="name"/>
+                <field name="sku"/>
+                <!-- Stock Quantity -->
+                <field name="qty_available" string="Stock"/>
+
+                <!-- Stock Status -->
+                <field name="stock_status"/>
+
+                <!-- Prices -->
+                <field name="list_price" string="Regular Price"/>
+                <field name="sale_price" string="Sale Price"/>
+
+                <!-- Categories -->
+                <field name="category_ids" widget="many2many_tags"/>
+
+                <!-- Tags -->
+                <field name="tag_ids" widget="many2many_tags"/>
+
+                <!-- Brand -->
+<!--                <field name="brand_id"/>-->
+                <field name="woo_product_id"/>
+                <field name="state"/>
+                <field name="published_date"/>
+                <field name="synced_on"/>
+            </list>
+        </field>
+    </record>
+
+
+
+    <!-- ========================================================= -->
+    <!-- FORM VIEW -->
+    <!-- ========================================================= -->
+    <record id="view_product_template_form_woo" model="ir.ui.view">
+        <field name="name">product.template.form.woo</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <!-- Add Woo button in the button box -->
+            <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
+                <button name="action_woo_create"
+                        type="object"
+                        class="oe_stat_button btn-primary"
+                        icon="fa-cloud-upload"
+                        invisible="woo_product_id">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Create in WooCommerce</span>
+                    </div>
+                </button>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <!-- SERVER ACTION -->
+<!--    <record id="action_open_odoo_product_from_woo" model="ir.actions.server">-->
+<!--        <field name="name">Open Linked Odoo Product</field>-->
+<!--        <field name="model_id" ref="model_woo_product_sync"/>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code">-->
+<!--    action = records.action_open_odoo_product()-->
+<!--        </field>-->
+<!--    </record>-->
+
+</odoo>
