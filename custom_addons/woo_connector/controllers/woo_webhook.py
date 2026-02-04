@@ -28,7 +28,7 @@ class WooWebhookController(http.Controller):
         methods=["POST"],
         csrf=False,
     )
-    def woo_webhook(self):
+    def woo_webhook(self, **kwargs):
         raw = request.httprequest.data or b""
         payload = request.httprequest.get_json(silent=True) or {}
         if not payload and raw:
@@ -40,14 +40,22 @@ class WooWebhookController(http.Controller):
         topic = request.httprequest.headers.get("X-WC-Webhook-Topic")
         source = request.httprequest.headers.get("X-WC-Webhook-Source")
         signature = request.httprequest.headers.get("X-WC-Webhook-Signature")
-        instance_id = request.params.get("instance_id") or request.params.get("instance")
+        instance_id = (
+            kwargs.get("instance_id")
+            or kwargs.get("instance")
+            or request.params.get("instance_id")
+            or request.params.get("instance")
+        )
 
         _logger.info("Woo webhook hit | topic=%s | source=%s", topic, source)
 
         Instance = request.env["woo.instance"].sudo()
         instance = False
         if instance_id:
-            instance = Instance.search([("id", "=", int(instance_id))], limit=1)
+            try:
+                instance = Instance.search([("id", "=", int(instance_id))], limit=1)
+            except (TypeError, ValueError):
+                instance = False
         if not instance:
             domain = [("active", "=", True)]
             if source:
@@ -178,22 +186,31 @@ class WooWebhookController(http.Controller):
 
     @http.route(
         "/woo/webhook/order",
-        type="json",
+        type="http",
         auth="public",
         methods=["POST"],
         csrf=False,
     )
-    def woo_order_webhook(self, **payload):
+    def woo_order_webhook(self, **kwargs):
         """
         Dynamic Woo Order Status Webhook
         """
+        payload = request.httprequest.get_json(silent=True) or {}
+        if not payload and request.httprequest.data:
+            try:
+                payload = json.loads(request.httprequest.data.decode("utf-8"))
+            except Exception:
+                payload = {}
+        if not payload:
+            payload = kwargs
+
         _logger.info("Woo Order Webhook: %s", payload)
 
         woo_order_id = payload.get("id")
         woo_status = payload.get("status")
 
         if not woo_order_id:
-            return {"status": "ignored"}
+            return request.make_response('{"status":"ignored"}', headers=[("Content-Type", "application/json")])
 
         order = request.env["woo.order.sync"].sudo().search(
             [("woo_order_id", "=", str(woo_order_id))],
@@ -201,7 +218,7 @@ class WooWebhookController(http.Controller):
         )
 
         if not order:
-            return {"status": "order_not_found"}
+            return request.make_response('{"status":"order_not_found"}', headers=[("Content-Type", "application/json")])
 
         order.write({
             "woo_status": woo_status,
@@ -214,4 +231,4 @@ class WooWebhookController(http.Controller):
             woo_status,
         )
 
-        return {"status": "success"}
+        return request.make_response('{"status":"success"}', headers=[("Content-Type", "application/json")])

@@ -34,6 +34,7 @@ class WooReport(models.Model):
             ("running", "Running"),
             ("success", "Success"),
             ("failed", "Failed"),
+            ("ignored", "Ignored"),
         ],
         required=True,
         default="running",
