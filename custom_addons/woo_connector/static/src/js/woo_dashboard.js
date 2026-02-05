@@ -1,9 +1,15 @@
 import { registry } from "@web/core/registry";
-import { Component, useState, onMounted } from "@odoo/owl";
+import { Component, useState, onMounted, onWillUnmount } from "@odoo/owl";
 import { rpc } from "@web/core/network/rpc";
+import { useService } from "@web/core/utils/hooks";
 
 export class WooDashboard extends Component {
     setup() {
+        this.refreshIntervalMs = 60000;
+        this.refreshTimer = null;
+        this.refreshQueued = false;
+        this.busService = useService("bus_service");
+        this.onDashboardBusMessage = this.onDashboardBusMessage.bind(this);
         this.state = useState({
             range: "30",
             instanceId: "all",
@@ -51,6 +57,18 @@ export class WooDashboard extends Component {
         onMounted(async () => {
             await this.loadInstances();
             await this.loadData();
+            if (this.busService) {
+                this.busService.subscribe("woo_dashboard_update", this.onDashboardBusMessage);
+                this.busService.start();
+            }
+            this.startAutoRefresh();
+        });
+
+        onWillUnmount(() => {
+            if (this.busService) {
+                this.busService.unsubscribe("woo_dashboard_update", this.onDashboardBusMessage);
+            }
+            this.stopAutoRefresh();
         });
     }
 
@@ -130,10 +148,52 @@ export class WooDashboard extends Component {
             model: "woo.dashboard",
             method: "manual_sync",
             args: [],
-            kwargs: {},
+            kwargs: {
+                instance_id: this.state.instanceId,
+            },
         });
 
         await this.loadData();
+    }
+
+    startAutoRefresh() {
+        this.stopAutoRefresh();
+        this.refreshTimer = setInterval(async () => {
+            if (!this.state.loading) {
+                await this.loadData();
+            }
+        }, this.refreshIntervalMs);
+    }
+
+    stopAutoRefresh() {
+        if (this.refreshTimer) {
+            clearInterval(this.refreshTimer);
+            this.refreshTimer = null;
+        }
+    }
+
+    async onDashboardBusMessage(payload) {
+        const instanceId = payload?.instance_id;
+        const shouldRefresh =
+            this.state.instanceId === "all" ||
+            !instanceId ||
+            String(this.state.instanceId) === String(instanceId);
+
+        if (shouldRefresh) {
+            await this.refreshFromPush();
+        }
+    }
+
+    async refreshFromPush() {
+        if (this.state.loading || this.refreshQueued) {
+            return;
+        }
+        this.refreshQueued = true;
+        try {
+            await this.loadData();
+        } finally {
+            this.refreshQueued = false;
+        }
     }
 
     buildViz(data) {

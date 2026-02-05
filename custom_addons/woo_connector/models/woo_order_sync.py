@@ -274,7 +274,7 @@ class WooOrderSync(models.Model):
     def _map_woo_status(self, woo_status):
         # print("woo_status", woo_status)
         return {
-            "pending": "Payment Pending",
+            "pending": "pending",
             "processing": "confirmed",
             "on-hold": "confirmed",
             "completed": "delivered",

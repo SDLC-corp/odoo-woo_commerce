@@ -897,6 +897,23 @@ class WooInstance(models.Model):
             "error_message": message if status == "failed" else False,
         })
 
+        # Push a live dashboard refresh event to connected web clients.
+        try:
+            if "bus.bus" in self.env:
+                self.env["bus.bus"]._sendone(
+                    "broadcast",
+                    "woo_dashboard_update",
+                    {
+                        "instance_id": self.id,
+                        "mode": mode,
+                        "source_action": source_action or mode,
+                        "status": status,
+                        "reference": reference,
+                    },
+                )
+        except Exception as e:
+            _logger.debug("Failed to push Woo dashboard update event: %s", e)
+
     def _map_values(self, mappings, woo_data):
         vals = {}
 

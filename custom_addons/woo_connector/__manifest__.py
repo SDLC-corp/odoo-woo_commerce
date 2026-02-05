@@ -6,6 +6,7 @@
     'author': 'Your Company',
     'depends': ["base",
                 "web",
+                "bus",
                 "product",
                 "sale_management",
                 "contacts",

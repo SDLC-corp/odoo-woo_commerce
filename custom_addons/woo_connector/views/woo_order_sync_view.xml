@@ -25,7 +25,7 @@
                 <header>
                     <field name="woo_status"
                        widget="statusbar"
-                       statusbar_visible="draft,pending,confirmed,shipped,delivered,cancelled,refunded"/>
+                       statusbar_visible="pending,processing,on-hold,completed,cancelled,refunded,failed"/>
 
 <!--                   <field name="woo_status"-->
 <!--                       widget="statusbar"-->

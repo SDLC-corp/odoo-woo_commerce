@@ -189,6 +189,10 @@ class WooDashboard(models.AbstractModel):
             for o in orders
         ]
     @api.model
+    def get_dashboard_data(self, range="30", instance_id=None, fast=False):
+        return self.get_analytics_data(range=range, instance_id=instance_id, fast=fast)
+
+    @api.model
     def get_instances(self):
         instances = self._get_active_instances()
         return [{"id": inst.id, "name": inst.name} for inst in instances]
@@ -336,9 +340,17 @@ class WooDashboard(models.AbstractModel):
         if total_customers == 0:
             total_customers = self._customer_count_from_orders(selected_instances)
 
-        total_coupons = self._totals_from_local_sync(
-            selected_instances
-        )["coupons"]
+        local_totals = self._totals_from_local_sync(selected_instances)
+
+        # Keep dashboard responsive for live webhook updates by preferring local synced data
+        # whenever remote analytics APIs are delayed.
+        total_products = max(total_products, local_totals["products"])
+        total_orders = max(total_orders, local_totals["orders"])
+        total_customers = max(total_customers, local_totals["customers"])
+        total_categories = max(total_categories, local_totals["categories"])
+        total_coupons = local_totals["coupons"]
+        total_sales = max(total_sales, local_totals["total_sales"])
+        net_sales = max(net_sales, local_totals["net_sales"])
 
         return {
             "totals": {
@@ -379,8 +391,13 @@ class WooDashboard(models.AbstractModel):
         }
 
     @api.model
-    def manual_sync(self):
-        instance = self._get_active_instances()[:1]
-        if instance:
+    def manual_sync(self, instance_id=None):
+        if instance_id and str(instance_id).lower() != "all":
+            instance = self._get_instance_or_raise(instance_id)
+            instance.auto_sync_all(force=True)
+            return True
+
+        instances = self._get_active_instances()
+        for instance in instances:
             instance.auto_sync_all(force=True)
         return True
