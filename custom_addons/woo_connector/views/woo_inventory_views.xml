@@ -4,6 +4,12 @@
         <field name="model">woo.inventory</field>
         <field name="arch" type="xml">
             <list>
+                <header>
+                    <button name="action_refresh_inventory"
+                            type="object"
+                            string="Refresh Inventory"
+                            class="btn-primary"/>
+                </header>
                 <field name="product_name"/>
                 <field name="sku"/>
                 <field name="quantity"/>

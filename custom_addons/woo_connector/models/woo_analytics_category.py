@@ -8,4 +8,8 @@ class WooAnalyticsCategory(models.Model):
     category_name = fields.Char()
     items_sold = fields.Integer()
     net_revenue = fields.Float()
-    instance_id = fields.Many2one("woo.instance", required=True)
+    instance_id = fields.Many2one(
+        "woo.instance",
+        required=True,
+        ondelete="cascade",
+    )

@@ -10,4 +10,8 @@ class WooAnalyticsDaily(models.Model):
     net_sales = fields.Float()
     orders_count = fields.Integer()
     items_sold = fields.Integer()
-    instance_id = fields.Many2one("woo.instance", required=True)
+    instance_id = fields.Many2one(
+        "woo.instance",
+        required=True,
+        ondelete="cascade",
+    )

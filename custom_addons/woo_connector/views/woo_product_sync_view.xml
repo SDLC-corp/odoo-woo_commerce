@@ -9,11 +9,20 @@
         <field name="model">woo.product.sync</field>
         <field name="arch" type="xml">
             <list create="false" class="o_woo_product_list">
-
+                <header>
+                    <button name="action_pull_from_woo"
+                            type="object"
+                            string="Pull from WooCommerce"
+                            class="btn-secondary"/>
+                    <button name="action_push_to_woo"
+                            type="object"
+                            string="Push to WooCommerce"
+                            class="btn-primary"/>
+                </header>
 
                 <field name="product_tmpl_id"
                        widget="many2one"
-                       options="{'no_create': true, 'no_open': false}" />
+                       options="{'no_create': true, 'no_open': true}" />
                 <field name="name"/>
                 <field name="sku"/>
                 <!-- Stock Quantity -->
@@ -52,6 +61,10 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
+
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">false</attribute>
+            </xpath>
 
             <!-- Add Woo button in the button box -->
             <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">

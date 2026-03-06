@@ -3,7 +3,6 @@
 
 <t t-name="woo_dashboard_template">
   <div class="o_woo_dashboard">
-
     <!-- HEADER -->
     <div class="woo-hero">
       <div class="woo-hero-left">
@@ -28,6 +27,7 @@
         <div class="woo-control">
           <label>Date Range</label>
           <select t-model="state.range" t-on-change="loadData">
+            <option value="0">Today</option>
             <option value="7">Last 7 days</option>
             <option value="30">Last 30 days</option>
             <option value="90">Last 90 days</option>

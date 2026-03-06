@@ -198,6 +198,8 @@ class WooWebhookSync(models.AbstractModel):
             else:
                 order = WooOrder.create(vals)
 
+            WooOrder._cleanup_duplicates(instance.id)
+
             # Apply mapping & lines
             instance._apply_field_mapping(
                 model="order",

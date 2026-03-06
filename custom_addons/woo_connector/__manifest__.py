@@ -50,7 +50,6 @@
         "web.assets_backend": [
             "woo_connector/static/src/xml/woo_dashboard_templates.xml",
             "woo_connector/static/src/js/woo_dashboard.js",
-            "woo_connector/static/src/js/woo_list_click_guard.js",
             "woo_connector/static/src/css/woo_dashboard.css",
             "woo_connector/static/src/css/woo_instance_kanban.css",
             "woo_connector/static/src/css/woo_product_list.css",

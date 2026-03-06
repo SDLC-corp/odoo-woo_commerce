@@ -29,6 +29,10 @@
                             type="object"
                             string="Create / Update in WooCommerce"
                             class="btn-primary"/>
+                    <button name="action_pull_from_woo"
+                            type="object"
+                            string="Pull from WooCommerce"
+                            class="btn-secondary"/>
 
                     <field name="state"
                            widget="statusbar"

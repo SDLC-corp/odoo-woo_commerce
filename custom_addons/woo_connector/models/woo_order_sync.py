@@ -1,4 +1,4 @@
-from odoo import models, fields, _
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from datetime import datetime
 import logging
@@ -11,6 +11,58 @@ class WooOrderSync(models.Model):
     _description = "WooCommerce Order"
     _rec_name = "name"
     _order = "synced_on desc"
+    _sql_constraints = [
+        (
+            "woo_order_instance_uniq",
+            "unique(instance_id, woo_order_id)",
+            "Duplicate Woo order for the same instance is not allowed.",
+        ),
+    ]
+
+    def init(self):
+        super().init()
+        self._cleanup_duplicates()
+
+    def _cleanup_duplicates(self, instance_id=None):
+        params = []
+        where_instance = ""
+        if instance_id:
+            where_instance = "AND a.instance_id = %s"
+            params.append(instance_id)
+
+        self._cr.execute(
+            f"""
+            DELETE FROM woo_order_sync a
+            USING woo_order_sync b
+            WHERE a.id < b.id
+              AND a.instance_id = b.instance_id
+              AND a.woo_order_id = b.woo_order_id
+              AND a.woo_order_id IS NOT NULL
+              {where_instance}
+            """,
+            params,
+        )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = self.env["woo.order.sync"]
+        for vals in vals_list:
+            woo_id = vals.get("woo_order_id")
+            instance_id = vals.get("instance_id")
+            if woo_id and instance_id:
+                existing = self.search(
+                    [
+                        ("woo_order_id", "=", str(woo_id)),
+                        ("instance_id", "=", instance_id),
+                    ],
+                    limit=1,
+                )
+                if existing:
+                    existing.write(vals)
+                    records |= existing
+                    continue
+            records |= super(WooOrderSync, self).create([vals])
+        return records
 
     # --------------------------------------------------
     # STATE
@@ -51,6 +103,7 @@ class WooOrderSync(models.Model):
     payment_method = fields.Char()
     payment_method_title = fields.Char()
     date_created = fields.Datetime()
+    customer_note = fields.Text()
 
     synced_on = fields.Datetime(default=fields.Datetime.now)
 
@@ -153,6 +206,7 @@ class WooOrderSync(models.Model):
             "date_created": self._parse_woo_datetime(
                 o.get("date_created")
             ),
+            "customer_note": o.get("customer_note"),
             "synced_on": fields.Datetime.now(),
         }
 
@@ -269,6 +323,103 @@ class WooOrderSync(models.Model):
     def action_update_order(self):
         for record in self:
             record.sync_from_woocommerce()
+
+    def action_push_to_woo(self):
+        self.ensure_one()
+
+        if not self.instance_id:
+            raise UserError(_("Woo instance missing"))
+
+        if not self.woo_order_id:
+            raise UserError(_("Woo Order ID missing"))
+
+        status_value = self.woo_status or self.status
+        if not status_value:
+            raise UserError(_("Woo status is required to update the order"))
+
+        first_name = (self.customer_name or "").split(" ")[0] if self.customer_name else ""
+        last_name = " ".join((self.customer_name or "").split(" ")[1:]) if self.customer_name else ""
+
+        payload = {
+            "status": status_value,
+            "billing": {
+                "email": self.customer_email,
+                "first_name": first_name,
+                "last_name": last_name,
+            },
+            "customer_note": self.customer_note or "",
+        }
+
+        wcapi = self.instance_id._get_wcapi(self.instance_id)
+        response = wcapi.put(
+            f"orders/{self.woo_order_id}",
+            payload
+        )
+
+        if response.status_code != 200:
+            raise UserError(response.text)
+
+        data = response.json()
+        vals = self._prepare_vals(data)
+        vals["order_state"] = self._map_woo_status(data.get("status"))
+        self.write(vals)
+        self.sync_order_lines(self, data)
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("WooCommerce"),
+                "message": _("Order pushed to WooCommerce."),
+                "type": "success",
+            },
+        }
+
+    def action_pull_from_woo(self):
+        self.ensure_one()
+        self.sync_from_woocommerce()
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("WooCommerce"),
+                "message": _("Order pulled from WooCommerce."),
+                "type": "success",
+            },
+        }
+
+    def action_cleanup_duplicates(self):
+        domain = []
+        if self:
+            domain = [("id", "in", self.ids)]
+
+        Order = self.env["woo.order.sync"]
+        records = Order.search(domain)
+        seen = {}
+        to_delete = self.env["woo.order.sync"]
+
+        for rec in records.sorted(key=lambda r: (r.woo_order_id or "", r.instance_id.id, r.synced_on or r.create_date or fields.Datetime.now()), reverse=True):
+            key = (rec.instance_id.id, rec.woo_order_id)
+            if not rec.woo_order_id or not rec.instance_id:
+                continue
+            if key in seen:
+                to_delete |= rec
+            else:
+                seen[key] = rec.id
+
+        if to_delete:
+            to_delete.unlink()
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("WooCommerce"),
+                "message": _("Duplicate orders cleaned: %s") % len(to_delete),
+                "type": "success",
+            },
+        }
 
 
     def _map_woo_status(self, woo_status):

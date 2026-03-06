@@ -1,5 +1,8 @@
 from odoo import models, fields, _
 from odoo.exceptions import UserError
+from datetime import datetime
+import requests
+from requests.exceptions import Timeout, RequestException
 
 
 class WooProductSync(models.Model):
@@ -12,6 +15,13 @@ class WooProductSync(models.Model):
     # --------------------------------------------------
     # BASIC FIELDS
     # --------------------------------------------------
+    instance_id = fields.Many2one(
+        "woo.instance",
+        string="Woo Instance",
+        required=True,
+        ondelete="cascade",
+    )
+
     name = fields.Char(string="Product Name", required=True)
     sku = fields.Char(string="SKU")
     woo_product_id = fields.Char(string="Woo Product ID")
@@ -78,6 +88,21 @@ class WooProductSync(models.Model):
     # --------------------------------------------------
     # SMART BUTTON ACTION
     # --------------------------------------------------
+    def _parse_woo_datetime(self, value):
+        if not value:
+            return False
+        try:
+            clean = value.replace("Z", "+00:00")
+            parsed = datetime.fromisoformat(clean)
+            return parsed.replace(tzinfo=None)
+        except Exception:
+            try:
+                return datetime.strptime(
+                    value.replace("T", " "), "%Y-%m-%d %H:%M:%S"
+                )
+            except Exception:
+                return False
+
     def action_open_in_woocommerce(self):
         self.ensure_one()
 
@@ -100,6 +125,126 @@ class WooProductSync(models.Model):
             "type": "ir.actions.act_url",
             "url": url,
             "target": "new",
+        }
+
+    def _build_stock_payload(self):
+        qty = int(self.qty_available or 0)
+        stock_status = self.stock_status
+        if not stock_status:
+            stock_status = "instock" if qty > 0 else "outofstock"
+
+        payload = {
+            "manage_stock": bool(self.manage_stock),
+            "stock_status": stock_status,
+        }
+
+        if self.manage_stock:
+            payload["stock_quantity"] = qty
+
+        return payload
+
+    def _push_single_to_woo(self):
+        self.ensure_one()
+
+        if not self.instance_id:
+            raise UserError(_("Woo instance missing."))
+
+        if not self.woo_product_id:
+            raise UserError(_("Woo Product ID missing."))
+
+        wcapi = self.instance_id._get_wcapi(self.instance_id)
+
+        payload = {
+            "name": self.name,
+            "sku": self.sku,
+            "regular_price": str(self.list_price or 0.0),
+            "sale_price": str(self.sale_price or 0.0) if self.sale_price else "",
+        }
+        payload.update(self._build_stock_payload())
+
+        response = wcapi.put(
+            f"products/{self.woo_product_id}",
+            payload
+        )
+
+        if response.status_code != 200:
+            raise UserError(response.text)
+
+        data = response.json()
+        vals = self._prepare_vals(data)
+        vals.update({
+            "instance_id": self.instance_id.id,
+            "synced_on": fields.Datetime.now(),
+        })
+        self.write(vals)
+
+    def action_push_to_woo(self):
+        for record in self:
+            record._push_single_to_woo()
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("WooCommerce"),
+                "message": _("Product pushed to WooCommerce."),
+                "type": "success",
+            },
+        }
+
+    def _pull_single_from_woo(self):
+        self.ensure_one()
+
+        if not self.instance_id:
+            raise UserError(_("Woo instance missing."))
+
+        if not self.woo_product_id:
+            raise UserError(_("Woo Product ID missing."))
+
+        base_url = (self.instance_id.shop_url or "").strip().rstrip("/")
+        if not base_url:
+            raise UserError(_("Shop URL is not configured."))
+        if not base_url.startswith("http"):
+            base_url = "https://" + base_url.lstrip("/")
+
+        url = f"{base_url}/wp-json/wc/v3/products/{self.woo_product_id}"
+        verify_ssl = not ("localhost" in base_url or "127.0.0.1" in base_url)
+
+        try:
+            response = requests.get(
+                url,
+                auth=(self.instance_id.consumer_key, self.instance_id.consumer_secret),
+                timeout=60,
+                verify=verify_ssl,
+            )
+        except Timeout:
+            raise UserError(_("WooCommerce request timed out. Please try again."))
+        except RequestException as exc:
+            raise UserError(_("WooCommerce request failed: %s") % exc)
+
+        if response.status_code != 200:
+            raise UserError(response.text)
+
+        data = response.json()
+        vals = self._prepare_vals(data)
+        vals.update({
+            "instance_id": self.instance_id.id,
+            "synced_on": fields.Datetime.now(),
+        })
+        self.write(vals)
+
+    def action_pull_from_woo(self):
+        for record in self:
+            record._pull_single_from_woo()
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("WooCommerce"),
+                "message": _("Product pulled from WooCommerce."),
+                "type": "success",
+            },
         }
 
     def _woo_endpoint(self):
@@ -210,7 +355,9 @@ class WooProductSync(models.Model):
 
             # Meta
             "state": "synced",
-            "published_date": p.get("date_created"),
+            "published_date": self._parse_woo_datetime(
+                p.get("date_created")
+            ),
             "synced_on": fields.Datetime.now(),
         }
 

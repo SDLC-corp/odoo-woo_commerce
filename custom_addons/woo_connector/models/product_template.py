@@ -9,7 +9,8 @@ class ProductTemplate(models.Model):
     woo_instance_id = fields.Many2one(
         "woo.instance",
         string="Woo Instance",
-        domain="[('active','=',True)]"
+        domain="[('active','=',True)]",
+        ondelete="set null",
     )
     woo_product_id = fields.Char(string="Woo Product ID", copy=False)
     woo_status = fields.Selection(

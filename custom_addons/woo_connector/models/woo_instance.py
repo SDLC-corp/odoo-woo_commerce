@@ -543,6 +543,19 @@ class WooInstance(models.Model):
         synced = 0
 
         try:
+            self.env.cr.execute(
+                """
+                DELETE FROM woo_order_sync a
+                USING woo_order_sync b
+                WHERE a.id < b.id
+                  AND a.instance_id = b.instance_id
+                  AND a.woo_order_id = b.woo_order_id
+                  AND a.woo_order_id IS NOT NULL
+                  AND a.instance_id = %s
+                """,
+                (self.id,),
+            )
+
             wcapi = self._get_wcapi(self)
             response = wcapi.get("orders", params={"per_page": 100})
 
@@ -582,12 +595,14 @@ class WooInstance(models.Model):
                         ("woo_order_id", "=", str(woo_id)),
                         ("instance_id", "=", self.id),
                     ],
-                    limit=1
+                    order="synced_on desc, id desc",
                 )
 
                 if existing:
-                    existing.write(vals)
-                    order_sync = existing
+                    order_sync = existing[0]
+                    if len(existing) > 1:
+                        (existing - order_sync).unlink()
+                    order_sync.write(vals)
                 else:
                     order_sync = WooOrder.create(vals)
 
@@ -602,6 +617,8 @@ class WooInstance(models.Model):
                 order_sync.sync_order_lines(order_sync, o)
 
                 synced += 1
+
+            WooOrder._cleanup_duplicates(self.id)
 
             self._create_sync_report(
                 "Order Sync", "success",
@@ -1254,6 +1271,9 @@ class WooInstance(models.Model):
                 Inventory.create(vals)
 
             synced += 1
+
+        if self.env.context.get("suppress_toast"):
+            return synced
 
         # ✅ SUCCESS POPUP
         return self._success_toast(

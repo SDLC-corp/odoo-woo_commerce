@@ -201,7 +201,20 @@ class WooDashboard(models.AbstractModel):
     def get_analytics_data(self, range="30", instance_id=None, fast=False):
         days = int(range)
         date_to = datetime.utcnow()
-        date_from = date_to - timedelta(days=days)
+        if days <= 0:
+            date_from = date_to.replace(
+                hour=0,
+                minute=0,
+                second=0,
+                microsecond=0,
+            )
+            date_to = date_from.replace(
+                hour=23,
+                minute=59,
+                second=59,
+            )
+        else:
+            date_from = date_to - timedelta(days=days)
 
         after_api = date_from.strftime("%Y-%m-%dT00:00:00")
         before_api = date_to.strftime("%Y-%m-%dT23:59:59")

@@ -22,7 +22,6 @@ class WooCustomerSync(models.Model):
 
     woo_customer_id = fields.Char(
         string="Woo Customer ID",
-        required=True,
         index=True,
     )
 
@@ -137,6 +136,24 @@ class WooCustomerSync(models.Model):
             "params": {
                 "title": _("WooCommerce"),
                 "message": _("Customer synced successfully."),
+                "type": "success",
+            },
+        }
+
+    def action_pull_from_woo(self):
+        self.ensure_one()
+
+        if not self.instance_id:
+            raise UserError(_("Woo instance missing."))
+
+        self.instance_id.action_sync_orders()
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("WooCommerce"),
+                "message": _("Customers refreshed from Woo orders."),
                 "type": "success",
             },
         }

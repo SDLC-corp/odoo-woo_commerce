@@ -6,8 +6,15 @@
         <field name="model">woo.order.sync</field>
         <field name="arch" type="xml">
             <list>
+                <header>
+                    <button name="action_cleanup_duplicates"
+                            type="object"
+                            string="Clean Duplicates"
+                            class="btn-secondary"/>
+                </header>
                 <field name="name"/>
                 <field name="woo_order_id"/>
+                <field name="instance_id"/>
                 <field name="customer_name"/>
                 <field name="total_amount"/>
                 <field name="status"/>
@@ -21,11 +28,12 @@
         <field name="name">woo.order.sync.form</field>
         <field name="model">woo.order.sync</field>
         <field name="arch" type="xml">
-            <form string="WooCommerce Order">
+            <form string="WooCommerce Order" edit="true" create="false">
                 <header>
                     <field name="woo_status"
                        widget="statusbar"
-                       statusbar_visible="pending,processing,on-hold,completed,cancelled,refunded,failed"/>
+                       statusbar_visible="pending,processing,on-hold,completed,cancelled,refunded,failed"
+                       options="{'clickable': '1'}"/>
 
 <!--                   <field name="woo_status"-->
 <!--                       widget="statusbar"-->
@@ -42,10 +50,16 @@
                             class="btn-primary"
                             invisible="id"/>
 
-                    <button name="action_update_order"
-                            string="Update Order"
+                    <button name="action_pull_from_woo"
+                            string="Pull from WooCommerce"
                             type="object"
                             class="btn-secondary"
+                            invisible="not id"/>
+
+                    <button name="action_push_to_woo"
+                            string="Push to WooCommerce"
+                            type="object"
+                            class="btn-primary"
                             invisible="not id"/>
 
                     <button name="action_create_sale_order"
@@ -60,7 +74,8 @@
                     <group>
                         <field name="name"/>
                         <field name="woo_order_id"/>
-                        <field name="status"/>
+                        <field name="woo_status" string="Status"/>
+                        <field name="status" readonly="1"/>
                     </group>
 
                     <group>
@@ -71,6 +86,7 @@
                         <field name="instance_id"/>
                         <field name="synced_on"/>
                         <field name="sale_order_id" readonly="1"/>
+                        <field name="customer_note"/>
                     </group>
 
                     <notebook>

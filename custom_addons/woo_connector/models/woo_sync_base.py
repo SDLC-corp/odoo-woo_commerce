@@ -5,7 +5,11 @@ class WooSyncBase(models.AbstractModel):
     _description = "Woo Sync Base"
     _inherit = ["mail.thread"]
 
-    instance_id = fields.Many2one("woo.instance", required=True)
+    instance_id = fields.Many2one(
+        "woo.instance",
+        required=True,
+        ondelete="cascade",
+    )
     state = fields.Selection(
         [("draft", "Draft"), ("synced", "Synced"), ("error", "Error")],
         default="draft",

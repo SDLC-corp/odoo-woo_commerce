@@ -76,6 +76,75 @@ class WooFieldMapping(models.Model):
         readonly=True,
     )
 
+    def _flatten_woo_keys(self, payload, prefix=""):
+        keys = set()
+        if not isinstance(payload, dict):
+            return keys
+
+        for key, value in payload.items():
+            if not key:
+                continue
+            full_key = f"{prefix}.{key}" if prefix else str(key)
+            keys.add(full_key)
+            if isinstance(value, dict):
+                keys |= self._flatten_woo_keys(value, full_key)
+        return keys
+
+    def _default_model_keys(self, model_name):
+        defaults = {
+            "product": {
+                "id", "name", "sku", "slug", "status", "regular_price",
+                "sale_price", "stock_quantity", "stock_status", "manage_stock",
+                "description", "short_description", "date_created",
+            },
+            "order": {
+                "id", "number", "status", "currency", "total", "customer_id",
+                "payment_method", "payment_method_title", "date_created",
+                "billing.email", "billing.phone", "billing.first_name", "billing.last_name",
+            },
+            "customer": {
+                "id", "email", "first_name", "last_name", "username",
+                "date_created", "billing.phone", "billing.email",
+            },
+            "category": {
+                "id", "name", "slug", "parent", "count", "description",
+            },
+        }
+        return defaults.get(model_name, set())
+
+    def _ensure_woo_fields_catalog(self):
+        self.ensure_one()
+        if not self.instance_id or not self.model:
+            return
+
+        WooField = self.env["woo.field"]
+        keys = set()
+        try:
+            sample = self.instance_id.fetch_sample_data(self.model)
+            keys |= self._flatten_woo_keys(sample)
+        except Exception:
+            # Keep UX usable even when sample API is unavailable.
+            pass
+
+        keys |= self._default_model_keys(self.model)
+
+        for key in sorted(k for k in keys if k):
+            WooField.search(
+                [("instance_id", "=", self.instance_id.id), ("name", "=", key)],
+                limit=1,
+            ) or WooField.create({
+                "instance_id": self.instance_id.id,
+                "name": key,
+                "active": True,
+            })
+
+    @api.onchange("instance_id", "model")
+    def _onchange_instance_or_model(self):
+        for rec in self:
+            rec.woo_field_key = False
+            if rec.instance_id and rec.model:
+                rec._ensure_woo_fields_catalog()
+
     # ------------------------------------------------
     # COMPUTE TARGET ODOO MODEL
     # ------------------------------------------------
@@ -135,6 +204,25 @@ class WooFieldMapping(models.Model):
                     f"Woo → {self.woo_field_key.name} = {value}\n"
                     f"Odoo → {self.odoo_field_id.name}"
                 ),
+                "sticky": False,
+            },
+        }
+
+    def action_load_woo_fields(self):
+        self.ensure_one()
+        if not self.instance_id:
+            raise UserError("Please select Woo Instance first.")
+        if not self.model:
+            raise UserError("Please select model first.")
+
+        self._ensure_woo_fields_catalog()
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "Woo Fields",
+                "message": "Woo field dropdown refreshed.",
+                "type": "success",
                 "sticky": False,
             },
         }

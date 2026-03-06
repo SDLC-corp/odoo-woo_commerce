@@ -22,6 +22,16 @@
         <field name="model">woo.coupon.sync</field>
         <field name="arch" type="xml">
             <form string="WooCommerce Coupon">
+                <header>
+                    <button name="action_push_to_woo"
+                            type="object"
+                            string="Create / Update in WooCommerce"
+                            class="btn-primary"/>
+                    <button name="action_pull_from_woo"
+                            type="object"
+                            string="Pull from WooCommerce"
+                            class="btn-secondary"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="name"/>
@@ -32,6 +42,8 @@
                         <field name="expiry_date"/>
                         <field name="status"/>
                         <field name="synced_on" readonly="1"/>
+                        <field name="instance_id"/>
+                        <field name="woo_coupon_id" readonly="1"/>
                     </group>
                 </sheet>
             </form>

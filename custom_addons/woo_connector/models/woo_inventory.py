@@ -1,4 +1,5 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
 class WooInventory(models.Model):
@@ -47,3 +48,31 @@ class WooInventory(models.Model):
             rec.stock_status = (
                 "in_stock" if rec.quantity > 0 else "out_of_stock"
             )
+
+    def action_refresh_inventory(self):
+        instances = self.mapped("instance_id")
+        if not instances:
+            instances = self.env["woo.instance"].search([
+                ("active", "=", True),
+            ])
+
+        if not instances:
+            raise UserError(_("No active WooCommerce instance found."))
+
+        total = 0
+        for instance in instances:
+            total += instance.with_context(
+                suppress_toast=True
+            ).sync_inventory_from_woo() or 0
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("WooCommerce"),
+                "message": _(
+                    "Inventory refreshed for %s instances."
+                ) % len(instances),
+                "type": "success",
+            },
+        }
