@@ -48,13 +48,6 @@ class WooWebhookSync(models.AbstractModel):
                     "purchase_ok": True,
                 })
 
-            # Apply field mapping if configured
-            instance._apply_field_mapping(
-                model="product",
-                woo_data=data,
-                record=product,
-            )
-
             # Categories
             category_ids = []
             for c in data.get("categories", []):
@@ -107,8 +100,16 @@ class WooWebhookSync(models.AbstractModel):
             )
             if existing:
                 existing.write(vals)
+                sync_record = existing
             else:
-                WooProduct.create(vals)
+                sync_record = WooProduct.create(vals)
+
+            # Apply mapping to Woo sync model fields.
+            instance._apply_field_mapping(
+                model="product",
+                woo_data=data,
+                record=sync_record,
+            )
 
             self._log_webhook(instance, "Webhook Product", "success", name, source_action, str(woo_id))
         except Exception as e:
@@ -147,8 +148,15 @@ class WooWebhookSync(models.AbstractModel):
             )
             if customer:
                 customer.write(vals)
+                customer_rec = customer
             else:
-                WooCustomer.create(vals)
+                customer_rec = WooCustomer.create(vals)
+
+            instance._apply_field_mapping(
+                model="customer",
+                woo_data=data,
+                record=customer_rec,
+            )
 
             self._log_webhook(instance, "Webhook Customer", "success", name, source_action, str(woo_id))
         except Exception as e:

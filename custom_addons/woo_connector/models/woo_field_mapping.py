@@ -152,10 +152,10 @@ class WooFieldMapping(models.Model):
     def _compute_odoo_model(self):
         for rec in self:
             rec.odoo_model_name = {
-                "product": "product.template",
-                "order": "sale.order",
-                "customer": "res.partner",
-                "category": "product.category",
+                "product": "woo.product.sync",
+                "order": "woo.order.sync",
+                "customer": "woo.customer.sync",
+                "category": "woo.category.sync",
             }.get(rec.model)
 
     # ------------------------------------------------
@@ -175,7 +175,9 @@ class WooFieldMapping(models.Model):
             except Exception:
                 continue
 
-            rec.woo_preview = str(sample.get(rec.woo_field_key.name, ""))
+            rec.woo_preview = str(
+                rec.instance_id._get_nested_value(sample, rec.woo_field_key.name) or ""
+            )
 
             if rec.odoo_field_id:
                 model = self.env[rec.odoo_model_name]
@@ -191,8 +193,16 @@ class WooFieldMapping(models.Model):
     def action_test_mapping(self):
         self.ensure_one()
 
-        sample = self.instance_id.fetch_sample_data(self.model)
-        value = sample.get(self.woo_field_key.name)
+        try:
+            sample = self.instance_id.fetch_sample_data(self.model)
+        except Exception as e:
+            raise UserError(
+                "Unable to fetch sample data from WooCommerce.\n"
+                "Check Shop URL/protocol (http vs https) and credentials.\n\n"
+                f"Details: {e}"
+            )
+
+        value = self.instance_id._get_nested_value(sample, self.woo_field_key.name)
 
         return {
             "type": "ir.actions.client",

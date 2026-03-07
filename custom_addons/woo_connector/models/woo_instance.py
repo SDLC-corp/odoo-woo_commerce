@@ -140,6 +140,47 @@ class WooInstance(models.Model):
             except Exception:
                 return False
 
+    def _is_local_url(self, url):
+        return "localhost" in (url or "") or "127.0.0.1" in (url or "")
+
+    def _woo_get(self, url, params=None, timeout=30):
+        params = params or {}
+        verify_ssl = not self._is_local_url(url)
+
+        # 1) API consumer key/secret via basic auth.
+        response = requests.get(
+            url,
+            auth=(self.consumer_key, self.consumer_secret),
+            params=params,
+            timeout=timeout,
+            verify=verify_ssl,
+        )
+
+        # 2) Fallback with WP username + application password (if configured).
+        if response.status_code == 401 and self.wp_username and self.application_password:
+            response = requests.get(
+                url,
+                auth=(self.wp_username, self.application_password),
+                params=params,
+                timeout=timeout,
+                verify=verify_ssl,
+            )
+
+        # 3) Fallback with consumer key/secret in query string (some local stacks require this).
+        if response.status_code == 401:
+            query = dict(params)
+            query.update({
+                "consumer_key": self.consumer_key,
+                "consumer_secret": self.consumer_secret,
+            })
+            response = requests.get(
+                url,
+                params=query,
+                timeout=timeout,
+                verify=verify_ssl,
+            )
+        return response
+
     def _success_toast(self, title, message):
         return {
             "type": "ir.actions.client",
@@ -164,12 +205,7 @@ class WooInstance(models.Model):
         url = f"{base_url}/wp-json/wc/v3/orders/{woo_order_id}"
         # print("url order 95-",url)
 
-        response = requests.get(
-            url,
-            auth=(self.consumer_key, self.consumer_secret),
-            timeout=30,
-            verify=False
-        )
+        response = self._woo_get(url, timeout=30)
         # print("response",response)
 
         if response.status_code != 200:
@@ -332,31 +368,15 @@ class WooInstance(models.Model):
                     })
 
                 # -----------------------------------------
-                # 2️⃣ APPLY GLOBAL FIELD MAPPING
+                # 2️⃣ SAFE FALLBACK
                 # -----------------------------------------
-                mapped_vals = self._apply_field_mapping(
-                    model="product",
-                    woo_data=p,
-                    record=product,
-                )
+                product.write({
+                    "name": name,
+                    "default_code": sku,
+                })
 
                 # -----------------------------------------
-                # 3️⃣ SAFE FALLBACK
-                # -----------------------------------------
-                if not mapped_vals:
-                    product.write({
-                        "name": name,
-                        "default_code": sku,
-                    })
-
-                _logger.info(
-                    "PRODUCT %s | MAPPED VALUES: %s",
-                    product.id,
-                    mapped_vals,
-                )
-
-                # -----------------------------------------
-                # 4️⃣ WOO SYNC RECORD
+                # 3️⃣ WOO SYNC RECORD
                 # -----------------------------------------
                 # vals = {
                 #     "instance_id": self.id,  # ✅ ADD THIS LINE
@@ -441,8 +461,16 @@ class WooInstance(models.Model):
 
                 if existing:
                     existing.write(vals)
+                    sync_record = existing
                 else:
-                    WooProduct.create(vals)
+                    sync_record = WooProduct.create(vals)
+
+                # Apply product mapping to Woo sync model fields.
+                self._apply_field_mapping(
+                    model="product",
+                    woo_data=p,
+                    record=sync_record,
+                )
 
                 synced += 1
 
@@ -533,9 +561,74 @@ class WooInstance(models.Model):
         return customer
 
     def action_sync_customers(self):
-        raise UserError(
-            "Customers are synced automatically from Woo orders (guest-safe)."
-        )
+        self.ensure_one()
+        WooCustomer = self.env["woo.customer.sync"]
+        synced = 0
+
+        try:
+            wcapi = self._get_wcapi(self)
+            response = wcapi.get("customers", params={"per_page": 100})
+
+            if response.status_code != 200:
+                raise UserError(response.text)
+
+            for c in response.json():
+                woo_id = c.get("id")
+                email = c.get("email")
+                first = c.get("first_name") or ""
+                last = c.get("last_name") or ""
+
+                vals = {
+                    "instance_id": self.id,
+                    "woo_customer_id": str(woo_id) if woo_id else (f"guest_{email}" if email else False),
+                    "name": f"{first} {last}".strip() or email or f"Customer {woo_id}",
+                    "email": email,
+                    "phone": (c.get("billing") or {}).get("phone"),
+                    "state": "synced",
+                    "synced_on": fields.Datetime.now(),
+                }
+
+                if not vals["woo_customer_id"]:
+                    continue
+
+                existing = WooCustomer.search(
+                    [
+                        ("woo_customer_id", "=", vals["woo_customer_id"]),
+                        ("instance_id", "=", self.id),
+                    ],
+                    limit=1,
+                )
+                if existing:
+                    existing.write(vals)
+                    customer = existing
+                else:
+                    customer = WooCustomer.create(vals)
+
+                self._apply_field_mapping(
+                    model="customer",
+                    woo_data=c,
+                    record=customer,
+                )
+
+                synced += 1
+
+            self._create_sync_report(
+                operation="Customer Sync",
+                status="success",
+                message=f"{synced} customers synced successfully",
+            )
+
+            return self._success_toast(
+                "Customers Synced",
+                f"{synced} customers synced successfully."
+            )
+        except Exception as e:
+            self._create_sync_report(
+                operation="Customer Sync",
+                status="failed",
+                message=str(e),
+            )
+            raise UserError(str(e))
 
     def action_sync_orders(self):
         self.ensure_one()
@@ -684,7 +777,7 @@ class WooInstance(models.Model):
                 # 🔥 APPLY CATEGORY FIELD MAPPING (THIS WAS MISSING)
                 self._apply_field_mapping(
                     model="category",
-                    woo_data=vals,
+                    woo_data=c,
                     record=category,
                 )
 
@@ -991,16 +1084,10 @@ class WooInstance(models.Model):
         if not self.shop_url:
             raise UserError("Shop URL is not configured")
 
-        # url = f"{self.shop_url}/wp-json/wc/v3/products"
+        base_url = self._get_base_url()
+        url = f"{base_url}/wp-json/wc/v3/products"
 
-        url = "https://localhost/woocommerce/wordpress/wp-json/wc/v3/products"
-
-        response = requests.get(
-            url,
-            auth=(self.consumer_key, self.consumer_secret),
-            timeout=30,
-            verify=False,
-        )
+        response = self._woo_get(url, timeout=30)
 
         # params = {
         #     "consumer_key": self.consumer_key,
@@ -1023,16 +1110,9 @@ class WooInstance(models.Model):
         self.ensure_one()
 
         base_url = self._get_base_url()
-        # url = f"{base_url}/wp-json/wc/v3/products"
-        url = "https://localhost/woocommerce/wordpress/wp-json/wc/v3/products"
+        url = f"{base_url}/wp-json/wc/v3/products"
 
-
-        response = requests.get(
-            url,
-            auth=(self.consumer_key, self.consumer_secret),  # ✅ ONLY AUTH METHOD
-            timeout=30,
-            verify=False,  # ✅ localhost SSL fix
-        )
+        response = self._woo_get(url, params={"per_page": 1}, timeout=30)
 
         if response.status_code == 401:
             raise UserError("Woo API Unauthorized (401)")
@@ -1072,12 +1152,16 @@ class WooInstance(models.Model):
 
         url = self.shop_url.strip().rstrip("/")
 
-        # Force https if missing or http
-        if url.startswith("http://"):
-            url = url.replace("http://", "https://", 1)
-
-        if not url.startswith("https://"):
-            url = "https://" + url.lstrip("/")
+        # Keep provided scheme; default to http for localhost, https otherwise.
+        if not url.startswith(("http://", "https://")):
+            if "localhost" in url or "127.0.0.1" in url:
+                url = "http://" + url.lstrip("/")
+            else:
+                url = "https://" + url.lstrip("/")
+        # Localhost Woo usually runs on plain HTTP (XAMPP/WAMP).
+        # If https is configured by mistake, force http to avoid SSL connection-refused errors.
+        elif url.startswith("https://") and ("localhost" in url or "127.0.0.1" in url):
+            url = url.replace("https://", "http://", 1)
 
         return url
 
@@ -1109,12 +1193,17 @@ class WooInstance(models.Model):
     def _apply_field_mapping(self, model, woo_data, record):
         mappings = self._get_field_mappings(model)
         vals = {}
+        record_fields = record._fields
 
         for woo_key, odoo_field in mappings.items():
             # value = woo_data.get(woo_key)
             value = self._get_nested_value(woo_data, woo_key)
 
-            if value not in (None, "", False):
+            if (
+                odoo_field in record_fields
+                and not record_fields[odoo_field].readonly
+                and value not in (None, "", False)
+            ):
                 vals[odoo_field] = value
 
         if vals:
@@ -1148,13 +1237,7 @@ class WooInstance(models.Model):
 
         _logger.info("Fetching sample Woo order from %s", url)
 
-        response = requests.get(
-            url,
-            auth=(self.consumer_key, self.consumer_secret),
-            params={"per_page": 1},
-            timeout=30,
-            verify=False,
-        )
+        response = self._woo_get(url, params={"per_page": 1}, timeout=30)
 
         if response.status_code == 401:
             raise UserError("Woo API Unauthorized (401)")
@@ -1172,13 +1255,7 @@ class WooInstance(models.Model):
 
         _logger.info("Fetching sample Woo customer from %s", url)
 
-        response = requests.get(
-            url,
-            auth=(self.consumer_key, self.consumer_secret),
-            params={"per_page": 1},
-            timeout=30,
-            verify=False,
-        )
+        response = self._woo_get(url, params={"per_page": 1}, timeout=30)
 
         if response.status_code == 401:
             raise UserError("Woo API Unauthorized (401)")
@@ -1190,17 +1267,11 @@ class WooInstance(models.Model):
 
     def fetch_sample_category(self):
         self.ensure_one()
+
         base_url = self._get_base_url()
         url = f"{base_url}/wp-json/wc/v3/products/categories"
 
-
-        response = requests.get(
-            url,
-            auth=(self.consumer_key, self.consumer_secret),
-            params={"per_page": 1},
-            timeout=30,
-            verify=False,
-        )
+        response = self._woo_get(url, params={"per_page": 1}, timeout=30)
 
         if response.status_code == 401:
             raise UserError("Woo API Unauthorized (401)")
