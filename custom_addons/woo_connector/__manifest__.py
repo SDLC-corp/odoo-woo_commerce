@@ -4,6 +4,7 @@
     'summary': 'Sync products from Odoo to WooCommerce',
     'category': 'Sales',
     'author': 'Your Company',
+    'license': 'LGPL-3',
     'depends': ["base",
                 "web",
                 "bus",
