@@ -15,6 +15,17 @@ class WooField(models.Model):
         index=True,
     )
 
+    model = fields.Selection(
+        [
+            ("product", "Product"),
+            ("order", "Order"),
+            ("customer", "Customer"),
+            ("category", "Category"),
+        ],
+        string="Model",
+        index=True,
+    )
+
     name = fields.Char(
         string="Woo Field Key",
         required=True,
@@ -29,8 +40,8 @@ class WooField(models.Model):
 
     _sql_constraints = [
         (
-            "uniq_field_per_instance",
-            "unique(instance_id, name)",
-            "Woo field must be unique per instance.",
+            "uniq_field_per_instance_model",
+            "unique(instance_id, model, name)",
+            "Woo field must be unique per instance and model.",
         )
     ]

@@ -143,6 +143,17 @@ class WooProductSync(models.Model):
 
         return payload
 
+    def _sync_product_template_core_fields(self, product, payload):
+        if not product:
+            return
+
+        vals = {
+            "name": payload.get("name") or product.name,
+            "default_code": payload.get("sku") or payload.get("slug") or product.default_code,
+            "list_price": float(payload.get("regular_price") or 0.0),
+        }
+        product.write(vals)
+
     def _push_single_to_woo(self):
         self.ensure_one()
 
@@ -297,6 +308,8 @@ class WooProductSync(models.Model):
                 "purchase_ok": True,
                 "list_price": float(p.get("regular_price") or 0.0),
             })
+        else:
+            self._sync_product_template_core_fields(product, p)
 
         # -----------------------------
         # CATEGORIES
@@ -333,6 +346,9 @@ class WooProductSync(models.Model):
         # -----------------------------
         manage_stock = p.get("manage_stock", False)
         qty = float(p.get("stock_quantity") or 0.0)
+        stock_status = p.get("stock_status")
+        if not stock_status:
+            stock_status = "instock" if qty > 0 else "outofstock"
 
         return {
             "woo_product_id": str(p.get("id")),
@@ -347,7 +363,7 @@ class WooProductSync(models.Model):
             # Stock
             "manage_stock": manage_stock,
             "qty_available": qty,
-            "stock_status": p.get("stock_status"),
+            "stock_status": stock_status,
 
             # Classification
             "category_ids": [(6, 0, category_ids)],

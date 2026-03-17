@@ -1,4 +1,4 @@
-from odoo import models, fields, _
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 import requests
 from requests.exceptions import RequestException, Timeout
@@ -113,12 +113,43 @@ class WooInstance(models.Model):
         [(str(i), str(i)) for i in range(1, 32)], string="Day of Month", default="1"
     )
 
+    @staticmethod
+    def _normalize_shop_url_value(url):
+        if not url:
+            return url
+
+        url = url.strip().rstrip("/")
+        if not url:
+            return url
+
+        if not url.startswith(("http://", "https://")):
+            if "localhost" in url or "127.0.0.1" in url:
+                url = "http://" + url.lstrip("/")
+            else:
+                url = "https://" + url.lstrip("/")
+        elif url.startswith("https://") and ("localhost" in url or "127.0.0.1" in url):
+            url = url.replace("https://", "http://", 1)
+
+        return url
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("shop_url"):
+                vals["shop_url"] = self._normalize_shop_url_value(vals["shop_url"])
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if vals.get("shop_url"):
+            vals["shop_url"] = self._normalize_shop_url_value(vals["shop_url"])
+        return super().write(vals)
+
     # =================================================
     # INTERNAL HELPERS
     # =================================================
     def _get_wcapi(self, rec):
         return API(
-            url=rec.shop_url.rstrip("/"),
+            url=rec._get_base_url(),
             consumer_key=rec.consumer_key,
             consumer_secret=rec.consumer_secret,
             version="wc/v3",
@@ -225,7 +256,7 @@ class WooInstance(models.Model):
                     "Please enter WP Username and Application Password."
                 )
 
-            url = f"{rec.shop_url.rstrip('/')}/wp-json/wc/v3/system_status"
+            url = f"{rec._get_base_url()}/wp-json/wc/v3/system_status"
 
             try:
                 r = requests.get(
@@ -1133,9 +1164,11 @@ class WooInstance(models.Model):
         for key in sample.keys():
             WooField.search([
                 ("instance_id", "=", self.id),
+                ("model", "=", "product"),
                 ("name", "=", key),
             ], limit=1) or WooField.create({
                 "instance_id": self.id,
+                "model": "product",
                 "name": key,
             })
 
@@ -1150,20 +1183,7 @@ class WooInstance(models.Model):
         if not self.shop_url:
             raise UserError("Shop URL is not configured")
 
-        url = self.shop_url.strip().rstrip("/")
-
-        # Keep provided scheme; default to http for localhost, https otherwise.
-        if not url.startswith(("http://", "https://")):
-            if "localhost" in url or "127.0.0.1" in url:
-                url = "http://" + url.lstrip("/")
-            else:
-                url = "https://" + url.lstrip("/")
-        # Localhost Woo usually runs on plain HTTP (XAMPP/WAMP).
-        # If https is configured by mistake, force http to avoid SSL connection-refused errors.
-        elif url.startswith("https://") and ("localhost" in url or "127.0.0.1" in url):
-            url = url.replace("https://", "http://", 1)
-
-        return url
+        return self._normalize_shop_url_value(self.shop_url)
 
     def _extract_mapped_values(self, woo_data, mappings):
         vals = {}
@@ -1190,21 +1210,83 @@ class WooInstance(models.Model):
             for m in mappings
         }
 
+    def _normalize_woo_mapping_key(self, key):
+        aliases = {
+            "qty_available": "stock_quantity",
+            "list_price": "regular_price",
+            "product_name": "name",
+        }
+        return aliases.get(key, key)
+
+    def _coerce_mapping_value(self, field, value):
+        if value in (None, "", False):
+            return None
+
+        if field.type in ("float", "monetary"):
+            try:
+                return float(value)
+            except Exception:
+                return None
+
+        if field.type == "integer":
+            try:
+                return int(float(value))
+            except Exception:
+                return None
+
+        if field.type == "boolean":
+            if isinstance(value, bool):
+                return value
+            if isinstance(value, str):
+                return value.strip().lower() in ("1", "true", "yes", "y", "instock")
+            return bool(value)
+
+        if field.type in ("char", "text", "html", "selection"):
+            return str(value)
+
+        return value
+
+    def _protected_mapping_fields(self, model):
+        """Prevent mapping from overwriting identity/core sync fields."""
+        protected = {
+            "product": {
+                "instance_id",
+                "woo_product_id",
+                "product_tmpl_id",
+            },
+            "customer": {
+                "instance_id",
+                "woo_customer_id",
+            },
+            "order": {
+                "instance_id",
+                "woo_order_id",
+                "name",
+            },
+            "category": {
+                "instance_id",
+                "woo_category_id",
+            },
+        }
+        return protected.get(model, set())
+
     def _apply_field_mapping(self, model, woo_data, record):
         mappings = self._get_field_mappings(model)
         vals = {}
         record_fields = record._fields
+        protected_fields = self._protected_mapping_fields(model)
 
         for woo_key, odoo_field in mappings.items():
-            # value = woo_data.get(woo_key)
             value = self._get_nested_value(woo_data, woo_key)
 
             if (
                 odoo_field in record_fields
+                and odoo_field not in protected_fields
                 and not record_fields[odoo_field].readonly
-                and value not in (None, "", False)
             ):
-                vals[odoo_field] = value
+                value = self._coerce_mapping_value(record_fields[odoo_field], value)
+                if value not in (None, "", False):
+                    vals[odoo_field] = value
 
         if vals:
             record.write(vals)
@@ -1290,6 +1372,7 @@ class WooInstance(models.Model):
         if not data or not key:
             return None
 
+        key = self._normalize_woo_mapping_key(key)
         value = data
         for part in key.split("."):
             if isinstance(value, dict):

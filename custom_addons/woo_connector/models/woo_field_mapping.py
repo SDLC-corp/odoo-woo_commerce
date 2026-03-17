@@ -60,7 +60,7 @@ class WooFieldMapping(models.Model):
         "woo.field",
         string="Woo Field",
         required=True,
-        domain="[('instance_id', '=', instance_id), ('active', '=', True)]",
+        domain="[('instance_id', '=', instance_id), ('model', '=', model), ('active', '=', True)]",
     )
 
     # ------------------------------------------------
@@ -75,6 +75,18 @@ class WooFieldMapping(models.Model):
         compute="_compute_preview",
         readonly=True,
     )
+
+    def read(self, fields=None, load="_classic_read"):
+        for rec in self:
+            if rec.instance_id and rec.model:
+                field_count = self.env["woo.field"].search_count([
+                    ("instance_id", "=", rec.instance_id.id),
+                    ("model", "=", rec.model),
+                    ("active", "=", True),
+                ])
+                if not field_count:
+                    rec._ensure_woo_fields_catalog()
+        return super().read(fields=fields, load=load)
 
     def _flatten_woo_keys(self, payload, prefix=""):
         keys = set()
@@ -96,6 +108,7 @@ class WooFieldMapping(models.Model):
                 "id", "name", "sku", "slug", "status", "regular_price",
                 "sale_price", "stock_quantity", "stock_status", "manage_stock",
                 "description", "short_description", "date_created",
+                "list_price", "qty_available", "product_name",
             },
             "order": {
                 "id", "number", "status", "currency", "total", "customer_id",
@@ -130,10 +143,15 @@ class WooFieldMapping(models.Model):
 
         for key in sorted(k for k in keys if k):
             WooField.search(
-                [("instance_id", "=", self.instance_id.id), ("name", "=", key)],
+                [
+                    ("instance_id", "=", self.instance_id.id),
+                    ("model", "=", self.model),
+                    ("name", "=", key),
+                ],
                 limit=1,
             ) or WooField.create({
                 "instance_id": self.instance_id.id,
+                "model": self.model,
                 "name": key,
                 "active": True,
             })
@@ -144,6 +162,12 @@ class WooFieldMapping(models.Model):
             rec.woo_field_key = False
             if rec.instance_id and rec.model:
                 rec._ensure_woo_fields_catalog()
+
+    @api.constrains("woo_field_key", "model")
+    def _check_woo_field_key_model(self):
+        for rec in self:
+            if rec.woo_field_key and rec.woo_field_key.model and rec.woo_field_key.model != rec.model:
+                raise UserError("Selected Woo field does not belong to this mapping model.")
 
     # ------------------------------------------------
     # COMPUTE TARGET ODOO MODEL
@@ -203,6 +227,11 @@ class WooFieldMapping(models.Model):
             )
 
         value = self.instance_id._get_nested_value(sample, self.woo_field_key.name)
+
+        if value in (None, "", False):
+            raise UserError(
+                f"The Woo field '{self.woo_field_key.name}' is empty or not present in the sample {self.model} payload."
+            )
 
         return {
             "type": "ir.actions.client",
