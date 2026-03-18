@@ -16,3 +16,5 @@ access_woo_instance,woo.instance,model_woo_instance,,1,1,1,1
 access_woo_field_user,woo.field user,model_woo_field,base.group_user,1,1,1,1
 access_woo_field_mapping_user,woo.field.mapping user,model_woo_field_mapping,base.group_user,1,1,1,1
 access_woo_inventory_user,woo.inventory user,model_woo_inventory,base.group_user,1,1,1,1
+access_woo_ai_insight_user,woo.ai.insight user,model_woo_ai_insight,base.group_user,1,1,1,1
+access_woo_ai_content_wizard_user,woo.ai.content.wizard user,model_woo_ai_content_wizard,base.group_user,1,1,1,1

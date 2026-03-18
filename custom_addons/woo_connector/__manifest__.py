@@ -13,6 +13,7 @@
                 "contacts",
                 "stock",
                 "stock_delivery",
+                "mail",
                 ],
     'data': [
         # 1️⃣ SECURITY FIRST
@@ -31,12 +32,14 @@
         'views/woo_coupon_sync_view.xml',
         'views/woo_product_sync_view.xml',
         'views/woo_product_sync_form.xml',
+        'views/woo_ai_content_wizard_views.xml',
         'views/woo_customer_sync_view.xml',
         'views/woo_order_sync_view.xml',
         'views/woo_report_view.xml',
         'views/woo_sales_report.xml',
         'views/woo_order_report.xml',
         "views/woo_inventory_views.xml",
+        "views/woo_res_config_settings_view.xml",
         "data/woo_order_cron.xml",
 
         "views/woo_dashboard_action.xml",
@@ -49,6 +52,9 @@
     ],
     "assets": {
         "web.assets_backend": [
+            "woo_connector/static/src/xml/chatbot.xml",
+            "woo_connector/static/src/js/chatbot.js",
+            "woo_connector/static/src/scss/chatbot.scss",
             "woo_connector/static/src/xml/woo_dashboard_templates.xml",
             "woo_connector/static/src/js/woo_dashboard.js",
             "woo_connector/static/src/css/woo_dashboard.css",

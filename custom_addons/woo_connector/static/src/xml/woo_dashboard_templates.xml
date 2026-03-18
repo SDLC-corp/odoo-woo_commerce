@@ -36,6 +36,9 @@
         <button class="btn btn-primary" t-on-click="syncNow">
           Sync Now
         </button>
+        <button class="btn btn-secondary" t-on-click="generateInsights">
+          Generate AI Insights
+        </button>
       </div>
     </div>
 
@@ -112,6 +115,54 @@
           </div>
         </div>
         <div class="ring-glow"></div>
+      </div>
+    </div>
+
+    <div class="woo-ai-grid">
+      <div class="woo-ai-card">
+        <div class="pulse-title">AI Insights</div>
+        <div class="woo-ai-status-line">
+          <span class="woo-badge"><t t-esc="state.data.ai_insight.status || 'draft'"/></span>
+          <span t-if="state.data.ai_insight.generated_at">
+            Last generated: <t t-esc="state.data.ai_insight.generated_at"/>
+          </span>
+        </div>
+        <div class="woo-ai-summary">
+          <t t-esc="state.data.ai_insight.summary_text || 'Generate AI insights to see a sales and inventory summary.'"/>
+        </div>
+        <div class="woo-ai-list" t-if="(state.data.ai_insight.actionable_recommendations || []).length">
+          <div class="woo-ai-subtitle">Recommendations</div>
+          <ul>
+            <li t-foreach="state.data.ai_insight.actionable_recommendations" t-as="item" t-key="item">
+              <t t-esc="item"/>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="woo-ai-card">
+        <div class="pulse-title">Stock Risk</div>
+        <div class="woo-ai-list" t-if="(state.data.ai_insight.products_at_risk_of_stockout || []).length">
+          <ul>
+            <li t-foreach="state.data.ai_insight.products_at_risk_of_stockout" t-as="item" t-key="item.sku || item.name">
+              <strong><t t-esc="item.name"/></strong>
+              <span> | Stock: <t t-esc="item.current_stock"/></span>
+              <span t-if="item.days_to_stockout"> | <t t-esc="item.days_to_stockout"/> days left</span>
+            </li>
+          </ul>
+        </div>
+        <div t-else="">No immediate stockout risks detected.</div>
+      </div>
+      <div class="woo-ai-card">
+        <div class="pulse-title">Low Sales Products</div>
+        <div class="woo-ai-list" t-if="(state.data.ai_insight.low_sales_products || []).length">
+          <ul>
+            <li t-foreach="state.data.ai_insight.low_sales_products" t-as="item" t-key="item.sku || item.name">
+              <strong><t t-esc="item.name"/></strong>
+              <span> | Sold 30d: <t t-esc="item.units_sold_30_days"/></span>
+            </li>
+          </ul>
+        </div>
+        <div t-else="">No low-sales products detected.</div>
       </div>
     </div>
 

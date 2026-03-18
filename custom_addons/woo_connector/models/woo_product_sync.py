@@ -84,6 +84,11 @@ class WooProductSync(models.Model):
     # PUBLISHING
     # -----------------------------
     published_date = fields.Datetime(string="Published On")
+    description = fields.Html(string="Long Description", sanitize=False)
+    short_description = fields.Text(string="Short Description")
+    seo_title = fields.Char(string="SEO Title")
+    seo_description = fields.Text(string="SEO Description")
+    ai_content_last_generated = fields.Datetime(string="AI Content Last Generated")
 
     # --------------------------------------------------
     # SMART BUTTON ACTION
@@ -170,6 +175,9 @@ class WooProductSync(models.Model):
             "sku": self.sku,
             "regular_price": str(self.list_price or 0.0),
             "sale_price": str(self.sale_price or 0.0) if self.sale_price else "",
+            "description": self.description or "",
+            "short_description": self.short_description or "",
+            "tags": [{"name": tag.name} for tag in self.tag_ids],
         }
         payload.update(self._build_stock_payload())
 
@@ -374,6 +382,8 @@ class WooProductSync(models.Model):
             "published_date": self._parse_woo_datetime(
                 p.get("date_created")
             ),
+            "description": p.get("description") or "",
+            "short_description": p.get("short_description") or "",
             "synced_on": fields.Datetime.now(),
         }
 
@@ -451,3 +461,33 @@ class WooProductSync(models.Model):
                 "default_default_code": self.sku,
             },
         }
+
+    def _open_ai_content_wizard(self, generation_type):
+        self.ensure_one()
+        wizard = self.env["woo.ai.content.wizard"].create(
+            {
+                "product_sync_id": self.id,
+                "generation_type": generation_type,
+            }
+        )
+        wizard.action_generate_preview()
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("AI Product Content Assistant"),
+            "res_model": "woo.ai.content.wizard",
+            "view_mode": "form",
+            "res_id": wizard.id,
+            "target": "new",
+        }
+
+    def action_ai_generate_description(self):
+        return self._open_ai_content_wizard("description")
+
+    def action_ai_generate_short_description(self):
+        return self._open_ai_content_wizard("short_description")
+
+    def action_ai_improve_seo_text(self):
+        return self._open_ai_content_wizard("seo")
+
+    def action_ai_suggest_tags(self):
+        return self._open_ai_content_wizard("tags")

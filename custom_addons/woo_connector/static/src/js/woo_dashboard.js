@@ -46,6 +46,16 @@ export class WooDashboard extends Component {
                     instance_name: "",
                     is_all: true,
                 },
+                ai_insight: {
+                    summary_text: "",
+                    status: "draft",
+                    generated_at: "",
+                    actionable_recommendations: [],
+                    predicted_top_products_to_restock: [],
+                    products_at_risk_of_stockout: [],
+                    low_sales_products: [],
+                    sales_summary: {},
+                },
             },
             viz: {
                 statusRows: [],
@@ -128,6 +138,16 @@ export class WooDashboard extends Component {
                     instance_name: "",
                     is_all: true,
                 },
+                ai_insight: res?.ai_insight || {
+                    summary_text: "",
+                    status: "draft",
+                    generated_at: "",
+                    actionable_recommendations: [],
+                    predicted_top_products_to_restock: [],
+                    products_at_risk_of_stockout: [],
+                    low_sales_products: [],
+                    sales_summary: {},
+                },
             };
 
             this.state.viz = this.buildViz(this.state.data);
@@ -154,6 +174,25 @@ export class WooDashboard extends Component {
         });
 
         await this.loadData();
+    }
+
+    async generateInsights() {
+        this.state.loading = true;
+        try {
+            const result = await rpc("/web/dataset/call_kw", {
+                model: "woo.dashboard",
+                method: "generate_ai_insights",
+                args: [],
+                kwargs: {
+                    range: this.state.range,
+                    instance_id: this.state.instanceId,
+                },
+            });
+            this.state.data.ai_insight = result || {};
+            await this.loadData();
+        } finally {
+            this.state.loading = false;
+        }
     }
 
     startAutoRefresh() {

@@ -2,6 +2,7 @@ from odoo import models, api, fields
 from odoo.exceptions import UserError
 import requests
 from datetime import datetime, timedelta
+import json
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -188,6 +189,197 @@ class WooDashboard(models.AbstractModel):
             }
             for o in orders
         ]
+
+    def _sales_window_summary(self, instances, days, reference_date):
+        Order = self.env["woo.order.sync"]
+        current_start = reference_date - timedelta(days=days)
+        previous_start = current_start - timedelta(days=days)
+
+        current_domain = [
+            ("instance_id", "in", instances.ids),
+            ("date_created", ">=", current_start.strftime("%Y-%m-%d %H:%M:%S")),
+            ("date_created", "<=", reference_date.strftime("%Y-%m-%d %H:%M:%S")),
+        ]
+        previous_domain = [
+            ("instance_id", "in", instances.ids),
+            ("date_created", ">=", previous_start.strftime("%Y-%m-%d %H:%M:%S")),
+            ("date_created", "<", current_start.strftime("%Y-%m-%d %H:%M:%S")),
+        ]
+
+        current_orders = Order.search(current_domain)
+        previous_orders = Order.search(previous_domain)
+        current_revenue = sum(current_orders.mapped("total_amount"))
+        previous_revenue = sum(previous_orders.mapped("total_amount"))
+        current_count = len(current_orders)
+        previous_count = len(previous_orders)
+
+        revenue_change_pct = (
+            ((current_revenue - previous_revenue) / previous_revenue) * 100
+            if previous_revenue
+            else (100.0 if current_revenue else 0.0)
+        )
+        order_change_pct = (
+            ((current_count - previous_count) / previous_count) * 100
+            if previous_count
+            else (100.0 if current_count else 0.0)
+        )
+
+        return {
+            "days": days,
+            "revenue": round(current_revenue, 2),
+            "orders": current_count,
+            "previous_revenue": round(previous_revenue, 2),
+            "previous_orders": previous_count,
+            "revenue_change_pct": round(revenue_change_pct, 1),
+            "order_change_pct": round(order_change_pct, 1),
+        }
+
+    def _top_products_summary(self, instances, reference_date):
+        Line = self.env["woo.order.line.sync"]
+        since = reference_date - timedelta(days=30)
+        lines = Line.search(
+            [
+                ("order_sync_id.instance_id", "in", instances.ids),
+                ("order_sync_id.date_created", ">=", since.strftime("%Y-%m-%d %H:%M:%S")),
+            ]
+        )
+
+        bucket = {}
+        for line in lines:
+            key = line.sku or line.product_name or str(line.id)
+            bucket.setdefault(
+                key,
+                {
+                    "name": line.product_name or line.sku or "Unknown Product",
+                    "sku": line.sku,
+                    "units_sold_30_days": 0.0,
+                    "revenue_30_days": 0.0,
+                },
+            )
+            bucket[key]["units_sold_30_days"] += float(line.quantity or 0.0)
+            bucket[key]["revenue_30_days"] += float(line.subtotal or 0.0)
+
+        products = list(bucket.values())
+        products.sort(
+            key=lambda item: (-item["units_sold_30_days"], -item["revenue_30_days"], item["name"])
+        )
+        return products[:10]
+
+    def _inventory_risk_summary(self, instances):
+        Product = self.env["woo.product.sync"]
+        products = Product.search([("instance_id", "in", instances.ids)])
+        low_stock = []
+        risk_items = []
+        slow_moving = []
+
+        top_products = self._top_products_summary(instances, datetime.utcnow())
+        sales_by_sku = {item.get("sku"): item for item in top_products if item.get("sku")}
+
+        for product in products:
+            current_stock = float(product.qty_available or 0.0)
+            velocity = 0.0
+            sold_item = sales_by_sku.get(product.sku)
+            if sold_item:
+                velocity = float(sold_item.get("units_sold_30_days", 0.0)) / 30.0
+
+            if current_stock <= 10:
+                low_stock.append(
+                    {
+                        "name": product.name,
+                        "sku": product.sku,
+                        "current_stock": current_stock,
+                        "stock_status": product.stock_status,
+                    }
+                )
+
+            if velocity > 0 and current_stock > 0:
+                days_to_stockout = round(current_stock / velocity, 1)
+                if days_to_stockout <= 14:
+                    risk_items.append(
+                        {
+                            "name": product.name,
+                            "sku": product.sku,
+                            "current_stock": current_stock,
+                            "days_to_stockout": days_to_stockout,
+                            "daily_velocity": round(velocity, 2),
+                        }
+                    )
+
+            units_sold = float(sold_item.get("units_sold_30_days", 0.0)) if sold_item else 0.0
+            if current_stock > 0 and units_sold <= 1:
+                slow_moving.append(
+                    {
+                        "name": product.name,
+                        "sku": product.sku,
+                        "current_stock": current_stock,
+                        "units_sold_30_days": units_sold,
+                    }
+                )
+
+        low_stock.sort(key=lambda item: (item["current_stock"], item["name"]))
+        risk_items.sort(key=lambda item: (item["days_to_stockout"], item["name"]))
+        slow_moving.sort(key=lambda item: (item["units_sold_30_days"], -item["current_stock"]))
+
+        return {
+            "low_stock_products": low_stock[:10],
+            "products_at_risk_of_stockout": risk_items[:10],
+            "low_sales_products": slow_moving[:10],
+            "top_selling_products": top_products,
+        }
+
+    def _latest_ai_insight(self, instances, range_days, is_all):
+        Insight = self.env["woo.ai.insight"].sudo()
+        domain = [("range_days", "=", int(range_days or 30))]
+        if is_all:
+            domain += [("scope", "=", "all"), ("instance_id", "=", False)]
+        else:
+            domain += [("scope", "=", "instance"), ("instance_id", "=", instances[:1].id)]
+        insight = Insight.search(domain, limit=1)
+        if not insight:
+            return {
+                "summary_text": "",
+                "status": "draft",
+                "generated_at": False,
+                "actionable_recommendations": [],
+                "predicted_top_products_to_restock": [],
+                "products_at_risk_of_stockout": [],
+                "low_sales_products": [],
+                "sales_summary": {},
+                "repeat_customers": [],
+                "error_message": "",
+            }
+        return insight.get_payload()
+
+    def _build_ai_metrics(self, instances):
+        from ..services.woo_ai_service import WooAIService
+
+        reference_date = datetime.utcnow()
+        sales_7 = self._sales_window_summary(instances, 7, reference_date)
+        sales_30 = self._sales_window_summary(instances, 30, reference_date)
+        inventory = self._inventory_risk_summary(instances)
+        repeat_customers = WooAIService(self.env).build_repeat_customers(
+            self.env["woo.order.sync"].search([("instance_id", "in", instances.ids)])
+        )
+        low_stock_map = {
+            item.get("sku"): item
+            for item in inventory["products_at_risk_of_stockout"] + inventory["low_stock_products"]
+            if item.get("sku")
+        }
+        service = WooAIService(self.env)
+
+        return {
+            "sales_last_7_days": sales_7,
+            "sales_last_30_days": sales_30,
+            "top_selling_products": inventory["top_selling_products"],
+            "low_stock_products": inventory["low_stock_products"],
+            "products_at_risk_of_stockout": inventory["products_at_risk_of_stockout"],
+            "low_sales_products": inventory["low_sales_products"],
+            "repeat_customers": repeat_customers,
+            "predicted_top_products_to_restock": service.build_top_seller_restock_candidates(
+                inventory["top_selling_products"], low_stock_map
+            ),
+        }
+
     @api.model
     def get_dashboard_data(self, range="30", instance_id=None, fast=False):
         return self.get_analytics_data(range=range, instance_id=instance_id, fast=fast)
@@ -288,6 +480,7 @@ class WooDashboard(models.AbstractModel):
                     "instance_name": "All Instances" if is_all else selected_instances[:1].name,
                     "is_all": is_all,
                 },
+                "ai_insight": self._latest_ai_insight(selected_instances, days, is_all),
             }
 
         for inst in selected_instances:
@@ -401,6 +594,7 @@ class WooDashboard(models.AbstractModel):
                 "instance_name": "All Instances" if is_all else selected_instances[:1].name,
                 "is_all": is_all,
             },
+            "ai_insight": self._latest_ai_insight(selected_instances, days, is_all),
         }
 
     @api.model
@@ -414,3 +608,49 @@ class WooDashboard(models.AbstractModel):
         for instance in instances:
             instance.auto_sync_all(force=True)
         return True
+
+    @api.model
+    def generate_ai_insights(self, range="30", instance_id=None):
+        from ..services.woo_ai_service import WooAIService
+
+        days = int(range or 30)
+        instances = self._get_active_instances()
+        if not instances:
+            raise UserError("No active WooCommerce instance found.")
+
+        if instance_id and str(instance_id).lower() == "all":
+            selected_instances = instances
+            scope = "all"
+            instance = False
+            instance_name = "All Instances"
+        else:
+            instance = self._get_instance_or_raise(instance_id)
+            selected_instances = self.env["woo.instance"].browse(instance.id)
+            scope = "instance"
+            instance_name = selected_instances[:1].name
+
+        metrics = self._build_ai_metrics(selected_instances)
+        service = WooAIService(self.env)
+        result = service.generate_sales_inventory_insights(
+            metrics,
+            {
+                "instance_name": instance_name,
+                "range_days": days,
+                "instance_count": len(selected_instances),
+            },
+        )
+
+        record = self.env["woo.ai.insight"].sudo().upsert_latest(
+            {
+                "name": "AI Insight - %s" % instance_name,
+                "instance_id": instance.id if instance else False,
+                "scope": scope,
+                "range_days": days,
+                "summary_text": result["summary_text"],
+                "insight_json": json.dumps(result["insight_payload"], default=str),
+                "status": result["status"],
+                "generated_at": result["generated_at"],
+                "error_message": result.get("error_message") or False,
+            }
+        )
+        return record.get_payload()

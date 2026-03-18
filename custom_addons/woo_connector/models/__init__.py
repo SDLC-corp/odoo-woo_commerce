@@ -18,3 +18,6 @@ from . import woo_field
 from . import woo_field_mapping
 from . import woo_inventory
 from . import woo_webhook_sync
+from . import woo_ai_insight
+from . import woo_ai_content_wizard
+from . import res_config_settings

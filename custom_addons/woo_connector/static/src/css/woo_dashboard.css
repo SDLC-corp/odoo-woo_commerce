@@ -133,6 +133,55 @@
     gap: 16px;
 }
 
+.woo-ai-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.woo-ai-card {
+    background: linear-gradient(180deg, #ffffff, #f9fbff);
+    border: 1px solid #e6e9f2;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 8px 18px rgba(25, 30, 60, 0.06);
+}
+
+.woo-ai-status-line {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #5e667a;
+}
+
+.woo-ai-summary {
+    color: #2b2f45;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.woo-ai-subtitle {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #5d5b73;
+    margin-bottom: 6px;
+}
+
+.woo-ai-list ul {
+    margin: 0;
+    padding-left: 18px;
+    color: #40465e;
+}
+
+.woo-ai-list li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
 .pulse-card {
     background: #ffffff;
     border: 1px solid #e6e9f2;
