@@ -100,5 +100,5 @@ export class WooSimpleChatbot extends Component {
     }
 }
 
-WooSimpleChatbot.template = "woo_connector.SimpleChatbot";
+WooSimpleChatbot.template = "sdlc_woo_connector.SimpleChatbot";
 registry.category("main_components").add("woo_simple_chatbot", { Component: WooSimpleChatbot });
