@@ -1,55 +1,1311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Description</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WooCommerce Odoo Connector | Premium Odoo Marketplace Landing Page</title>
+  <meta
+    name="description"
+    content="Premium WooCommerce Odoo Connector landing page for Odoo marketplace. Showcase product sync, order sync, customer sync, category sync, coupon sync, inventory updates, field mapping, automation, webhooks, analytics, reports, and more Odoo apps by your company."
+  />
+
+  <style>
+    :root{
+      --bg:#f7f6fb;
+      --surface:#ffffff;
+      --surface-2:#fbf9fd;
+      --text:#1f2430;
+      --muted:#5f6675;
+      --line:#e6dfec;
+      --brand:#714b67;
+      --brand-2:#8d5f83;
+      --brand-3:#f2e9f1;
+      --success:#12715b;
+      --info:#315b9c;
+      --warning:#a65c00;
+      --shadow:0 16px 50px rgba(33, 25, 44, 0.08);
+      --radius:22px;
+      --radius-sm:16px;
+      --max:1180px;
+      --gradient:linear-gradient(135deg,#714b67 0%,#8f6786 55%,#b184a6 100%);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,#faf8fc 0%, #ffffff 220px);
+      line-height:1.65;
+    }
+
+    img{
+      display:block;
+      max-width:100%;
+      height:auto;
+      border-radius:16px;
+    }
+
+    a{
+      text-decoration:none;
+      color:var(--brand);
+    }
+
+    .container{
+      width:min(var(--max), calc(100% - 32px));
+      margin:0 auto;
+    }
+
+    .section{
+      padding:56px 0;
+    }
+
+    .soft{
+      background:var(--bg);
+      border-top:1px solid #efeaf4;
+      border-bottom:1px solid #efeaf4;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      background:var(--brand-3);
+      color:var(--brand);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:14px;
+    }
+
+    .eyebrow.dark{
+      background:rgba(255,255,255,.12);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.15);
+    }
+
+    h1,h2,h3,h4{
+      margin:0 0 10px;
+      color:var(--text);
+    }
+
+    h1{
+      font-size:50px;
+      line-height:1.04;
+      letter-spacing:-.03em;
+    }
+
+    h2{
+      font-size:38px;
+      line-height:1.1;
+      letter-spacing:-.025em;
+    }
+
+    h3{
+      font-size:22px;
+      line-height:1.25;
+    }
+
+    h4{
+      font-size:18px;
+      line-height:1.3;
+    }
+
+    p{
+      margin:0 0 14px;
+      color:#364152;
+    }
+
+    .lead{
+      font-size:17px;
+      color:#4b5563;
+      max-width:940px;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .center{
+      text-align:center;
+    }
+
+    .btns{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:22px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:0 18px;
+      border-radius:14px;
+      font-size:14px;
+      font-weight:700;
+      border:1px solid transparent;
+      transition:.2s ease;
+    }
+
+    .btn-primary{
+      background:var(--gradient);
+      color:#fff;
+      box-shadow:0 10px 24px rgba(113,75,103,.25);
+    }
+
+    .btn-secondary{
+      background:#fff;
+      color:var(--brand);
+      border-color:#d8c9d5;
+    }
+
+    .btn-ghost{
+      background:rgba(255,255,255,.1);
+      color:#fff;
+      border-color:rgba(255,255,255,.22);
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      padding:42px 0 32px;
+      border-bottom:1px solid #eee8f3;
+      background:
+        radial-gradient(circle at top left, rgba(113,75,103,.14) 0, rgba(113,75,103,0) 34%),
+        radial-gradient(circle at top right, rgba(141,95,131,.12) 0, rgba(141,95,131,0) 26%),
+        linear-gradient(180deg,#faf7fc 0%,#ffffff 100%);
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.08fr .92fr;
+      gap:28px;
+      align-items:center;
+    }
+
+    .hero-copy{
+      padding:10px 0;
+    }
+
+    .hero-copy p{
+      font-size:17px;
+    }
+
+    .hero-points{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin:20px 0 0;
+      padding:0;
+      list-style:none;
+    }
+
+    .hero-points li{
+      padding:13px 14px 13px 42px;
+      position:relative;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      font-size:14px;
+      color:#374151;
+    }
+
+    .hero-points li:before{
+      content:'✓';
+      position:absolute;
+      left:15px;
+      top:12px;
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#ecf8f4;
+      color:var(--success);
+      font-weight:700;
+      font-size:12px;
+    }
+
+    .hero-card{
+      background:linear-gradient(180deg,#ffffff 0%, #fbf8fd 100%);
+      border:1px solid #eadfeb;
+      border-radius:28px;
+      padding:14px;
+      box-shadow:0 20px 60px rgba(77,41,78,.12);
+    }
+
+    .hero-card .shot{
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid #eee4ef;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-top:22px;
+    }
+
+    .stat{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      text-align:center;
+      box-shadow:var(--shadow);
+    }
+
+    .stat strong{
+      display:block;
+      font-size:22px;
+      color:var(--brand);
+      margin-bottom:4px;
+    }
+
+    .stat span{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .trust-strip{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:12px;
+      margin-top:24px;
+    }
+
+    .trust-pill{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px 14px;
+      text-align:center;
+      font-size:13px;
+      color:#3d4654;
+      box-shadow:var(--shadow);
+    }
+
+    .card,
+    .feature,
+    .point,
+    .faq,
+    .gallery-item,
+    .step,
+    .highlight,
+    .compare,
+    .cta,
+    .note,
+    .app-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .card,
+    .feature,
+    .point,
+    .faq,
+    .step,
+    .highlight,
+    .note{
+      padding:24px;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+    }
+
+    .grid-4{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+    }
+
+    .icon-badge{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      background:var(--brand-3);
+      color:var(--brand);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      font-size:20px;
+      margin-bottom:14px;
+    }
+
+    .list,
+    .tick-list,
+    .dash-list{
+      margin:12px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:10px;
+    }
+
+    .tick-list li,
+    .dash-list li,
+    .list li{
+      position:relative;
+      padding-left:24px;
+      font-size:15px;
+      color:#394251;
+    }
+
+    .tick-list li:before{
+      content:'•';
+      position:absolute;
+      left:8px;
+      top:-1px;
+      color:var(--brand);
+      font-weight:700;
+    }
+
+    .dash-list li:before{
+      content:'–';
+      position:absolute;
+      left:5px;
+      top:0;
+      color:var(--muted);
+      font-weight:700;
+    }
+
+    .list li:before{
+      content:'✓';
+      position:absolute;
+      left:0;
+      top:0;
+      color:var(--success);
+      font-weight:700;
+    }
+
+    .premium-band{
+      background:var(--gradient);
+      color:#fff;
+      border-radius:30px;
+      padding:34px;
+      box-shadow:0 24px 70px rgba(113,75,103,.24);
+    }
+
+    .premium-band p,
+    .premium-band h2,
+    .premium-band h3,
+    .premium-band h4{
+      color:#fff;
+    }
+
+    .feature{
+      position:relative;
+      overflow:hidden;
+    }
+
+    .feature:after{
+      content:'';
+      position:absolute;
+      right:-24px;
+      top:-24px;
+      width:88px;
+      height:88px;
+      border-radius:50%;
+      background:rgba(113,75,103,.06);
+    }
+
+    .feature h3{
+      padding-right:30px;
+    }
+
+    .flow-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+      margin-top:22px;
+    }
+
+    .flow-head{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:12px;
+    }
+
+    .flow-badge{
+      min-width:48px;
+      height:48px;
+      border-radius:14px;
+      background:var(--gradient);
+      color:#fff;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .flow-grid .card.alt .flow-badge{
+      background:linear-gradient(135deg,#0f766e 0%, #1da88a 100%);
+    }
+
+    .gallery{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+    }
+
+    .gallery-item{
+      padding:12px;
+    }
+
+    .gallery-item img{
+      border-radius:18px;
+      border:1px solid #efe8f3;
+    }
+
+    .caption{
+      padding:14px 10px 4px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+    }
+
+    .step{
+      position:relative;
+      padding-top:62px;
+    }
+
+    .step .num{
+      position:absolute;
+      left:22px;
+      top:20px;
+      width:32px;
+      height:32px;
+      border-radius:10px;
+      background:var(--gradient);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+    }
+
+    .compare{
+      padding:0;
+      overflow:hidden;
+    }
+
+    .compare table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:15px;
+    }
+
+    .compare th,
+    .compare td{
+      padding:15px 16px;
+      border-bottom:1px solid #eee7f1;
+      text-align:left;
+      vertical-align:top;
+    }
+
+    .compare th{
+      background:#faf7fb;
+      color:#2f3542;
+    }
+
+    .compare tr:last-child td{
+      border-bottom:none;
+    }
+
+    .faq-grid{
+      display:grid;
+      gap:14px;
+    }
+
+    .faq h4{
+      margin-bottom:8px;
+    }
+
+    .apps-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+      margin-top:24px;
+    }
+
+    .app-card{
+      overflow:hidden;
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+
+    .app-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 20px 50px rgba(33,25,44,.12);
+    }
+
+    .app-thumb{
+      padding:12px;
+      background:linear-gradient(180deg,#fbf8fd 0%, #f5eef8 100%);
+      border-bottom:1px solid #eee6f1;
+    }
+
+    .app-thumb img{
+      width:100%;
+      border-radius:16px;
+      border:1px solid #eadfeb;
+    }
+
+    .app-body{
+      padding:20px;
+    }
+
+    .app-body h3{
+      font-size:20px;
+      margin-bottom:8px;
+    }
+
+    .app-body p{
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:16px;
+    }
+
+    .app-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:0 14px;
+      border-radius:12px;
+      background:var(--brand);
+      color:#fff;
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .cta{
+      padding:34px;
+      background:linear-gradient(180deg,#ffffff 0%,#fbf7fd 100%);
+    }
+
+    .small{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .divider{
+      height:1px;
+      background:#eee7f2;
+      margin:18px 0;
+    }
+
+    @media (max-width:1024px){
+      h1{font-size:38px}
+      h2{font-size:30px}
+      .hero-grid,
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .gallery,
+      .flow-grid,
+      .steps,
+      .stats,
+      .trust-strip,
+      .apps-grid{
+        grid-template-columns:1fr;
+      }
+      .hero-points{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width:767px){
+      .section{
+        padding:42px 0;
+      }
+      .container{
+        width:min(var(--max), calc(100% - 20px));
+      }
+      h1{
+        font-size:32px;
+      }
+      h2{
+        font-size:26px;
+      }
+      h3{
+        font-size:20px;
+      }
+      .btns{
+        flex-direction:column;
+      }
+      .btn{
+        width:100%;
+      }
+      .premium-band,
+      .cta,
+      .card,
+      .feature,
+      .point,
+      .faq,
+      .step,
+      .highlight,
+      .note{
+        padding:20px;
+      }
+      .hero{
+        padding:28px 0 22px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <h1 style="color: #3d3d3d; text-align: center; padding-top: 20px;">STANDOUT FEATURES OF</h1>
-    <h1 style="color: #7344f5; text-align: center; font-size: 50px;">Odoo Woo Commerce Connector</h1>
-    <img src="img1.png" alt="img-1" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-7.png" alt="img-7" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-8.png" alt="img-8" style="width: 100%; height: 100%;">
-    <hr>
-    <img src="img-9.png" alt="img-9" style="width: 100%; height: 100%;">
-    <hr>
-    <img src="img-10.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-11.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-12.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-13.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-14.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-15.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-17.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-19.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-customer.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-22.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-23.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-24.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-4.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-3.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-2.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="img-1.png" alt="img-10" style="height: 100%; width: 100%;">
-    <hr>
-    <img src="services.png" alt="main-10" style="height: 100%; width: 100%;">
-</body>
 
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Premium Odoo Marketplace Page</span>
+          <h1>WooCommerce Odoo Connector for teams that want more control, better sync visibility, and cleaner store operations</h1>
+          <p>
+            This <strong>WooCommerce Odoo Connector</strong> is built for businesses that manage products, customers, orders,
+            categories, coupons, and stock across WooCommerce and Odoo. It combines sync operations, field mapping,
+            automation, webhook updates, dashboards, and reporting in one structured Odoo application.
+          </p>
+          <p>
+            The page layout below follows what strong marketplace competitors usually do well: a clear hero section,
+            business-focused feature explanation, proof with real screenshots, sync flow clarity, FAQ coverage, and
+            trust-building copy. At the same time, the wording stays grounded in your actual module.
+          </p>
+
+          <div class="btns">
+            <a href="#premium-features" class="btn btn-primary">Explore Premium Features</a>
+            <a href="#screenshots" class="btn btn-secondary">See Real Screens</a>
+          </div>
+
+          <ul class="hero-points">
+            <li>Bi-directional operational sync</li>
+            <li>Multi-instance Woo store setup</li>
+            <li>Field mapping with test support</li>
+            <li>Webhook-driven update handling</li>
+            <li>Manual actions and cron automation</li>
+            <li>Sync reports and dashboard metrics</li>
+          </ul>
+        </div>
+
+        <div class="hero-card">
+          <div class="shot">
+            <img src="banner.png" alt="WooCommerce Odoo connector hero banner for Odoo marketplace" />
+          </div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><strong>Products</strong><span>Pull, review, and push selected catalog updates</span></div>
+        <div class="stat"><strong>Orders</strong><span>Sync orders, order lines, statuses, and notes</span></div>
+        <div class="stat"><strong>Customers</strong><span>Import, upsert, and update customer records</span></div>
+        <div class="stat"><strong>Reports</strong><span>Track sync activity through logs and dashboards</span></div>
+      </div>
+
+      <div class="trust-strip">
+        <div class="trust-pill">Premium layout and conversion-focused content</div>
+        <div class="trust-pill">SEO-aware copy without keyword stuffing</div>
+        <div class="trust-pill">Real feature proof through screenshots</div>
+        <div class="trust-pill">Clear explanation of sync direction</div>
+        <div class="trust-pill">Marketplace-friendly structure</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="premium-band">
+        <span class="eyebrow dark">What high-performing competitors usually include</span>
+        <h2>What competitors are doing on their landing pages, and what your page should do better</h2>
+
+        <div class="grid-3" style="margin-top:20px">
+          <div>
+            <h3>1. Strong first-screen pitch</h3>
+            <p>Competitor pages usually open with a bold hero, a clear integration message, trust visuals, and a fast CTA. Your page now does that with cleaner product language and stronger visual hierarchy.</p>
+          </div>
+          <div>
+            <h3>2. Screenshot-heavy proof</h3>
+            <p>Most competitors rely heavily on screenshots because app buyers want to see real UI proof. This template uses your actual module screens as evidence for configuration, sync, inventory, orders, and reports.</p>
+          </div>
+          <div>
+            <h3>3. Broad feature listing</h3>
+            <p>Competitors often list many features but stay vague. Your page improves this by separating entities, sync directions, controls, logs, and operational outcomes so the buyer understands what the app really does.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <span class="eyebrow">Core value proposition</span>
+      <h2>Why businesses choose a WooCommerce connector inside Odoo</h2>
+      <p class="lead">
+        Buyers searching for an <strong>Odoo WooCommerce integration</strong> usually want to reduce manual work,
+        keep store data more organized, and give the operations team a central place to review activity. This connector
+        is built around that use case. It does not just move data. It gives teams a structured way to configure instances,
+        control sync behavior, monitor results, and work with clearer records inside Odoo.
+      </p>
+
+      <div class="grid-3" style="margin-top:20px">
+        <div class="feature">
+          <div class="icon-badge">01</div>
+          <h3>Operational control</h3>
+          <p>Manage WooCommerce instances, choose sync behavior, run manual actions, and turn on automation when your business is ready.</p>
+        </div>
+        <div class="feature">
+          <div class="icon-badge">02</div>
+          <h3>Data visibility</h3>
+          <p>Monitor synced records, logs, and dashboard metrics from Odoo instead of depending only on storefront views.</p>
+        </div>
+        <div class="feature">
+          <div class="icon-badge">03</div>
+          <h3>Safer scaling</h3>
+          <p>As order volume and catalog size grow, a structured connector helps teams keep product, customer, and order data easier to review.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="premium-features">
+    <div class="container">
+      <span class="eyebrow">Detailed feature coverage</span>
+      <h2>Everything this premium landing page should communicate</h2>
+      <p class="lead">
+        The sections below cover the points marketplace buyers usually look for: setup clarity, entity coverage,
+        automation, mapping, logs, reporting, workflow outcomes, and visual proof.
+      </p>
+
+      <div class="grid-3" style="margin-top:20px">
+        <div class="feature">
+          <div class="icon-badge">A</div>
+          <h3>Multi-instance store management</h3>
+          <ul class="tick-list">
+            <li>Create separate WooCommerce store instances inside Odoo</li>
+            <li>Store URL, API credentials, optional auth, and webhook secret in one place</li>
+            <li>Manage active and inactive instances from the application layer</li>
+          </ul>
+        </div>
+
+        <div class="feature">
+          <div class="icon-badge">B</div>
+          <h3>Product synchronization</h3>
+          <ul class="tick-list">
+            <li>Import WooCommerce products into Odoo sync models</li>
+            <li>Update selected products from Odoo back to WooCommerce</li>
+            <li>Support pricing, SKU linking, content fields, categories, and tags</li>
+          </ul>
+        </div>
+
+        <div class="feature">
+          <div class="icon-badge">C</div>
+          <h3>Order operations</h3>
+          <ul class="tick-list">
+            <li>Pull orders and order lines into Odoo</li>
+            <li>Track Woo status, customer details, and billing notes</li>
+            <li>Create Odoo sale orders from synced Woo order data</li>
+          </ul>
+        </div>
+
+        <div class="feature">
+          <div class="icon-badge">D</div>
+          <h3>Customer synchronization</h3>
+          <ul class="tick-list">
+            <li>Import customers from WooCommerce</li>
+            <li>Auto-create or update customers from order payloads</li>
+            <li>Push customer changes from Odoo to WooCommerce where needed</li>
+          </ul>
+        </div>
+
+        <div class="feature">
+          <div class="icon-badge">E</div>
+          <h3>Category and coupon sync</h3>
+          <ul class="tick-list">
+            <li>Pull categories and coupons into Odoo sync records</li>
+            <li>Push category and coupon create or update actions back to WooCommerce</li>
+            <li>Maintain sync state tracking for these entities</li>
+          </ul>
+        </div>
+
+        <div class="feature">
+          <div class="icon-badge">F</div>
+          <h3>Inventory refresh and visibility</h3>
+          <ul class="tick-list">
+            <li>Fetch stock and quantity information from WooCommerce</li>
+            <li>Review inventory views in Odoo by instance and product</li>
+            <li>Support refresh actions for one store or multiple stores</li>
+          </ul>
+        </div>
+
+        <div class="feature">
+          <div class="icon-badge">G</div>
+          <h3>Field mapping framework</h3>
+          <ul class="tick-list">
+            <li>Create entity-specific field mappings for products, orders, customers, and categories</li>
+            <li>Use sample data extraction to inspect payload keys</li>
+            <li>Test mappings before relying on them in production workflow</li>
+          </ul>
+        </div>
+
+        <div class="feature">
+          <div class="icon-badge">H</div>
+          <h3>Automation and webhooks</h3>
+          <ul class="tick-list">
+            <li>Run scheduled sync for enabled entities</li>
+            <li>Handle product, customer, order, category, and coupon webhook events</li>
+            <li>Use webhook secret validation for more controlled processing</li>
+          </ul>
+        </div>
+
+        <div class="feature">
+          <div class="icon-badge">I</div>
+          <h3>Monitoring, analytics, and AI tools</h3>
+          <ul class="tick-list">
+            <li>Track sync reports and webhook logs</li>
+            <li>Review dashboard totals and breakdowns</li>
+            <li>Use built-in AI content and insight tools available in the module</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft" id="flow">
+    <div class="container">
+      <span class="eyebrow">Sync direction clarity</span>
+      <h2>Clear WooCommerce to Odoo and Odoo to WooCommerce flow</h2>
+      <p class="lead">
+        One thing many competitor pages miss is direct explanation of sync direction. They say “bi-directional” but do not clearly show
+        what moves where. This layout keeps both directions separate, which helps reduce confusion and improves buyer trust.
+      </p>
+
+      <div class="flow-grid">
+        <div class="card">
+          <div class="flow-head">
+            <div class="flow-badge">W→O</div>
+            <div>
+              <h3>WooCommerce to Odoo flow</h3>
+              <p class="muted">Use Odoo as the operational review layer for storefront data.</p>
+            </div>
+          </div>
+          <ul class="tick-list">
+            <li>Import products from WooCommerce into Odoo sync models</li>
+            <li>Pull customer records and order data from WooCommerce</li>
+            <li>Sync categories and coupons from WooCommerce</li>
+            <li>Refresh inventory information from WooCommerce product stock</li>
+            <li>Receive webhook-based updates for product, order, customer, category, and coupon changes</li>
+            <li>Write sync outcomes into reports and status logs</li>
+          </ul>
+        </div>
+
+        <div class="card alt">
+          <div class="flow-head">
+            <div class="flow-badge">O→W</div>
+            <div>
+              <h3>Odoo to WooCommerce flow</h3>
+              <p class="muted">Push selected operational changes back to the store when needed.</p>
+            </div>
+          </div>
+          <ul class="tick-list">
+            <li>Update selected products from Odoo to WooCommerce</li>
+            <li>Create or update customers in WooCommerce</li>
+            <li>Create or update categories in WooCommerce</li>
+            <li>Create or update coupons in WooCommerce</li>
+            <li>Push selected order updates such as status and customer note</li>
+            <li>Use mapping controls to shape how data is prepared before sync</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="screenshots">
+    <div class="container">
+      <span class="eyebrow">Real application proof</span>
+      <h2>Marketplace buyers expect real screenshots, not just generic claims</h2>
+      <p class="lead">
+        Competitor pages that convert well usually show a long proof section. Use your own real screens to support every major promise.
+      </p>
+
+      <div class="gallery" style="margin-top:22px">
+        <div class="gallery-item">
+          <img src="img1.png" alt="WooCommerce Odoo connector dashboard overview in Odoo" />
+          <div class="caption">Dashboard overview for store metrics, synced data visibility, and operational monitoring.</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="img-7.png" alt="WooCommerce instance configuration in Odoo" />
+          <div class="caption">Instance setup screen showing store-level configuration, credentials, and sync settings.</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="img-8.png" alt="WooCommerce products sync list in Odoo" />
+          <div class="caption">Product synchronization list for reviewing product records inside Odoo.</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="img-9.png" alt="WooCommerce orders sync list in Odoo" />
+          <div class="caption">Order synchronization records for transaction tracking and operational review.</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="img-10.png" alt="WooCommerce inventory report and stock data in Odoo" />
+          <div class="caption">Inventory visibility with stock-focused review inside the connector workflow.</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="img-11.png" alt="WooCommerce sync report logs in Odoo" />
+          <div class="caption">Sync report logs for troubleshooting, traceability, and audit-friendly review.</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="img-12.png" alt="WooCommerce category sync screen in Odoo" />
+          <div class="caption">Category synchronization support for storefront structure management.</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="img-13.png" alt="WooCommerce coupon sync screen in Odoo" />
+          <div class="caption">Coupon synchronization support for promotional data handling.</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="img-customer.png" alt="WooCommerce customer sync screen in Odoo" />
+          <div class="caption">Customer sync records with imported or updated customer information.</div>
+        </div>
+
+        <div class="gallery-item">
+          <img src="img-14.png" alt="WooCommerce field mapping or related sync setup in Odoo" />
+          <div class="caption">Mapping and configuration screens that help shape integration behavior to your workflow.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <span class="eyebrow">Business outcomes</span>
+      <h2>What this connector helps your team do better</h2>
+
+      <div class="grid-4" style="margin-top:20px">
+        <div class="highlight">
+          <h3>Reduce repeated work</h3>
+          <p>Bring store data into Odoo faster instead of recreating everything manually.</p>
+        </div>
+        <div class="highlight">
+          <h3>Improve visibility</h3>
+          <p>Give operations users one place to review product, order, customer, and sync activity.</p>
+        </div>
+        <div class="highlight">
+          <h3>Support structured growth</h3>
+          <p>Use instances, mapping, reports, and automation as the business becomes more complex.</p>
+        </div>
+        <div class="highlight">
+          <h3>Respond faster to issues</h3>
+          <p>Check sync reports, webhook logs, and statuses when something needs attention.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Included scope</span>
+      <h2>A more complete feature checklist than most competitor pages provide</h2>
+
+      <div class="compare" style="margin-top:20px">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:34%">Feature Area</th>
+              <th>Included in this page copy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Store configuration</td>
+              <td>Instance-based setup, credentials, activation control, webhook secret, and sync preferences</td>
+            </tr>
+            <tr>
+              <td>Product handling</td>
+              <td>Product import, selected product push, SKU linking, prices, descriptions, categories, and tags</td>
+            </tr>
+            <tr>
+              <td>Order management</td>
+              <td>Order import, order line sync, status tracking, note updates, and sale order creation support</td>
+            </tr>
+            <tr>
+              <td>Customer management</td>
+              <td>Customer import, order-based customer upsert, guest handling, and customer push workflow</td>
+            </tr>
+            <tr>
+              <td>Additional entities</td>
+              <td>Category sync, coupon sync, inventory refresh, dashboard metrics, and reports</td>
+            </tr>
+            <tr>
+              <td>Automation</td>
+              <td>Manual actions, scheduled sync, order status cron, and webhook-driven updates</td>
+            </tr>
+            <tr>
+              <td>Advanced controls</td>
+              <td>Field mapping, sample payload extraction, mapping test, sync state tracking, and logs</td>
+            </tr>
+            <tr>
+              <td>Extended tools</td>
+              <td>Analytics dashboard, AI insight tools, AI content generation support, and chatbot endpoint in current codebase</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <span class="eyebrow">Onboarding flow</span>
+      <h2>How users get started with the connector</h2>
+
+      <div class="steps" style="margin-top:20px">
+        <div class="step">
+          <div class="num">1</div>
+          <h4>Create the WooCommerce instance</h4>
+          <p>Add the store URL, REST API keys, optional credentials, and webhook secret in the instance setup screen.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h4>Configure sync and mapping</h4>
+          <p>Choose which entities to sync and add field mapping rules for products, customers, orders, or categories where needed.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h4>Run manual import first</h4>
+          <p>Import products, customers, orders, categories, coupons, or inventory to validate configuration before full automation.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h4>Enable automation and monitor</h4>
+          <p>Turn on cron or webhook updates, then review reports, dashboard metrics, and sync statuses on an ongoing basis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="more-apps">
+    <div class="container">
+      <span class="eyebrow">More from SDLC Corp</span>
+      <h2>More Odoo Apps by SDLC Corp</h2>
+      <p class="lead">
+        Looking for more Odoo solutions from our team? Explore other SDLC Corp applications
+        built to improve automation, eCommerce operations, marketplace workflows, reporting,
+        and business process efficiency inside Odoo.
+      </p>
+
+      <div class="apps-grid">
+        <article class="app-card">
+          <div class="app-thumb">
+            <img src="other-app-1.png" alt="Shopify Odoo Connector by SDLC Corp" />
+          </div>
+          <div class="app-body">
+            <h3>Shopify Odoo Connector</h3>
+            <p>Connect Shopify with Odoo for product sync, order sync, customer updates, and inventory handling in one place.</p>
+            <a href="https://apps.odoo.com/apps/modules/your-app-link-1" class="app-link" target="_blank" rel="noopener">View App</a>
+          </div>
+        </article>
+
+        <article class="app-card">
+          <div class="app-thumb">
+            <img src="other-app-2.png" alt="Amazon Odoo Connector by SDLC Corp" />
+          </div>
+          <div class="app-body">
+            <h3>Amazon Odoo Connector</h3>
+            <p>Manage marketplace operations with structured synchronization for products, stock, customers, and order workflows.</p>
+            <a href="https://apps.odoo.com/apps/modules/your-app-link-2" class="app-link" target="_blank" rel="noopener">View App</a>
+          </div>
+        </article>
+
+        <article class="app-card">
+          <div class="app-thumb">
+            <img src="other-app-3.png" alt="Etsy Odoo Connector by SDLC Corp" />
+          </div>
+          <div class="app-body">
+            <h3>Etsy Odoo Connector</h3>
+            <p>Sync Etsy orders, product data, and inventory into Odoo while improving catalog control and operational visibility.</p>
+            <a href="https://apps.odoo.com/apps/modules/your-app-link-3" class="app-link" target="_blank" rel="noopener">View App</a>
+          </div>
+        </article>
+
+        <article class="app-card">
+          <div class="app-thumb">
+            <img src="other-app-4.png" alt="eBay Odoo Connector by SDLC Corp" />
+          </div>
+          <div class="app-body">
+            <h3>eBay Odoo Connector</h3>
+            <p>Handle multi-channel commerce workflows with Odoo-backed control over products, inventory, and order movement.</p>
+            <a href="https://apps.odoo.com/apps/modules/your-app-link-4" class="app-link" target="_blank" rel="noopener">View App</a>
+          </div>
+        </article>
+
+        <article class="app-card">
+          <div class="app-thumb">
+            <img src="other-app-5.png" alt="Walmart Odoo Connector by SDLC Corp" />
+          </div>
+          <div class="app-body">
+            <h3>Walmart Odoo Connector</h3>
+            <p>Bring Walmart marketplace operations into Odoo with centralized monitoring, sync visibility, and smoother order management.</p>
+            <a href="https://apps.odoo.com/apps/modules/your-app-link-5" class="app-link" target="_blank" rel="noopener">View App</a>
+          </div>
+        </article>
+
+        <article class="app-card">
+          <div class="app-thumb">
+            <img src="other-app-6.png" alt="More Odoo apps by SDLC Corp" />
+          </div>
+          <div class="app-body">
+            <h3>See All SDLC Corp Apps</h3>
+            <p>Explore more business applications and custom workflow tools developed by SDLC Corp for commerce and ERP automation.</p>
+            <a href="https://apps.odoo.com/apps/modules/browse?search=sdlc+corp" class="app-link" target="_blank" rel="noopener">See All Apps</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">SEO and content depth</span>
+      <h2>Search-friendly copy without overclaiming</h2>
+
+      <div class="grid-2" style="margin-top:20px">
+        <div class="note">
+          <h3>Important search phrases naturally covered</h3>
+          <ul class="tick-list">
+            <li>WooCommerce Odoo Connector</li>
+            <li>Odoo WooCommerce Integration</li>
+            <li>WooCommerce connector for Odoo</li>
+            <li>Sync WooCommerce products to Odoo</li>
+            <li>WooCommerce order sync with Odoo</li>
+            <li>Odoo marketplace WooCommerce connector</li>
+          </ul>
+        </div>
+
+        <div class="note">
+          <h3>Google and marketplace-friendly writing approach</h3>
+          <ul class="dash-list">
+            <li>Write specific product copy based on real module features</li>
+            <li>Avoid exaggerated claims or unsupported promises</li>
+            <li>Use alt text for all screenshots and clean heading hierarchy</li>
+            <li>Keep benefits, use cases, and features clearly separated</li>
+            <li>Show proof through screens instead of repeating vague marketing lines</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft">
+    <div class="container">
+      <span class="eyebrow">FAQ section</span>
+      <h2>Questions buyers often ask before installing</h2>
+
+      <div class="faq-grid" style="margin-top:20px">
+        <div class="faq">
+          <h4>Does the connector support multiple WooCommerce stores?</h4>
+          <p>Yes. The module uses an instance-based structure, so multiple WooCommerce stores can be managed separately inside Odoo.</p>
+        </div>
+
+        <div class="faq">
+          <h4>Can I import data from WooCommerce into Odoo?</h4>
+          <p>Yes. The current module structure supports import workflows for products, orders, customers, categories, coupons, and inventory data.</p>
+        </div>
+
+        <div class="faq">
+          <h4>Can I push data from Odoo back to WooCommerce?</h4>
+          <p>Yes. Selected product, customer, category, coupon, and order updates can be pushed from Odoo to WooCommerce.</p>
+        </div>
+
+        <div class="faq">
+          <h4>Does the connector support automation?</h4>
+          <p>Yes. The app includes scheduled sync mechanisms and webhook handling for faster update processing.</p>
+        </div>
+
+        <div class="faq">
+          <h4>Can I customize field behavior?</h4>
+          <p>Yes. The field mapping framework allows mapping by entity, sample payload inspection, and test-based validation.</p>
+        </div>
+
+        <div class="faq">
+          <h4>How can users track sync issues?</h4>
+          <p>Sync reports, webhook logs, dashboard metrics, and sync status records are part of the current module workflow.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <span class="eyebrow">Implementation note</span>
+        <h2>Use this as your premium Odoo marketplace landing page foundation</h2>
+        <p>
+          This version adds a premium visual feel, longer competitor-style structure, stronger content depth,
+          clearer benefit hierarchy, and more complete feature coverage. Replace the placeholder app cards,
+          app links, and screenshot file names with your final assets before publishing.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="grid-2">
+          <div>
+            <h3>Recommended final polishing</h3>
+            <ul class="tick-list">
+              <li>Reorder screenshots in the exact flow you want buyers to scroll through</li>
+              <li>Keep only the features that are supported in code or clearly visible in the UI</li>
+              <li>Replace placeholder app cards with your actual SDLC Corp Odoo apps</li>
+              <li>Compress large PNG files to improve page load speed</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>Suggested file placement</h3>
+            <p>
+              Save this page as <strong>static/description/index.html</strong> and keep all referenced images in the same
+              <strong>static/description</strong> folder. Update paths if your image names differ.
+            </p>
+          </div>
+        </div>
+
+        <p class="small" style="margin-top:18px">
+          Important: replace <strong>other-app-1.png</strong> to <strong>other-app-6.png</strong> and the placeholder app URLs with your real SDLC Corp marketplace app assets.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</body>
 </html>
