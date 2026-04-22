@@ -5,7 +5,7 @@
     'category': 'Sales',
     'author': 'SDLC Corp',
     'website': 'https://sdlccorp.com/',
-        'price': 1,
+        'price': 10,
     'currency': 'USD',
 'license': 'LGPL-3',
     'depends': ["base",
