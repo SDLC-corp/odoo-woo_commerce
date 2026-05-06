@@ -1,516 +1,271 @@
-<!DOCTYPE html>
+<!-- PROMO_BANNER_V5 -->
+<div style="max-width:1320px; margin:28px auto; border:5px solid #0B0B1E; background-color:#0B0B1E">
+    <div style="background-color:#F59E0B; padding:10px 28px; text-align:center">
+        <span style="color:#0B0B1E; font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif; font-size:13px; font-weight:bold; letter-spacing:2px; text-transform:uppercase">
+            &#9670;&nbsp;&nbsp; Launch Edition &nbsp;&middot;&nbsp; SDLC Corp Apps &nbsp;&middot;&nbsp; Flash Sale &nbsp;&middot;&nbsp; Volume I &nbsp;&nbsp;&#9670;
+        </span>
+    </div>
+    <table style="width:100%; border-collapse:collapse">
+        <tr>
+            <td style="width:50%; background-color:#0B0B1E; padding:56px 52px; vertical-align:top; border-right:4px solid #F59E0B">
+                <div style="color:#F59E0B; font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif; font-size:15px; font-weight:bold; letter-spacing:2px; text-transform:uppercase">Launch Price</div>
+                <div style="color:#8B8FA3; font-family:Georgia,'Times New Roman',serif; font-size:30px; font-style:italic; text-decoration:line-through; margin-top:6px">regularly $100</div>
+                <div style="color:#FFFEF9; font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif; font-size:220px; font-weight:bold; line-height:0.9; letter-spacing:-8px; margin-top:4px">$10</div>
+                <div style="color:#F59E0B; font-family:Georgia,'Times New Roman',serif; font-size:22px; font-style:italic; letter-spacing:1px; margin-top:6px">&mdash; ten dollars today &mdash;</div>
+            </td>
+            <td style="width:50%; background-color:#dc2626; padding:56px 52px; vertical-align:top">
+                <div style="color:#FFFEF9; font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif; font-size:15px; font-weight:bold; letter-spacing:2px; text-transform:uppercase">You Save</div>
+                <div style="color:#FFFEF9; font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif; font-size:220px; font-weight:bold; line-height:0.9; letter-spacing:-10px; margin-top:4px">90<span style="color:#F59E0B; font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif; font-size:140px; font-weight:bold">%</span></div>
+                <div style="color:#FFFEF9; font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif; font-size:56px; font-weight:bold; font-style:italic; letter-spacing:-1px; margin-top:6px; line-height:1">off today.</div>
+                <div style="width:80px; height:3px; background-color:#FFFEF9; margin:28px 0 16px"></div>
+                <div style="color:#FFFEF9; font-family:Georgia,'Times New Roman',serif; font-size:15px; font-weight:bold; letter-spacing:1.5px; text-transform:uppercase">Limited Time &nbsp;&middot;&nbsp; No Code &nbsp;&middot;&nbsp; No Catch</div>
+            </td>
+        </tr>
+    </table>
+    <div style="background-color:#0B0B1E; padding:12px 28px; text-align:center; border-top:4px solid #F59E0B">
+        <span style="color:#FFFEF9; font-family:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif; font-size:12px; font-weight:bold; letter-spacing:1.5px; text-transform:uppercase">
+            <span style="color:#F59E0B">&#10022;</span>&nbsp;&nbsp; One-Time Launch Price &nbsp;&middot;&nbsp; While It Lasts &nbsp;&middot;&nbsp; Visit <span style="color:#F59E0B">sdlccorp.com</span> &nbsp;&nbsp;<span style="color:#F59E0B">&#10022;</span>
+        </span>
+    </div>
+</div>
+<!-- /PROMO_BANNER_V5 -->
+<!--
+SEO Title:
+SDLC WooCommerce Connector for Odoo | Products, Orders, Inventory Sync
 
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Odoo WooCommerce Connector — SDLC Corp</title>
-<style>
+Meta Description:
+Two-way WooCommerce &harr; Odoo sync: products, orders, customers, inventory, multi-store. Built by SDLC Corp for Odoo Community.
 
-    /* Minimal CSS retained only for CSS-only tabs, hover, and responsive media queries. Visual styling is inline. */
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-.nav label:hover {
-      border-color: #93c5fd;
-      color: #1d4ed8;
-      background: #eff6ff;
-    }
+Aesthetic: Editorial broadsheet. Ivory paper + deep ink + violet rule + amber pop.
+Constraints: Odoo HTML sanitizer &mdash; inline styles + tables + flat hex colors only.
+-->
 
-.tab-panel {
-      display: none;
-    }
+<section style="max-width:1320px;margin:0 auto;background-color:#F5F1E8;color:#0B0B1E;font-family:Georgia,'Times New Roman',serif;line-height:1.55;padding:0;">
 
-#tab-overview:checked ~ .nav label[for="tab-overview"],
-    #tab-screenshots:checked ~ .nav label[for="tab-screenshots"],
-    #tab-features:checked ~ .nav label[for="tab-features"],
-    #tab-workflow:checked ~ .nav label[for="tab-workflow"],
-    #tab-install:checked ~ .nav label[for="tab-install"],
-    #tab-specs:checked ~ .nav label[for="tab-specs"],
-    #tab-reviews:checked ~ .nav label[for="tab-reviews"],
-    #tab-faq:checked ~ .nav label[for="tab-faq"],
-    #tab-support:checked ~ .nav label[for="tab-support"] {
-      background: #2563eb !important;
-      color: #ffffff !important;
-      border-color: #2563eb !important;
-      box-shadow: 0 8px 18px #c8dafc !important;
-    }
+<!-- &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; HERO &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; -->
+<div style="background-color:#0B0B1E;padding:0;margin:0;border-top:14px solid #6D28D9;border-bottom:6px solid #D97706;">
+    <table style="width:100%;border-collapse:collapse;">
+        <tr>
+            <td style="padding:20px 40px;border-bottom:1px solid #2a2a3f;color:#8B8FA3;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:3.5px;text-transform:uppercase;">Vol. I &nbsp;&middot;&nbsp; SDLC Corp Editions</td>
+            <td style="padding:20px 40px;border-bottom:1px solid #2a2a3f;color:#F59E0B;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:3.5px;text-transform:uppercase;text-align:right;">Odoo 18.0 &nbsp;&middot;&nbsp; Community</td>
+        </tr>
+    </table>
+    <div style="padding:80px 40px 60px;text-align:center;">
+        <p style="margin:0 0 28px;color:#F59E0B;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:6px;text-transform:uppercase;">&mdash;&nbsp;&nbsp;WooCommerce Connector for Odoo&nbsp;&nbsp;&mdash;</p>
+        <h1 style="margin:0;color:#F5F1E8;font-family:Georgia,'Times New Roman',serif;font-size:86px;line-height:0.95;font-weight:400;letter-spacing:-3px;">WooCommerce</h1>
+        <h1 style="margin:6px 0 0;color:#8B5CF6;font-family:Georgia,'Times New Roman',serif;font-size:86px;line-height:0.95;font-weight:400;font-style:italic;letter-spacing:-3px;">Connector.</h1>
+        <div style="width:90px;height:2px;background-color:#D97706;margin:40px auto 24px;"></div>
+        <p style="margin:0 auto;max-width:720px;color:#C7CAD9;font-family:Georgia,'Times New Roman',serif;font-size:20px;font-style:italic;line-height:1.5;">Two-way WooCommerce &harr; Odoo sync &mdash; products, orders, customers, inventory.</p>
+        <table style="margin:40px auto 0;border-collapse:separate;border-spacing:10px 0;">
+            <tr>
+                <td style="padding:10px 20px;border:1px solid #3a3a52;background-color:#16162b;color:#F5F1E8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Two-Way Sync</td>
+                <td style="padding:10px 20px;border:1px solid #3a3a52;background-color:#16162b;color:#F5F1E8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Real-Time</td>
+                <td style="padding:10px 20px;border:1px solid #3a3a52;background-color:#16162b;color:#F5F1E8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Multi-Store</td>
+            </tr>
+        </table>
+    </div>
+    <div style="padding:0 40px 60px;text-align:center;">
+        <img src="banner.gif" alt="WooCommerce Connector.  &mdash; SDLC Corp Odoo 18.0" style="max-width:100%;height:auto;border:1px solid #2a2a3f;"/>
+    </div>
+</div>
 
-#tab-overview:checked ~ .tab-panels .panel-overview,
-    #tab-screenshots:checked ~ .tab-panels .panel-screenshots,
-    #tab-features:checked ~ .tab-panels .panel-features,
-    #tab-workflow:checked ~ .tab-panels .panel-workflow,
-    #tab-install:checked ~ .tab-panels .panel-install,
-    #tab-specs:checked ~ .tab-panels .panel-specs,
-    #tab-reviews:checked ~ .tab-panels .panel-reviews,
-    #tab-faq:checked ~ .tab-panels .panel-faq,
-    #tab-support:checked ~ .tab-panels .panel-support {
-      display: block;
-    }
+<!-- SDLC-EDITORIAL-WRAP-V1 -->
 
-.feature-card:before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 5px;
-      background: #2563eb;
-    }
+<!-- &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; MODULE CONTENT (restyled) &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; -->
+<div style="padding:0;margin:0;background-color:#F5F1E8;color:#0B0B1E;font-family:Georgia,'Times New Roman',serif;line-height:1.6;">
+<div style="width:100%;max-width:1320px;margin:0 auto;padding:0;">
+<!-- SDLC-EDITORIAL-BODY-START -->
+<h1 style="color: #3a3a52; text-align: center; padding-top: 20px;">STANDOUT FEATURES OF</h1>
+<h1 style="color: #8B5CF6; line-height:0.95; font-weight:1000; text-align: center; font-size: 50px;"> WooCommerce Odoo Connector | Two-Way Product, Order & Inventory Sync</h1>
+<img alt="img-1" src="img1.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-7" src="img-7.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-8" src="img-8.png" style="width: 100%; height: 100%;"/>
+<hr/>
+<img alt="img-9" src="img-9.png" style="width: 100%; height: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-10.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-11.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-12.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-13.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-14.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-15.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-17.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-19.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-customer.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-22.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-23.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-24.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-4.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-3.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-2.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="img-10" src="img-1.png" style="height: 100%; width: 100%;"/>
+<hr/>
+<img alt="main-10" src="services.png" style="height: 100%; width: 100%;"/>
+<section style="margin:0 auto;font-family:Georgia,'Times New Roman',serif;color:#16162b;line-height:1.7;">
+<!-- &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; FREE LIFETIME SUPPORT &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; -->
+<!-- &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; CONTACT &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; -->
+</section>
+<!-- SDLC-EDITORIAL-BODY-END -->
+</div>
+</div>
 
-@media (max-width: 1100px) {
-      .evaluation-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
+<!-- SDLC-EDITORIAL-WRAP-V1-END -->
 
-@media (max-width: 920px) {
-      .hero-grid, .price-card { grid-template-columns: 1fr; }
-      .grid-4, .grid-3, .grid-2, .partner-grid, .apps-grid, .faq-grid { grid-template-columns: repeat(2, 1fr); }
-    }
+<!-- &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; EXPLORE OUR OTHER APPLICATIONS &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; -->
+<div style="padding:70px 40px 60px;background-color:#FFFEF9;text-align:center;">
+    <h2 style="margin:0 0 10px;font-family:Georgia,'Times New Roman',serif;font-size:44px;line-height:1.15;color:#0B0B1E;font-weight:400;font-style:italic;letter-spacing:-1px;">Explore our other applications</h2>
+    <div style="width:110px;height:3px;background-color:#22d3ee;margin:0 auto 40px;"></div>
+    <table style="width:100%;border-collapse:collapse;margin:0 auto;">
+        <tr><td style="width:33.33%;vertical-align:top;padding:12px;"><a href="https://apps.odoo.com/apps/modules/browse?search=SDLC+AI+Assistant" target="_blank" style="display:block;text-decoration:none;background-color:#FFFFFF;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;"><div style="height:10px;background-color:#6D28D9;line-height:0;font-size:0;">&nbsp;</div><div style="padding:34px 20px;text-align:center;background-color:#FFFFFF;"><img src="sdlc_ai_assistant_banner.jpg" alt="AI Assistant for Odoo" style="max-width:100%;max-height:110px;height:auto;display:inline-block;"/></div><div style="padding:14px 18px;background-color:#FFFFFF;border-top:1px solid #e5e7eb;text-align:left;"><span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#0B0B1E;letter-spacing:-0.1px;">AI Assistant</span></div></a></td><td style="width:33.33%;vertical-align:top;padding:12px;"><a href="https://apps.odoo.com/apps/modules/browse?search=SDLC+Asset+Management" target="_blank" style="display:block;text-decoration:none;background-color:#FFFFFF;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;"><div style="height:10px;background-color:#F59E0B;line-height:0;font-size:0;">&nbsp;</div><div style="padding:34px 20px;text-align:center;background-color:#FFFFFF;"><img src="sdlc_asset_management_banner.png" alt="Asset Management for Odoo" style="max-width:100%;max-height:110px;height:auto;display:inline-block;"/></div><div style="padding:14px 18px;background-color:#FFFFFF;border-top:1px solid #e5e7eb;text-align:left;"><span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#0B0B1E;letter-spacing:-0.1px;">Asset Management</span></div></a></td><td style="width:33.33%;vertical-align:top;padding:12px;"><a href="https://apps.odoo.com/apps/modules/browse?search=SDLC+Construction" target="_blank" style="display:block;text-decoration:none;background-color:#FFFFFF;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;"><div style="height:10px;background-color:#059669;line-height:0;font-size:0;">&nbsp;</div><div style="padding:34px 20px;text-align:center;background-color:#FFFFFF;"><img src="sdlc_construction_management_banner.png" alt="Construction Management for Odoo" style="max-width:100%;max-height:110px;height:auto;display:inline-block;"/></div><div style="padding:14px 18px;background-color:#FFFFFF;border-top:1px solid #e5e7eb;text-align:left;"><span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#0B0B1E;letter-spacing:-0.1px;">Construction Management</span></div></a></td></tr>
+        <tr><td style="width:33.33%;vertical-align:top;padding:12px;"><a href="https://apps.odoo.com/apps/modules/browse?search=SDLC+Employee+Dashboard" target="_blank" style="display:block;text-decoration:none;background-color:#FFFFFF;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;"><div style="height:10px;background-color:#0891b2;line-height:0;font-size:0;">&nbsp;</div><div style="padding:34px 20px;text-align:center;background-color:#FFFFFF;"><img src="sdlc_emp_dashboard_banner.png" alt="Employee Dashboard for Odoo" style="max-width:100%;max-height:110px;height:auto;display:inline-block;"/></div><div style="padding:14px 18px;background-color:#FFFFFF;border-top:1px solid #e5e7eb;text-align:left;"><span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#0B0B1E;letter-spacing:-0.1px;">Employee Dashboard</span></div></a></td><td style="width:33.33%;vertical-align:top;padding:12px;"><a href="https://apps.odoo.com/apps/modules/browse?search=SDLC+Financial+Reports" target="_blank" style="display:block;text-decoration:none;background-color:#FFFFFF;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;"><div style="height:10px;background-color:#be185d;line-height:0;font-size:0;">&nbsp;</div><div style="padding:34px 20px;text-align:center;background-color:#FFFFFF;"><img src="sdlc_financial_reports_banner.jpg" alt="Financial Reports for Odoo" style="max-width:100%;max-height:110px;height:auto;display:inline-block;"/></div><div style="padding:14px 18px;background-color:#FFFFFF;border-top:1px solid #e5e7eb;text-align:left;"><span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#0B0B1E;letter-spacing:-0.1px;">Financial Reports</span></div></a></td><td style="width:33.33%;vertical-align:top;padding:12px;"><a href="https://apps.odoo.com/apps/modules/browse?search=SDLC+IP+Restriction" target="_blank" style="display:block;text-decoration:none;background-color:#FFFFFF;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;"><div style="height:10px;background-color:#dc2626;line-height:0;font-size:0;">&nbsp;</div><div style="padding:34px 20px;text-align:center;background-color:#FFFFFF;"><img src="sdlc_ip_restriction_banner.png" alt="IP Restriction for Odoo" style="max-width:100%;max-height:110px;height:auto;display:inline-block;"/></div><div style="padding:14px 18px;background-color:#FFFFFF;border-top:1px solid #e5e7eb;text-align:left;"><span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:700;color:#0B0B1E;letter-spacing:-0.1px;">IP Restriction</span></div></a></td></tr>
+    </table>
+    <p style="margin:36px 0 0;">
+        <a href="https://apps.odoo.com/apps/modules/browse?author=SDLC+Corp" target="_blank" style="display:inline-block;background-color:#0B0B1E;color:#F59E0B;padding:14px 30px;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;">Browse the full library &rarr;</a>
+    </p>
+</div>
 
-@media (max-width: 620px) {
-      .wrap { width: min(100% - 22px, 1180px); }
-      .section { padding: 62px 0; }
-      .grid-4, .grid-3, .grid-2, .partner-grid, .apps-grid, .faq-grid, .mini-stats, .evaluation-grid { grid-template-columns: 1fr; }
-      .evaluation-card { min-height: auto; }
-      .partner-card, .app-card { min-height: auto; }
-      .button-row { flex-direction: column; }
-      .btn { width: 100%; }
-      .step { grid-template-columns: 1fr; }
-      .nav-inner { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 14px; }
-      .nav label { white-space: nowrap; }
-      .spec-table, .spec-table tbody, .spec-table tr, .spec-table th, .spec-table td { display: block; width: 100%; }
-      .spec-table th { border-bottom: 0; padding-bottom: 8px; }
-      .spec-table td { padding-top: 0; }
-    }
-  </style>
-</head>
-<body style="margin: 0; background: #ffffff; color: #0f172a; font-family: Arial, Helvetica, sans-serif; line-height: 1.55;">
-<input class="tab-radio" id="tab-overview" name="page-tab" style="position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; overflow: hidden;" type="radio" checked=""/>
-<input class="tab-radio" id="tab-screenshots" name="page-tab" style="position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; overflow: hidden;" type="radio"/>
-<input class="tab-radio" id="tab-features" name="page-tab" style="position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; overflow: hidden;" type="radio"/>
-<input class="tab-radio" id="tab-workflow" name="page-tab" style="position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; overflow: hidden;" type="radio"/>
-<input class="tab-radio" id="tab-install" name="page-tab" style="position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; overflow: hidden;" type="radio"/>
-<input class="tab-radio" id="tab-specs" name="page-tab" style="position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; overflow: hidden;" type="radio"/>
-<input class="tab-radio" id="tab-reviews" name="page-tab" style="position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; overflow: hidden;" type="radio"/>
-<input class="tab-radio" id="tab-faq" name="page-tab" style="position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; overflow: hidden;" type="radio"/>
-<input class="tab-radio" id="tab-support" name="page-tab" style="position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; overflow: hidden;" type="radio"/>
-<header class="hero" style="position: relative; overflow: hidden; padding: 78px 0 64px; background: #eef4ff; border-bottom: 1px solid #dbeafe;">
-<div class="wrap hero-grid" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 34px; align-items: center;">
-<div>
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;"><span>●</span> By SDLC Corp · Odoo v16 · v17 · v18</div>
-<h1 style="margin: 20px 0 18px; font-size: clamp(42px, 6vw, 76px); line-height: 0.96; letter-spacing: -2.8px;">Odoo <span style="color: #2563eb;">WooCommerce</span> Connector</h1>
-<p class="hero-lead" style="max-width: 690px; color: #475569; font-size: 19px; margin: 0 0 28px;">Two-way sync for products, orders, inventory, customers, taxes, shipping, prices, and order statuses — built for growing WooCommerce stores running on Odoo.</p>
-<div class="button-row" style="display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 24px;">
-<label class="btn primary" for="tab-install" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 14px 22px; border-radius: 14px; text-decoration: none; font-weight: 800; border: 1px solid transparent; box-shadow: 0 10px 26px #c8dafc; cursor: pointer; background: #2563eb; color: #ffffff;">Install — $9.99 one-time</label>
-<label class="btn secondary" for="tab-screenshots" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 14px 22px; border-radius: 14px; text-decoration: none; font-weight: 800; border: 1px solid #cbd5e1; box-shadow: none; cursor: pointer; background: #ffffff; color: #0f172a;">View screenshots</label>
+<!-- &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; INCLUDED WITH PURCHASE &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; -->
+<div style="padding:80px 40px 70px;background-color:#0B0B1E;">
+    <table style="width:100%;border-collapse:collapse;margin-bottom:36px;">
+        <tr>
+            <td style="padding:0 0 16px;border-bottom:2px solid #F5F1E8;">
+                <span style="color:#F5F1E8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;">Included With Purchase</span>
+            </td>
+        </tr>
+    </table>
+    <h2 style="margin:0 0 14px;font-family:Georgia,'Times New Roman',serif;font-size:56px;line-height:1.05;color:#F5F1E8;font-weight:400;letter-spacing:-1.8px;">Free Lifetime <em style="color:#F59E0B;">Support</em>.</h2>
+    <p style="margin:0 0 48px;font-family:Georgia,'Times New Roman',serif;font-size:20px;font-style:italic;color:#C7CAD9;max-width:720px;">Buy once &mdash; get unlimited support, bug fixes, and updates forever.</p>
+    <table style="width:100%;border-collapse:separate;border-spacing:16px;">
+        <tr>
+            <td style="width:33%;vertical-align:top;background-color:#16162b;border:1px solid #2a2a3f;border-top:3px solid #34d399;padding:36px 28px;">
+                <p style="margin:0 0 18px;color:#34d399;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Promise 01</p>
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:40px;color:#34d399;margin-bottom:16px;"><i class="fa fa-bug"></i></div>
+                <h3 style="margin:0 0 10px;font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:400;color:#F5F1E8;letter-spacing:-0.5px;">Free Bug Fixes</h3>
+                <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:1.6;color:#8B8FA3;font-style:italic;">Any bugs found will be fixed free of charge for the lifetime of your installation.</p>
+            </td>
+            <td style="width:33%;vertical-align:top;background-color:#16162b;border:1px solid #2a2a3f;border-top:3px solid #22d3ee;padding:36px 28px;">
+                <p style="margin:0 0 18px;color:#22d3ee;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Promise 02</p>
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:40px;color:#22d3ee;margin-bottom:16px;"><i class="fa fa-refresh"></i></div>
+                <h3 style="margin:0 0 10px;font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:400;color:#F5F1E8;letter-spacing:-0.5px;">Version Updates</h3>
+                <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:1.6;color:#8B8FA3;font-style:italic;">Receive future updates and compatibility patches as new Odoo versions are released.</p>
+            </td>
+            <td style="width:33%;vertical-align:top;background-color:#16162b;border:1px solid #2a2a3f;border-top:3px solid #F59E0B;padding:36px 28px;">
+                <p style="margin:0 0 18px;color:#F59E0B;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Promise 03</p>
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:40px;color:#F59E0B;margin-bottom:16px;"><i class="fa fa-headphones"></i></div>
+                <h3 style="margin:0 0 10px;font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:400;color:#F5F1E8;letter-spacing:-0.5px;">Dedicated Support</h3>
+                <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:1.6;color:#8B8FA3;font-style:italic;">Reach our technical team via Email, Phone, or WhatsApp for any questions.</p>
+            </td>
+        </tr>
+    </table>
 </div>
-<div class="trust-row" style="display: flex; flex-wrap: wrap; gap: 10px; color: #475569; font-size: 14px;">
-<span class="pill" style="display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border-radius: 999px; background: #ffffff; border: 1px solid #e2e8f0; font-weight: 700;">20+ live Odoo apps</span>
-<span class="pill" style="display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border-radius: 999px; background: #ffffff; border: 1px solid #e2e8f0; font-weight: 700;">★★★★★ 4.9 rating</span>
-<span class="pill" style="display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border-radius: 999px; background: #ffffff; border: 1px solid #e2e8f0; font-weight: 700;">200+ active installs</span>
-<span class="pill" style="display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border-radius: 999px; background: #ffffff; border: 1px solid #e2e8f0; font-weight: 700;">Since 2015</span>
+
+<!-- &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; OUR SERVICES &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; -->
+<div style="padding:80px 40px 70px;background-color:#F5F1E8;">
+    <table style="width:100%;border-collapse:collapse;margin-bottom:36px;">
+        <tr>
+            <td style="padding:0 0 16px;border-bottom:2px solid #0B0B1E;">
+                <span style="color:#0B0B1E;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;">Our Services</span>
+            </td>
+        </tr>
+    </table>
+    <h2 style="margin:0 0 14px;font-family:Georgia,'Times New Roman',serif;font-size:56px;line-height:1.05;color:#0B0B1E;font-weight:400;letter-spacing:-1.8px;">End-to-end <em style="color:#6D28D9;">Odoo services</em>.</h2>
+    <p style="margin:0 0 48px;font-family:Georgia,'Times New Roman',serif;font-size:18px;font-style:italic;color:#6B7280;">For businesses of all sizes.</p>
+    <table style="width:100%;border-collapse:separate;border-spacing:14px;">
+        <tr>
+            <td style="width:33%;vertical-align:top;background-color:#FFFEF9;border:1px solid #D8D2C0;padding:32px 24px;">
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:44px;line-height:1;color:#D97706;margin-bottom:14px;">&#9881;</div>
+                <p style="margin:0 0 4px;color:#D97706;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;">Service 01</p>
+                <h3 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#0B0B1E;letter-spacing:-0.3px;">Odoo Customization</h3>
+                <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.6;color:#3a3a52;font-style:italic;">Tailor modules and workflows to your exact business requirements.</p>
+            </td>
+            <td style="width:33%;vertical-align:top;background-color:#FFFEF9;border:1px solid #D8D2C0;padding:32px 24px;">
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:44px;line-height:1;color:#0891b2;margin-bottom:14px;">&#128640;</div>
+                <p style="margin:0 0 4px;color:#0891b2;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;">Service 02</p>
+                <h3 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#0B0B1E;letter-spacing:-0.3px;">Odoo Implementation</h3>
+                <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.6;color:#3a3a52;font-style:italic;">End-to-end setup, configuration, data migration, and go-live support.</p>
+            </td>
+            <td style="width:33%;vertical-align:top;background-color:#FFFEF9;border:1px solid #D8D2C0;padding:32px 24px;">
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:44px;line-height:1;color:#059669;margin-bottom:14px;">&#128736;</div>
+                <p style="margin:0 0 4px;color:#059669;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;">Service 03</p>
+                <h3 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#0B0B1E;letter-spacing:-0.3px;">Support &amp; Maintenance</h3>
+                <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.6;color:#3a3a52;font-style:italic;">Ongoing technical support, bug fixes, and performance tuning.</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="width:33%;vertical-align:top;background-color:#FFFEF9;border:1px solid #D8D2C0;padding:32px 24px;">
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:44px;line-height:1;color:#6D28D9;margin-bottom:14px;">&#128268;</div>
+                <p style="margin:0 0 4px;color:#6D28D9;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;">Service 04</p>
+                <h3 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#0B0B1E;letter-spacing:-0.3px;">Odoo Integration</h3>
+                <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.6;color:#3a3a52;font-style:italic;">Connect Odoo with third-party platforms, APIs, and external systems.</p>
+            </td>
+            <td style="width:33%;vertical-align:top;background-color:#FFFEF9;border:1px solid #D8D2C0;padding:32px 24px;">
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:44px;line-height:1;color:#dc2626;margin-bottom:14px;">&#128101;</div>
+                <p style="margin:0 0 4px;color:#dc2626;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;">Service 05</p>
+                <h3 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#0B0B1E;letter-spacing:-0.3px;">Hire Odoo Developer</h3>
+                <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.6;color:#3a3a52;font-style:italic;">Dedicated developers for short-term or long-term project engagements.</p>
+            </td>
+            <td style="width:33%;vertical-align:top;background-color:#FFFEF9;border:1px solid #D8D2C0;padding:32px 24px;">
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:44px;line-height:1;color:#be185d;margin-bottom:14px;">&#128259;</div>
+                <p style="margin:0 0 4px;color:#be185d;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;">Service 06</p>
+                <h3 style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:400;color:#0B0B1E;letter-spacing:-0.3px;">Odoo Migration</h3>
+                <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.6;color:#3a3a52;font-style:italic;">Seamless migration from older Odoo versions or other ERPs.</p>
+            </td>
+        </tr>
+    </table>
 </div>
-</div>
-<aside aria-label="Connector summary card" class="hero-card" style="background: #08111f; color: #ffffff; border-radius: 30px; overflow: hidden; border: 1px solid #cbd5e1; box-shadow: 0 24px 70px #dbe4f0;">
-<div class="hero-card-top" style="min-height: 250px; display: grid; place-items: center; padding: 32px; background: #fbf8ea;">
-<img alt="Odoo WooCommerce Connector by SDLC Corp" src="Untitled design (21).png" style="max-width: 100%; display: block; max-height: 230px; width: auto; margin: 0 auto;"/>
-</div>
-<div class="hero-card-body" style="padding: 30px; background: #0b1220;">
-<div class="eyebrow dark" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #17243a; color: #dbeafe; border: 1px solid #334155;">↔ Bidirectional Sync · Live Store Ready</div>
-<h3 style="margin: 12px 0 10px; font-size: 29px; letter-spacing: -0.7px; line-height: 1.1;">Two systems. One source of truth.</h3>
-<p style="margin: 0 0 22px; color: #dbeafe;">Webhook-driven synchronization keeps your storefront and operations in lockstep without manual reconciliation.</p>
-<div class="mini-stats" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-<div class="mini-stat" style="border: 1px solid #334155; border-radius: 16px; padding: 14px 10px; background: #17243a; text-align: center;"><strong style="display: block; color: #2563eb; font-size: 22px; line-height: 1;">20+</strong><span style="display: block; margin-top: 8px; color: #dbeafe; font-size: 10px; line-height: 1.2; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;">Live apps</span></div>
-<div class="mini-stat" style="border: 1px solid #334155; border-radius: 16px; padding: 14px 10px; background: #17243a; text-align: center;"><strong style="display: block; color: #2563eb; font-size: 22px; line-height: 1;">4.9★</strong><span style="display: block; margin-top: 8px; color: #dbeafe; font-size: 10px; line-height: 1.2; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;">Rating</span></div>
-<div class="mini-stat" style="border: 1px solid #334155; border-radius: 16px; padding: 14px 10px; background: #17243a; text-align: center;"><strong style="display: block; color: #2563eb; font-size: 22px; line-height: 1;">9 yrs</strong><span style="display: block; margin-top: 8px; color: #dbeafe; font-size: 10px; line-height: 1.2; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;">Production</span></div>
-<div class="mini-stat" style="border: 1px solid #334155; border-radius: 16px; padding: 14px 10px; background: #17243a; text-align: center;"><strong style="display: block; color: #2563eb; font-size: 22px; line-height: 1;">$9.99</strong><span style="display: block; margin-top: 8px; color: #dbeafe; font-size: 10px; line-height: 1.2; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;">One-time</span></div>
-</div>
-</div>
-</aside>
-</div>
-</header>
-<nav aria-label="Page navigation" class="nav" style="position: sticky; top: 0; z-index: 50; background: #ffffff; border-bottom: 1px solid #e2e8f0; box-shadow: 0 8px 24px #edf2f7;">
-<div class="wrap nav-inner" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; padding: 12px 0;">
-<label for="tab-overview" style="color: #334155; font-size: 13px; font-weight: 800; padding: 9px 12px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; cursor: pointer; user-select: none;">Overview</label>
-<label for="tab-screenshots" style="color: #334155; font-size: 13px; font-weight: 800; padding: 9px 12px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; cursor: pointer; user-select: none;">Screenshots</label>
-<label for="tab-features" style="color: #334155; font-size: 13px; font-weight: 800; padding: 9px 12px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; cursor: pointer; user-select: none;">Features</label>
-<label for="tab-workflow" style="color: #334155; font-size: 13px; font-weight: 800; padding: 9px 12px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; cursor: pointer; user-select: none;">Setup</label>
-<label for="tab-install" style="color: #334155; font-size: 13px; font-weight: 800; padding: 9px 12px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; cursor: pointer; user-select: none;">Pricing</label>
-<label for="tab-specs" style="color: #334155; font-size: 13px; font-weight: 800; padding: 9px 12px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; cursor: pointer; user-select: none;">Specs</label>
-<label for="tab-reviews" style="color: #334155; font-size: 13px; font-weight: 800; padding: 9px 12px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; cursor: pointer; user-select: none;">Reviews</label>
-<label for="tab-faq" style="color: #334155; font-size: 13px; font-weight: 800; padding: 9px 12px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; cursor: pointer; user-select: none;">FAQs</label>
-<label for="tab-support" style="color: #334155; font-size: 13px; font-weight: 800; padding: 9px 12px; border-radius: 999px; border: 1px solid #e2e8f0; background: #ffffff; cursor: pointer; user-select: none;">Support</label>
-</div>
-</nav>
-<main class="tab-panels">
-<div class="tab-panel panel-overview">
-<section class="section" style="padding: 86px 0;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;">
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">Product maturity</div>
-<h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Choose a connector that has already solved real production problems.</h2>
-<p style="margin: 0; color: #64748b; font-size: 17px;">A connector becomes part of your daily operations. This module is built around the edge cases that appear only after years of live WooCommerce and Odoo usage.</p>
-</div>
-<div class="grid-4" style="display: grid; gap: 18px; grid-template-columns: repeat(4, 1fr);">
-<article class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7;"><div class="icon blue" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #1d4ed8; background: #dbeafe;">✓</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Edge cases solved</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Handles multi-currency, tax classes, product variants, attribute combinations, partial refunds, and stock adjustments.</p></article>
-<article class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7;"><div class="icon green" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #1e40af; background: #dbeafe;">↻</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">API changes weathered</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Designed to stay reliable when WooCommerce API behavior changes, with clear logs and retry handling.</p></article>
-<article class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7;"><div class="icon amber" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #b45309; background: #fef3c7;">↑</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Stable upgrade path</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Compatible with Odoo 16, 17, and 18, with configuration patterns that carry forward cleanly.</p></article>
-<article class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7;"><div class="icon purple" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #6d28d9; background: #ede9fe;">◆</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Battle-tested defaults</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Default settings reflect real store patterns, so most stores can launch without heavy tuning.</p></article>
-</div>
-</div>
-</section>
-<section class="section included" style="padding: 86px 0; background: #f8fafc;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;">
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">What’s included</div>
-<h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Everything you need. One price. No surprises.</h2>
-<p style="margin: 0; color: #64748b; font-size: 17px;">Get the full connector, implementation support, updates, and multi-store capability without subscriptions or per-store charges.</p>
-</div>
-<div class="grid-4" style="display: grid; gap: 18px; grid-template-columns: repeat(4, 1fr);">
-<article class="card lift" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 14px 40px #e4ebf5;"><div class="icon blue" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #1d4ed8; background: #dbeafe;">▣</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Full connector</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Products, orders, inventory, customers, prices, taxes, shipping, coupons, and order statuses.</p></article>
-<article class="card lift" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 14px 40px #e4ebf5;"><div class="icon green" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #1e40af; background: #dbeafe;">10h</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Free setup help</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Expert-led implementation support for configuration, field mapping, testing, and launch.</p></article>
-<article class="card lift" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 14px 40px #e4ebf5;"><div class="icon amber" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #b45309; background: #fef3c7;">∞</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Lifetime updates</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Free minor updates and purchased-version improvements for supported Odoo versions.</p></article>
-<article class="card lift" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 14px 40px #e4ebf5;"><div class="icon purple" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #6d28d9; background: #ede9fe;">∞</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Multi-store ready</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Connect unlimited WooCommerce stores to one Odoo database with independent settings.</p></article>
-</div>
-</div>
-</section>
-<section class="section sdlc-partner-section" style="padding: 86px 0; background: #f8fafc;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;">
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">Why SDLC Corp</div>
-<h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Why businesses choose SDLC Corp for Odoo connectors.</h2>
-<p style="margin: 0; color: #64748b; font-size: 17px;">Beyond the connector itself - what you get from choosing SDLC Corp as your long-term Odoo development partner.</p>
-</div>
-<div class="partner-grid" style="display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr);">
-<article class="partner-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 26px 24px; box-shadow: 0 8px 24px #edf2f7; min-height: 220px;"><div class="partner-icon partner-icon-amber" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #b45309; background: #fef3c7;">★</div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">Odoo Trusted Partner since 2015</h3><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">Recognized by Odoo S.A. as a verified development partner. 7 years of certified expertise across CE and EE deployments.</p></article>
-<article class="partner-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 26px 24px; box-shadow: 0 8px 24px #edf2f7; min-height: 220px;"><div class="partner-icon partner-icon-blue" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #1d4ed8; background: #dbeafe;">👥</div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">Full engineering team</h3><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">Not a solo developer. 25+ Odoo specialists across backend, frontend, QA, DevOps, and customer success.</p></article>
-<article class="partner-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 26px 24px; box-shadow: 0 8px 24px #edf2f7; min-height: 220px;"><div class="partner-icon partner-icon-green" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #1e40af; background: #dbeafe;">🌍</div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">Global deployment experience</h3><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">200+ live deployments across 30+ countries. EU, US, Asia, Middle East - varied tax regimes, currencies, and languages.</p></article>
-<article class="partner-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 26px 24px; box-shadow: 0 8px 24px #edf2f7; min-height: 220px;"><div class="partner-icon partner-icon-purple" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #6d28d9; background: #ede9fe;">▣</div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">Comprehensive Odoo services</h3><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">Beyond connectors: custom Odoo development, ERP implementation, theme design, performance tuning, and training.</p></article>
-<article class="partner-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 26px 24px; box-shadow: 0 8px 24px #edf2f7; min-height: 220px;"><div class="partner-icon partner-icon-red" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #b91c1c; background: #fee2e2;">⏰</div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">Coverage across time zones</h3><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">Indian engineering team aligned with EU and US business hours. &lt;1 hour first-response time during Mon-Fri 09:30-18:30 IST.</p></article>
-<article class="partner-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 26px 24px; box-shadow: 0 8px 24px #edf2f7; min-height: 220px;"><div class="partner-icon partner-icon-teal" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #0f766e; background: #ccfbf1;">🤝</div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">Long-term partnership</h3><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">Many customers since 2018-2020 still use the same connector with regular feature updates. We ship for the long haul.</p></article>
-</div>
-</div>
-</section>
-<section class="section overview-activation" style="padding: 86px 0; background: #0b1220; color: #ffffff;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;">
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 0; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: transparent; color: #93c5fd; border: 0;">Activation</div>
-<h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Your activation journey: purchase to live sync.</h2>
-<p style="margin: 0; color: #bfd4f5; font-size: 17px;">Five phases over the first week. Most customers reach live operation by Day 5.</p>
-</div>
-<div class="steps" style="display: grid; gap: 14px; max-width: 980px; margin: 0 auto;">
-<article class="step" style="display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: center; padding: 20px; border-radius: 14px; background: #1e2a45; border: 1px solid #31599c;"><div class="step-number" style="width: 58px; min-height: 58px; display: grid; place-items: center; border-radius: 12px; background: #1e40af; color: #ffffff; font-weight: 900; text-align: center; line-height: 1.1;">Day<br/>0</div><div><h3 style="margin: 0 0 6px; font-size: 16px; color: #ffffff;">Phase 1 - Purchase &amp; Download</h3><p style="margin: 0; color: #cbd5e1; font-size: 13px;">Complete checkout on Odoo App Store. Module download is available immediately. License key emailed to your registered address. <strong style="color:#93c5fd;">Time: ~5 minutes.</strong></p></div></article>
-<article class="step" style="display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: center; padding: 20px; border-radius: 14px; background: #1e2a45; border: 1px solid #31599c;"><div class="step-number" style="width: 58px; min-height: 58px; display: grid; place-items: center; border-radius: 12px; background: #1e40af; color: #ffffff; font-weight: 900; text-align: center; line-height: 1.1;">Day<br/>1</div><div><h3 style="margin: 0 0 6px; font-size: 16px; color: #ffffff;">Phase 2 - Installation &amp; Connection</h3><p style="margin: 0; color: #cbd5e1; font-size: 13px;">Upload module ZIP into Odoo Apps. Install in one click. Generate WooCommerce REST API keys, enter URL, Consumer Key, and Consumer Secret. Test connection for green confirmation. <strong style="color:#93c5fd;">Time: ~30 minutes.</strong></p></div></article>
-<article class="step" style="display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: center; padding: 20px; border-radius: 14px; background: #1e2a45; border: 1px solid #31599c;"><div class="step-number" style="width: 58px; min-height: 58px; display: grid; place-items: center; border-radius: 12px; background: #1e40af; color: #ffffff; font-weight: 900; text-align: center; line-height: 1.1;">Day<br/>2</div><div><h3 style="margin: 0 0 6px; font-size: 16px; color: #ffffff;">Phase 3 - Configuration &amp; Mapping</h3><p style="margin: 0; color: #cbd5e1; font-size: 13px;">Map warehouses, pricelists, tax classes, and order status flow. Enable webhook subscription, configure cron schedules, and customize field mappings if needed. <strong style="color:#93c5fd;">Time: 2-4 hours.</strong></p></div></article>
-<article class="step" style="display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: center; padding: 20px; border-radius: 14px; background: #1e2a45; border: 1px solid #31599c;"><div class="step-number" style="width: 58px; min-height: 58px; display: grid; place-items: center; border-radius: 12px; background: #1e40af; color: #ffffff; font-weight: 900; text-align: center; line-height: 1.1;">Day<br/>3</div><div><h3 style="margin: 0 0 6px; font-size: 16px; color: #ffffff;">Phase 4 - Initial Bulk Import</h3><p style="margin: 0; color: #cbd5e1; font-size: 13px;">Run the guided import wizard for existing WooCommerce products, customers, and historical orders. SKU matching helps prevent duplicates. <strong style="color:#93c5fd;">Time: 1-2 hours for ~10,000 SKUs.</strong></p></div></article>
-<article class="step final" style="display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: center; padding: 20px; border-radius: 14px; background: #1e3a8a; border: 1px solid #2563eb;"><div class="step-number" style="width: 58px; min-height: 58px; display: grid; place-items: center; border-radius: 12px; background: #1e40af; color: #ffffff; font-weight: 900; text-align: center; line-height: 1.1;">Day<br/>5</div><div><h3 style="margin: 0 0 6px; font-size: 16px; color: #ffffff;">Phase 5 - Live Sync Activated</h3><p style="margin: 0; color: #cbd5e1; font-size: 13px;">Webhooks are subscribed and active. Real-time sync triggers on every WooCommerce event. Monitor sync logs and retry queue dashboards. Confirm a clean 24-hour run. <strong style="color:#ffffff;">You are live.</strong></p></div></article>
-</div>
+
+<!-- &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; COLOPHON / NEED HELP &#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550; -->
+<div style="padding:80px 40px 60px;background-color:#0B0B1E;border-top:14px solid #D97706;">
+    <h2 style="margin:0 0 14px;font-family:Georgia,'Times New Roman',serif;font-size:64px;line-height:1.05;color:#F5F1E8;font-weight:400;letter-spacing:-2px;">Need help? <em style="color:#F59E0B;">We&rsquo;re here.</em></h2>
+    <p style="margin:0 0 40px;font-family:Georgia,'Times New Roman',serif;font-size:20px;font-style:italic;color:#C7CAD9;max-width:680px;">Get support, request customizations, or share feedback &mdash; we answer fast via Email, Phone, or WhatsApp.</p>
+    <table style="margin:0 0 48px;border-collapse:separate;border-spacing:12px 0;">
+        <tr>
+            <td style="padding:0;"><a href="https://sdlccorp.com/contact-us/" target="_blank" style="display:inline-block;background-color:#F59E0B;color:#0B0B1E;padding:18px 36px;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;">Contact Us &rarr;</a></td>
+            <td style="padding:0;"><a href="mailto:sales@sdlccorp.com" style="display:inline-block;background-color:transparent;border:1px solid #F5F1E8;color:#F5F1E8;padding:17px 36px;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;">sales@sdlccorp.com</a></td>
+        </tr>
+    </table>
+    <table style="width:100%;border-collapse:separate;border-spacing:16px;margin-bottom:36px;">
+        <tr>
+            <td style="width:33%;vertical-align:top;background-color:#16162b;border:1px solid #2a2a3f;border-top:3px solid #F59E0B;padding:28px 24px;text-align:center;">
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:32px;color:#F59E0B;margin-bottom:10px;"><i class="fa fa-phone"></i></div>
+                <p style="margin:0 0 6px;color:#F5F1E8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Phone</p>
+                <a href="tel:+14155940097" style="color:#C7CAD9;font-family:Georgia,'Times New Roman',serif;font-size:18px;text-decoration:none;">+1 415-594-0097</a>
+            </td>
+            <td style="width:33%;vertical-align:top;background-color:#16162b;border:1px solid #2a2a3f;border-top:3px solid #25D366;padding:28px 24px;text-align:center;">
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:32px;color:#25D366;margin-bottom:10px;"><i class="fa fa-whatsapp"></i></div>
+                <p style="margin:0 0 6px;color:#F5F1E8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">WhatsApp</p>
+                <a href="https://wa.me/918920944210" target="_blank" style="color:#C7CAD9;font-family:Georgia,'Times New Roman',serif;font-size:18px;text-decoration:none;">+91 89209 44210</a>
+            </td>
+            <td style="width:33%;vertical-align:top;background-color:#16162b;border:1px solid #2a2a3f;border-top:3px solid #8B5CF6;padding:28px 24px;text-align:center;">
+                <div style="font-family:Georgia,'Times New Roman',serif;font-size:32px;color:#8B5CF6;margin-bottom:10px;"><i class="fa fa-envelope"></i></div>
+                <p style="margin:0 0 6px;color:#F5F1E8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">Email</p>
+                <a href="mailto:sales@sdlccorp.com" style="color:#C7CAD9;font-family:Georgia,'Times New Roman',serif;font-size:18px;text-decoration:none;">sales@sdlccorp.com</a>
+            </td>
+        </tr>
+    </table>
+    <table style="width:100%;border-collapse:collapse;border-top:1px solid #2a2a3f;">
+        <tr>
+            <td style="padding:24px 0 0;color:#8B8FA3;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;">Built by SDLC Corp</td>
+            <td style="padding:24px 0 0;color:#8B8FA3;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;text-align:center;"><a href="https://sdlccorp.com" target="_blank" style="color:#8B8FA3;text-decoration:none;">sdlccorp.com</a></td>
+            <td style="padding:24px 0 0;color:#8B8FA3;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;text-align:right;">Version 1.0.0</td>
+        </tr>
+    </table>
 </div>
 </section>
-<section class="section" style="padding: 86px 0;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;">
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">Use cases</div>
-<h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Real scenarios this connector handles.</h2>
-<p style="margin: 0; color: #64748b; font-size: 17px;">Six concrete patterns we see most often across 200+ live deployments - with measurable outcomes for each.</p>
-</div>
-<div class="grid-3" style="display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr);">
-<article class="card use-case" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; border-left: 5px solid #2563eb;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">Multi-warehouse</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Route orders to closest depot</h3><p style="margin: 0; color: #64748b; font-size: 14px;">A 4-warehouse retailer maps shipping zones to specific Odoo warehouses. The connector routes each WC order to the closest depot automatically.</p><div class="result" style="margin-top: 16px; color: #1e40af; font-size: 13px; font-weight: 900;">↑ 40% faster fulfilment</div></article>
-<article class="card use-case" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; border-left: 5px solid #f59e0b;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">B2B + D2C</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Two stores, one Odoo</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Wholesale buyers see net prices on the B2B store; retail customers see VAT-inclusive on the D2C store - all from one Odoo product catalog.</p><div class="result" style="margin-top: 16px; color: #1e40af; font-size: 13px; font-weight: 900;">↑ One inventory pool, two pricing strategies</div></article>
-<article class="card use-case" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; border-left: 5px solid #dc2626;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">Peak season</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Black Friday traffic, zero stuck orders</h3><p style="margin: 0; color: #64748b; font-size: 14px;">8,000 orders/day during peak. Webhook and queue handling processes every event reliably while failed sends auto-retry without manual intervention.</p><div class="result" style="margin-top: 16px; color: #1e40af; font-size: 13px; font-weight: 900;">↑ Zero overselling at peak load</div></article>
-<article class="card use-case" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; border-left: 5px solid #1e40af;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">EU tax</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Multi-region tax compliance</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Auto-maps WooCommerce tax classes to Odoo fiscal positions across 12 EU countries. Each invoice reflects the right VAT rate.</p><div class="result" style="margin-top: 16px; color: #1e40af; font-size: 13px; font-weight: 900;">↑ Compliant invoices, zero manual classification</div></article>
-<article class="card use-case" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; border-left: 5px solid #7c3aed;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">Subscriptions</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Recurring + one-time hybrid</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Recurring orders sync as separate Odoo subscription contracts. One-off orders flow through as standard sale orders. Clean revenue segmentation.</p><div class="result" style="margin-top: 16px; color: #1e40af; font-size: 13px; font-weight: 900;">↑ Recurring vs transactional split automatically</div></article>
-<article class="card use-case" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; border-left: 5px solid #0d9488;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">Migration</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Switch from polling-based legacy</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Replaces polling tools with webhook-driven sync. Real-time updates replace delayed batches while old data is preserved in the initial import.</p><div class="result" style="margin-top: 16px; color: #1e40af; font-size: 13px; font-weight: 900;">↑ Sync latency: 2 hours → 1.4 seconds</div></article>
-</div>
-</div>
-</section>
-<section class="section evaluation-section" style="padding: 86px 0; background: #ffffff;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 28px; display: block;">
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; margin-left: auto; margin-right: auto;">Evaluation</div>
-<h2 style="margin: 16px auto 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px; text-align: center;">Start Your Evaluation</h2>
-<p style="margin: 0 auto; color: #64748b; font-size: 17px; text-align: center;">Talk to an expert, get a demo, and evaluate with guidance — choose any option below.</p>
-</div>
-<div class="evaluation-banner" style="margin: 0 auto 30px; max-width: 1080px; padding: 16px 20px; border-radius: 14px; background: #eff6ff; border: 1px solid #bfdbfe; color: #1e3a8a; font-size: 14px; font-weight: 900; letter-spacing: 1.4px; text-transform: uppercase; text-align: center;">
-            Talk to an expert, get a demo, and evaluate with guidance — choose any option below.
-          </div>
-<div class="evaluation-grid" style="display: grid; grid-template-columns: 1.05fr 1fr 1fr 1fr; gap: 22px;">
-<article class="evaluation-card featured" style="background: #0b1220; border: 1px solid #1e3a8a; border-radius: 18px; padding: 22px; min-height: 430px; box-shadow: 0 8px 24px #edf2f7; color: #ffffff;">
-<div class="evaluation-badge" style="display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 999px; background: #1e40af; color: #ffffff; font-size: 14px; font-weight: 800; margin-bottom: 18px;">Instant Free Trial</div>
-<h3 style="margin: 0 0 8px; font-size: 18px; line-height: 1.25; color: inherit;">Automated Instant Trial. No Waiting.</h3>
-<p style="margin: 0 0 22px; font-size: 14px; line-height: 1.7; color: #cbd5e1;">Start evaluating immediately.</p>
-<div class="evaluation-qr-box" style="background: #ffffff; border: 1px solid #dbe2ea; border-radius: 14px; min-height: 176px; display: grid; place-items: center; padding: 16px; margin-bottom: 12px;">
-<img alt="QR code for instant free trial" src="Website.png" style="max-width: 100%; display: block; width: 150px; height: auto;"/>
-</div>
-<div class="evaluation-copy" style="background: #1c2b4a; border: 1px solid #31599c; border-radius: 12px; padding: 14px;">
-<span class="evaluation-copy-label" style="display: block; margin-bottom: 6px; font-size: 11px; font-weight: 900; letter-spacing: 1.4px; text-transform: uppercase; color: #93c5fd;">Copyable trial link</span>
-<div class="evaluation-copy-text" style="font-size: 14px; line-height: 1.55; color: #ffffff; word-break: break-word;">https://sdlccorp.com/products/odoo-woocommerce-connector/</div>
-</div>
-</article>
-<article class="evaluation-card" style="background: #ffffff; border: 1px solid #dbe2ea; border-radius: 18px; padding: 22px; min-height: 430px; box-shadow: 0 8px 24px #edf2f7;">
-<div class="evaluation-head" style="display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
-<span class="evaluation-icon" style="width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; color: #2563eb; font-size: 18px; font-weight: 900; flex: 0 0 auto;">✉</span>
-<h4 style="margin: 0; font-size: 18px; line-height: 1.2; color: #0f172a;">Email</h4>
-</div>
-<div class="evaluation-qr-box" style="background: #ffffff; border: 1px solid #dbe2ea; border-radius: 14px; min-height: 176px; display: grid; place-items: center; padding: 16px; margin-bottom: 12px;">
-<img alt="QR code for email contact" src="sdlccorp_contact_qr.png" style="max-width: 100%; display: block; width: 150px; height: auto;"/>
-</div>
-<div class="evaluation-copy" style="background: #f8fafc; border: 1px solid #dbe2ea; border-radius: 12px; padding: 14px;">
-<span class="evaluation-copy-label" style="display: block; margin-bottom: 6px; font-size: 11px; font-weight: 900; letter-spacing: 1.4px; text-transform: uppercase; color: #94a3b8;">Copyable contact</span>
-<div class="evaluation-copy-text" style="font-size: 14px; line-height: 1.55; color: #0f172a; word-break: break-word;">sales@sdlccorp.com</div>
-</div>
-</article>
-<article class="evaluation-card" style="background: #ffffff; border: 1px solid #dbe2ea; border-radius: 18px; padding: 22px; min-height: 430px; box-shadow: 0 8px 24px #edf2f7;">
-<div class="evaluation-head" style="display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
-<span class="evaluation-icon" style="width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; color: #2563eb; font-size: 18px; font-weight: 900; flex: 0 0 auto;">◉</span>
-<h4 style="margin: 0; font-size: 18px; line-height: 1.2; color: #0f172a;">WhatsApp</h4>
-</div>
-<div class="evaluation-qr-box" style="background: #ffffff; border: 1px solid #dbe2ea; border-radius: 14px; min-height: 176px; display: grid; place-items: center; padding: 16px; margin-bottom: 12px;">
-<img alt="QR code for WhatsApp contact" src="Whatsapp.png" style="max-width: 100%; display: block; width: 150px; height: auto;"/>
-</div>
-<div class="evaluation-copy" style="background: #f8fafc; border: 1px solid #dbe2ea; border-radius: 12px; padding: 14px;">
-<span class="evaluation-copy-label" style="display: block; margin-bottom: 6px; font-size: 11px; font-weight: 900; letter-spacing: 1.4px; text-transform: uppercase; color: #94a3b8;">Copyable access</span>
-<div class="evaluation-copy-text" style="font-size: 14px; line-height: 1.55; color: #0f172a; word-break: break-word;">Scan QR</div>
-</div>
-</article>
-<article class="evaluation-card" style="background: #ffffff; border: 1px solid #dbe2ea; border-radius: 18px; padding: 22px; min-height: 430px; box-shadow: 0 8px 24px #edf2f7;">
-<div class="evaluation-head" style="display: flex; align-items: center; gap: 10px; margin-bottom: 18px;">
-<span class="evaluation-icon" style="width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; color: #2563eb; font-size: 18px; font-weight: 900; flex: 0 0 auto;">▣</span>
-<h4 style="margin: 0; font-size: 18px; line-height: 1.2; color: #0f172a;">Schedule a Meeting</h4>
-</div>
-<div class="evaluation-qr-box" style="background: #ffffff; border: 1px solid #dbe2ea; border-radius: 14px; min-height: 176px; display: grid; place-items: center; padding: 16px; margin-bottom: 12px;">
-<img alt="QR code for scheduling a meeting" src="Meeting.png" style="max-width: 100%; display: block; width: 150px; height: auto;"/>
-</div>
-<div class="evaluation-copy" style="background: #f8fafc; border: 1px solid #dbe2ea; border-radius: 12px; padding: 14px;">
-<span class="evaluation-copy-label" style="display: block; margin-bottom: 6px; font-size: 11px; font-weight: 900; letter-spacing: 1.4px; text-transform: uppercase; color: #94a3b8;">Copyable meeting link</span>
-<div class="evaluation-copy-text" style="font-size: 14px; line-height: 1.55; color: #0f172a; word-break: break-word;">https://calendly.com/sdlccorp</div>
-</div>
-</article>
-</div>
-</div>
-</section>
-<section class="section overview-apps" style="padding: 86px 0; background: #fffbeb;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;">
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 0; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: transparent; color: #b45309; border: 0;">Explore SDLC Corp</div>
-<h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Explore our other applications.</h2>
-<p style="margin: 0; color: #64748b; font-size: 17px;">Six other Odoo connectors and tools we develop and maintain. All built on the same architectural foundation as the WooCommerce Connector.</p>
-</div>
-<div class="apps-grid" style="display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr);">
-<article class="app-card" style="background: #ffffff; border: 1px solid #fde68a; border-radius: 20px; padding: 26px 24px; box-shadow: none; min-height: 220px;"><div class="app-head" style="display: grid; grid-template-columns: 48px 1fr; gap: 14px; align-items: center; margin-bottom: 16px;"><div class="app-icon partner-icon-green" style="width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 0; font-weight: 900; font-size: 18px; color: #1e40af; background: #dbeafe;">▣</div><div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">Shopify Connector</h3><small style="color: #64748b; font-size: 11px; font-weight: 700;">Two-way · Multi-store · v16-18</small></div></div><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">Same architecture as WooCommerce Connector, adapted for Shopify Admin API and GraphQL.</p></article>
-<article class="app-card" style="background: #ffffff; border: 1px solid #fde68a; border-radius: 20px; padding: 26px 24px; box-shadow: none; min-height: 220px;"><div class="app-head" style="display: grid; grid-template-columns: 48px 1fr; gap: 14px; align-items: center; margin-bottom: 16px;"><div class="app-icon partner-icon-amber" style="width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 0; font-weight: 900; font-size: 18px; color: #b45309; background: #fef3c7;">□</div><div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">Amazon Odoo Connector</h3><small style="color: #64748b; font-size: 11px; font-weight: 700;">SP-API · FBA-aware · v16-18</small></div></div><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">Pull orders, push inventory, and manage listings through Amazon SP-API. Multi-region marketplaces supported.</p></article>
-<article class="app-card" style="background: #ffffff; border: 1px solid #fde68a; border-radius: 20px; padding: 26px 24px; box-shadow: none; min-height: 220px;"><div class="app-head" style="display: grid; grid-template-columns: 48px 1fr; gap: 14px; align-items: center; margin-bottom: 16px;"><div class="app-icon partner-icon-red" style="width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 0; font-weight: 900; font-size: 18px; color: #b91c1c; background: #fee2e2;">◆</div><div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">Asset Management</h3><small style="color: #64748b; font-size: 11px; font-weight: 700;">Trading API · Auction-aware</small></div></div><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">Listings sync, order pull, and auction-vs-fixed-price handling. Cross-border tax positions auto-mapped.</p></article>
-<article class="app-card" style="background: #ffffff; border: 1px solid #fde68a; border-radius: 20px; padding: 26px 24px; box-shadow: none; min-height: 220px;"><div class="app-head" style="display: grid; grid-template-columns: 48px 1fr; gap: 14px; align-items: center; margin-bottom: 16px;"><div class="app-icon partner-icon-blue" style="width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 0; font-weight: 900; font-size: 18px; color: #1d4ed8; background: #dbeafe;">▤</div><div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">Magento 2 Odoo Connector</h3><small style="color: #64748b; font-size: 11px; font-weight: 700;">REST &amp; GraphQL · v2.4+</small></div></div><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">Adobe Commerce and Magento Open Source two-way sync. Configurable products, bundle products, and attributes preserved.</p></article>
-<article class="app-card" style="background: #ffffff; border: 1px solid #fde68a; border-radius: 20px; padding: 26px 24px; box-shadow: none; min-height: 220px;"><div class="app-head" style="display: grid; grid-template-columns: 48px 1fr; gap: 14px; align-items: center; margin-bottom: 16px;"><div class="app-icon partner-icon-purple" style="width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 0; font-weight: 900; font-size: 18px; color: #6d28d9; background: #ede9fe;">▥</div><div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">BigCommerce Odoo Connector</h3><small style="color: #64748b; font-size: 11px; font-weight: 700;">Storefront API · v3</small></div></div><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">Catalog, orders, customers, and B2B price lists synced through the BigCommerce v3 Storefront API.</p></article>
-<article class="app-card" style="background: #ffffff; border: 1px solid #fde68a; border-radius: 20px; padding: 26px 24px; box-shadow: none; min-height: 220px;"><div class="app-head" style="display: grid; grid-template-columns: 48px 1fr; gap: 14px; align-items: center; margin-bottom: 16px;"><div class="app-icon partner-icon-teal" style="width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 0; font-weight: 900; font-size: 18px; color: #0f766e; background: #ccfbf1;">↔</div><div><h3 style="margin: 0 0 10px; letter-spacing: -0.2px; line-height: 1.3; font-size: 16px; color: #0f172a;">Prestashop Odoo Connector</h3><small style="color: #64748b; font-size: 11px; font-weight: 700;">Single source of truth</small></div></div><p style="margin: 0; color: #64748b; font-size: 14px; line-height: 1.8;">Aggregates inventory across WooCommerce, Shopify, Amazon, and eBay into a single Odoo source of truth.</p></article>
-</div>
-<a class="app-cta" href="https://apps.odoo.com/apps/modules/browse?search=sdlc+corp" rel="noopener noreferrer" style="display: table; margin: 32px auto 0; background: #0b1220; color: #93c5fd; padding: 13px 24px; border-radius: 10px; font-size: 14px; font-weight: 900; text-align: center; text-decoration: none;" target="_blank">Browse all SDLC Corp apps on Odoo App Store</a>
-</div>
-</section>
-</div>
-<div class="tab-panel panel-screenshots">
-<section class="section screenshots" style="padding: 86px 0; background: #f8fafc;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;"><div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">Screenshots</div><h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">See the connector in action.</h2><p style="margin: 0; color: #64748b; font-size: 17px;">Use relative image paths so the listing stays self-contained. Replace the filenames below with your actual uploaded screenshot names.</p></div>
-<div class="grid-2" style="display: grid; gap: 18px; grid-template-columns: repeat(2, 1fr);">
-<article class="card shot-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 0; box-shadow: 0 8px 28px #edf2f7; overflow: hidden;"><div class="shot-window" style="background: #eaf0f8; border-bottom: 1px solid #e2e8f0; min-height: 230px; display: grid; place-items: center; padding: 14px;"><img alt="Connector dashboard showing sync activity and health metrics" src="Dashboard.png" style="max-width: 100%; display: block; border-radius: 14px; box-shadow: 0 18px 50px #d8e1eb; width: 100%; height: auto;"/></div><div class="shot-body" style="padding: 22px;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">Dashboard</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Live Sync Dashboard</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Monitor connected stores, recent events, queue status, and sync health from one clean view.</p></div></article>
-<article class="card shot-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 0; box-shadow: 0 8px 28px #edf2f7; overflow: hidden;"><div class="shot-window" style="background: #eaf0f8; border-bottom: 1px solid #e2e8f0; min-height: 230px; display: grid; place-items: center; padding: 14px;"><img alt="Store configuration screen showing WooCommerce API setup" src="Customers.png" style="max-width: 100%; display: block; border-radius: 14px; box-shadow: 0 18px 50px #d8e1eb; width: 100%; height: auto;"/></div><div class="shot-body" style="padding: 22px;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">Store setup</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Store Configuration</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Paste WooCommerce API credentials, test the connection, and store rules for each shop.</p></div></article>
-<article class="card shot-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 0; box-shadow: 0 8px 28px #edf2f7; overflow: hidden;"><div class="shot-window" style="background: #eaf0f8; border-bottom: 1px solid #e2e8f0; min-height: 230px; display: grid; place-items: center; padding: 14px;"><img alt="Inventory sync screen inside Odoo" src="Inventory.png" style="max-width: 100%; display: block; border-radius: 14px; box-shadow: 0 18px 50px #d8e1eb; width: 100%; height: auto;"/></div><div class="shot-body" style="padding: 22px;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">Inventory</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Inventory Synchronization</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Keep Odoo and WooCommerce inventory aligned to reduce stock mismatch and overselling.</p></div></article>
-<article class="card shot-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 0; box-shadow: 0 8px 28px #edf2f7; overflow: hidden;"><div class="shot-window" style="background: #eaf0f8; border-bottom: 1px solid #e2e8f0; min-height: 230px; display: grid; place-items: center; padding: 14px;"><img alt="WooCommerce orders synced into Odoo sales" src="Orders.png" style="max-width: 100%; display: block; border-radius: 14px; box-shadow: 0 18px 50px #d8e1eb; width: 100%; height: auto;"/></div><div class="shot-body" style="padding: 22px;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">Orders</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Order Pipeline</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Sync WooCommerce orders into Odoo Sales with customer, line item, tax, and shipping details.</p></div></article>
-<article class="card shot-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 0; box-shadow: 0 8px 28px #edf2f7; overflow: hidden;"><div class="shot-window" style="background: #eaf0f8; border-bottom: 1px solid #e2e8f0; min-height: 230px; display: grid; place-items: center; padding: 14px;"><img alt="Sync reports and transaction logs" src="Sync reports.png" style="max-width: 100%; display: block; border-radius: 14px; box-shadow: 0 18px 50px #d8e1eb; width: 100%; height: auto;"/></div><div class="shot-body" style="padding: 22px;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">Reports</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Sync Reports</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Every transaction is logged with status, timestamp, payload details, and retry visibility.</p></div></article>
-<article class="card shot-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 0; box-shadow: 0 8px 28px #edf2f7; overflow: hidden;"><div class="shot-window" style="background: #eaf0f8; border-bottom: 1px solid #e2e8f0; min-height: 230px; display: grid; place-items: center; padding: 14px;"><img alt="Cancelled orders tracked in Odoo" src="Cancelled orders.png" style="max-width: 100%; display: block; border-radius: 14px; box-shadow: 0 18px 50px #d8e1eb; width: 100%; height: auto;"/></div><div class="shot-body" style="padding: 22px;"><span class="tag" style="display: inline-flex; padding: 5px 10px; border-radius: 999px; background: #f1f5f9; color: #475569; font-size: 12px; font-weight: 800; margin-bottom: 13px; text-transform: uppercase; letter-spacing: 0.8px;">Exceptions</span><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Cancelled Order Tracking</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Cancelled and failed orders are tracked clearly so teams can resolve exceptions quickly.</p></div></article>
-</div>
-</div>
-</section>
-</div>
-<div class="tab-panel panel-features">
-<section class="section" style="padding: 86px 0;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;"><div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">Core features</div><h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Everything synced. Nothing manual.</h2><p style="margin: 0; color: #64748b; font-size: 17px;">Six automation pillars that reduce manual entry, prevent stock errors, and keep WooCommerce and Odoo aligned.</p></div>
-<div class="grid-3" style="display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr);">
-<article class="card feature-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; position: relative; overflow: hidden; padding-top: 30px; border-top: 5px solid #2563eb;"><div class="icon blue" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #1d4ed8; background: #dbeafe;">↯</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Real-time webhook sync</h3><p style="margin: 0; color: #64748b; font-size: 14px;">WooCommerce events trigger Odoo updates immediately, reducing delays caused by scheduled polling.</p></article>
-<article class="card feature-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; position: relative; overflow: hidden; padding-top: 30px; border-top: 5px solid #2563eb;"><div class="icon purple" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #6d28d9; background: #ede9fe;">#</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Order automation</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Import orders with line items, taxes, shipping, coupons, customers, payments, and fulfilment statuses.</p></article>
-<article class="card feature-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; position: relative; overflow: hidden; padding-top: 30px; border-top: 5px solid #2563eb;"><div class="icon green" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #1e40af; background: #dbeafe;">▦</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Product catalog sync</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Sync simple and variable products, categories, tags, images, SKUs, prices, and product metadata.</p></article>
-<article class="card feature-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; position: relative; overflow: hidden; padding-top: 30px; border-top: 5px solid #2563eb;"><div class="icon amber" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #b45309; background: #fef3c7;">↔</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Inventory accuracy</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Push stock quantity updates from Odoo to WooCommerce and prevent mismatches during peak sales.</p></article>
-<article class="card feature-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; position: relative; overflow: hidden; padding-top: 30px; border-top: 5px solid #2563eb;"><div class="icon teal" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #0f766e; background: #ccfbf1;">%</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Taxes and shipping</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Map WooCommerce tax classes and shipping methods to Odoo fiscal positions and delivery rules.</p></article>
-<article class="card feature-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; position: relative; overflow: hidden; padding-top: 30px; border-top: 5px solid #2563eb;"><div class="icon red" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 16px; font-weight: 900; font-size: 22px; color: #b91c1c; background: #fee2e2;">!</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Retry queue and logs</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Failed syncs enter a structured queue with readable errors, payload details, and manual retry actions.</p></article>
-</div>
-</div>
-</section>
-<section class="section" style="padding: 86px 0;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;">
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">Sync coverage</div>
-<h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">What syncs - and in which direction.</h2>
-<p style="margin: 0; color: #64748b; font-size: 17px;">Full transparency on every data entity the connector handles.</p>
-</div>
-<div class="feature-table-wrap" style="width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 18px; background: #ffffff; box-shadow: 0 8px 28px #edf2f7;">
-<table aria-label="Sync coverage table" class="feature-table" style="width: 100%; min-width: 820px; border-collapse: collapse; background: #ffffff;">
-<thead>
-<tr>
-<th style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 12px; background: #f8fafc; color: #0f172a; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">Data Entity</th>
-<th style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 12px; background: #f8fafc; color: #0f172a; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">WC → Odoo</th>
-<th style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 12px; background: #f8fafc; color: #0f172a; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">Odoo → WC</th>
-<th style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 12px; background: #f8fafc; color: #0f172a; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">Real-time</th>
-<th style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 12px; background: #f8fafc; color: #0f172a; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Orders</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="partial" style="color: #f59e0b; font-weight: 800;">Partial</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Status updates push back to WooCommerce</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Products</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Full bidirectional including images and SEO</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Product Variants</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Attributes, combinations, and prices</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Inventory / Stock</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Per-warehouse mapping available</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Customers</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="dash" style="color: #94a3b8; font-weight: 800;">—</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Auto-creates Odoo contacts on order import</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Pricing</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="partial" style="color: #f59e0b; font-weight: 800;">Cron</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Pricelist support included</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Taxes</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="dash" style="color: #94a3b8; font-weight: 800;">—</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">WC tax classes → Odoo fiscal positions</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Shipping</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="dash" style="color: #94a3b8; font-weight: 800;">—</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Carrier and cost imported with order</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Categories &amp; Tags</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;"><span class="partial" style="color: #f59e0b; font-weight: 800;">Cron</span></td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Hierarchical categories preserved</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Coupons &amp; Discounts</td><td style="padding: 15px 18px; border-bottom: 0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓ Yes</span></td><td style="padding: 15px 18px; border-bottom: 0; text-align: left; vertical-align: top; font-size: 14px;"><span class="dash" style="color: #94a3b8; font-weight: 800;">—</span></td><td style="padding: 15px 18px; border-bottom: 0; text-align: left; vertical-align: top; font-size: 14px;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span></td><td style="padding: 15px 18px; border-bottom: 0; text-align: left; vertical-align: top; font-size: 14px;">Mapped to Odoo discount lines</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-<section class="section included" style="padding: 86px 0; background: #f8fafc;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;">
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">Built for these workflows</div>
-<h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Designed for the operations you actually run.</h2>
-<p style="margin: 0; color: #64748b; font-size: 17px;">“Fits all stores” does not help anyone. The connector handles the patterns that make WooCommerce stores complex — variants, multi-warehouse, B2B pricelists, recurring orders, and regulated categories.</p>
-</div>
-<div class="grid-3" style="display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr);">
-<article class="card workflow-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; min-height: 170px;"><div class="icon purple" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 18px; font-weight: 900; font-size: 22px; color: #6d28d9; background: #ede9fe;">◌</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Fashion &amp; apparel</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Size × color × material variants, seasonal collections, returns and exchange workflows.</p></article>
-<article class="card workflow-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; min-height: 170px;"><div class="icon blue" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 18px; font-weight: 900; font-size: 22px; color: #1d4ed8; background: #dbeafe;">◌</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Electronics &amp; gadgets</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Complex SKU hierarchies, serial-number tracking, warranty registration mapping.</p></article>
-<article class="card workflow-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; min-height: 170px;"><div class="icon teal" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 18px; font-weight: 900; font-size: 22px; color: #0f766e; background: #ccfbf1;">▣</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">B2B wholesale</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Customer-group pricelists, bulk order workflows, payment-on-account terms.</p></article>
-<article class="card workflow-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; min-height: 170px;"><div class="icon amber" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 18px; font-weight: 900; font-size: 22px; color: #b45309; background: #fef3c7;">◌</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Multi-warehouse retail</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Stock routing rules per region, location-aware fulfilment, transit tracking.</p></article>
-<article class="card workflow-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; min-height: 170px;"><div class="icon green" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 18px; font-weight: 900; font-size: 22px; color: #1e40af; background: #dbeafe;">◌</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Subscription &amp; recurring</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Recurring orders, customer lifetime value reporting, retention dashboards.</p></article>
-<article class="card workflow-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; min-height: 170px;"><div class="icon red" style="width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; border-radius: 16px; margin-bottom: 18px; font-weight: 900; font-size: 22px; color: #b91c1c; background: #fee2e2;">∞</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Health &amp; wellness</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Batch and expiry tracking, ingredient mapping, regulated-category compliance.</p></article>
-</div>
-</div>
-</section>
-<section class="section" style="padding: 86px 0;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;">
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">How we compare</div>
-<h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">SDLC Corp vs typical alternatives.</h2>
-<p style="margin: 0; color: #64748b; font-size: 17px;">Honest comparison against the patterns we see most often in competing WooCommerce-Odoo connectors.</p>
-</div>
-<div class="feature-table-wrap" style="width: 100%; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 18px; background: #ffffff; box-shadow: 0 8px 28px #edf2f7;">
-<table aria-label="Connector comparison table" class="feature-table compare-table" style="width: 100%; min-width: 820px; border-collapse: collapse; background: #ffffff;">
-<thead>
-<tr>
-<th style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 12px; background: #f8fafc; color: #0f172a; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">Feature</th>
-<th style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 12px; background: #eff6ff; color: #1e3a8a; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">SDLC Connector</th>
-<th style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 12px; background: #f8fafc; color: #0f172a; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">Typical Alternatives</th>
-</tr>
-</thead>
-<tbody>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Sync direction</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; background: #eff6ff;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span> Two-way — full bidirectional</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Often one-way, WC → Odoo only</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Pricing model</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; background: #eff6ff;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span> $9.99 one-time — lifetime updates</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">$30-100/month subscription</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Implementation help</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; background: #eff6ff;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span> 10 hours included — valued at $500</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Charged separately at $80-150/hr</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Odoo versions covered</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; background: #eff6ff;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span> v16, v17, v18 — CE &amp; EE</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Often single version, EE-only</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Multi-store support</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; background: #eff6ff;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span> Unlimited stores — included</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Per-store fees ($10-30/store/mo)</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Sync mechanism</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; background: #eff6ff;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span> Webhook + cron + retry queue</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Polling-only or no retry handler</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Production track record</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px; background: #eff6ff;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span> Since 2018 — 200+ live stores</td><td style="padding: 15px 18px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: top; font-size: 14px;">Newer, smaller deployment base</td></tr>
-<tr><td style="padding: 15px 18px; border-bottom: 0; text-align: left; vertical-align: top; font-size: 14px; color: #0f172a; font-weight: 900;">Support team</td><td style="padding: 15px 18px; border-bottom: 0; text-align: left; vertical-align: top; font-size: 14px; background: #eff6ff;"><span class="yes" style="color: #1e40af; font-weight: 900;">✓</span> The engineers who built it</td><td style="padding: 15px 18px; border-bottom: 0; text-align: left; vertical-align: top; font-size: 14px;">Tier-1 outsourced helpdesk</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-</div>
-<div class="tab-panel panel-workflow">
-<section class="section overview-activation" style="padding: 86px 0; background: #0b1220; color: #ffffff;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;"><div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 0; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: transparent; color: #93c5fd; border: 0;">Setup</div><h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">From purchase to live sync in a guided flow.</h2><p style="margin: 0; color: #bfd4f5; font-size: 17px;">Most teams can move from installation to stable live operation in a few steps.</p></div>
-<div class="steps" style="display: grid; gap: 14px; max-width: 980px; margin: 0 auto;">
-<article class="step" style="display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: center; padding: 20px; border-radius: 14px; background: #1e2a45; border: 1px solid #31599c;"><div class="step-number" style="width: 58px; min-height: 58px; display: grid; place-items: center; border-radius: 12px; background: #1e40af; color: #ffffff; font-weight: 900; text-align: center; line-height: 1.1;">1</div><div><h3 style="margin: 0 0 6px; font-size: 16px; color: #ffffff;">Install the module</h3><p style="margin: 0; color: #cbd5e1; font-size: 13px;">Upload the module ZIP into Odoo Apps and install it in your target database.</p></div></article>
-<article class="step" style="display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: center; padding: 20px; border-radius: 14px; background: #1e2a45; border: 1px solid #31599c;"><div class="step-number" style="width: 58px; min-height: 58px; display: grid; place-items: center; border-radius: 12px; background: #1e40af; color: #ffffff; font-weight: 900; text-align: center; line-height: 1.1;">2</div><div><h3 style="margin: 0 0 6px; font-size: 16px; color: #ffffff;">Connect WooCommerce</h3><p style="margin: 0; color: #cbd5e1; font-size: 13px;">Generate REST API keys in WooCommerce, enter the store URL and credentials, then test the connection.</p></div></article>
-<article class="step" style="display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: center; padding: 20px; border-radius: 14px; background: #1e2a45; border: 1px solid #31599c;"><div class="step-number" style="width: 58px; min-height: 58px; display: grid; place-items: center; border-radius: 12px; background: #1e40af; color: #ffffff; font-weight: 900; text-align: center; line-height: 1.1;">3</div><div><h3 style="margin: 0 0 6px; font-size: 16px; color: #ffffff;">Configure mapping</h3><p style="margin: 0; color: #cbd5e1; font-size: 13px;">Map warehouses, pricelists, taxes, order statuses, product fields, and store-specific sync rules.</p></div></article>
-<article class="step final" style="display: grid; grid-template-columns: 78px 1fr; gap: 18px; align-items: center; padding: 20px; border-radius: 14px; background: #1e3a8a; border: 1px solid #2563eb;"><div class="step-number" style="width: 58px; min-height: 58px; display: grid; place-items: center; border-radius: 12px; background: #1e40af; color: #ffffff; font-weight: 900; text-align: center; line-height: 1.1;">4</div><div><h3 style="margin: 0 0 6px; font-size: 16px; color: #ffffff;">Activate real-time sync</h3><p style="margin: 0; color: #cbd5e1; font-size: 13px;">Enable webhooks, review logs, validate a clean sync run, and start operating from Odoo as your source of truth.</p></div></article>
-</div>
-</div>
-</section>
-</div>
-<div class="tab-panel panel-install">
-<section class="section pricing" style="padding: 86px 0; background: #f8fafc;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;"><div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">Pricing</div><h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">One-time purchase. No subscription.</h2><p style="margin: 0; color: #64748b; font-size: 17px;">Simple pricing designed for merchants who want predictable ownership, not monthly connector fees.</p></div>
-<div class="price-card" style="max-width: 880px; margin: 0 auto; display: grid; grid-template-columns: 0.85fr 1.15fr; overflow: hidden; border-radius: 30px; box-shadow: 0 24px 70px #dbe4f0; border: 1px solid #e2e8f0; background: #ffffff;"><div class="price-left" style="padding: 36px; background: #0b1220; color: #ffffff;"><div class="eyebrow dark" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #17243a; color: #dbeafe; border: 1px solid #334155;">Full connector license</div><div class="price" style="font-size: 64px; line-height: 1; letter-spacing: -3px; font-weight: 900; color: #2563eb; margin: 18px 0 10px;">$9.99</div><p style="color: #cbd5e1; margin: 0;">One-time payment for the purchased Odoo version.</p></div><div class="price-right" style="padding: 36px;"><ul class="check-list" style="list-style: none; padding: 0; margin: 0; display: grid; gap: 12px;"><li style="position: relative; padding-left: 30px; color: #334155; font-weight: 700;">Products, variants, categories, tags, and images</li><li style="position: relative; padding-left: 30px; color: #334155; font-weight: 700;">Orders, customers, taxes, shipping, coupons, and statuses</li><li style="position: relative; padding-left: 30px; color: #334155; font-weight: 700;">Inventory and price synchronization</li><li style="position: relative; padding-left: 30px; color: #334155; font-weight: 700;">Unlimited WooCommerce stores per Odoo database</li><li style="position: relative; padding-left: 30px; color: #334155; font-weight: 700;">10 hours of free implementation assistance</li><li style="position: relative; padding-left: 30px; color: #334155; font-weight: 700;">Sync logs, retry queue, and operational visibility</li></ul></div></div>
-</div>
-</section>
-</div>
-<div class="tab-panel panel-specs">
-<section class="section" style="padding: 86px 0;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;"><div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">Technical details</div><h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Built for Odoo CE and EE.</h2><p style="margin: 0; color: #64748b; font-size: 17px;">Clear compatibility and operational requirements before installation.</p></div>
-<table class="spec-table" style="width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border: 1px solid #e2e8f0; border-radius: 22px; background: #ffffff; box-shadow: 0 14px 40px #e4ebf5;"><tbody><tr><th style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; width: 30%; background: #f8fafc; font-size: 14px; color: #0f172a;">Supported Odoo versions</th><td style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; color: #475569; font-size: 14px;">Odoo 16, Odoo 17, and Odoo 18. Compatible with Community Edition and Enterprise Edition.</td></tr><tr><th style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; width: 30%; background: #f8fafc; font-size: 14px; color: #0f172a;">WooCommerce platform</th><td style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; color: #475569; font-size: 14px;">WooCommerce 5+ with REST API access enabled.</td></tr><tr><th style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; width: 30%; background: #f8fafc; font-size: 14px; color: #0f172a;">Sync capabilities</th><td style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; color: #475569; font-size: 14px;">Products, variants, categories, tags, customers, orders, inventory, prices, taxes, coupons, shipping, and order status updates.</td></tr><tr><th style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; width: 30%; background: #f8fafc; font-size: 14px; color: #0f172a;">Automation</th><td style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; color: #475569; font-size: 14px;">Webhook-based real-time events, configurable cron jobs, queue manager, retry handler, and sync logs.</td></tr><tr><th style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; width: 30%; background: #f8fafc; font-size: 14px; color: #0f172a;">Multi-store support</th><td style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; color: #475569; font-size: 14px;">Unlimited WooCommerce stores per Odoo database with independent warehouse, pricelist, and sync rule configuration.</td></tr><tr><th style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; width: 30%; background: #f8fafc; font-size: 14px; color: #0f172a;">Authentication</th><td style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; text-align: left; color: #475569; font-size: 14px;">WooCommerce REST API keys: Consumer Key and Consumer Secret. HTTPS is recommended for production stores.</td></tr><tr><th style="padding: 18px 20px; border-bottom: 0; vertical-align: top; text-align: left; width: 30%; background: #f8fafc; font-size: 14px; color: #0f172a;">Dependencies</th><td style="padding: 18px 20px; border-bottom: 0; vertical-align: top; text-align: left; color: #475569; font-size: 14px;">No external frontend framework needed for this listing page. The module uses standard Odoo modules such as Sale, Stock, Product, and Contacts.</td></tr></tbody></table>
-</div>
-</section>
-</div>
-<div class="tab-panel panel-reviews">
-<section class="section screenshots" style="padding: 86px 0; background: #f8fafc;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;"><div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">Customer proof</div><h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Built for operators, not just developers.</h2><p style="margin: 0; color: #64748b; font-size: 17px;">Use this section to showcase real customer quotes or verified marketplace feedback.</p></div>
-<div class="grid-3" style="display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr);"><article class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7;"><div class="stars" style="color: #f59e0b; letter-spacing: 2px; font-weight: 900; margin-bottom: 12px;">★★★★★</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">“Setup was straightforward.”</h3><p style="margin: 0; color: #64748b; font-size: 14px;">We connected our WooCommerce store, imported products, and started syncing orders into Odoo without rebuilding our workflow.</p></article><article class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7;"><div class="stars" style="color: #f59e0b; letter-spacing: 2px; font-weight: 900; margin-bottom: 12px;">★★★★★</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">“The logs made support easy.”</h3><p style="margin: 0; color: #64748b; font-size: 14px;">When a tax mapping issue appeared, the sync logs showed exactly what needed to be fixed.</p></article><article class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7;"><div class="stars" style="color: #f59e0b; letter-spacing: 2px; font-weight: 900; margin-bottom: 12px;">★★★★★</div><h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">“Inventory became reliable.”</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Stock changes from Odoo now update our store quickly, which reduced overselling during busy days.</p></article></div>
-</div>
-</section>
-</div>
-<div class="tab-panel panel-faq">
-<section class="section" style="padding: 86px 0;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;"><div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">FAQs</div><h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Everything you should know before installing.</h2><p style="margin: 0; color: #64748b; font-size: 17px;">Short answers for buyers comparing Odoo WooCommerce connectors.</p></div>
-<div class="faq-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;"><article class="faq" style="padding: 24px; border-radius: 20px; background: #ffffff; border: 1px solid #e2e8f0;"><h3 style="margin: 0 0 8px; font-size: 16px; line-height: 1.25;">What is the WooCommerce Odoo Connector?</h3><p style="margin: 0; color: #64748b; font-size: 14px;">A native Odoo module that creates a two-way data bridge between WooCommerce and Odoo for products, orders, customers, inventory, and pricing.</p></article><article class="faq" style="padding: 24px; border-radius: 20px; background: #ffffff; border: 1px solid #e2e8f0;"><h3 style="margin: 0 0 8px; font-size: 16px; line-height: 1.25;">Does it work with Odoo Community Edition?</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Yes. It supports both Odoo Community and Enterprise editions for Odoo 16, 17, and 18.</p></article><article class="faq" style="padding: 24px; border-radius: 20px; background: #ffffff; border: 1px solid #e2e8f0;"><h3 style="margin: 0 0 8px; font-size: 16px; line-height: 1.25;">Is this a one-time payment?</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Yes. The listing is positioned as a $9.99 one-time purchase with no recurring connector subscription.</p></article><article class="faq" style="padding: 24px; border-radius: 20px; background: #ffffff; border: 1px solid #e2e8f0;"><h3 style="margin: 0 0 8px; font-size: 16px; line-height: 1.25;">Can I connect multiple stores?</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Yes. You can connect multiple WooCommerce stores to a single Odoo database with independent rules.</p></article><article class="faq" style="padding: 24px; border-radius: 20px; background: #ffffff; border: 1px solid #e2e8f0;"><h3 style="margin: 0 0 8px; font-size: 16px; line-height: 1.25;">How long does setup take?</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Basic installation can be completed quickly after API keys are generated. More complex mapping depends on catalog, taxes, and workflows.</p></article><article class="faq" style="padding: 24px; border-radius: 20px; background: #ffffff; border: 1px solid #e2e8f0;"><h3 style="margin: 0 0 8px; font-size: 16px; line-height: 1.25;">What happens if a sync fails?</h3><p style="margin: 0; color: #64748b; font-size: 14px;">Failed records enter a retry queue with error details and payload visibility so your team can fix and retry them.</p></article></div>
-</div>
-</section>
-</div>
-<div class="tab-panel panel-support">
-<section class="section support" style="padding: 86px 0; background: #f8fafc; color: #0f172a;">
-<div class="wrap" style="width: min(1180px, calc(100% - 32px)); margin: 0 auto;">
-<div class="section-head" style="text-align: center; max-width: 780px; margin: 0 auto 42px;">
-<div class="eyebrow" style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">Support</div>
-<h2 style="margin: 16px 0 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.08; letter-spacing: -1.4px;">Human support. Fast response. Clear scope.</h2>
-<p style="margin: 0; color: #475569; font-size: 17px;">Every licence includes direct access to the SDLC Corp team — the engineers who built the connector, not an outsourced helpdesk.</p>
-</div>
-<div class="grid-4" style="margin-bottom:40px; display: grid; gap: 18px; grid-template-columns: repeat(4, 1fr);">
-<div class="support-stat" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px 18px; text-align: center; box-shadow: 0 8px 24px #edf2f7;">
-<strong style="display: block; color: #2563eb; font-size: 30px; line-height: 1; font-weight: 900; margin-bottom: 10px;">&lt;1hr</strong>
-<span style="display: block; color: #475569; font-size: 12px; font-weight: 900; letter-spacing: 1.8px; text-transform: uppercase;">First Response</span>
-</div>
-<div class="support-stat" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px 18px; text-align: center; box-shadow: 0 8px 24px #edf2f7;">
-<strong style="display: block; color: #2563eb; font-size: 30px; line-height: 1; font-weight: 900; margin-bottom: 10px;">3</strong>
-<span style="display: block; color: #475569; font-size: 12px; font-weight: 900; letter-spacing: 1.8px; text-transform: uppercase;">Odoo Versions</span>
-</div>
-<div class="support-stat" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px 18px; text-align: center; box-shadow: 0 8px 24px #edf2f7;">
-<strong style="display: block; color: #2563eb; font-size: 30px; line-height: 1; font-weight: 900; margin-bottom: 10px;">Mon-Fri</strong>
-<small style="display: block; color: #475569; font-size: 12px; font-weight: 800; letter-spacing: 1px; margin-top: 3px;">09:30-18:30 IST</small>
-</div>
-<div class="support-stat" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px 18px; text-align: center; box-shadow: 0 8px 24px #edf2f7;">
-<strong style="display: block; color: #2563eb; font-size: 30px; line-height: 1; font-weight: 900; margin-bottom: 10px;">100%</strong>
-<span style="display: block; color: #475569; font-size: 12px; font-weight: 900; letter-spacing: 1.8px; text-transform: uppercase;">Ticket-Tracked</span>
-</div>
-</div>
-<div class="grid-3" style="display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr);">
-<article class="card support-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; color: #0f172a; text-align: center;">
-<div class="support-contact-icon" style="width: 46px; height: 46px; display: inline-flex; align-items: center; justify-content: center; color: #2563eb; font-size: 30px; font-weight: 900; margin-bottom: 16px;">◇</div>
-<h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Support portal</h3>
-<p style="margin: 0; color: #475569; font-size: 14px;">Raise a ticket from your Odoo.com account — tracked end-to-end.</p>
-</article>
-<article class="card support-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; color: #0f172a; text-align: center;">
-<div class="support-contact-icon" style="width: 46px; height: 46px; display: inline-flex; align-items: center; justify-content: center; color: #2563eb; font-size: 30px; font-weight: 900; margin-bottom: 16px;">✉</div>
-<h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Email support</h3>
-<p style="margin: 0; color: #475569; font-size: 14px;">sales@sdlccorp.com - include your Odoo version and error log.</p>
-</article>
-<article class="card support-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 22px; padding: 26px; box-shadow: 0 8px 28px #edf2f7; color: #0f172a; text-align: center;">
-<div class="support-contact-icon" style="width: 46px; height: 46px; display: inline-flex; align-items: center; justify-content: center; color: #2563eb; font-size: 30px; font-weight: 900; margin-bottom: 16px;">▤</div>
-<h3 style="margin: 0 0 10px; letter-spacing: -0.35px; line-height: 1.22;">Documentation</h3>
-<p style="margin: 0; color: #475569; font-size: 14px;">Full setup guide at docs.sdlccorp.com - always up to date.</p>
-</article>
-</div>
-</div>
-</section>
-</div>
-</main>
-</body>
-</html>
