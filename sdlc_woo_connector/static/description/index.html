@@ -7,17 +7,16 @@
   <!--
     ════════════════════════════════════════════════════════════════════
     ODOO APP STORE SAFE — index.html
-    Uses: local Bootstrap 5 CSS + local Bootstrap Icons +
-    inline styles with hex colors. No external CDN required.
+    Uses: local Bootstrap 5 CSS + text-based icons +
+    inline styles with hex colors. No external icon-font dependency.
     No <style> blocks, no @keyframes, no transforms, no gradients,
     no rgba(), no transitions. Every element static.
 
-    The two <link> tags below load LOCAL files from static/description/assets/.
-    Keep the assets/bootstrap and assets/bootstrap-icons folders beside index.html.
+    The Bootstrap <link> below loads a LOCAL file from static/description/assets/.
+    Icons are plain text symbols, so they do not depend on webfonts or external CDNs.
     ════════════════════════════════════════════════════════════════════
   -->
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/bootstrap-icons/font/bootstrap-icons.css">
 </head>
 <body style="background-color:#ffffff;">
 
@@ -37,10 +36,10 @@
         </p>
         <div class="mb-4">
           <a href="https://apps.odoo.com/apps/modules/18.0/sdlc_woo_connector" style="display:inline-block; background-color:#2164e1; color:#ffffff; padding:14px 28px; border-radius:10px; font-weight:800; font-size:15px; text-decoration:none; margin:6px;">
-            <i class="bi bi-download" style="margin-right:10px;"></i>Install &mdash; $9.99 one-time
+            <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:10px;">↓</span>Install &mdash; $9.99 one-time
           </a>
           <a href="#docs" style="display:inline-block; background-color:#ffffff; color:#0f1623; padding:14px 28px; border-radius:10px; font-weight:700; font-size:15px; text-decoration:none; border:1px solid #cbd5e1; margin:6px;">
-            <i class="bi bi-book" style="margin-right:10px;"></i>View documentation
+            <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:10px;">▣</span>View documentation
           </a>
         </div>
         <div style="font-size:14px; color:#64748b; margin-top:10px;">
@@ -73,7 +72,7 @@
 
               <!-- Eyebrow with status indicator -->
               <div style="color:#ffffff; font-size:11px; font-weight:800; letter-spacing:2.5px; text-transform:uppercase; margin-bottom:14px;">
-                <i class="bi bi-arrow-left-right" style="margin-right:8px;"></i>BIDIRECTIONAL SYNC
+                <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:8px;">↔</span>BIDIRECTIONAL SYNC
                 <span style="color:#ffffff; margin:0 8px;">·</span>
                 LIVE Odoo App Store
               </div>
@@ -98,7 +97,7 @@
                 </div>
                 <div class="col-6 col-md-3 mb-2">
                   <div style="background-color:#1e2a45; border:1px solid #1e3a8a; border-radius:10px; padding:14px 8px; height:100%; text-align:center;">
-                    <div style="font-size:22px; font-weight:800; color:#a3e635; line-height:1;">4.9 <i class="bi bi-star-fill" style="font-size:15px;"></i></div>
+                    <div style="font-size:22px; font-weight:800; color:#a3e635; line-height:1;">4.9 <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; font-size:15px;">★</span></div>
                     <div style="font-size:9px; font-weight:700; color:#ffffff; letter-spacing:1.2px; text-transform:uppercase; margin-top:6px;">271 Reviews</div>
                   </div>
                 </div>
@@ -130,24 +129,20 @@
 <nav style="position:sticky; top:0; z-index:100; background-color:#ffffff; border-top:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0; padding:12px 12px; box-shadow:0 4px 12px -6px #cbd5e1;">
   <div class="container">
     <div class="text-center">
-      <a href="#overview" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><i class="bi bi-info-circle" style="margin-right:6px; color:#2563eb; font-size:11px;"></i>Overview</a>
-      <a href="#screenshots" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><i class="bi bi-images" style="margin-right:6px; color:#0d9488; font-size:11px;"></i>Screenshots</a>
-      <a href="#features" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><i class="bi bi-lightning-charge-fill" style="margin-right:6px; color:#7c3aed; font-size:11px;"></i>Features</a>
-      <a href="#install" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><i class="bi bi-tag" style="margin-right:6px; color:#f59e0b; font-size:11px;"></i>Pricing</a>
-      <a href="#reviews" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><i class="bi bi-star-fill" style="margin-right:6px; color:#f59e0b; font-size:11px;"></i>Reviews</a>
-      <a href="#docs" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><i class="bi bi-book" style="margin-right:6px; color:#16a34a; font-size:11px;"></i>Setup</a>
-      <a href="#support" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><i class="bi bi-life-preserver" style="margin-right:6px; color:#dc2626; font-size:11px;"></i>Support</a>
-      <a href="#faqs" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><i class="bi bi-question-circle" style="margin-right:6px; color:#0891b2; font-size:11px;"></i>FAQs</a>
+      <a href="#overview" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px; color:#2563eb; font-size:11px;">ⓘ</span>Overview</a>
+      <a href="#screenshots" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px; color:#0d9488; font-size:11px;">▧</span>Screenshots</a>
+      <a href="#features" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px; color:#7c3aed; font-size:11px;">⚡</span>Features</a>
+      <a href="#install" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px; color:#f59e0b; font-size:11px;">⌑</span>Pricing</a>
+      <a href="#reviews" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px; color:#f59e0b; font-size:11px;">★</span>Reviews</a>
+      <a href="#docs" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px; color:#16a34a; font-size:11px;">▣</span>Setup</a>
+      <a href="#support" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px; color:#dc2626; font-size:11px;">◉</span>Support</a>
+      <a href="#faqs" style="display:inline-block; background-color:#ffffff; color:#0f1623; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #e2e8f0; letter-spacing:-0.1px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px; color:#0891b2; font-size:11px;">?</span>FAQs</a>
       <span style="display:inline-block; width:1px; height:20px; background-color:#e2e8f0; margin:0 6px; vertical-align:middle;"></span>
-      <a href="https://docs.sdlccorp.com/" target="_blank" rel="noopener noreferrer" style="display:inline-block; background-color:#eff6ff; color:#1e40af; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #bfdbfe; letter-spacing:-0.1px;"><i class="bi bi-book" style="margin-right:6px; font-size:11px;"></i>Docs<i class="bi bi-box-arrow-up-right" style="margin-left:5px; font-size:9px;"></i></a>
-      <a href="https://www.sdlccorp.com/r/woo-trial" target="_blank" rel="noopener noreferrer" style="display:inline-block; background-color:#0f1623; color:#a3e635; font-size:12px; font-weight:800; padding:8px 16px; border-radius:8px; text-decoration:none; margin:2px 1px; letter-spacing:0.5px; text-transform:uppercase;"><i class="bi bi-play-circle-fill" style="margin-right:6px;"></i>Try Free<i class="bi bi-box-arrow-up-right" style="margin-left:5px; font-size:9px;"></i></a>
+      <a href="https://docs.sdlccorp.com/" target="_blank" rel="noopener noreferrer" style="display:inline-block; background-color:#eff6ff; color:#1e40af; font-size:13px; font-weight:600; padding:7px 13px; border-radius:8px; text-decoration:none; margin:2px 1px; border:1px solid #bfdbfe; letter-spacing:-0.1px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px; font-size:11px;">▣</span>Docs<span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-left:5px; font-size:9px;">↗</span></a>
+      <a href="https://www.sdlccorp.com/r/woo-trial" target="_blank" rel="noopener noreferrer" style="display:inline-block; background-color:#0f1623; color:#a3e635; font-size:12px; font-weight:800; padding:8px 16px; border-radius:8px; text-decoration:none; margin:2px 1px; letter-spacing:0.5px; text-transform:uppercase;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px;">▶</span>Try Free<span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-left:5px; font-size:9px;">↗</span></a>
     </div>
   </div>
 </nav>
-
-<!-- ═══ TAB 1: OVERVIEW (default open) ═══ -->
-<details name="page" open>
-<summary style="display:none;"></summary>
 
 <!-- ═══ 2. LIFETIME STATS BANNER ═══ -->
 <section id="overview" style="scroll-margin-top:80px; background-color:#0f1623; padding:44px 16px;">
@@ -189,28 +184,28 @@
     <div class="row">
       <div class="col-md-3 col-6 mb-4">
         <div class="h-100 text-center" style="padding:24px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:56px; height:56px; background-color:#dbeafe; border-radius:14px;"><i class="bi bi-shield-check" style="color:#2563eb; font-size:24px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:56px; height:56px; background-color:#dbeafe; border-radius:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; font-size:24px;">▣</span></div>
           <h4 style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:8px;">Edge cases solved</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">7 years of production traffic surfaces edge cases newer tools haven't seen yet &mdash; multi-currency, tax classes, attribute combinations, partial refunds.</p>
         </div>
       </div>
       <div class="col-md-3 col-6 mb-4">
         <div class="h-100 text-center" style="padding:24px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:56px; height:56px; background-color:#dcfce7; border-radius:14px;"><i class="bi bi-arrow-clockwise" style="color:#16a34a; font-size:24px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:56px; height:56px; background-color:#dcfce7; border-radius:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; font-size:24px;">↻</span></div>
           <h4 style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:8px;">API changes weathered</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">WooCommerce REST API has had multiple breaking changes since 2018. We've migrated through every one without customer disruption.</p>
         </div>
       </div>
       <div class="col-md-3 col-6 mb-4">
         <div class="h-100 text-center" style="padding:24px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:56px; height:56px; background-color:#fef3c7; border-radius:14px;"><i class="bi bi-arrow-up" style="color:#b45309; font-size:24px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:56px; height:56px; background-color:#fef3c7; border-radius:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#b45309; font-size:24px;">↑</span></div>
           <h4 style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:8px;">Stable upgrade path</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">No rewrites between Odoo 16, 17, and 18. Your config carries forward. New connector versions don't break old workflows.</p>
         </div>
       </div>
       <div class="col-md-3 col-6 mb-4">
         <div class="h-100 text-center" style="padding:24px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:56px; height:56px; background-color:#ede9fe; border-radius:14px;"><i class="bi bi-check-circle-fill" style="color:#7c3aed; font-size:24px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:56px; height:56px; background-color:#ede9fe; border-radius:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#7c3aed; font-size:24px;">✓</span></div>
           <h4 style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:8px;">Battle-tested defaults</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">Default settings reflect real-world deployment patterns &mdash; not lab assumptions. Most stores work out of the box without tuning.</p>
         </div>
@@ -230,42 +225,42 @@
     <div class="row">
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:26px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <i class="bi bi-award" style="color:#f59e0b; font-size:28px; margin-bottom:14px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#f59e0b; font-size:28px; margin-bottom:14px;">◆</span>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:8px;">Odoo Trusted Partner since 2015</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">Recognized by Odoo S.A. as a verified development partner. 7 years of certified expertise across CE and EE deployments.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:26px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <i class="bi bi-people-fill" style="color:#2563eb; font-size:28px; margin-bottom:14px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; font-size:28px; margin-bottom:14px;">♟</span>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:8px;">Full engineering team</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">Not a solo developer. 25+ Odoo specialists across backend, frontend, QA, DevOps, and customer success.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:26px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <i class="bi bi-globe" style="color:#16a34a; font-size:28px; margin-bottom:14px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; font-size:28px; margin-bottom:14px;">◎</span>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:8px;">Global deployment experience</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">200+ live deployments across 30+ countries. EU, US, Asia, Middle East - varied tax regimes, currencies, languages.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:26px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <i class="bi bi-box-seam" style="color:#7c3aed; font-size:28px; margin-bottom:14px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#7c3aed; font-size:28px; margin-bottom:14px;">□</span>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:8px;">Comprehensive Odoo services</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">Beyond connectors: custom Odoo development, ERP implementation, theme design, performance tuning, training.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:26px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <i class="bi bi-clock" style="color:#dc2626; font-size:28px; margin-bottom:14px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#dc2626; font-size:28px; margin-bottom:14px;">◷</span>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:8px;">Coverage across time zones</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">Indian engineering team aligned with EU &amp; US business hours. &lt;1 hour first-response time during Mon-Fri 09:30-18:30 IST.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:26px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <i class="bi bi-people" style="color:#0891b2; font-size:28px; margin-bottom:14px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#0891b2; font-size:28px; margin-bottom:14px;">♟</span>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:8px;">Long-term partnership</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.6; margin:0;">Many customers since 2018-2020 still use the same connector with regular feature updates. We ship for the long haul.</p>
         </div>
@@ -284,28 +279,28 @@
     <div class="row">
       <div class="col-md-3 col-12 mb-4">
         <div class="h-100" style="padding:28px; border-radius:14px; border:1px solid #e2e8f0; background-color:#ffffff;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#dbeafe; border-radius:12px;"><i class="bi bi-box-seam" style="color:#2563eb; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#dbeafe; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; font-size:20px;">□</span></div>
           <h4 style="font-size:17px; font-weight:800; color:#0f1623; margin-bottom:10px;">Full Connector</h4>
           <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">All 6 sync features for products, orders, inventory, customers, taxes &amp; shipping. No feature gates.</p>
         </div>
       </div>
       <div class="col-md-3 col-12 mb-4">
         <div class="h-100" style="padding:28px; border-radius:14px; border:1px solid #e2e8f0; background-color:#ffffff;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#dcfce7; border-radius:12px;"><i class="bi bi-person-badge" style="color:#166534; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#dcfce7; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#166534; font-size:20px;">◈</span></div>
           <h4 style="font-size:17px; font-weight:800; color:#0f1623; margin-bottom:10px;">10hr Free Setup</h4>
           <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Expert-led implementation valued at US $500. Configure, map, and go live with our team.</p>
         </div>
       </div>
       <div class="col-md-3 col-12 mb-4">
         <div class="h-100" style="padding:28px; border-radius:14px; border:1px solid #e2e8f0; background-color:#ffffff;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#fef3c7; border-radius:12px;"><i class="bi bi-arrow-repeat" style="color:#b45309; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#fef3c7; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#b45309; font-size:20px;">↻</span></div>
           <h4 style="font-size:17px; font-weight:800; color:#0f1623; margin-bottom:10px;">Lifetime Updates</h4>
           <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Free minor updates forever. Major version updates included for purchased Odoo versions.</p>
         </div>
       </div>
       <div class="col-md-3 col-12 mb-4">
         <div class="h-100" style="padding:28px; border-radius:14px; border:1px solid #e2e8f0; background-color:#ffffff;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#ede9fe; border-radius:12px;"><i class="bi bi-shop" style="color:#6d28d9; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#ede9fe; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#6d28d9; font-size:20px;">▤</span></div>
           <h4 style="font-size:17px; font-weight:800; color:#0f1623; margin-bottom:10px;">Multi-store</h4>
           <p style="font-size:14px; color:#64748b; margin:0; line-height:1.6;">Connect unlimited WooCommerce stores to one Odoo instance with independent rules.</p>
         </div>
@@ -353,9 +348,9 @@
           </div>
         </div>
         <div class="d-flex" style="padding:22px; background-color:#365314; border:1px solid #4d7c0f; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center" style="width:60px; height:60px; background-color:#a3e635; color:#1a2e05; border-radius:14px; font-size:16px; font-weight:800; margin-right:22px; flex-shrink:0;">Day 5</div>
+          <div class="d-inline-flex align-items-center justify-content-center" style="width:60px; height:60px; background-color:#a3e635; color:#1a2e05; border-radius:14px; font-size:16px; font-weight:800; margin-right:22px; flex-shrink:0;">Day 4</div>
           <div>
-            <h4 style="font-size:16px; font-weight:800; color:#ffffff; margin-bottom:6px;">Phase 5 - Live Sync Activated <i class="bi bi-check-circle-fill" style="color:#a3e635; margin-left:4px;"></i></h4>
+            <h4 style="font-size:16px; font-weight:800; color:#ffffff; margin-bottom:6px;">Phase 5 - Live Sync Activated <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; margin-left:4px;">✓</span></h4>
             <p style="font-size:13px; color:#d9f99d; line-height:1.6; margin:0;">Webhooks subscribed and active. Real-time sync triggers on every WooCommerce event. Monitor sync logs and retry queue dashboards. Confirm 24-hour clean run. <strong style="color:#ffffff;">You are live.</strong></p>
           </div>
         </div>
@@ -377,7 +372,7 @@
           <div class="d-inline-block" style="background-color:#dbeafe; color:#1e40af; font-size:11px; font-weight:800; padding:3px 10px; border-radius:999px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;">Multi-warehouse</div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Route orders to closest depot</h4>
           <p style="font-size:14px; color:#64748b; line-height:1.6; margin-bottom:14px;">A 4-warehouse retailer maps shipping zones to specific Odoo warehouses. The connector routes each WC order to the closest depot automatically.</p>
-          <div style="font-size:12px; color:#16a34a; font-weight:700;"><i class="bi bi-arrow-up" style="margin-right:6px;"></i>40% faster fulfilment</div>
+          <div style="font-size:12px; color:#16a34a; font-weight:700;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px;">↑</span>40% faster fulfilment</div>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
@@ -385,7 +380,7 @@
           <div class="d-inline-block" style="background-color:#fef3c7; color:#b45309; font-size:11px; font-weight:800; padding:3px 10px; border-radius:999px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;">B2B + D2C</div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Two stores, one Odoo</h4>
           <p style="font-size:14px; color:#64748b; line-height:1.6; margin-bottom:14px;">Wholesale buyers see net prices on the B2B store; retail customers see VAT-inclusive on the D2C store - all from one Odoo product catalog.</p>
-          <div style="font-size:12px; color:#16a34a; font-weight:700;"><i class="bi bi-arrow-up" style="margin-right:6px;"></i>One inventory pool, two pricing strategies</div>
+          <div style="font-size:12px; color:#16a34a; font-weight:700;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px;">↑</span>One inventory pool, two pricing strategies</div>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
@@ -393,7 +388,7 @@
           <div class="d-inline-block" style="background-color:#fee2e2; color:#dc2626; font-size:11px; font-weight:800; padding:3px 10px; border-radius:999px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;">Peak season</div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Black Friday traffic, zero stuck orders</h4>
           <p style="font-size:14px; color:#64748b; line-height:1.6; margin-bottom:14px;">8,000 orders/day during peak. Webhook + queue handles every event reliably; failed sends auto-retry without manual intervention.</p>
-          <div style="font-size:12px; color:#16a34a; font-weight:700;"><i class="bi bi-arrow-up" style="margin-right:6px;"></i>Zero overselling at peak load</div>
+          <div style="font-size:12px; color:#16a34a; font-weight:700;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px;">↑</span>Zero overselling at peak load</div>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
@@ -401,7 +396,7 @@
           <div class="d-inline-block" style="background-color:#dcfce7; color:#166534; font-size:11px; font-weight:800; padding:3px 10px; border-radius:999px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;">EU tax</div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Multi-region tax compliance</h4>
           <p style="font-size:14px; color:#64748b; line-height:1.6; margin-bottom:14px;">Auto-maps WooCommerce tax classes to Odoo fiscal positions across 12 EU countries. Each invoice reflects the right VAT rate.</p>
-          <div style="font-size:12px; color:#16a34a; font-weight:700;"><i class="bi bi-arrow-up" style="margin-right:6px;"></i>Compliant invoices, zero manual classification</div>
+          <div style="font-size:12px; color:#16a34a; font-weight:700;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px;">↑</span>Compliant invoices, zero manual classification</div>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
@@ -409,7 +404,7 @@
           <div class="d-inline-block" style="background-color:#ede9fe; color:#6d28d9; font-size:11px; font-weight:800; padding:3px 10px; border-radius:999px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;">Subscriptions</div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Recurring + one-time hybrid</h4>
           <p style="font-size:14px; color:#64748b; line-height:1.6; margin-bottom:14px;">Recurring orders sync as separate Odoo subscription contracts. One-off orders flow through as standard sale orders. Clean revenue segmentation.</p>
-          <div style="font-size:12px; color:#16a34a; font-weight:700;"><i class="bi bi-arrow-up" style="margin-right:6px;"></i>Recurring vs transactional split automatically</div>
+          <div style="font-size:12px; color:#16a34a; font-weight:700;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px;">↑</span>Recurring vs transactional split automatically</div>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
@@ -417,7 +412,7 @@
           <div class="d-inline-block" style="background-color:#cffafe; color:#0e7490; font-size:11px; font-weight:800; padding:3px 10px; border-radius:999px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;">Migration</div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Switch from polling-based legacy</h4>
           <p style="font-size:14px; color:#64748b; line-height:1.6; margin-bottom:14px;">Replaces 30-minute polling tools with webhook-driven sync. Real-time sync replaces hourly batches. Old data preserved in initial import.</p>
-          <div style="font-size:12px; color:#16a34a; font-weight:700;"><i class="bi bi-arrow-up" style="margin-right:6px;"></i>Sync latency: 2 hours &rarr; 1.4 seconds</div>
+          <div style="font-size:12px; color:#16a34a; font-weight:700;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px;">↑</span>Sync latency: 2 hours &rarr; 1.4 seconds</div>
         </div>
       </div>
     </div>
@@ -437,7 +432,7 @@
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #fde68a; border-radius:14px;">
           <div class="d-flex align-items-center mb-3">
-            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#f0fdf4; border-radius:12px; margin-right:14px;"><i class="bi bi-cart3" style="color:#16a34a; font-size:20px;"></i></div>
+            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#f0fdf4; border-radius:12px; margin-right:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; font-size:20px;">🛒</span></div>
             <div>
               <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin:0 0 2px;">Shopify Connector</h4>
               <div style="font-size:11px; color:#94a3b8; font-weight:700;">Two-way &middot; Multi-store &middot; v16-18</div>
@@ -449,7 +444,7 @@
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #fde68a; border-radius:14px;">
           <div class="d-flex align-items-center mb-3">
-            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#fff7ed; border-radius:12px; margin-right:14px;"><i class="bi bi-box" style="color:#f59e0b; font-size:20px;"></i></div>
+            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#fff7ed; border-radius:12px; margin-right:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#f59e0b; font-size:20px;">□</span></div>
             <div>
               <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin:0 0 2px;">Amazon Odoo Connector</h4>
               <div style="font-size:11px; color:#94a3b8; font-weight:700;">SP-API &middot; FBA-aware &middot; v16-18</div>
@@ -461,7 +456,7 @@
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #fde68a; border-radius:14px;">
           <div class="d-flex align-items-center mb-3">
-            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#fef2f2; border-radius:12px; margin-right:14px;"><i class="bi bi-hammer" style="color:#dc2626; font-size:20px;"></i></div>
+            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#fef2f2; border-radius:12px; margin-right:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#dc2626; font-size:20px;">⚒</span></div>
             <div>
               <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin:0 0 2px;">Asset Management</h4>
               <div style="font-size:11px; color:#94a3b8; font-weight:700;">Trading API &middot; Auction-aware</div>
@@ -473,7 +468,7 @@
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #fde68a; border-radius:14px;">
           <div class="d-flex align-items-center mb-3">
-            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#eff6ff; border-radius:12px; margin-right:14px;"><i class="bi bi-bag" style="color:#2563eb; font-size:20px;"></i></div>
+            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#eff6ff; border-radius:12px; margin-right:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; font-size:20px;">▱</span></div>
             <div>
               <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin:0 0 2px;">Magento 2 Odoo Connector</h4>
               <div style="font-size:11px; color:#94a3b8; font-weight:700;">REST &amp; GraphQL &middot; v2.4+</div>
@@ -485,7 +480,7 @@
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #fde68a; border-radius:14px;">
           <div class="d-flex align-items-center mb-3">
-            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#fdf4ff; border-radius:12px; margin-right:14px;"><i class="bi bi-shop-window" style="color:#a21caf; font-size:20px;"></i></div>
+            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#fdf4ff; border-radius:12px; margin-right:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a21caf; font-size:20px;">▤</span></div>
             <div>
               <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin:0 0 2px;">BigCommerce odoo Connector</h4>
               <div style="font-size:11px; color:#94a3b8; font-weight:700;">Storefront API &middot; v3</div>
@@ -497,7 +492,7 @@
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #fde68a; border-radius:14px;">
           <div class="d-flex align-items-center mb-3">
-            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#f0fdfa; border-radius:12px; margin-right:14px;"><i class="bi bi-diagram-3" style="color:#0d9488; font-size:20px;"></i></div>
+            <div class="d-inline-flex align-items-center justify-content-center" style="width:48px; height:48px; background-color:#f0fdfa; border-radius:12px; margin-right:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#0d9488; font-size:20px;">⌬</span></div>
             <div>
               <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin:0 0 2px;">Prestashop Odoo Connector</h4>
               <div style="font-size:11px; color:#94a3b8; font-weight:700;">Single source of truth</div>
@@ -508,17 +503,10 @@
       </div>
     </div>
     <div class="text-center mt-3">
-      <a href="https://apps.odoo.com/apps/modules/browse?author=SDLC%20Corp" target="_blank" rel="noopener noreferrer" style="display:inline-block; background-color:#0f1623; color:#a3e635; padding:12px 24px; border-radius:10px; font-weight:800; font-size:14px; text-decoration:none;"><i class="bi bi-box-arrow-up-right" style="margin-right:8px;"></i>Browse all SDLC Corp apps on Odoo App Store</a>
+      <a href="https://apps.odoo.com/apps/modules/browse?author=SDLC%20Corp" target="_blank" rel="noopener noreferrer" style="display:inline-block; background-color:#0f1623; color:#a3e635; padding:12px 24px; border-radius:10px; font-weight:800; font-size:14px; text-decoration:none;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:8px;">↗</span>Browse all SDLC Corp apps on Odoo App Store</a>
     </div>
   </div>
 </section>
-</details>
-
-
-<!-- ═══ TAB: SCREENSHOTS (NEW - between Overview and Features) ═══ -->
-<details name="page">
-<summary style="display:none;"></summary>
-
 <!-- ═══ NEW: SCREENSHOTS ═══ -->
 <section id="screenshots" style="scroll-margin-top:80px; background-color:#ffffff; padding:72px 16px;">
   <div class="container">
@@ -535,9 +523,9 @@
             <img src="Dashboard.png" alt="Connector dashboard showing live sync activity, connected stores, and system health metrics" style="width:100%; height:auto; display:block;">
           </div>
           <div style="padding:22px;">
-            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><i class="bi bi-speedometer2" style="color:#2563eb; margin-right:8px;"></i>Live Sync Dashboard</h4>
+            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; margin-right:8px;">◴</span>Live Sync Dashboard</h4>
             <p style="font-size:13px; color:#64748b; line-height:1.6; margin-bottom:10px;">Your sync activity at a glance - connected stores, recent events, and system health metrics.</p>
-            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><i class="bi bi-folder2-open" style="margin-right:4px;"></i>Dashboard</div>
+            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:4px;">▱</span>Dashboard</div>
           </div>
         </div>
       </div>
@@ -548,9 +536,9 @@
             <img src="Customers.png" alt="Store configuration screen showing API key entry and test connection button" style="width:100%; height:auto; display:block;">
           </div>
           <div style="padding:22px;">
-            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><i class="bi bi-shop" style="color:#7c3aed; margin-right:8px;"></i>Store Configuration</h4>
+            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#7c3aed; margin-right:8px;">▤</span>Store Configuration</h4>
             <p style="font-size:13px; color:#64748b; line-height:1.6; margin-bottom:10px;">Connect your WooCommerce store in seconds - paste API keys, test the connection, save.</p>
-            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><i class="bi bi-folder2-open" style="margin-right:4px;"></i>Store</div>
+            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:4px;">▱</span>Store</div>
           </div>
         </div>
       </div>
@@ -561,9 +549,9 @@
             <img src="Inventory.png" alt="Initial bulk import wizard pulling existing WooCommerce products into Odoo" style="width:100%; height:auto; display:block;">
           </div>
           <div style="padding:22px;">
-            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><i class="bi bi-cloud-arrow-down" style="color:#0d9488; margin-right:8px;"></i>Initail Inventory</h4>
+            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#0d9488; margin-right:8px;">☁</span>Initail Inventory</h4>
             <p style="font-size:13px; color:#64748b; line-height:1.6; margin-bottom:10px;">Bring existing WooCommerce products into Odoo with a guided import wizard. SKU matching prevents duplicates.</p>
-            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><i class="bi bi-folder2-open" style="margin-right:4px;"></i>Inventory</div>
+            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:4px;">▱</span>Inventory</div>
           </div>
         </div>
       </div>
@@ -574,9 +562,9 @@
             <img src="Orders.png" alt="Order pipeline view showing WooCommerce orders synced to Odoo Sales with line items and statuses" style="width:100%; height:auto; display:block;">
           </div>
           <div style="padding:22px;">
-            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><i class="bi bi-receipt" style="color:#f59e0b; margin-right:8px;"></i>Order Pipeline</h4>
+            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#f59e0b; margin-right:8px;">▤</span>Order Pipeline</h4>
             <p style="font-size:13px; color:#64748b; line-height:1.6; margin-bottom:10px;">WooCommerce orders flow into Odoo Sales with full line items, taxes, customer data, and fulfilment status.</p>
-            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><i class="bi bi-folder2-open" style="margin-right:4px;"></i>Orders</div>
+            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:4px;">▱</span>Orders</div>
           </div>
         </div>
       </div>
@@ -587,9 +575,9 @@
             <img src="Sync reports.png" alt="Sync logs and audit trail showing every transaction with payload, timestamp, and outcome" style="width:100%; height:auto; display:block;">
           </div>
           <div style="padding:22px;">
-            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><i class="bi bi-clipboard-data" style="color:#16a34a; margin-right:8px;"></i>Sync Reports</h4>
+            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:8px;">☷</span>Sync Reports</h4>
             <p style="font-size:13px; color:#64748b; line-height:1.6; margin-bottom:10px;">Every sync transaction logged with payload, timestamp, and outcome. Filterable by entity type and date range.</p>
-            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><i class="bi bi-folder2-open" style="margin-right:4px;"></i>Sync Reports</div>
+            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:4px;">▱</span>Sync Reports</div>
           </div>
         </div>
       </div>
@@ -600,21 +588,15 @@
             <img src="Cancelled orders.png" alt="Retry queue manager showing failed sync records with error details and retry button" style="width:100%; height:auto; display:block;">
           </div>
           <div style="padding:22px;">
-            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><i class="bi bi-arrow-clockwise" style="color:#dc2626; margin-right:8px;"></i>Cancelled Orders</h4>
+            <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:6px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#dc2626; margin-right:8px;">↻</span>Cancelled Orders</h4>
             <p style="font-size:13px; color:#64748b; line-height:1.6; margin-bottom:10px;">Cancelled orders appear and are Tracked.</p>
-            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><i class="bi bi-folder2-open" style="margin-right:4px;"></i>Cancelled orders</div>
+            <div style="font-family:monospace; font-size:11px; color:#94a3b8; background-color:#f8fafc; padding:6px 10px; border-radius:6px; display:inline-block;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:4px;">▱</span>Cancelled orders</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-</details>
-
-<!-- ═══ TAB 2: FEATURES ═══ -->
-<details name="page">
-<summary style="display:none;"></summary>
 
 <!-- ═══ 5. WHY CHOOSE US (Features) ═══ -->
 <section id="features" style="scroll-margin-top:80px; background-color:#ffffff; padding:72px 16px;">
@@ -627,42 +609,42 @@
     <div class="row">
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:28px; border-top:3px solid #2563eb; border-radius:0 0 14px 14px; background-color:#ffffff; border-left:1px solid #e2e8f0; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#dbeafe; border:1px solid #bfdbfe; border-radius:13px;"><i class="bi bi-lightning-charge-fill" style="color:#2563eb; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#dbeafe; border:1px solid #bfdbfe; border-radius:13px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; font-size:20px;">⚡</span></div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Real-time webhook sync</h4>
           <p style="font-size:14px; color:#64748b; margin:0; line-height:1.65;">Events in WooCommerce trigger immediate Odoo updates - no polling delays, no scheduled gaps.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:28px; border-top:3px solid #7c3aed; border-radius:0 0 14px 14px; background-color:#ffffff; border-left:1px solid #e2e8f0; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#ede9fe; border:1px solid #ddd6fe; border-radius:13px;"><i class="bi bi-receipt" style="color:#7c3aed; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#ede9fe; border:1px solid #ddd6fe; border-radius:13px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#7c3aed; font-size:20px;">▤</span></div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Full order pipeline</h4>
           <p style="font-size:14px; color:#64748b; margin:0; line-height:1.65;">Orders import with line items, customer data, coupons, taxes, shipping, payment reference, and fulfilment status.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:28px; border-top:3px solid #0d9488; border-radius:0 0 14px 14px; background-color:#ffffff; border-left:1px solid #e2e8f0; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#ccfbf1; border:1px solid #99f6e4; border-radius:13px;"><i class="bi bi-box-seam" style="color:#0d9488; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#ccfbf1; border:1px solid #99f6e4; border-radius:13px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#0d9488; font-size:20px;">□</span></div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Inventory control</h4>
           <p style="font-size:14px; color:#64748b; margin:0; line-height:1.65;">Odoo is the stock source of truth. Changes push to WooCommerce immediately to prevent overselling.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:28px; border-top:3px solid #f59e0b; border-radius:0 0 14px 14px; background-color:#ffffff; border-left:1px solid #e2e8f0; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#fef3c7; border:1px solid #fde68a; border-radius:13px;"><i class="bi bi-tag" style="color:#f59e0b; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#fef3c7; border:1px solid #fde68a; border-radius:13px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#f59e0b; font-size:20px;">⌑</span></div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Product catalogue sync</h4>
           <p style="font-size:14px; color:#64748b; margin:0; line-height:1.65;">SKUs, names, descriptions, images, gallery, categories, tags, attributes, and variants - all bidirectional.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:28px; border-top:3px solid #dc2626; border-radius:0 0 14px 14px; background-color:#ffffff; border-left:1px solid #e2e8f0; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#fee2e2; border:1px solid #fecdd3; border-radius:13px;"><i class="bi bi-shop" style="color:#dc2626; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#fee2e2; border:1px solid #fecdd3; border-radius:13px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#dc2626; font-size:20px;">▤</span></div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Multi-store management</h4>
           <p style="font-size:14px; color:#64748b; margin:0; line-height:1.65;">Connect unlimited WooCommerce stores to one Odoo database with independent warehouse and pricing rules.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:28px; border-top:3px solid #16a34a; border-radius:0 0 14px 14px; background-color:#ffffff; border-left:1px solid #e2e8f0; border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#dcfce7; border:1px solid #bbf7d0; border-radius:13px;"><i class="bi bi-clipboard-data" style="color:#16a34a; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#dcfce7; border:1px solid #bbf7d0; border-radius:13px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; font-size:20px;">☷</span></div>
           <h4 style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:10px;">Logs, queues &amp; retries</h4>
           <p style="font-size:14px; color:#64748b; margin:0; line-height:1.65;">Every sync transaction is recorded. Failed records enter a retry queue - nothing is silently dropped.</p>
         </div>
@@ -759,42 +741,42 @@
     <div class="row">
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#fdf4ff; border:1px solid #e9d5ff; border-radius:12px;"><i class="bi bi-bag" style="color:#7c3aed; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#fdf4ff; border:1px solid #e9d5ff; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#7c3aed; font-size:20px;">▱</span></div>
           <h4 style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:6px;">Fashion &amp; apparel</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.55; margin:0;">Size &times; color &times; material variants, seasonal collections, returns and exchange workflows.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#eff6ff; border:1px solid #bfdbfe; border-radius:12px;"><i class="bi bi-phone" style="color:#2563eb; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#eff6ff; border:1px solid #bfdbfe; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; font-size:20px;">▯</span></div>
           <h4 style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:6px;">Electronics &amp; gadgets</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.55; margin:0;">Complex SKU hierarchies, serial-number tracking, warranty registration mapping.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#f0fdfa; border:1px solid #99f6e4; border-radius:12px;"><i class="bi bi-building" style="color:#0d9488; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#f0fdfa; border:1px solid #99f6e4; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#0d9488; font-size:20px;">▦</span></div>
           <h4 style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:6px;">B2B wholesale</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.55; margin:0;">Customer-group pricelists, bulk order workflows, payment-on-account terms.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#fffbeb; border:1px solid #fde68a; border-radius:12px;"><i class="bi bi-building" style="color:#f59e0b; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#fffbeb; border:1px solid #fde68a; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#f59e0b; font-size:20px;">▦</span></div>
           <h4 style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:6px;">Multi-warehouse retail</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.55; margin:0;">Stock routing rules per region, location-aware fulfilment, transit tracking.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px;"><i class="bi bi-arrow-repeat" style="color:#16a34a; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; font-size:20px;">↻</span></div>
           <h4 style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:6px;">Subscription &amp; recurring</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.55; margin:0;">Recurring orders, customer lifetime value reporting, retention dashboards.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:24px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#fff1f2; border:1px solid #fecdd3; border-radius:12px;"><i class="bi bi-leaf" style="color:#dc2626; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:44px; height:44px; background-color:#fff1f2; border:1px solid #fecdd3; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#dc2626; font-size:20px;">♣</span></div>
           <h4 style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:6px;">Health &amp; wellness</h4>
           <p style="font-size:13px; color:#64748b; line-height:1.55; margin:0;">Batch &amp; expiry tracking, ingredient mapping, regulated-category compliance.</p>
         </div>
@@ -814,42 +796,42 @@
     <div class="row">
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:22px; background-color:#0a3a1a; border:1px solid #166534; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><i class="bi bi-lock" style="color:#a3e635; font-size:16px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; font-size:16px;">▣</span></div>
           <h4 style="font-size:14px; font-weight:800; color:#ffffff; margin-bottom:6px;">Encrypted credential storage</h4>
           <p style="font-size:13px; color:#bbf7d0; margin:0; line-height:1.55;">WooCommerce API keys are encrypted at rest using Odoo's keyring - never visible in logs or backups.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:22px; background-color:#0a3a1a; border:1px solid #166534; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><i class="bi bi-shield-check" style="color:#a3e635; font-size:16px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; font-size:16px;">▣</span></div>
           <h4 style="font-size:14px; font-weight:800; color:#ffffff; margin-bottom:6px;">OAuth + signed REST API</h4>
           <p style="font-size:13px; color:#bbf7d0; margin:0; line-height:1.55;">Authentication uses Consumer Key / Secret with HMAC-SHA1 signing. No passwords stored anywhere.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:22px; background-color:#0a3a1a; border:1px solid #166534; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><i class="bi bi-check-circle-fill" style="color:#a3e635; font-size:16px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; font-size:16px;">✓</span></div>
           <h4 style="font-size:14px; font-weight:800; color:#ffffff; margin-bottom:6px;">GDPR-compliant data flow</h4>
           <p style="font-size:13px; color:#bbf7d0; margin:0; line-height:1.55;">Customer data flows respect EU personal-data rules. Right-to-erasure propagates between systems.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:22px; background-color:#0a3a1a; border:1px solid #166534; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><i class="bi bi-award" style="color:#a3e635; font-size:16px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; font-size:16px;">◆</span></div>
           <h4 style="font-size:14px; font-weight:800; color:#ffffff; margin-bottom:6px;">Odoo-certified partner</h4>
           <p style="font-size:13px; color:#bbf7d0; margin:0; line-height:1.55;">SDLC Corp has been a recognised Odoo development partner since 2018, with public modules in good standing.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:22px; background-color:#0a3a1a; border:1px solid #166534; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><i class="bi bi-shield" style="color:#a3e635; font-size:16px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; font-size:16px;">▣</span></div>
           <h4 style="font-size:14px; font-weight:800; color:#ffffff; margin-bottom:6px;">HTTPS-only enforced</h4>
           <p style="font-size:13px; color:#bbf7d0; margin:0; line-height:1.55;">Connections refuse non-TLS endpoints. Webhook payloads validated against the WC signature header.</p>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:22px; background-color:#0a3a1a; border:1px solid #166534; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><i class="bi bi-file-earmark-text" style="color:#a3e635; font-size:16px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:38px; height:38px; background-color:#14532d; border:1px solid #a3e635; border-radius:10px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; font-size:16px;">▤</span></div>
           <h4 style="font-size:14px; font-weight:800; color:#ffffff; margin-bottom:6px;">Full audit trail</h4>
           <p style="font-size:13px; color:#bbf7d0; margin:0; line-height:1.55;">Every sync transaction logged with payload, timestamp, and outcome &mdash; exportable on demand.</p>
         </div>
@@ -871,19 +853,19 @@
         <thead style="background-color:#f8fafc;">
           <tr>
             <th style="padding:16px 20px; color:#1e2a45; font-weight:800; font-size:12px; letter-spacing:1px; text-transform:uppercase;">Feature</th>
-            <th style="padding:16px 20px; color:#0f1623; font-weight:800; font-size:13px; background-color:#dcfce7;"><i class="bi bi-trophy" style="color:#a3e635; margin-right:6px;"></i>SDLC Connector</th>
+            <th style="padding:16px 20px; color:#0f1623; font-weight:800; font-size:13px; background-color:#dcfce7;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; margin-right:6px;">★</span>SDLC Connector</th>
             <th style="padding:16px 20px; color:#64748b; font-weight:700; font-size:13px;">Typical Alternatives</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Sync direction</td><td style="padding:14px 20px; background-color:#f0fdf4;"><i class="bi bi-check-lg" style="color:#16a34a; margin-right:6px;"></i><strong>Two-way</strong> &mdash; full bidirectional</td><td style="padding:14px 20px; color:#64748b;"><i class="bi bi-x-lg" style="color:#dc2626; margin-right:6px;"></i>Often one-way (WC &rarr; Odoo only)</td></tr>
-          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Pricing model</td><td style="padding:14px 20px; background-color:#f0fdf4;"><i class="bi bi-check-lg" style="color:#16a34a; margin-right:6px;"></i><strong>$9.99 one-time</strong> &mdash; lifetime updates</td><td style="padding:14px 20px; color:#64748b;"><i class="bi bi-x-lg" style="color:#dc2626; margin-right:6px;"></i>$30-100/month subscription</td></tr>
-          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Implementation help</td><td style="padding:14px 20px; background-color:#f0fdf4;"><i class="bi bi-check-lg" style="color:#16a34a; margin-right:6px;"></i><strong>10 hours included</strong> &mdash; valued at $500</td><td style="padding:14px 20px; color:#64748b;"><i class="bi bi-x-lg" style="color:#dc2626; margin-right:6px;"></i>Charged separately at $80-150/hr</td></tr>
-          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Odoo versions covered</td><td style="padding:14px 20px; background-color:#f0fdf4;"><i class="bi bi-check-lg" style="color:#16a34a; margin-right:6px;"></i><strong>v16, v17, v18</strong> &mdash; CE &amp; EE</td><td style="padding:14px 20px; color:#64748b;"><i class="bi bi-x-lg" style="color:#dc2626; margin-right:6px;"></i>Often single version, EE-only</td></tr>
-          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Multi-store support</td><td style="padding:14px 20px; background-color:#f0fdf4;"><i class="bi bi-check-lg" style="color:#16a34a; margin-right:6px;"></i><strong>Unlimited stores</strong> &mdash; included</td><td style="padding:14px 20px; color:#64748b;"><i class="bi bi-x-lg" style="color:#dc2626; margin-right:6px;"></i>Per-store fees ($10-30/store/mo)</td></tr>
-          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Sync mechanism</td><td style="padding:14px 20px; background-color:#f0fdf4;"><i class="bi bi-check-lg" style="color:#16a34a; margin-right:6px;"></i><strong>Webhook + cron + retry</strong> queue</td><td style="padding:14px 20px; color:#64748b;"><i class="bi bi-exclamation-triangle-fill" style="color:#f59e0b; margin-right:6px;"></i>Polling-only or no retry handler</td></tr>
-          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Production track record</td><td style="padding:14px 20px; background-color:#f0fdf4;"><i class="bi bi-check-lg" style="color:#16a34a; margin-right:6px;"></i><strong>Since 2018</strong> &mdash; 200+ live stores</td><td style="padding:14px 20px; color:#64748b;"><i class="bi bi-exclamation-triangle-fill" style="color:#f59e0b; margin-right:6px;"></i>Newer, smaller deployment base</td></tr>
-          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Support team</td><td style="padding:14px 20px; background-color:#f0fdf4;"><i class="bi bi-check-lg" style="color:#16a34a; margin-right:6px;"></i><strong>The engineers who built it</strong></td><td style="padding:14px 20px; color:#64748b;"><i class="bi bi-x-lg" style="color:#dc2626; margin-right:6px;"></i>Tier-1 outsourced helpdesk</td></tr>
+          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Sync direction</td><td style="padding:14px 20px; background-color:#f0fdf4;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:6px;">✓</span><strong>Two-way</strong> &mdash; full bidirectional</td><td style="padding:14px 20px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#dc2626; margin-right:6px;">×</span>Often one-way (WC &rarr; Odoo only)</td></tr>
+          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Pricing model</td><td style="padding:14px 20px; background-color:#f0fdf4;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:6px;">✓</span><strong>$9.99 one-time</strong> &mdash; lifetime updates</td><td style="padding:14px 20px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#dc2626; margin-right:6px;">×</span>$30-100/month subscription</td></tr>
+          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Implementation help</td><td style="padding:14px 20px; background-color:#f0fdf4;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:6px;">✓</span><strong>10 hours included</strong> &mdash; valued at $500</td><td style="padding:14px 20px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#dc2626; margin-right:6px;">×</span>Charged separately at $80-150/hr</td></tr>
+          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Odoo versions covered</td><td style="padding:14px 20px; background-color:#f0fdf4;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:6px;">✓</span><strong>v16, v17, v18</strong> &mdash; CE &amp; EE</td><td style="padding:14px 20px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#dc2626; margin-right:6px;">×</span>Often single version, EE-only</td></tr>
+          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Multi-store support</td><td style="padding:14px 20px; background-color:#f0fdf4;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:6px;">✓</span><strong>Unlimited stores</strong> &mdash; included</td><td style="padding:14px 20px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#dc2626; margin-right:6px;">×</span>Per-store fees ($10-30/store/mo)</td></tr>
+          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Sync mechanism</td><td style="padding:14px 20px; background-color:#f0fdf4;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:6px;">✓</span><strong>Webhook + cron + retry</strong> queue</td><td style="padding:14px 20px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#f59e0b; margin-right:6px;">⚠</span>Polling-only or no retry handler</td></tr>
+          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Production track record</td><td style="padding:14px 20px; background-color:#f0fdf4;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:6px;">✓</span><strong>Since 2018</strong> &mdash; 200+ live stores</td><td style="padding:14px 20px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#f59e0b; margin-right:6px;">⚠</span>Newer, smaller deployment base</td></tr>
+          <tr><td style="padding:14px 20px; font-weight:700; color:#0f1623;">Support team</td><td style="padding:14px 20px; background-color:#f0fdf4;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:6px;">✓</span><strong>The engineers who built it</strong></td><td style="padding:14px 20px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#dc2626; margin-right:6px;">×</span>Tier-1 outsourced helpdesk</td></tr>
         </tbody>
       </table>
     </div>
@@ -924,7 +906,7 @@
       <h2 style="font-size:36px; font-weight:800; color:#0f1623; letter-spacing:-1px; margin-bottom:14px;">Field-by-field reference.</h2>
       <p style="font-size:16px; color:#64748b; max-width:720px; margin:0 auto;">Exactly which fields move between systems, in which direction, and any transformations applied.</p>
     </div>
-    <h4 style="font-size:18px; font-weight:800; color:#0f1623; margin-bottom:14px;"><i class="bi bi-tag" style="color:#f59e0b; margin-right:8px;"></i>Product fields</h4>
+    <h4 style="font-size:18px; font-weight:800; color:#0f1623; margin-bottom:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#f59e0b; margin-right:8px;">⌑</span>Product fields</h4>
     <div style="border:1px solid #e2e8f0; border-radius:14px; overflow:hidden; margin-bottom:32px;">
       <table class="table mb-0" style="font-size:13px; background-color:#ffffff;">
         <thead>
@@ -947,7 +929,7 @@
         </tbody>
       </table>
     </div>
-    <h4 style="font-size:18px; font-weight:800; color:#0f1623; margin-bottom:14px;"><i class="bi bi-receipt" style="color:#7c3aed; margin-right:8px;"></i>Order fields</h4>
+    <h4 style="font-size:18px; font-weight:800; color:#0f1623; margin-bottom:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#7c3aed; margin-right:8px;">▤</span>Order fields</h4>
     <div style="border:1px solid #e2e8f0; border-radius:14px; overflow:hidden;">
       <table class="table mb-0" style="font-size:13px; background-color:#ffffff;">
         <thead>
@@ -972,12 +954,6 @@
   </div>
 </section>
 
-</details>
-
-<!-- ═══ TAB 3: PRICING ═══ -->
-<details name="page">
-<summary style="display:none;"></summary>
-
 <!-- ═══ 12. PRICING ═══ -->
 <section style="scroll-margin-top:80px; background-color:#ffffff; padding:72px 16px;" id="install">
   <div class="container">
@@ -992,25 +968,25 @@
           <h3 style="font-size:18px; font-weight:800; color:#0f1623; margin-bottom:8px;">Basic</h3>
           <div style="font-size:42px; font-weight:800; color:#0f1623; letter-spacing:-2px; margin:14px 0 4px;"><span style="font-size:22px; vertical-align:top;">$</span>9.99</div>
           <div style="font-size:13px; color:#64748b; margin-bottom:24px;">One-time &middot; Odoo CE</div>
-          <div style="margin-bottom:10px; font-size:14px; color:#64748b;"><i class="bi bi-check-lg" style="color:#2563eb; margin-right:8px; font-weight:900;"></i>All 6 core sync features</div>
-          <div style="margin-bottom:10px; font-size:14px; color:#64748b;"><i class="bi bi-check-lg" style="color:#2563eb; margin-right:8px; font-weight:900;"></i>Odoo 16, 17, 18 CE</div>
-          <div style="margin-bottom:10px; font-size:14px; color:#64748b;"><i class="bi bi-check-lg" style="color:#2563eb; margin-right:8px; font-weight:900;"></i>1 WooCommerce store</div>
-          <div style="margin-bottom:10px; font-size:14px; color:#64748b;"><i class="bi bi-check-lg" style="color:#2563eb; margin-right:8px; font-weight:900;"></i>Email support</div>
-          <div style="margin-bottom:10px; font-size:14px; color:#64748b;"><i class="bi bi-check-lg" style="color:#2563eb; margin-right:8px; font-weight:900;"></i>Free minor updates</div>
+          <div style="margin-bottom:10px; font-size:14px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; margin-right:8px; font-weight:900;">✓</span>All 6 core sync features</div>
+          <div style="margin-bottom:10px; font-size:14px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; margin-right:8px; font-weight:900;">✓</span>Odoo 16, 17, 18 CE</div>
+          <div style="margin-bottom:10px; font-size:14px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; margin-right:8px; font-weight:900;">✓</span>1 WooCommerce store</div>
+          <div style="margin-bottom:10px; font-size:14px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; margin-right:8px; font-weight:900;">✓</span>Email support</div>
+          <div style="margin-bottom:10px; font-size:14px; color:#64748b;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; margin-right:8px; font-weight:900;">✓</span>Free minor updates</div>
           <a href="https://apps.odoo.com/apps/modules/18.0/sdlc_woo_connector" style="display:block; margin-top:24px; padding:13px; border:2px solid #cbd5e1; color:#0f1623; text-align:center; border-radius:10px; font-weight:800; font-size:14px; text-decoration:none;">Install Now</a>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <div class="h-100" style="padding:32px 28px; background-color:#1e3a8a; border-radius:14px;">
-          <div class="d-inline-block" style="background-color:#a3e635; color:#1a2e05; font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;"><i class="bi bi-star-fill" style="margin-right:4px;"></i>Most Popular</div>
+          <div class="d-inline-block" style="background-color:#a3e635; color:#1a2e05; font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:4px;">★</span>Most Popular</div>
           <h3 style="font-size:18px; font-weight:800; color:#ffffff; margin-bottom:8px;">Enterprise (Custom) </h3>
           <div style="font-size:42px; font-weight:800; color:#ffffff; letter-spacing:-2px; margin:14px 0 4px;"><span style="font-size:22px; vertical-align:top;">$</span>*****</div>
           <div style="font-size:13px; color:#bfdbfe; margin-bottom:24px;">One-time &middot; Odoo CE &amp; EE</div>
-          <div style="margin-bottom:10px; font-size:14px; color:#dbeafe;"><i class="bi bi-check-lg" style="color:#a3e635; margin-right:8px; font-weight:900;"></i>All Community features</div>
-          <div style="margin-bottom:10px; font-size:14px; color:#dbeafe;"><i class="bi bi-check-lg" style="color:#a3e635; margin-right:8px; font-weight:900;"></i>Odoo 16, 17, 18 CE + EE</div>
-          <div style="margin-bottom:10px; font-size:14px; color:#dbeafe;"><i class="bi bi-check-lg" style="color:#a3e635; margin-right:8px; font-weight:900;"></i>Multi-store (unlimited)</div>
-          <div style="margin-bottom:10px; font-size:14px; color:#dbeafe;"><i class="bi bi-check-lg" style="color:#a3e635; margin-right:8px; font-weight:900;"></i>Priority support &lt;1hr</div>
-          <div style="margin-bottom:10px; font-size:14px; color:#dbeafe;"><i class="bi bi-check-lg" style="color:#a3e635; margin-right:8px; font-weight:900;"></i>Free major version updates</div>
+          <div style="margin-bottom:10px; font-size:14px; color:#dbeafe;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; margin-right:8px; font-weight:900;">✓</span>All Community features</div>
+          <div style="margin-bottom:10px; font-size:14px; color:#dbeafe;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; margin-right:8px; font-weight:900;">✓</span>Odoo 16, 17, 18 CE + EE</div>
+          <div style="margin-bottom:10px; font-size:14px; color:#dbeafe;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; margin-right:8px; font-weight:900;">✓</span>Multi-store (unlimited)</div>
+          <div style="margin-bottom:10px; font-size:14px; color:#dbeafe;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; margin-right:8px; font-weight:900;">✓</span>Priority support &lt;1hr</div>
+          <div style="margin-bottom:10px; font-size:14px; color:#dbeafe;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; margin-right:8px; font-weight:900;">✓</span>Free major version updates</div>
           <a href="https://sdlccorp.com/contact-us/" style="display:block; margin-top:24px; padding:13px; background-color:#a3e635; color:#1a2e05; text-align:center; border-radius:10px; font-weight:800; font-size:14px; text-decoration:none;">Contact Now</a>
         </div>
       </div>
@@ -1018,12 +994,6 @@
     </div>
   </div>
 </section>
-</details>
-
-<!-- ═══ TAB 4: REVIEWS ═══ -->
-<details name="page">
-<summary style="display:none;"></summary>
-
 <!-- ═══ 14. TESTIMONIALS ═══ -->
 <section id="reviews" style="scroll-margin-top:80px; background-color:#f8fafc; padding:72px 16px;">
   <div class="container">
@@ -1129,12 +1099,6 @@
   </div>
 </section>
 
-</details>
-
-<!-- ═══ TAB 5: SETUP ═══ -->
-<details name="page">
-<summary style="display:none;"></summary>
-
 <!-- ═══ 15. SETUP STEPS ═══ -->
 <section style="scroll-margin-top:80px; background-color:#0f1623; padding:72px 16px;" id="docs">
   <div class="container">
@@ -1200,8 +1164,8 @@
       </div>
     </div>
     <div class="text-center mt-4">
-      <a href="https://docs.sdlccorp.com/" target="_blank" style="display:inline-block; background-color:#a3e635; color:#1a2e05; padding:13px 26px; border-radius:999px; font-weight:800; font-size:14px; text-decoration:none; margin:6px;"><i class="bi bi-box-arrow-up-right" style="margin-right:8px;"></i>View full documentation</a>
-      <a href="#" style="display:inline-block; background-color:#1e2a45; color:#ffffff; padding:13px 26px; border-radius:999px; font-weight:800; font-size:14px; text-decoration:none; border:1px solid #1e3a8a; margin:6px;"><i class="bi bi-play-circle-fill" style="margin-right:8px;"></i>Watch video guide</a>
+      <a href="https://docs.sdlccorp.com/" target="_blank" style="display:inline-block; background-color:#a3e635; color:#1a2e05; padding:13px 26px; border-radius:999px; font-weight:800; font-size:14px; text-decoration:none; margin:6px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:8px;">↗</span>View full documentation</a>
+      <a href="#" style="display:inline-block; background-color:#1e2a45; color:#ffffff; padding:13px 26px; border-radius:999px; font-weight:800; font-size:14px; text-decoration:none; border:1px solid #1e3a8a; margin:6px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:8px;">▶</span>Watch video guide</a>
     </div>
   </div>
 </section>
@@ -1276,7 +1240,7 @@
     <div class="row">
       <div class="col-md-6 col-12 mb-4">
         <div class="h-100" style="padding:28px; background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#dbeafe; border-radius:12px;"><i class="bi bi-server" style="color:#2563eb; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#dbeafe; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#2563eb; font-size:20px;">▣</span></div>
           <h4 style="font-size:18px; font-weight:800; color:#0f1623; margin-bottom:14px;">Odoo side</h4>
           <div style="font-size:14px; color:#64748b; line-height:1.7;">
             <div style="padding:7px 0; border-bottom:1px solid #e2e8f0;"><strong style="color:#0f1623;">Version:</strong> 16.0, 17.0, or 18.0 (CE or EE)</div>
@@ -1290,7 +1254,7 @@
       </div>
       <div class="col-md-6 col-12 mb-4">
         <div class="h-100" style="padding:28px; background-color:#f8fafc; border:1px solid #e2e8f0; border-radius:14px;">
-          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#fef3c7; border-radius:12px;"><i class="bi bi-shop" style="color:#b45309; font-size:20px;"></i></div>
+          <div class="d-inline-flex align-items-center justify-content-center mb-3" style="width:48px; height:48px; background-color:#fef3c7; border-radius:12px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#b45309; font-size:20px;">▤</span></div>
           <h4 style="font-size:18px; font-weight:800; color:#0f1623; margin-bottom:14px;">WooCommerce side</h4>
           <div style="font-size:14px; color:#64748b; line-height:1.7;">
             <div style="padding:7px 0; border-bottom:1px solid #e2e8f0;"><strong style="color:#0f1623;">WordPress:</strong> 6.0+</div>
@@ -1318,40 +1282,40 @@
       <div class="col-md-4 col-12 mb-4">
         <a href="https://docs.sdlccorp.com/quickstart" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block; height:100%;">
           <div class="h-100" style="padding:24px; background-color:#1e2a45; border:1px solid #1e3a8a; border-radius:14px;">
-            <i class="bi bi-rocket-takeoff" style="color:#a3e635; font-size:24px; margin-bottom:14px;"></i>
+            <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; font-size:24px; margin-bottom:14px;">▲</span>
             <h4 style="font-size:16px; font-weight:800; color:#ffffff; margin-bottom:8px;">Quickstart Guide</h4>
             <p style="font-size:13px; color:#94a3b8; line-height:1.6; margin-bottom:10px;">Install + connect + first sync in 5 minutes.</p>
-            <div style="font-size:11px; color:#a3e635; font-weight:800; letter-spacing:1px; text-transform:uppercase;">5 min read <i class="bi bi-arrow-right" style="margin-left:4px;"></i></div>
+            <div style="font-size:11px; color:#a3e635; font-weight:800; letter-spacing:1px; text-transform:uppercase;">5 min read <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-left:4px;">→</span></div>
           </div>
         </a>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <a href="https://docs.sdlccorp.com/video" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block; height:100%;">
           <div class="h-100" style="padding:24px; background-color:#1e2a45; border:1px solid #1e3a8a; border-radius:14px;">
-            <i class="bi bi-play-circle-fill" style="color:#a3e635; font-size:24px; margin-bottom:14px;"></i>
+            <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; font-size:24px; margin-bottom:14px;">▶</span>
             <h4 style="font-size:16px; font-weight:800; color:#ffffff; margin-bottom:8px;">Video Walkthrough</h4>
             <p style="font-size:13px; color:#94a3b8; line-height:1.6; margin-bottom:10px;">Complete setup walkthrough with screen recording.</p>
-            <div style="font-size:11px; color:#a3e635; font-weight:800; letter-spacing:1px; text-transform:uppercase;">12 min watch <i class="bi bi-arrow-right" style="margin-left:4px;"></i></div>
+            <div style="font-size:11px; color:#a3e635; font-weight:800; letter-spacing:1px; text-transform:uppercase;">12 min watch <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-left:4px;">→</span></div>
           </div>
         </a>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <a href="https://docs.sdlccorp.com/best-practices" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block; height:100%;">
           <div class="h-100" style="padding:24px; background-color:#1e2a45; border:1px solid #1e3a8a; border-radius:14px;">
-            <i class="bi bi-lightbulb" style="color:#a3e635; font-size:24px; margin-bottom:14px;"></i>
+            <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; font-size:24px; margin-bottom:14px;">◌</span>
             <h4 style="font-size:16px; font-weight:800; color:#ffffff; margin-bottom:8px;">Best Practices</h4>
             <p style="font-size:13px; color:#94a3b8; line-height:1.6; margin-bottom:10px;">Field mapping, tax rules, multi-warehouse setup.</p>
-            <div style="font-size:11px; color:#a3e635; font-weight:800; letter-spacing:1px; text-transform:uppercase;">15 min read <i class="bi bi-arrow-right" style="margin-left:4px;"></i></div>
+            <div style="font-size:11px; color:#a3e635; font-weight:800; letter-spacing:1px; text-transform:uppercase;">15 min read <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-left:4px;">→</span></div>
           </div>
         </a>
       </div>
       <div class="col-md-4 col-12 mb-4">
         <a href="https://docs.sdlccorp.com/migration" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block; height:100%;">
           <div class="h-100" style="padding:24px; background-color:#1e2a45; border:1px solid #1e3a8a; border-radius:14px;">
-            <i class="bi bi-arrow-left-right" style="color:#a3e635; font-size:24px; margin-bottom:14px;"></i>
+            <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; font-size:24px; margin-bottom:14px;">↔</span>
             <h4 style="font-size:16px; font-weight:800; color:#ffffff; margin-bottom:8px;">Migration Guide</h4>
             <p style="font-size:13px; color:#94a3b8; line-height:1.6; margin-bottom:10px;">Migrating from polling-based or legacy connectors.</p>
-            <div style="font-size:11px; color:#a3e635; font-weight:800; letter-spacing:1px; text-transform:uppercase;">10 min read <i class="bi bi-arrow-right" style="margin-left:4px;"></i></div>
+            <div style="font-size:11px; color:#a3e635; font-weight:800; letter-spacing:1px; text-transform:uppercase;">10 min read <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-left:4px;">→</span></div>
           </div>
         </a>
       </div>
@@ -1359,22 +1323,16 @@
       <div class="col-md-4 col-12 mb-4">
         <a href="https://community.sdlccorp.com/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block; height:100%;">
           <div class="h-100" style="padding:24px; background-color:#1e2a45; border:1px solid #1e3a8a; border-radius:14px;">
-            <i class="bi bi-people-fill" style="color:#a3e635; font-size:24px; margin-bottom:14px;"></i>
+            <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#a3e635; font-size:24px; margin-bottom:14px;">♟</span>
             <h4 style="font-size:16px; font-weight:800; color:#ffffff; margin-bottom:8px;">Community Forum</h4>
             <p style="font-size:13px; color:#94a3b8; line-height:1.6; margin-bottom:10px;">Search past discussions or ask the community.</p>
-            <div style="font-size:11px; color:#a3e635; font-weight:800; letter-spacing:1px; text-transform:uppercase;">Always open <i class="bi bi-arrow-right" style="margin-left:4px;"></i></div>
+            <div style="font-size:11px; color:#a3e635; font-weight:800; letter-spacing:1px; text-transform:uppercase;">Always open <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-left:4px;">→</span></div>
           </div>
         </a>
       </div>
     </div>
   </div>
 </section>
-
-</details>
-
-<!-- ═══ TAB 6: SUPPORT ═══ -->
-<details name="page">
-<summary style="display:none;"></summary>
 
 <!-- ═══ 17. SUPPORT ═══ -->
 <section style="scroll-margin-top:80px; background-color:#f8fafc; padding:72px 16px;" id="support">
@@ -1413,21 +1371,21 @@
     <div class="row">
       <div class="col-md-4 col-12 mb-3">
         <div class="text-center h-100" style="padding:24px 20px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <i class="bi bi-ticket-perforated" style="font-size:28px; color:#2563eb; margin-bottom:10px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; font-size:28px; color:#2563eb; margin-bottom:10px;">▥</span>
           <div style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:5px;">Support portal</div>
           <div style="font-size:13px; color:#64748b;">Raise a ticket from your Odoo.com account &mdash; tracked end-to-end</div>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-3">
         <div class="text-center h-100" style="padding:24px 20px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <i class="bi bi-envelope" style="font-size:28px; color:#2563eb; margin-bottom:10px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; font-size:28px; color:#2563eb; margin-bottom:10px;">✉</span>
           <div style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:5px;">Email support</div>
           <div style="font-size:13px; color:#64748b;">sales@sdlccorp.com - include your Odoo version &amp; error log</div>
         </div>
       </div>
       <div class="col-md-4 col-12 mb-3">
         <div class="text-center h-100" style="padding:24px 20px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <i class="bi bi-book" style="font-size:28px; color:#2563eb; margin-bottom:10px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; font-size:28px; color:#2563eb; margin-bottom:10px;">▣</span>
           <div style="font-size:15px; font-weight:800; color:#0f1623; margin-bottom:5px;">Documentation</div>
           <div style="font-size:13px; color:#64748b;">Full setup guide at docs.sdlccorp.com - always up to date</div>
         </div>
@@ -1483,16 +1441,10 @@
       </div>
     </div>
     <div class="text-center mt-3">
-      <p style="font-size:13px; color:#94a3b8; margin:0;"><i class="bi bi-info-circle" style="margin-right:6px;"></i>Want to influence the roadmap? Email feature requests to <a href="mailto:sales@sdlccorp.com" style="color:#2563eb; text-decoration:none; font-weight:700;">sales@sdlccorp.com</a></p>
+      <p style="font-size:13px; color:#94a3b8; margin:0;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:6px;">ⓘ</span>Want to influence the roadmap? Email feature requests to <a href="mailto:sales@sdlccorp.com" style="color:#2563eb; text-decoration:none; font-weight:700;">sales@sdlccorp.com</a></p>
   </div>
   </div>
 </section>
-
-</details>
-
-<!-- ═══ TAB 7: FAQs ═══ -->
-<details name="page">
-<summary style="display:none;"></summary>
 
 <!-- ═══ 19. FAQs ═══ -->
 <section id="faqs" style="scroll-margin-top:80px; background-color:#f8fafc; padding:72px 16px;">
@@ -1577,7 +1529,7 @@
       </div>
       <div class="col-md-3 col-12 mb-4">
         <div class="h-100 d-flex flex-column" style="padding:22px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:18px;"><i class="bi bi-envelope" style="color:#16a34a; margin-right:8px;"></i>Email</div>
+          <div style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:18px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:8px;">✉</span>Email</div>
           <div class="d-flex align-items-center justify-content-center" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; margin-bottom:10px;">
             <img src="sdlccorp_contact_qr.png" alt="Email QR Code" style="width:140px; height:140px; display:block;"/>
           </div>
@@ -1589,7 +1541,7 @@
       </div>
       <div class="col-md-3 col-12 mb-4">
         <div class="h-100 d-flex flex-column" style="padding:22px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:18px;"><i class="bi bi-chat-dots" style="color:#16a34a; margin-right:8px;"></i>WhatsApp</div>
+          <div style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:18px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:8px;">…</span>WhatsApp</div>
           <div class="d-flex align-items-center justify-content-center" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; margin-bottom:10px;">
             <img src="Whatsapp.png" alt="WhatsApp QR Code" style="width:140px; height:140px; display:block;"/>
           </div>
@@ -1601,7 +1553,7 @@
       </div>
       <div class="col-md-3 col-12 mb-4">
         <div class="h-100 d-flex flex-column" style="padding:22px; background-color:#ffffff; border:1px solid #e2e8f0; border-radius:14px;">
-          <div style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:18px;"><i class="bi bi-calendar-event" style="color:#16a34a; margin-right:8px;"></i>Schedule a Meeting</div>
+          <div style="font-size:16px; font-weight:800; color:#0f1623; margin-bottom:18px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; color:#16a34a; margin-right:8px;">▣</span>Schedule a Meeting</div>
           <div class="d-flex align-items-center justify-content-center" style="background-color:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; margin-bottom:10px;">
             <img src="Meeting.png" alt="Schedule a Meeting QR Code" style="width:140px; height:140px; display:block;"/>
           </div>
@@ -1615,8 +1567,6 @@
   </div>
 </section>
 
-</details>
-
 <!-- ═══ 21. FINAL CTA ═══ -->
 <section style="background-color:#0f1623; padding:64px 16px;">
   <div class="container">
@@ -1624,8 +1574,8 @@
       <div class="col-md-9 col-12 text-center">
         <h2 style="font-size:38px; font-weight:800; color:#ffffff; letter-spacing:-1px; margin-bottom:14px;">Ready to connect WooCommerce to Odoo?</h2>
         <p style="font-size:16px; color:#94a3b8; max-width:640px; margin:0 auto 28px;">Install in one click. 10 hours of free expert-led implementation included. 30-day money-back guarantee. Lifetime updates.</p>
-        <a href="https://apps.odoo.com/apps/modules/18.0/sdlc_woo_connector" style="display:inline-block; background-color:#a3e635; color:#1a2e05; padding:15px 32px; border-radius:10px; font-weight:800; font-size:16px; text-decoration:none; margin:6px;"><i class="bi bi-download" style="margin-right:10px;"></i>Install &mdash; $9.99 one-time</a>
-        <a href="mailto:support@sdlccorp.com" style="display:inline-block; background-color:transparent; color:#ffffff; padding:15px 32px; border-radius:10px; font-weight:800; font-size:16px; text-decoration:none; border:1px solid #1e2a45; margin:6px;"><i class="bi bi-envelope" style="margin-right:10px;"></i>Talk to support</a>
+        <a href="https://apps.odoo.com/apps/modules/18.0/sdlc_woo_connector" style="display:inline-block; background-color:#a3e635; color:#1a2e05; padding:15px 32px; border-radius:10px; font-weight:800; font-size:16px; text-decoration:none; margin:6px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:10px;">↓</span>Install &mdash; $9.99 one-time</a>
+        <a href="mailto:support@sdlccorp.com" style="display:inline-block; background-color:transparent; color:#ffffff; padding:15px 32px; border-radius:10px; font-weight:800; font-size:16px; text-decoration:none; border:1px solid #1e2a45; margin:6px;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:10px;">✉</span>Talk to support</a>
       </div>
     </div>
   </div>
@@ -1643,35 +1593,35 @@
     <div class="row">
       <div class="col-md-3 col-6 mb-3">
         <div class="h-100 text-center" style="padding:24px; background-color:#ffffff; border:1px solid #fde68a; border-radius:14px;">
-          <i class="bi bi-code-slash" style="font-size:32px; color:#2563eb; margin-bottom:12px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; font-size:32px; color:#2563eb; margin-bottom:12px;">&lt;/&gt;</span>
           <div style="font-size:14px; font-weight:800; color:#0f1623; margin-bottom:6px;">Custom Odoo Development</div>
           <div style="font-size:11px; color:#64748b; line-height:1.5;">Bespoke Odoo modules tailored to your workflow</div>
         </div>
       </div>
       <div class="col-md-3 col-6 mb-3">
         <div class="h-100 text-center" style="padding:24px; background-color:#ffffff; border:1px solid #fde68a; border-radius:14px;">
-          <i class="bi bi-brush" style="font-size:32px; color:#7c3aed; margin-bottom:12px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; font-size:32px; color:#7c3aed; margin-bottom:12px;">▧</span>
           <div style="font-size:14px; font-weight:800; color:#0f1623; margin-bottom:6px;">Odoo Integration</div>
           <div style="font-size:11px; color:#64748b; line-height:1.5;">White-label your Odoo backend with a custom UI</div>
         </div>
       </div>
       <div class="col-md-3 col-6 mb-3">
         <div class="h-100 text-center" style="padding:24px; background-color:#ffffff; border:1px solid #fde68a; border-radius:14px;">
-          <i class="bi bi-box-arrow-up-right" style="font-size:32px; color:#16a34a; margin-bottom:12px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; font-size:32px; color:#16a34a; margin-bottom:12px;">↗</span>
           <div style="font-size:14px; font-weight:800; color:#0f1623; margin-bottom:6px;">Odoo Migration &amp; Upgrade</div>
           <div style="font-size:11px; color:#64748b; line-height:1.5;">Move from Odoo v15/v16 to v17/v18 safely</div>
         </div>
       </div>
       <div class="col-md-3 col-6 mb-3">
         <div class="h-100 text-center" style="padding:24px; background-color:#ffffff; border:1px solid #fde68a; border-radius:14px;">
-          <i class="bi bi-speedometer" style="font-size:32px; color:#dc2626; margin-bottom:12px;"></i>
+          <span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; font-size:32px; color:#dc2626; margin-bottom:12px;">◴</span>
           <div style="font-size:14px; font-weight:800; color:#0f1623; margin-bottom:6px;">Odoo Performance Tuning</div>
           <div style="font-size:11px; color:#64748b; line-height:1.5;">Optimise Odoo for 10K+ SKUs and high traffic</div>
         </div>
       </div>
     </div>
     <div class="text-center mt-3">
-      <a href="https://sdlccorp.com/services/odoo-services/" target="_blank" rel="noopener noreferrer" style="display:inline-block; background-color:#0f1623; color:#a3e635; padding:12px 24px; border-radius:10px; font-weight:800; font-size:14px; text-decoration:none;"><i class="bi bi-box-arrow-up-right" style="margin-right:8px;"></i>View all services at sdlccorp.com</a>
+      <a href="https://sdlccorp.com/services/odoo-services/" target="_blank" rel="noopener noreferrer" style="display:inline-block; background-color:#0f1623; color:#a3e635; padding:12px 24px; border-radius:10px; font-weight:800; font-size:14px; text-decoration:none;"><span aria-hidden="true" style="display:inline-block; line-height:1; font-style:normal; text-align:center; margin-right:8px;">↗</span>View all services at sdlccorp.com</a>
     </div>
   </div>
 </section>
