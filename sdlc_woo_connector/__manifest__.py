@@ -7,7 +7,7 @@
     'website': 'https://sdlccorp.com/',
         'price': 10,
     'currency': 'USD',
-'license': 'LGPL-3',
+'license': 'OPL-1',
     'depends': ["base",
                 "web",
                 "bus",
