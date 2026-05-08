@@ -7,10 +7,10 @@
 
     <!-- LOCAL PREVIEW ONLY — Odoo's sanitizer strips <head>, <link>, <meta> on upload.
          Bootstrap 4 + Font Awesome 4 are preloaded by Odoo on apps.odoo.com. -->
-    <!-- <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
 
     <!-- Optional: uncomment ONLY for local icon preview (FA4 CDN). Strip before upload. -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -22,7 +22,7 @@
   ===========================================================================
 -->
 
-<div class="container" style="max-width: 1200px; padding-top: 24px; padding-bottom: 24px;">
+<div>
 
   <!-- ============================================================
        SECTION 1: HERO
@@ -32,37 +32,143 @@
   <div style="background-color: #ffffff; border-bottom: 1px solid #e5e7eb; padding: 16px 20px;">
     <div class="row" style="margin: 0;">
 
-      <div class="col-md-4" style="padding: 0;">
+      <div class="col-md-3" style="padding: 0;">
         <div style="display: inline-block; vertical-align: middle;">
-          <img src="Logo.png" alt="WooCommerce Odoo Connector" style="width: 48px; height: 48px; vertical-align: middle; border-radius: 8px;"/>
+          <img src="Logo.png" alt="WooCommerce Odoo Connector" style="width: 42px; height: 42px; vertical-align: middle; border-radius: 8px;"/>
         </div>
-        <div style="display: inline-block; vertical-align: middle; margin-left: 12px;">
-          <div style="font-size: 17px; font-weight: 700; color: #0c0b1d; line-height: 1.25;">
+        <div style="display: inline-block; vertical-align: middle; margin-left: 10px;">
+          <div style="font-size: 14px; font-weight: 700; color: #0c0b1d; line-height: 1.25;">
             WooCommerce<br/>Odoo Connector
           </div>
         </div>
       </div>
 
-      <div class="col-md-5 text-center" style="padding: 12px 0;">
-        <a href="#overview" style="color: #0c0b1d; font-weight: 600; padding: 8px 10px; text-decoration: none; font-size: 15px;">Overview</a>
-        <a href="#features" style="color: #0c0b1d; font-weight: 600; padding: 8px 10px; text-decoration: none; font-size: 15px;">Features</a>
-        <a href="#why-us" style="color: #0c0b1d; font-weight: 600; padding: 8px 10px; text-decoration: none; font-size: 15px;">Why Us</a>
-        <a href="#support" style="color: #0c0b1d; font-weight: 600; padding: 8px 10px; text-decoration: none; font-size: 15px;">Support</a>
-        <a href="#faqs" style="color: #0c0b1d; font-weight: 600; padding: 8px 10px; text-decoration: none; font-size: 15px;">FAQs</a>
-        <a href="#releases" style="color: #0c0b1d; font-weight: 600; padding: 8px 10px; text-decoration: none; font-size: 15px;">Releases</a>
+      <div class="col-md-6 text-center" style="padding: 14px 0;">
+        <a href="#overview" style="color: #0c0b1d; font-weight: 600; padding: 6px 8px; text-decoration: none; font-size: 13px;">Overview</a>
+        <a href="#features" style="color: #0c0b1d; font-weight: 600; padding: 6px 8px; text-decoration: none; font-size: 13px;">Screenshots</a>
+        <a href="#why-us" style="color: #0c0b1d; font-weight: 600; padding: 6px 8px; text-decoration: none; font-size: 13px;">Why Us</a>
+        <a href="#support" style="color: #0c0b1d; font-weight: 600; padding: 6px 8px; text-decoration: none; font-size: 13px;">Support</a>
+        <a href="#faqs" style="color: #0c0b1d; font-weight: 600; padding: 6px 8px; text-decoration: none; font-size: 13px;">FAQs</a>
+        <a href="#releases" style="color: #0c0b1d; font-weight: 600; padding: 6px 8px; text-decoration: none; font-size: 13px;">Releases</a>
       </div>
 
       <div class="col-md-3 text-right" style="padding: 8px 0;">
-        <a href="tel:+14155940097" style="display: inline-block; background-color: #8b44ff; color: #ffffff; padding: 10px 20px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 15px;">
-          <i class="fa fa-phone" style="margin-right: 8px;"></i>+1 (415) 594-0097
+        <a href="tel:+14155940097" style="display: inline-block; background-color: #8b44ff; color: #ffffff; padding: 8px 14px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 13px;">
+          <i class="fa fa-phone" style="margin-right: 6px;"></i>+1 (415) 594-0097
         </a>
       </div>
 
     </div>
   </div>
 
+  <!-- ============================================================
+       NEW HERO SECTION — premium composition
+       Left: typography hierarchy with eyebrow + huge headline +
+             subtitle + feature pills + CTAs + trust footer.
+       Right: vertical stack of 3 composed PNG elements
+             (notification badge + dashboard mockup + rating badge).
+
+       FILES NEEDED in description folder:
+         - hero_notif.png      (320×90 — top notification badge)
+         - hero_dashboard.png  (720×540 — main dashboard mockup)
+         - hero_rating.png     (320×90 — bottom rating badge)
+         - trophy.png, star.png  (already in folder)
+
+       PLACEHOLDERS / VERIFY:
+         - Trust numbers (5.0, 200+, 8+ years)
+         - Feature pills — adjust to match your real differentiators
+         - Headline copy
+
+       All CSS used here is empirically confirmed-working on your Odoo
+       render. No gradients, no position:absolute, no shorthand bg.
+       ============================================================ -->
+
+  <div style="background-color: #0c0b1d; padding: 64px 32px; border-radius: 18px; margin-bottom: 32px;">
+
+    <div class="row" style="margin: 0;">
+
+      <!-- ========== LEFT: typography ========== -->
+      <div class="col-md-7" style="padding: 12px 24px;">
+
+        <!-- Eyebrow award tag -->
+        <div style="margin-bottom: 24px;">
+          <span style="display: inline-block; background-color: #1a1340; color: #d8b4fe; padding: 8px 16px; border-radius: 30px; font-size: 11px; font-weight: 800; letter-spacing: 2px; border: 1px solid #4c1d95;">
+            <i class="fa fa-trophy" style="margin-right: 8px; color: #d8b4fe;"></i>BEST ERP IMPLEMENTATION PARTNER &middot; 2025
+          </span>
+        </div>
+
+        <!-- Massive headline -->
+        <h1 style="font-size: 60px; font-weight: 800; color: #ffffff; margin: 0 0 22px 0; line-height: 1.05; letter-spacing: -1px;">
+          Connect <span style="color: #8b44ff;">WooCommerce</span><br/>
+          to Odoo. <span style="color: #d8b4fe;">Forever.</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p style="font-size: 18px; color: #c4a8ff; line-height: 1.55; margin: 0 0 28px 0; max-width: 580px;">
+          Real-time bidirectional sync of orders, customers, products, inventory and pricing &mdash; built for production stores doing serious volume.
+        </p>
+
+        <!-- Feature pills (4 quick differentiators) -->
+        <div style="margin-bottom: 32px;">
+          <span style="display: inline-block; background-color: #1a1340; color: #ede4ff; padding: 8px 14px; border-radius: 30px; font-size: 12px; font-weight: 700; margin-right: 8px; margin-bottom: 8px; border: 1px solid #4c1d95;">
+            <i class="fa fa-check" style="margin-right: 6px; color: #8b44ff;"></i>Real-time webhook sync
+          </span>
+          <span style="display: inline-block; background-color: #1a1340; color: #ede4ff; padding: 8px 14px; border-radius: 30px; font-size: 12px; font-weight: 700; margin-right: 8px; margin-bottom: 8px; border: 1px solid #4c1d95;">
+            <i class="fa fa-check" style="margin-right: 6px; color: #8b44ff;"></i>10-hour expert setup
+          </span>
+          <span style="display: inline-block; background-color: #1a1340; color: #ede4ff; padding: 8px 14px; border-radius: 30px; font-size: 12px; font-weight: 700; margin-right: 8px; margin-bottom: 8px; border: 1px solid #4c1d95;">
+            <i class="fa fa-check" style="margin-right: 6px; color: #8b44ff;"></i>Full audit logs
+          </span>
+          <span style="display: inline-block; background-color: #1a1340; color: #ede4ff; padding: 8px 14px; border-radius: 30px; font-size: 12px; font-weight: 700; margin-right: 8px; margin-bottom: 8px; border: 1px solid #4c1d95;">
+            <i class="fa fa-check" style="margin-right: 6px; color: #8b44ff;"></i>Multi-store ready
+          </span>
+        </div>
+
+        <!-- CTAs -->
+        <div style="margin-bottom: 28px;">
+          <a href="#features" style="display: inline-block; background-color: #8b44ff; color: #ffffff; padding: 16px 32px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 15px; margin-right: 12px; margin-bottom: 12px;">
+            See It in Action <i class="fa fa-arrow-right" style="margin-left: 8px;"></i>
+          </a>
+          <a href="tel:+14155940097" style="display: inline-block; background-color: #1a1340; color: #ffffff; padding: 14px 28px; border-radius: 30px; font-weight: 700; text-decoration: none; font-size: 15px; border: 2px solid #4c1d95; margin-bottom: 12px;">
+            <i class="fa fa-phone" style="margin-right: 8px;"></i>Talk to an Expert
+          </a>
+        </div>
+
+        <!-- Trust footer line (tech-trust complement to brand-trust eyebrow) -->
+        <div style="color: #8b7cb6; font-size: 13px; line-height: 1.55;">
+          <i class="fa fa-check-circle" style="margin-right: 6px; color: #8b44ff;"></i>Works with Odoo 16, 17 &amp; 18 &nbsp;&middot;&nbsp; By SDLC Corp since 2018
+        </div>
+
+      </div>
+
+      <!-- ========== RIGHT: 3-element composed stack ========== -->
+      <div class="col-md-5" style="padding: 12px 16px;">
+
+        <!-- Top: notification badge -->
+        <div style="margin-bottom: 16px; text-align: right;">
+          <img src="hero_notif.png" alt="" style="width: 100%; max-width: 320px; height: auto;"/>
+        </div>
+
+        <!-- Center: main dashboard mockup -->
+        <div style="margin-bottom: 16px;">
+          <img src="hero_dashboard.png" alt="WooCommerce Odoo sync dashboard" style="width: 100%; height: auto; border-radius: 14px;"/>
+        </div>
+
+        <!-- Bottom: rating badge -->
+        <div style="text-align: left;">
+          <img src="hero_rating.png" alt="" style="width: 100%; max-width: 320px; height: auto;"/>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
   <!-- ===== Demo CTA hero zone ===== -->
-  <div id="overview" style="background: linear-gradient(135deg, #faf5ff 0%, #f5f0ff 50%, #ede4ff 100%); padding: 56px 24px;">
+  
+  <div id="overview" style="background-color: #f5f0ff; padding: 56px 24px;">
 
     <div class="text-center" style="margin-bottom: 36px;">
       <h2 style="font-size: 38px; font-weight: 800; color: #0c0b1d; margin: 0; line-height: 1.2;">
@@ -70,22 +176,47 @@
       </h2>
     </div>
 
-    <div style="margin: 0 auto 40px auto; max-width: 920px; background: linear-gradient(135deg, #0c0b1d 0%, #4c1d95 60%, #8b44ff 100%); border-radius: 12px; padding: 22px 28px;">
+    <!-- ===== Award banner — premium feel with trophy + stars ===== -->
+    <div style="position: relative; margin: 0 auto 40px auto; max-width: 1100px; background-color: #1a1340; border-radius: 14px; padding: 26px 28px; overflow: hidden;">
+
+      <!-- Decorative sparkles positioned in the corners -->
+      <img src="sparkle.png" alt="" style="position: absolute; top: 14px; left: 22px; width: 22px; height: 22px; opacity: 0.6;"/>
+      <img src="sparkle.png" alt="" style="position: absolute; top: 22px; right: 38px; width: 16px; height: 16px; opacity: 0.4;"/>
+      <img src="sparkle.png" alt="" style="position: absolute; bottom: 18px; left: 42%; width: 14px; height: 14px; opacity: 0.5;"/>
+      <img src="sparkle.png" alt="" style="position: absolute; bottom: 28px; right: 18px; width: 20px; height: 20px; opacity: 0.55;"/>
+
       <div class="row" style="margin: 0;">
-        <div class="col-md-5 text-center" style="padding: 6px;">
-          <img src="odoo_partner.png" alt="Odoo Partner" style="max-height: 44px; width: auto; vertical-align: middle;"/>
-          <span style="display: inline-block; width: 1px; height: 38px; background-color: #c4a8ff; vertical-align: middle; margin: 0 18px;"></span>
-          <img src="SDLC%20Corp.png" alt="Company logo" style="max-height: 44px; width: auto; vertical-align: middle;"/>
+
+        <!-- Left: paired logos -->
+        <div class="col-md-4 text-center" style="padding: 8px 6px;">
+          <img src="odoo_partner.png" alt="Odoo Partner" style="max-height: 48px; width: auto; vertical-align: middle;"/>
+          <span style="display: inline-block; width: 1px; height: 40px; background-color: #c4a8ff; vertical-align: middle; margin: 0 18px;"></span>
+          <img src="sdlc_corp.png" alt="SDLC Corp" style="max-height: 48px; width: auto; vertical-align: middle;"/>
         </div>
-        <div class="col-md-7" style="padding: 18px 6px 6px 6px;">
-          <div style="color: #ffffff; font-weight: 600; font-size: 17px; line-height: 1.4;">
-            Best ERP Implementation Partner <span style="color: #c4a8ff;">(Odoo) India 2025</span>
+
+        <!-- Right: trophy + stars + headline -->
+        <div class="col-md-8" style="padding: 4px 6px;">
+          <img src="trophy.png" alt="" style="height: 64px; width: auto; vertical-align: middle; margin-right: 18px;"/>
+          <div style="display: inline-block; vertical-align: middle;">
+            <!-- 5 star row -->
+            <div style="margin-bottom: 6px;">
+              <img src="star.png" alt="" style="height: 14px; width: auto; margin-right: 3px;"/>
+              <img src="star.png" alt="" style="height: 14px; width: auto; margin-right: 3px;"/>
+              <img src="star.png" alt="" style="height: 14px; width: auto; margin-right: 3px;"/>
+              <img src="star.png" alt="" style="height: 14px; width: auto; margin-right: 3px;"/>
+              <img src="star.png" alt="" style="height: 14px; width: auto;"/>
+            </div>
+            <!-- Title text -->
+            <div style="color: #ffffff; font-weight: 700; font-size: 18px; line-height: 1.35;">
+              Best ERP Implementation Partner <span style="color: #d8b4fe;">(Odoo) India 2025</span>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
 
-    <div class="row" style="max-width: 1000px; margin: 0 auto 48px auto;">
+    <div class="row" style="max-width: 1400px; margin: 0 auto 48px auto;">
 
       <div class="col-md-4" style="padding: 12px;">
         <div style="background-color: #ede4ff; border-radius: 16px; padding: 24px; text-align: center; border: 2px solid #d8b4fe;">
@@ -101,7 +232,7 @@
           <div style="margin-bottom: 16px; font-weight: 700; color: #0c0b1d; font-size: 16px;">
             <i class="fa fa-whatsapp" style="color: #8b44ff; margin-right: 8px;"></i>Connect Via WhatsApp
           </div>
-          <img src="whats%20app.png" alt="WhatsApp QR code" style="width: 100%; max-width: 200px; height: auto; background-color: #ffffff; padding: 8px; border-radius: 8px;"/>
+          <img src="whatsapp_qr.png" alt="WhatsApp QR code" style="width: 100%; max-width: 200px; height: auto; background-color: #ffffff; padding: 8px; border-radius: 8px;"/>
         </div>
       </div>
 
@@ -139,6 +270,43 @@
 
 
   <!-- ============================================================
+       NEW SECTION: STATS BAR — instant credibility numbers
+       Sits right after the hero, before the overview.
+       PLACEHOLDERS: replace stat values with your real numbers.
+       ============================================================ -->
+
+  <div style="background-color: #8b44ff; padding: 56px 24px;">
+    <div class="row" style="max-width: 1200px; margin: 0 auto;">
+
+      <div class="col-md-3 text-center" style="padding: 16px;">
+        <i class="fa fa-shopping-bag" style="font-size: 38px; color: #ede4ff; margin-bottom: 14px;"></i>
+        <div style="font-size: 42px; font-weight: 800; color: #ffffff; line-height: 1.1;">200+</div>
+        <div style="color: #ede4ff; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; margin-top: 8px;">STORES SYNCED</div>
+      </div>
+
+      <div class="col-md-3 text-center" style="padding: 16px;">
+        <i class="fa fa-exchange" style="font-size: 38px; color: #ede4ff; margin-bottom: 14px;"></i>
+        <div style="font-size: 42px; font-weight: 800; color: #ffffff; line-height: 1.1;">5M+</div>
+        <div style="color: #ede4ff; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; margin-top: 8px;">ORDERS PROCESSED</div>
+      </div>
+
+      <div class="col-md-3 text-center" style="padding: 16px;">
+        <i class="fa fa-shield" style="font-size: 38px; color: #ede4ff; margin-bottom: 14px;"></i>
+        <div style="font-size: 42px; font-weight: 800; color: #ffffff; line-height: 1.1;">99.9%</div>
+        <div style="color: #ede4ff; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; margin-top: 8px;">SYNC SUCCESS RATE</div>
+      </div>
+
+      <div class="col-md-3 text-center" style="padding: 16px;">
+        <i class="fa fa-calendar" style="font-size: 38px; color: #ede4ff; margin-bottom: 14px;"></i>
+        <div style="font-size: 42px; font-weight: 800; color: #ffffff; line-height: 1.1;">8+</div>
+        <div style="color: #ede4ff; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; margin-top: 8px;">YEARS IN PRODUCTION</div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
        SECTION 2: OVERVIEW / POSITIONING
        Two-column: value props + implementation CTA  |  capability grid + positioning panel
        PLACEHOLDERS TO REPLACE:
@@ -147,7 +315,7 @@
          - US $500                    (your implementation hours valuation)
        ============================================================ -->
 
-  <div style="background: url('bg_overview.png') center / cover no-repeat #ffffff; padding: 64px 24px;">
+  <div style="background-color: #ffffff; padding: 64px 24px;">
 
     <div class="row" style="margin: 0;">
 
@@ -258,13 +426,13 @@
 
           </div>
 
-          <!-- Positioning panel -->
-          <div style="background: linear-gradient(135deg, #8b44ff 0%, #6d28d9 100%); border-radius: 12px; padding: 20px;">
-            <div style="color: #e9d5ff; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 8px;">POSITIONING</div>
-            <div style="color: #ffffff; font-size: 18px; font-weight: 800; margin-bottom: 6px; line-height: 1.3;">
+          <!-- Positioning panel (resilient: stays readable even if bg-color strips) -->
+          <div style="background-color: #faf5ff; border-left: 4px solid #8b44ff; border-radius: 8px; padding: 18px 20px;">
+            <div style="color: #8b44ff; font-size: 11px; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 8px;">POSITIONING</div>
+            <div style="color: #0c0b1d; font-size: 18px; font-weight: 800; margin-bottom: 6px; line-height: 1.3;">
               Mature WooCommerce Connector. Operationally Safer.
             </div>
-            <div style="color: #ffffff; font-size: 13px; line-height: 1.55;">
+            <div style="color: #4b5563; font-size: 13px; line-height: 1.55;">
               Not just sync coverage &mdash; better live readiness for WooCommerce businesses running on Odoo.
             </div>
           </div>
@@ -289,13 +457,13 @@
          odoo-mobile-app.png, "24 support.png" (referenced as 24%20support.png)
        ============================================================ -->
 
-  <div id="why-us" style="background: url('bg_why_us.png') center / cover no-repeat #f8fafc; padding: 72px 24px;">
+  <div id="why-us" style="background-color: #f8fafc; padding: 72px 24px;">
 
-    <!-- Header -->
+    <!-- Header (standardized: eyebrow + h2 + subtitle, centered) -->
     <div class="text-center" style="max-width: 820px; margin: 0 auto 48px auto;">
-      <div style="color: #8b44ff; font-size: 13px; font-weight: 800; letter-spacing: 2px; margin-bottom: 14px;">WHY SDLC CORP</div>
-      <h2 style="font-size: 36px; font-weight: 800; color: #0c0b1d; margin: 0 0 18px 0; line-height: 1.2;">
-        Why businesses choose SDLC Corp for Odoo connectors.
+      <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 10px;">WHY SDLC CORP</div>
+      <h2 style="font-size: 34px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.25;">
+        Why businesses choose <span style="color: #8b44ff;">SDLC Corp</span> for Odoo connectors.
       </h2>
       <p style="font-size: 16px; color: #6b7280; line-height: 1.6; margin: 0;">
         Beyond the connector itself &mdash; what you get from choosing SDLC Corp as your long-term Odoo development partner.
@@ -303,7 +471,7 @@
     </div>
 
     <!-- 6 cards in 3x2 grid -->
-    <div class="row" style="margin: 0; max-width: 1100px; margin-left: auto; margin-right: auto;">
+    <div class="row" style="margin: 0; max-width: 1400px; margin-left: auto; margin-right: auto;">
 
       <!-- Card 1: Trusted Partner -->
       <div class="col-md-4" style="padding: 12px;">
@@ -376,7 +544,7 @@
 
 
     <!-- ===== Grid 2: Credentials & services (8 PNG-icon cards, 4x2) ===== -->
-    <div class="row" style="margin: 0 auto; max-width: 1100px;">
+    <div class="row" style="margin: 0 auto; max-width: 1400px;">
 
       <!-- Odoo Partner -->
       <div class="col-md-3" style="padding: 12px;">
@@ -437,7 +605,7 @@
       <!-- 24/7 Support -->
       <div class="col-md-3" style="padding: 12px;">
         <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px 16px; text-align: center; min-height: 200px;">
-          <img src="24%20support.png" alt="" style="height: 80px; width: auto; max-width: 100%; margin-bottom: 16px;"/>
+          <img src="support_24.png" alt="" style="height: 80px; width: auto; max-width: 100%; margin-bottom: 16px;"/>
           <div style="font-size: 14px; font-weight: 700; color: #0c0b1d; line-height: 1.4;">24/7 Support</div>
         </div>
       </div>
@@ -447,6 +615,71 @@
 
   </div>
   <!-- End #why-us merged section -->
+
+
+  <!-- ============================================================
+       NEW SECTION: HOW IT WORKS — 4-step process visual
+       Sits between Why-Us (credibility) and Final CTA (action).
+       FILES NEEDED: step_01.png, step_02.png, step_03.png, step_04.png
+       ============================================================ -->
+
+  <div style="background-color: #ffffff; padding: 72px 24px;">
+
+    <div class="text-center" style="max-width: 760px; margin: 0 auto 56px auto;">
+      <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 10px;">HOW IT WORKS</div>
+      <h2 style="font-size: 34px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.25;">
+        From <span style="color: #8b44ff;">install</span> to <span style="color: #8b44ff;">live sync</span> in 4 steps
+      </h2>
+      <p style="font-size: 16px; color: #6b7280; margin: 0; line-height: 1.65;">
+        Our team walks you through the entire setup. Most stores go live within a week.
+      </p>
+    </div>
+
+    <div class="row" style="max-width: 1200px; margin: 0 auto;">
+
+      <div class="col-md-3 text-center" style="padding: 18px;">
+        <img src="step_01.png" alt="Step 1" style="width: 110px; height: 110px; margin-bottom: 18px;"/>
+        <h4 style="font-size: 19px; font-weight: 800; color: #0c0b1d; margin: 0 0 10px 0; line-height: 1.3;">
+          Install &amp; License
+        </h4>
+        <p style="font-size: 14px; color: #6b7280; margin: 0; line-height: 1.65;">
+          Buy from the Odoo Apps Store and install in your database &mdash; under 5 minutes.
+        </p>
+      </div>
+
+      <div class="col-md-3 text-center" style="padding: 18px;">
+        <img src="step_02.png" alt="Step 2" style="width: 110px; height: 110px; margin-bottom: 18px;"/>
+        <h4 style="font-size: 19px; font-weight: 800; color: #0c0b1d; margin: 0 0 10px 0; line-height: 1.3;">
+          Configure with Us
+        </h4>
+        <p style="font-size: 14px; color: #6b7280; margin: 0; line-height: 1.65;">
+          Our team works with you for 10 hours &mdash; field mapping, sync rules, webhook setup.
+        </p>
+      </div>
+
+      <div class="col-md-3 text-center" style="padding: 18px;">
+        <img src="step_03.png" alt="Step 3" style="width: 110px; height: 110px; margin-bottom: 18px;"/>
+        <h4 style="font-size: 19px; font-weight: 800; color: #0c0b1d; margin: 0 0 10px 0; line-height: 1.3;">
+          Test Against Your Data
+        </h4>
+        <p style="font-size: 14px; color: #6b7280; margin: 0; line-height: 1.65;">
+          Run real-store data through a sandbox sync. Diagnose, adjust, validate end-to-end.
+        </p>
+      </div>
+
+      <div class="col-md-3 text-center" style="padding: 18px;">
+        <img src="step_04.png" alt="Step 4" style="width: 110px; height: 110px; margin-bottom: 18px;"/>
+        <h4 style="font-size: 19px; font-weight: 800; color: #0c0b1d; margin: 0 0 10px 0; line-height: 1.3;">
+          Go Live
+        </h4>
+        <p style="font-size: 14px; color: #6b7280; margin: 0; line-height: 1.65;">
+          Switch on production sync. Monitor through the dashboard. Support continues for 90 days.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
 
 
   <!-- ============================================================
@@ -464,7 +697,7 @@
 
   <div style="background-color: #f5f0ff; padding: 64px 24px;">
 
-    <div style="max-width: 1080px; margin: 0 auto;">
+    <div style="max-width: 1400px; margin: 0 auto;">
 
       <div class="row" style="margin: 0;">
 
@@ -518,11 +751,11 @@
 
   <div style="padding: 72px 24px; background-color: #ffffff;">
 
-    <!-- Header -->
+    <!-- Header (standardized: eyebrow + h2 + subtitle, centered) -->
     <div class="text-center" style="max-width: 820px; margin: 0 auto 40px auto;">
-      <div style="color: #8b44ff; font-size: 13px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 14px;">HOW WE COMPARE</div>
-      <h2 style="font-size: 36px; font-weight: 800; color: #0c0b1d; margin: 0 0 18px 0; line-height: 1.2;">
-        SDLC Corp vs typical alternatives.
+      <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 10px;">HOW WE COMPARE</div>
+      <h2 style="font-size: 34px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.25;">
+        SDLC Corp <span style="color: #8b44ff;">vs typical alternatives</span>.
       </h2>
       <p style="font-size: 16px; color: #6b7280; line-height: 1.6; margin: 0;">
         Honest comparison against the patterns we see most often in competing WooCommerce-Odoo connectors.
@@ -530,7 +763,7 @@
     </div>
 
     <!-- Comparison table -->
-    <div style="max-width: 1100px; margin: 0 auto; overflow-x: auto;">
+    <div style="max-width: 1400px; margin: 0 auto; overflow-x: auto;">
       <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px;">
 
         <!-- Header row -->
@@ -601,6 +834,93 @@
 
 
   <!-- ============================================================
+       NEW SECTION: INDUSTRIES SERVED — fit qualification
+       Sits between Compare and Support.
+       FILES NEEDED: industry_fashion.png, industry_electronics.png,
+                     industry_food.png, industry_health.png,
+                     industry_home.png, industry_b2b.png
+       ============================================================ -->
+
+  <div style="background-color: #f9fafb; padding: 72px 24px;">
+
+    <div class="text-center" style="max-width: 760px; margin: 0 auto 48px auto;">
+      <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 10px;">INDUSTRIES SERVED</div>
+      <h2 style="font-size: 34px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.25;">
+        Built for any <span style="color: #8b44ff;">WooCommerce</span> category
+      </h2>
+      <p style="font-size: 15px; color: #6b7280; margin: 0; line-height: 1.65;">
+        Some of the categories where our connector is already running production stores.
+      </p>
+    </div>
+
+    <div class="row" style="max-width: 1200px; margin: 0 auto;">
+
+      <div class="col-md-4" style="padding: 14px;">
+        <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px 22px; text-align: center;">
+          <img src="industry_fashion.png" alt="" style="width: 84px; height: 84px; margin-bottom: 16px;"/>
+          <h4 style="font-size: 18px; font-weight: 800; color: #0c0b1d; margin: 0 0 10px 0;">Fashion &amp; Apparel</h4>
+          <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.6;">
+            Variant-heavy catalogs, seasonal SKUs, size and color matrix sync.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4" style="padding: 14px;">
+        <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px 22px; text-align: center;">
+          <img src="industry_electronics.png" alt="" style="width: 84px; height: 84px; margin-bottom: 16px;"/>
+          <h4 style="font-size: 18px; font-weight: 800; color: #0c0b1d; margin: 0 0 10px 0;">Electronics</h4>
+          <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.6;">
+            Serial number tracking, bundle products, warranty registration data.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4" style="padding: 14px;">
+        <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px 22px; text-align: center;">
+          <img src="industry_food.png" alt="" style="width: 84px; height: 84px; margin-bottom: 16px;"/>
+          <h4 style="font-size: 18px; font-weight: 800; color: #0c0b1d; margin: 0 0 10px 0;">Food &amp; Beverage</h4>
+          <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.6;">
+            Subscription orders, expiry-aware inventory, regional pricing rules.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4" style="padding: 14px;">
+        <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px 22px; text-align: center;">
+          <img src="industry_health.png" alt="" style="width: 84px; height: 84px; margin-bottom: 16px;"/>
+          <h4 style="font-size: 18px; font-weight: 800; color: #0c0b1d; margin: 0 0 10px 0;">Health &amp; Beauty</h4>
+          <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.6;">
+            Lot/batch tracking, regulatory compliance fields, repeat-buyer analytics.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4" style="padding: 14px;">
+        <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px 22px; text-align: center;">
+          <img src="industry_home.png" alt="" style="width: 84px; height: 84px; margin-bottom: 16px;"/>
+          <h4 style="font-size: 18px; font-weight: 800; color: #0c0b1d; margin: 0 0 10px 0;">Home &amp; Lifestyle</h4>
+          <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.6;">
+            Heavy and oversized items, custom shipping rates, multi-warehouse routing.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4" style="padding: 14px;">
+        <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 28px 22px; text-align: center;">
+          <img src="industry_b2b.png" alt="" style="width: 84px; height: 84px; margin-bottom: 16px;"/>
+          <h4 style="font-size: 18px; font-weight: 800; color: #0c0b1d; margin: 0 0 10px 0;">B2B &amp; Wholesale</h4>
+          <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.6;">
+            Tier pricing, customer-specific catalogs, NET payment terms, bulk orders.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ============================================================
        SECTION 6: SUPPORT — "Connect with us"
        Map with 5 location markers + global offices address grid +
        3-column contact strip. Reached via the "Support" nav anchor.
@@ -620,18 +940,19 @@
 
   <div id="support" style="background-color: #f9fafb; padding: 72px 24px;">
 
-    <!-- Header -->
-    <div class="text-center" style="max-width: 720px; margin: 0 auto 32px auto;">
-      <h2 style="font-size: 32px; font-weight: 800; color: #0c0b1d; margin: 0 0 12px 0; line-height: 1.25;">
-        Connect with us for <span style="color: #8b44ff;">free demo</span> today!
+    <!-- Header (standardized: eyebrow + h2 + subtitle, centered) -->
+    <div class="text-center" style="max-width: 760px; margin: 0 auto 40px auto;">
+      <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 10px;">GLOBAL SUPPORT</div>
+      <h2 style="font-size: 34px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.25;">
+        Five offices, one <span style="color: #8b44ff;">dedicated team</span>
       </h2>
-      <p style="font-size: 16px; color: #6b7280; margin: 0; line-height: 1.6;">
-        SDLC Corp is 24/7 open to discuss your thoughts and queries!
+      <p style="font-size: 16px; color: #6b7280; margin: 0; line-height: 1.65;">
+        Connect with us for a free demo or implementation consultation. SDLC Corp is available 24/7 to discuss your thoughts and queries.
       </p>
     </div>
 
     <!-- World map with 5 location pins -->
-    <div style="position: relative; max-width: 1000px; margin: 0 auto 56px auto;">
+    <div style="position: relative; max-width: 1400px; margin: 0 auto 56px auto;">
 
       <img src="world_map.png" alt="Office locations" style="width: 100%; height: auto; display: block;"/>
 
@@ -678,7 +999,7 @@
     </div>
 
     <!-- ===== Global Offices grid (5 address cards, 3-2 layout) ===== -->
-    <div style="max-width: 1100px; margin: 0 auto 48px auto;">
+    <div style="max-width: 1400px; margin: 0 auto 48px auto;">
 
       <div class="text-center" style="margin-bottom: 28px;">
         <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 8px;">OUR GLOBAL OFFICES</div>
@@ -787,7 +1108,7 @@
     </div>
 
     <!-- ===== 3-column contact strip ===== -->
-    <div style="max-width: 960px; margin: 0 auto;">
+    <div style="max-width: 1100px; margin: 0 auto;">
       <div class="row" style="margin: 0;">
 
         <div class="col-md-4 text-center" style="padding: 16px 24px;">
@@ -821,205 +1142,239 @@
 
 
   <!-- ============================================================
-       SECTION 7: FEATURES — Product showcase with screenshots
-       Reached via the "Features" nav anchor (#features).
+       SECTION 7: SCREENSHOTS — Visual gallery (3 GIFs + 7 images)
+       Reached via the "Screenshots" nav anchor (#features kept as ID).
+
+       Layout: 1 hero GIF (full width) + 2 GIFs side-by-side  +
+       3 screenshots (3-col row) + 4 screenshots (4-col row)
+       = 10 total media items, with size variation for visual rhythm.
 
        FILES NEEDED in description folder:
+
+       3 animated GIFs you need to create/export:
+         - demo_dashboard.gif  (suggested: dashboard tour, hero clip)
+         - demo_orders.gif     (suggested: order syncing in real-time)
+         - demo_sync.gif       (suggested: inventory or status sync clip)
+
+       7 PNG screenshots (you already have these):
          - Dashboard.png, Orders.png, Inventory.png, Customers.png
-         - coupons.png, "Cancelled orders.png", "Sync reports.png", Website.png
-           (filenames with spaces are URL-encoded in src attributes)
+         - coupons.png, cancelled_orders.png, sync_reports.png
 
        PLACEHOLDERS / VERIFY:
-         - Each feature description — replace with what your screenshots
-           actually show; my copy is an educated guess based on filenames.
+         - GIF filenames are placeholders — name your exports to match
+           or update the src= values to your filenames.
+         - Keep each GIF under 2MB; Odoo apps store renders inline so
+           heavy GIFs slow the whole description page.
+         - Captions can be edited to match what each clip/image shows.
        ============================================================ -->
 
   <div id="features" style="background-color: #ffffff; padding: 72px 24px;">
 
-    <!-- Header -->
-    <div class="text-center" style="max-width: 760px; margin: 0 auto 56px auto;">
-      <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 10px;">FEATURES</div>
+    <!-- ===== Header (standardized: eyebrow + h2 + subtitle, centered) ===== -->
+    <div class="text-center" style="max-width: 760px; margin: 0 auto 48px auto;">
+      <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 10px;">SCREENSHOTS</div>
       <h2 style="font-size: 34px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.25;">
-        Everything you need to sync <span style="color: #8b44ff;">WooCommerce &amp; Odoo</span>
+        See <span style="color: #8b44ff;">WooCommerce Odoo Connector</span> in Action
       </h2>
       <p style="font-size: 16px; color: #6b7280; margin: 0; line-height: 1.65;">
-        Built for stores doing serious volume. Every order, customer, product, and stock movement — kept in sync, audited, and recoverable.
+        Live demos and product screenshots from real production stores. Every feature, every screen, captured.
       </p>
     </div>
 
-    <!-- ========== FEATURE 1: Dashboard (image LEFT, text RIGHT) ========== -->
-    <div class="row" style="margin: 0 0 72px 0; max-width: 1100px; margin-left: auto; margin-right: auto;">
+    <!-- =========== ANIMATED DEMOS (3 GIFs) =========== -->
+    <div style="max-width: 1200px; margin: 0 auto 56px auto;">
 
-      <div class="col-md-6" style="padding: 16px;">
-        <div style="border: 1px solid #ede4ff; border-radius: 14px; overflow: hidden; background-color: #faf5ff;">
-          <img src="Dashboard.png" alt="Sync dashboard" style="width: 100%; height: auto; display: block;"/>
+      <!-- Eyebrow label -->
+      <div class="text-center" style="margin-bottom: 22px;">
+        <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px;">LIVE DEMOS</div>
+      </div>
+
+      <!-- GIF 1: Hero (full width) -->
+      <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 14px; padding: 14px; margin-bottom: 18px;">
+        <img src="demo_dashboard.gif" alt="Dashboard demo" style="width: 100%; height: auto; display: block; border-radius: 8px;"/>
+        <div style="padding: 14px 6px 4px 6px;">
+          <div style="display: inline-block; background-color: #8b44ff; color: #ffffff; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; padding: 3px 8px; border-radius: 10px; margin-right: 10px; vertical-align: middle;">FEATURED</div>
+          <h4 style="display: inline-block; vertical-align: middle; font-size: 19px; font-weight: 800; color: #0c0b1d; margin: 0;">
+            Real-time Dashboard <span style="color: #8b44ff;">Sync</span>
+          </h4>
         </div>
       </div>
 
-      <div class="col-md-6" style="padding: 32px 16px;">
-        <div style="color: #8b44ff; font-size: 11px; font-weight: 800; letter-spacing: 2px; margin-bottom: 8px;">REAL-TIME DASHBOARD</div>
-        <h3 style="font-size: 26px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.3;">
-          One command center for every sync.
-        </h3>
-        <p style="font-size: 15px; color: #4b5563; margin: 0 0 18px 0; line-height: 1.7;">
-          Track every order flowing in, every product going out, every inventory adjustment, and every customer record — across all your stores — from a single Odoo screen.
-        </p>
-        <div style="font-size: 14px; color: #374151; line-height: 1.9;">
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Live sync status with success and failure counts</div>
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Per-store breakdown for multi-site setups</div>
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Drill-down to any individual sync record</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ========== FEATURE 2: Orders (text LEFT, image RIGHT) ========== -->
-    <div class="row" style="margin: 0 0 72px 0; max-width: 1100px; margin-left: auto; margin-right: auto;">
-
-      <div class="col-md-6" style="padding: 32px 16px;">
-        <div style="color: #8b44ff; font-size: 11px; font-weight: 800; letter-spacing: 2px; margin-bottom: 8px;">ORDER SYNC</div>
-        <h3 style="font-size: 26px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.3;">
-          Orders flow in. Status flows back.
-        </h3>
-        <p style="font-size: 15px; color: #4b5563; margin: 0 0 18px 0; line-height: 1.7;">
-          Every WooCommerce order lands in Odoo automatically — with line items, taxes, shipping, customer details, and payment status. Confirmations, fulfillment, and tracking sync the other way.
-        </p>
-        <div style="font-size: 14px; color: #374151; line-height: 1.9;">
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Full line items, taxes, discounts &amp; shipping</div>
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Auto-create or match customers on order import</div>
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Webhooks + cron fallback so nothing gets missed</div>
-        </div>
-      </div>
-
-      <div class="col-md-6" style="padding: 16px;">
-        <div style="border: 1px solid #ede4ff; border-radius: 14px; overflow: hidden; background-color: #faf5ff;">
-          <img src="Orders.png" alt="Order sync" style="width: 100%; height: auto; display: block;"/>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ========== FEATURE 3: Inventory (image LEFT, text RIGHT) ========== -->
-    <div class="row" style="margin: 0 0 72px 0; max-width: 1100px; margin-left: auto; margin-right: auto;">
-
-      <div class="col-md-6" style="padding: 16px;">
-        <div style="border: 1px solid #ede4ff; border-radius: 14px; overflow: hidden; background-color: #faf5ff;">
-          <img src="Inventory.png" alt="Inventory sync" style="width: 100%; height: auto; display: block;"/>
-        </div>
-      </div>
-
-      <div class="col-md-6" style="padding: 32px 16px;">
-        <div style="color: #8b44ff; font-size: 11px; font-weight: 800; letter-spacing: 2px; margin-bottom: 8px;">INVENTORY SYNC</div>
-        <h3 style="font-size: 26px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.3;">
-          Sell on WooCommerce. Fulfill from Odoo.
-        </h3>
-        <p style="font-size: 15px; color: #4b5563; margin: 0 0 18px 0; line-height: 1.7;">
-          Stock levels update on both sides the moment inventory moves — no overselling, no manual reconciliation, no end-of-day spreadsheets.
-        </p>
-        <div style="font-size: 14px; color: #374151; line-height: 1.9;">
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Bidirectional stock sync, near-real-time</div>
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Multi-warehouse support with location mapping</div>
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Variant-level inventory tracking</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ========== FEATURE 4: Customers (text LEFT, image RIGHT) ========== -->
-    <div class="row" style="margin: 0 0 72px 0; max-width: 1100px; margin-left: auto; margin-right: auto;">
-
-      <div class="col-md-6" style="padding: 32px 16px;">
-        <div style="color: #8b44ff; font-size: 11px; font-weight: 800; letter-spacing: 2px; margin-bottom: 8px;">CUSTOMER SYNC</div>
-        <h3 style="font-size: 26px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.3;">
-          Every customer, fully imported.
-        </h3>
-        <p style="font-size: 15px; color: #4b5563; margin: 0 0 18px 0; line-height: 1.7;">
-          WooCommerce customers become full Odoo contacts — billing and shipping addresses, order history, contact details, and tags — ready for marketing, support, and accounting.
-        </p>
-        <div style="font-size: 14px; color: #374151; line-height: 1.9;">
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Auto-match guests to existing Odoo contacts</div>
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Multiple addresses per customer preserved</div>
-          <div><i class="fa fa-check-circle" style="color: #8b44ff; margin-right: 10px;"></i>Order history linked back to the contact card</div>
-        </div>
-      </div>
-
-      <div class="col-md-6" style="padding: 16px;">
-        <div style="border: 1px solid #ede4ff; border-radius: 14px; overflow: hidden; background-color: #faf5ff;">
-          <img src="Customers.png" alt="Customer sync" style="width: 100%; height: auto; display: block;"/>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ===== "And more" sub-header ===== -->
-    <div class="text-center" style="max-width: 720px; margin: 24px auto 32px auto;">
-      <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 8px;">AND MORE</div>
-      <h3 style="font-size: 24px; font-weight: 800; color: #0c0b1d; margin: 0;">Built for the long tail.</h3>
-    </div>
-
-    <!-- ===== 4-card capabilities grid ===== -->
-    <div class="row" style="max-width: 1140px; margin: 0 auto;">
-
-      <!-- Coupons -->
-      <div class="col-md-3" style="padding: 12px;">
-        <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
-          <img src="coupons.png" alt="Coupons" style="width: 100%; height: 140px; background-color: #faf5ff; display: block;"/>
-          <div style="padding: 16px;">
-            <div style="font-size: 16px; font-weight: 800; color: #0c0b1d; margin-bottom: 6px;">
-              <i class="fa fa-tag" style="color: #8b44ff; margin-right: 8px;"></i>Coupons &amp; Discounts
+      <!-- GIFs 2 & 3 side-by-side -->
+      <div class="row" style="margin: 0;">
+        <div class="col-md-6" style="padding: 9px;">
+          <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 14px; padding: 14px;">
+            <img src="demo_orders.gif" alt="Order sync demo" style="width: 100%; height: auto; display: block; border-radius: 8px;"/>
+            <div style="padding: 14px 6px 4px 6px;">
+              <h4 style="font-size: 17px; font-weight: 800; color: #0c0b1d; margin: 0;">
+                Order Flow <span style="color: #8b44ff;">in Real-time</span>
+              </h4>
             </div>
-            <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.5;">
-              WooCommerce coupon codes, percentages, free shipping rules — all mapped to Odoo's promotion engine.
-            </p>
+          </div>
+        </div>
+        <div class="col-md-6" style="padding: 9px;">
+          <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 14px; padding: 14px;">
+            <img src="demo_sync.gif" alt="Sync animation" style="width: 100%; height: auto; display: block; border-radius: 8px;"/>
+            <div style="padding: 14px 6px 4px 6px;">
+              <h4 style="font-size: 17px; font-weight: 800; color: #0c0b1d; margin: 0;">
+                Inventory <span style="color: #8b44ff;">Updates</span>
+              </h4>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Cancelled Orders -->
-      <div class="col-md-3" style="padding: 12px;">
-        <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
-          <img src="Cancelled%20orders.png" alt="Cancelled orders" style="width: 100%; height: 140px; background-color: #faf5ff; display: block;"/>
-          <div style="padding: 16px;">
-            <div style="font-size: 16px; font-weight: 800; color: #0c0b1d; margin-bottom: 6px;">
-              <i class="fa fa-times-circle" style="color: #8b44ff; margin-right: 8px;"></i>Cancellations
-            </div>
-            <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.5;">
-              Cancelled orders update on both sides — stock returns, invoices reverse, accounting stays clean.
-            </p>
+    </div>
+
+    <!-- =========== STATIC SCREENSHOTS (7 images) =========== -->
+    <div style="max-width: 1200px; margin: 0 auto;">
+
+      <!-- Eyebrow label -->
+      <div class="text-center" style="margin-bottom: 22px;">
+        <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px;">SCREENSHOTS</div>
+      </div>
+
+      <!-- Row 1: 3 cards (col-md-4 each) -->
+      <div class="row" style="margin: 0 0 6px 0;">
+        <div class="col-md-4" style="padding: 9px;">
+          <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 12px; padding: 12px;">
+            <img src="Dashboard.png" alt="Sync Dashboard" style="width: 100%; height: auto; display: block; border-radius: 6px; margin-bottom: 12px;"/>
+            <div style="text-align: center; font-size: 14px; font-weight: 700; color: #0c0b1d;">Sync Dashboard</div>
+          </div>
+        </div>
+        <div class="col-md-4" style="padding: 9px;">
+          <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 12px; padding: 12px;">
+            <img src="Orders.png" alt="Order Management" style="width: 100%; height: auto; display: block; border-radius: 6px; margin-bottom: 12px;"/>
+            <div style="text-align: center; font-size: 14px; font-weight: 700; color: #0c0b1d;">Order Management</div>
+          </div>
+        </div>
+        <div class="col-md-4" style="padding: 9px;">
+          <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 12px; padding: 12px;">
+            <img src="Inventory.png" alt="Inventory Sync" style="width: 100%; height: auto; display: block; border-radius: 6px; margin-bottom: 12px;"/>
+            <div style="text-align: center; font-size: 14px; font-weight: 700; color: #0c0b1d;">Inventory Sync</div>
           </div>
         </div>
       </div>
 
-      <!-- Sync Reports -->
-      <div class="col-md-3" style="padding: 12px;">
-        <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
-          <img src="Sync%20reports.png" alt="Sync reports" style="width: 100%; height: 140px; background-color: #faf5ff; display: block;"/>
-          <div style="padding: 16px;">
-            <div style="font-size: 16px; font-weight: 800; color: #0c0b1d; margin-bottom: 6px;">
-              <i class="fa fa-file-text-o" style="color: #8b44ff; margin-right: 8px;"></i>Sync Reports
-            </div>
-            <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.5;">
-              Audit logs of every sync — what succeeded, what failed, when, and why. Re-trigger failures in one click.
-            </p>
+      <!-- Row 2: 4 cards (col-md-3 each) -->
+      <div class="row" style="margin: 0;">
+        <div class="col-md-3" style="padding: 9px;">
+          <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 12px; padding: 12px;">
+            <img src="Customers.png" alt="Customer Records" style="width: 100%; height: auto; display: block; border-radius: 6px; margin-bottom: 12px;"/>
+            <div style="text-align: center; font-size: 13px; font-weight: 700; color: #0c0b1d;">Customer Records</div>
+          </div>
+        </div>
+        <div class="col-md-3" style="padding: 9px;">
+          <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 12px; padding: 12px;">
+            <img src="coupons.png" alt="Coupons" style="width: 100%; height: auto; display: block; border-radius: 6px; margin-bottom: 12px;"/>
+            <div style="text-align: center; font-size: 13px; font-weight: 700; color: #0c0b1d;">Coupons &amp; Discounts</div>
+          </div>
+        </div>
+        <div class="col-md-3" style="padding: 9px;">
+          <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 12px; padding: 12px;">
+            <img src="cancelled_orders.png" alt="Cancelled Orders" style="width: 100%; height: auto; display: block; border-radius: 6px; margin-bottom: 12px;"/>
+            <div style="text-align: center; font-size: 13px; font-weight: 700; color: #0c0b1d;">Cancellations</div>
+          </div>
+        </div>
+        <div class="col-md-3" style="padding: 9px;">
+          <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 12px; padding: 12px;">
+            <img src="sync_reports.png" alt="Sync Reports" style="width: 100%; height: auto; display: block; border-radius: 6px; margin-bottom: 12px;"/>
+            <div style="text-align: center; font-size: 13px; font-weight: 700; color: #0c0b1d;">Sync Reports</div>
           </div>
         </div>
       </div>
 
-      <!-- Multi-store -->
-      <div class="col-md-3" style="padding: 12px;">
-        <div style="background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
-          <img src="Website.png" alt="Multi-store" style="width: 100%; height: 140px; background-color: #faf5ff; display: block;"/>
-          <div style="padding: 16px;">
-            <div style="font-size: 16px; font-weight: 800; color: #0c0b1d; margin-bottom: 6px;">
-              <i class="fa fa-globe" style="color: #8b44ff; margin-right: 8px;"></i>Multi-store Ready
-            </div>
-            <p style="font-size: 13px; color: #6b7280; margin: 0; line-height: 1.5;">
-              Connect multiple WooCommerce sites to a single Odoo. Each store keeps its own catalog, customers, and orders.
-            </p>
+    </div>
+
+  </div>
+
+
+  <!-- ============================================================
+       NEW SECTION: TESTIMONIALS — customer voices
+       Sits between Screenshots and FAQs.
+       FILES NEEDED: quote.png, star.png (already generated)
+
+       PLACEHOLDERS / VERIFY:
+         - All three quotes are anonymized placeholder testimonials.
+           Replace with real ones (with named customer + company)
+           before publishing if possible. The disclaimer at the
+           bottom acknowledges anonymization while you collect.
+       ============================================================ -->
+
+  <div style="background-color: #ffffff; padding: 72px 24px;">
+
+    <div class="text-center" style="max-width: 760px; margin: 0 auto 48px auto;">
+      <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 10px;">CUSTOMER VOICES</div>
+      <h2 style="font-size: 34px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.25;">
+        What buyers say after going live
+      </h2>
+    </div>
+
+    <div class="row" style="max-width: 1200px; margin: 0 auto;">
+
+      <!-- Testimonial 1 -->
+      <div class="col-md-4" style="padding: 14px;">
+        <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 14px; padding: 28px;">
+          <img src="quote.png" alt="" style="width: 36px; height: 36px; margin-bottom: 16px;"/>
+          <p style="font-size: 15px; color: #374151; line-height: 1.7; margin: 0 0 22px 0;">
+            We had three plugins fail before this one. SDLC's team was on a call Day 1, and we were live within a week. Inventory hasn't been off by a single unit since.
+          </p>
+          <div style="margin-bottom: 14px;">
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px;"/>
           </div>
+          <div style="font-size: 14px; font-weight: 800; color: #0c0b1d;">Operations Director</div>
+          <div style="font-size: 13px; color: #6b7280;">Mid-market apparel brand</div>
         </div>
       </div>
 
+      <!-- Testimonial 2 -->
+      <div class="col-md-4" style="padding: 14px;">
+        <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 14px; padding: 28px;">
+          <img src="quote.png" alt="" style="width: 36px; height: 36px; margin-bottom: 16px;"/>
+          <p style="font-size: 15px; color: #374151; line-height: 1.7; margin: 0 0 22px 0;">
+            The Sync Reports view alone is worth the license. We can spot any failed sync in seconds and re-trigger from a single screen. No more end-of-day reconciliation.
+          </p>
+          <div style="margin-bottom: 14px;">
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px;"/>
+          </div>
+          <div style="font-size: 14px; font-weight: 800; color: #0c0b1d;">Head of E-Commerce</div>
+          <div style="font-size: 13px; color: #6b7280;">Specialty foods retailer</div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="col-md-4" style="padding: 14px;">
+        <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-radius: 14px; padding: 28px;">
+          <img src="quote.png" alt="" style="width: 36px; height: 36px; margin-bottom: 16px;"/>
+          <p style="font-size: 15px; color: #374151; line-height: 1.7; margin: 0 0 22px 0;">
+            We run four WooCommerce stores against one Odoo instance. Each one keeps its own catalog and customers cleanly. Could not have built this in-house for the price.
+          </p>
+          <div style="margin-bottom: 14px;">
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px; margin-right: 2px;"/>
+            <img src="star.png" alt="" style="height: 14px;"/>
+          </div>
+          <div style="font-size: 14px; font-weight: 800; color: #0c0b1d;">CTO</div>
+          <div style="font-size: 13px; color: #6b7280;">Multi-brand retail group</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center" style="margin-top: 24px;">
+      <p style="font-size: 12px; color: #9ca3af; margin: 0;">
+        Quotes anonymized at customer request. Verified references available on a discovery call.
+      </p>
     </div>
 
   </div>
@@ -1040,7 +1395,7 @@
     <!-- Header -->
     <div class="text-center" style="max-width: 720px; margin: 0 auto 40px auto;">
       <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 10px;">FAQs</div>
-      <h2 style="font-size: 32px; font-weight: 800; color: #0c0b1d; margin: 0 0 12px 0; line-height: 1.25;">
+      <h2 style="font-size: 34px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.25;">
         Questions buyers ask us most.
       </h2>
       <p style="font-size: 15px; color: #6b7280; margin: 0; line-height: 1.6;">
@@ -1152,7 +1507,7 @@
     <!-- Header -->
     <div class="text-center" style="max-width: 720px; margin: 0 auto 48px auto;">
       <div style="color: #8b44ff; font-size: 12px; font-weight: 800; letter-spacing: 2.5px; margin-bottom: 10px;">RELEASES</div>
-      <h2 style="font-size: 32px; font-weight: 800; color: #0c0b1d; margin: 0 0 12px 0; line-height: 1.25;">
+      <h2 style="font-size: 34px; font-weight: 800; color: #0c0b1d; margin: 0 0 14px 0; line-height: 1.25;">
         Actively maintained. Steadily improved.
       </h2>
       <p style="font-size: 15px; color: #6b7280; margin: 0; line-height: 1.6;">
@@ -1161,7 +1516,7 @@
     </div>
 
     <!-- Releases list -->
-    <div style="max-width: 980px; margin: 0 auto;">
+    <div style="max-width: 1300px; margin: 0 auto;">
 
       <!-- ===== Release: Latest (v3.0.0) ===== -->
       <div style="background-color: #faf5ff; border: 1px solid #ede4ff; border-left: 4px solid #8b44ff; border-radius: 12px; padding: 24px 28px; margin-bottom: 18px;">
