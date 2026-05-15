@@ -1,13 +1,62 @@
 {
     'name': 'Odoo WooCommerce Connector',
-    'version': '1.0.0',
-    'summary': 'Sync products from Odoo to WooCommerce',
+    'version': '18.0.1.0.0',
+    'summary': 'Connect Odoo with WooCommerce to sync products, orders, customers, inventory, coupons, categories, and sales reports',
+    'description': """
+    Odoo WooCommerce Connector
+    ==========================
+
+    Odoo WooCommerce Connector helps businesses connect their WooCommerce store with Odoo for smooth eCommerce operations. It allows users to manage product data, orders, customers, inventory, categories, coupons, and sales reports from Odoo with structured WooCommerce synchronization.
+
+    This connector is useful for online stores, retailers, distributors, D2C brands, and eCommerce businesses that want to reduce manual work, avoid duplicate data entry, and keep Odoo and WooCommerce data aligned.
+
+    Key Features
+    ------------
+    * Connect Odoo with WooCommerce store
+    * Sync products from Odoo to WooCommerce
+    * Manage WooCommerce product categories
+    * Sync WooCommerce customers into Odoo
+    * Import WooCommerce orders into Odoo
+    * Track and manage WooCommerce inventory
+    * Sync WooCommerce coupons
+    * Configure WooCommerce field mapping
+    * View WooCommerce sales and order reports
+    * Use dashboard for quick store performance insights
+    * Automate order synchronization using scheduled cron jobs
+    * Manage WooCommerce settings directly from Odoo
+
+    Business Benefits
+    -----------------
+    * Reduce manual data entry between Odoo and WooCommerce
+    * Improve eCommerce order management
+    * Keep product and inventory data organized
+    * Centralize customer and sales information in Odoo
+    * Save time with automated synchronization
+    * Improve operational accuracy for online sales
+    * Support faster order processing and reporting
+
+    Best For
+    --------
+    * WooCommerce store owners
+    * Odoo users managing online sales
+    * eCommerce businesses
+    * Retail and D2C brands
+    * Wholesale and distribution companies
+    * Businesses using Odoo as their ERP backend
+
+    Odoo WooCommerce Connector is designed to simplify WooCommerce integration with Odoo and help businesses manage eCommerce workflows from one centralized system.
+    """
     'category': 'Sales',
     'author': 'SDLC Corp',
+    'support': 'support@sdlccorp.com',
+    'maintainer': 'SDLC Corp',
+    'auto_install': False,
+    'sequence': 1,
+    'category': 'Sales'
     'website': 'https://sdlccorp.com/',
-        'price': 10,
+    'price': 19.99,
     'currency': 'USD',
-'license': 'OPL-1',
+    'license': 'OPL-1',
     'depends': ["base",
                 "web",
                 "bus",
