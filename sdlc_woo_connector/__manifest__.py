@@ -46,7 +46,6 @@
 
     Odoo WooCommerce Connector is designed to simplify WooCommerce integration with Odoo and help businesses manage eCommerce workflows from one centralized system.
     """
-    'category': 'Sales',
     'author': 'SDLC Corp',
     'support': 'support@sdlccorp.com',
     'maintainer': 'SDLC Corp',
