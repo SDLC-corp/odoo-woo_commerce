@@ -51,7 +51,7 @@
     'maintainer': 'SDLC Corp',
     'auto_install': False,
     'sequence': 1,
-    'category': 'Sales'
+    'category': 'Sales',
     'website': 'https://sdlccorp.com/',
     'price': 19.99,
     'currency': 'USD',
