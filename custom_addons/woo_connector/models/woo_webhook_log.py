@@ -1,0 +1,354 @@
+import json
+import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
+
+
+class WooWebhookLog(models.Model):
+    _name = "woo.webhook.log"
+    _description = "Woo Webhook Log"
+    _order = "received_datetime desc, id desc"
+
+    instance_id = fields.Many2one("woo.instance", string="Woo Instance", ondelete="set null")
+    topic = fields.Char(string="Topic/Event")
+    event = fields.Char(string="Event")
+    resource_type = fields.Selection(
+        [
+            ("product", "Product"),
+            ("order", "Order"),
+            ("customer", "Customer"),
+            ("coupon", "Coupon"),
+            ("category", "Category"),
+            ("refund", "Refund"),
+            ("stock", "Stock"),
+            ("unknown", "Unknown"),
+        ],
+        string="Resource Type",
+        default="unknown",
+        required=True,
+    )
+    woo_id = fields.Char(string="Woo ID", index=True)
+    headers_json = fields.Text(string="Request Headers JSON")
+    payload_json = fields.Text(string="Request Payload JSON")
+    status = fields.Selection(
+        [
+            ("received", "Received"),
+            ("success", "Success"),
+            ("failed", "Failed"),
+            ("ignored", "Ignored"),
+        ],
+        default="received",
+        required=True,
+        index=True,
+    )
+    error_message = fields.Text(string="Error Message")
+    related_report_id = fields.Many2one("woo.report", string="Related Report", ondelete="set null")
+    received_datetime = fields.Datetime(default=fields.Datetime.now, required=True, index=True)
+    processed_datetime = fields.Datetime(index=True)
+    retry_count = fields.Integer(default=0)
+    source_action = fields.Char(string="Source Action")
+    signature_status = fields.Selection(
+        [
+            ("not_checked", "Not Checked"),
+            ("valid", "Valid"),
+            ("invalid", "Invalid"),
+            ("missing", "Missing"),
+        ],
+        default="not_checked",
+        required=True,
+    )
+
+    webhook_report_ids = fields.One2many("woo.report", "webhook_log_id", string="Webhook Reports")
+    webhook_report_count = fields.Integer(compute="_compute_webhook_report_count")
+    ai_explanation = fields.Text(string="AI Explanation", readonly=True)
+    ai_suggested_fix = fields.Text(string="AI Suggested Fix", readonly=True)
+    ai_retry_recommended = fields.Boolean(string="AI Retry Recommended", readonly=True)
+    ai_last_analyzed_at = fields.Datetime(string="AI Last Analyzed At", readonly=True)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        timeline_model = self.env["woo.sync.timeline"].sudo()
+        for rec in records:
+            timeline_model.create_from_webhook_log(rec, event_reason="create")
+        return records
+
+    def write(self, vals):
+        tracked_fields = {
+            "status",
+            "error_message",
+            "processed_datetime",
+            "retry_count",
+            "source_action",
+            "related_report_id",
+            "woo_id",
+            "instance_id",
+        }
+        should_track = any(field_name in vals for field_name in tracked_fields)
+        before_by_id = {}
+        if should_track:
+            for rec in self:
+                before_by_id[rec.id] = {
+                    "status": rec.status,
+                    "error_message": rec.error_message,
+                    "retry_count": rec.retry_count,
+                    "processed_datetime": rec.processed_datetime,
+                    "related_report_id": rec.related_report_id.id if rec.related_report_id else False,
+                }
+        result = super().write(vals)
+        if should_track:
+            timeline_model = self.env["woo.sync.timeline"].sudo()
+            for rec in self:
+                before = before_by_id.get(rec.id, {})
+                if (
+                    rec.status != before.get("status")
+                    or rec.error_message != before.get("error_message")
+                    or rec.retry_count != before.get("retry_count")
+                    or rec.processed_datetime != before.get("processed_datetime")
+                    or (rec.related_report_id.id if rec.related_report_id else False) != before.get("related_report_id")
+                ):
+                    timeline_model.create_from_webhook_log(rec, event_reason="update")
+        return result
+
+    def _compute_webhook_report_count(self):
+        for rec in self:
+            rec.webhook_report_count = len(rec.webhook_report_ids)
+
+    @staticmethod
+    def _serialize_json(value):
+        if value in (None, False):
+            return False
+        try:
+            return json.dumps(value, default=str)
+        except Exception:
+            return json.dumps({"raw": str(value)})
+
+    @staticmethod
+    def _mask_headers(headers):
+        data = {}
+        if not isinstance(headers, dict):
+            return data
+        sensitive = {
+            "authorization",
+            "proxy-authorization",
+            "cookie",
+            "set-cookie",
+            "x-api-key",
+            "api-key",
+            "access-token",
+        }
+        for key, value in headers.items():
+            k = str(key or "")
+            if k.lower() in sensitive:
+                data[k] = "***MASKED***"
+            else:
+                data[k] = value
+        return data
+
+    @api.model
+    def prepare_create_vals(
+        self,
+        instance=None,
+        topic=None,
+        payload=None,
+        headers=None,
+        source_action=None,
+        status="received",
+        signature_status="not_checked",
+        error_message=None,
+    ):
+        topic_text = topic or ""
+        resource_type = self._topic_to_resource(topic_text, payload)
+        woo_id = self._extract_woo_id(payload)
+        event = topic_text.split(".")[-1] if "." in topic_text else False
+        return {
+            "instance_id": instance.id if instance else False,
+            "topic": topic_text or False,
+            "event": event,
+            "resource_type": resource_type,
+            "woo_id": woo_id,
+            "headers_json": self._serialize_json(self._mask_headers(headers or {})),
+            "payload_json": self._serialize_json(payload or {}),
+            "status": status,
+            "source_action": source_action or "webhook",
+            "signature_status": signature_status or "not_checked",
+            "error_message": error_message or False,
+        }
+
+    @api.model
+    def _topic_to_resource(self, topic, payload):
+        text = (topic or "").lower()
+        if text.startswith("product.") and "category" not in text:
+            return "product"
+        if text.startswith("order."):
+            return "order"
+        if text.startswith("customer."):
+            return "customer"
+        if text.startswith("coupon."):
+            return "coupon"
+        if "category" in text:
+            return "category"
+        if "refund" in text:
+            return "refund"
+        if "stock" in text or "inventory" in text:
+            return "stock"
+        if isinstance(payload, dict):
+            resource = (payload.get("resource") or "").lower()
+            if resource in ("product", "order", "customer", "coupon", "category", "refund"):
+                return resource
+        return "unknown"
+
+    @api.model
+    def _extract_woo_id(self, payload):
+        if not isinstance(payload, dict):
+            return False
+        for key in ("id", "order_id", "product_id", "customer_id", "coupon_id"):
+            if payload.get(key):
+                return str(payload.get(key))
+        return False
+
+    def action_retry_webhook(self):
+        for rec in self:
+            rec._retry_single_webhook()
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Retry Webhook"),
+                "message": _("Webhook retry completed."),
+                "type": "success",
+                "sticky": False,
+            },
+        }
+
+    def _retry_single_webhook(self):
+        self.ensure_one()
+        if self.status != "failed":
+            raise UserError(_("Retry is allowed only for failed webhook logs."))
+        if not self.instance_id:
+            raise UserError(_("Cannot retry because Woo Instance is missing on this log."))
+
+        try:
+            payload = json.loads(self.payload_json or "{}")
+        except Exception:
+            payload = {}
+        if not isinstance(payload, dict) or not payload:
+            raise UserError(_("Stored payload is invalid or empty for this webhook log."))
+
+        record_type = self.resource_type if self.resource_type and self.resource_type != "unknown" else False
+        if record_type == "stock":
+            record_type = "product"
+        if record_type not in ("product", "order", "customer", "category", "coupon"):
+            raise UserError(_("Unsupported resource type for webhook retry: %s") % (record_type or "unknown"))
+
+        self.write(
+            {
+                "retry_count": self.retry_count + 1,
+                "processed_datetime": fields.Datetime.now(),
+            }
+        )
+
+        try:
+            self.env["woo.webhook.sync"].sudo().with_context(
+                woo_webhook_log_id=self.id
+            ).process_single_import(
+                record_type=record_type,
+                payload=payload,
+                instance=self.instance_id,
+                source_action="webhook_retry",
+                log_result=True,
+            )
+
+            if not self.related_report_id:
+                report = self.env["woo.report"].search(
+                    [
+                        ("instance_id", "=", self.instance_id.id),
+                        ("mode", "=", "webhook"),
+                        ("operation_type", "=", record_type),
+                    ],
+                    order="id desc",
+                    limit=1,
+                )
+                if report:
+                    self.related_report_id = report.id
+
+            self.write(
+                {
+                    "status": "success",
+                    "error_message": False,
+                    "processed_datetime": fields.Datetime.now(),
+                }
+            )
+        except Exception as exc:
+            _logger.exception("Webhook retry failed for log %s", self.id)
+            self.write(
+                {
+                    "status": "failed",
+                    "error_message": str(exc),
+                    "processed_datetime": fields.Datetime.now(),
+                }
+            )
+            raise UserError(str(exc))
+
+    def action_view_reports(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Webhook Reports"),
+            "res_model": "woo.report",
+            "view_mode": "list,form",
+            "domain": [("webhook_log_id", "=", self.id)],
+        }
+
+    def action_explain_webhook_error_with_ai(self):
+        failed_records = self.filtered(lambda rec: rec.status == "failed")
+        if not failed_records:
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("AI Error Assistant"),
+                    "message": _("Select failed webhook log(s) to analyze."),
+                    "type": "warning",
+                },
+            }
+
+        assistant = self.env["woo.ai.error.assistant"].sudo()
+        analyzed_count = 0
+        failed_count = 0
+        for rec in failed_records:
+            try:
+                result = assistant.explain_webhook_error(rec)
+                rec.write(result)
+                analyzed_count += 1
+            except UserError:
+                raise
+            except Exception:
+                failed_count += 1
+                safe_error = _("AI analysis request failed. Verify AI configuration and provider availability.")
+                rec.write(
+                    {
+                        "ai_explanation": safe_error,
+                        "ai_suggested_fix": _("Re-check endpoint, model, and key; then try again."),
+                        "ai_retry_recommended": False,
+                        "ai_last_analyzed_at": fields.Datetime.now(),
+                    }
+                )
+
+        msg = _("AI analysis complete. Success: %(ok)s | Failed: %(fail)s.") % {
+            "ok": analyzed_count,
+            "fail": failed_count,
+        }
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("AI Error Assistant"),
+                "message": msg,
+                "type": "success" if failed_count == 0 else "warning",
+                "sticky": failed_count > 0,
+            },
+        }

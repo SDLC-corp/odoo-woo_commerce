@@ -1,0 +1,1466 @@
+2026-05-22 11:05:37,676 20544 INFO ? odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:05:37,681 20544 INFO ? odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-05-22 11:05:37,684 20544 INFO ? odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:05:37,726 20544 CRITICAL ? odoo.modules.module: Couldn't load module woo_connector 
+2026-05-22 11:05:37,728 20544 WARNING ? odoo.modules.loading: Transient module states were reset 
+2026-05-22 11:05:37,731 20544 ERROR ? odoo.registry: Failed to load registry 
+2026-05-22 11:05:37,731 20544 ERROR ? odoo.http: Exception during request handling. 
+Traceback (most recent call last):
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 118, in __new__
+    return cls.registries[db_name]
+           ~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\tools\lru.py", line 57, in __getitem__
+    val = self._values[key]
+          ~~~~~~~~~~~~^^^^^
+KeyError: 'odoo19'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\odoo19\odoo19\odoo\http.py", line 2829, in __call__
+    response = request._serve_db()
+               ^^^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\http.py", line 2248, in _serve_db
+    registry = Registry(self.db)
+               ^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 120, in __new__
+    return cls.new(db_name)
+           ^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\tools\func.py", line 88, in locked
+    return func(inst, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 199, in new
+    load_modules(
+  File "D:\odoo19\odoo19\odoo\modules\loading.py", line 464, in load_modules
+    load_module_graph(
+  File "D:\odoo19\odoo19\odoo\modules\loading.py", line 178, in load_module_graph
+    load_openerp_module(package.name)
+  File "D:\odoo19\odoo19\odoo\modules\module.py", line 505, in load_openerp_module
+    __import__(qualname)
+  File "d:\odoo19\custom_addons\woo_connector\__init__.py", line 2, in <module>
+    from . import models
+  File "d:\odoo19\custom_addons\woo_connector\models\__init__.py", line 4, in <module>
+    from . import woo_instance
+  File "d:\odoo19\custom_addons\woo_connector\models\woo_instance.py", line 6, in <module>
+    from woocommerce import API
+ModuleNotFoundError: No module named 'woocommerce'
+2026-05-22 11:05:37,733 20544 INFO ? werkzeug: 127.0.0.1 - - [22/May/2026 11:05:37] "GET /odoo HTTP/1.1" 500 - 14 0.010 0.056
+2026-05-22 11:05:39,789 20544 INFO ? odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:05:39,795 20544 INFO ? odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-05-22 11:05:39,797 20544 INFO ? odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:05:39,840 20544 CRITICAL ? odoo.modules.module: Couldn't load module woo_connector 
+2026-05-22 11:05:39,842 20544 WARNING ? odoo.modules.loading: Transient module states were reset 
+2026-05-22 11:05:39,842 20544 ERROR ? odoo.registry: Failed to load registry 
+2026-05-22 11:05:39,842 20544 ERROR ? odoo.http: Exception during request handling. 
+Traceback (most recent call last):
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 118, in __new__
+    return cls.registries[db_name]
+           ~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\tools\lru.py", line 57, in __getitem__
+    val = self._values[key]
+          ~~~~~~~~~~~~^^^^^
+KeyError: 'odoo19'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\odoo19\odoo19\odoo\http.py", line 2829, in __call__
+    response = request._serve_db()
+               ^^^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\http.py", line 2248, in _serve_db
+    registry = Registry(self.db)
+               ^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 120, in __new__
+    return cls.new(db_name)
+           ^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\tools\func.py", line 88, in locked
+    return func(inst, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 199, in new
+    load_modules(
+  File "D:\odoo19\odoo19\odoo\modules\loading.py", line 464, in load_modules
+    load_module_graph(
+  File "D:\odoo19\odoo19\odoo\modules\loading.py", line 178, in load_module_graph
+    load_openerp_module(package.name)
+  File "D:\odoo19\odoo19\odoo\modules\module.py", line 505, in load_openerp_module
+    __import__(qualname)
+  File "d:\odoo19\custom_addons\woo_connector\__init__.py", line 2, in <module>
+    from . import models
+  File "d:\odoo19\custom_addons\woo_connector\models\__init__.py", line 4, in <module>
+    from . import woo_instance
+  File "d:\odoo19\custom_addons\woo_connector\models\woo_instance.py", line 6, in <module>
+    from woocommerce import API
+ModuleNotFoundError: No module named 'woocommerce'
+2026-05-22 11:05:39,844 20544 INFO ? werkzeug: 127.0.0.1 - - [22/May/2026 11:05:39] "GET /web/service-worker.js HTTP/1.1" 500 - 14 0.009 0.060
+2026-05-22 11:06:16,576 20544 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:06:16,581 20544 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-22 11:06:16,584 20544 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:06:16,625 20544 CRITICAL odoo19 odoo.modules.module: Couldn't load module woo_connector 
+2026-05-22 11:06:16,627 20544 WARNING odoo19 odoo.modules.loading: Transient module states were reset 
+2026-05-22 11:06:16,630 20544 ERROR odoo19 odoo.registry: Failed to load registry 
+2026-05-22 11:06:16,631 20544 WARNING odoo19 odoo.addons.base.models.ir_cron: Exception in cron: 
+Traceback (most recent call last):
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 118, in __new__
+    return cls.registries[db_name]
+           ~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\tools\lru.py", line 57, in __getitem__
+    val = self._values[key]
+          ~~~~~~~~~~~~^^^^^
+KeyError: 'odoo19'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 199, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 235, in _process_jobs_loop
+    registry = Registry(db_name).check_signaling()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 120, in __new__
+    return cls.new(db_name)
+           ^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\tools\func.py", line 88, in locked
+    return func(inst, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 199, in new
+    load_modules(
+  File "D:\odoo19\odoo19\odoo\modules\loading.py", line 464, in load_modules
+    load_module_graph(
+  File "D:\odoo19\odoo19\odoo\modules\loading.py", line 178, in load_module_graph
+    load_openerp_module(package.name)
+  File "D:\odoo19\odoo19\odoo\modules\module.py", line 505, in load_openerp_module
+    __import__(qualname)
+  File "d:\odoo19\custom_addons\woo_connector\__init__.py", line 2, in <module>
+    from . import models
+  File "d:\odoo19\custom_addons\woo_connector\models\__init__.py", line 4, in <module>
+    from . import woo_instance
+  File "d:\odoo19\custom_addons\woo_connector\models\woo_instance.py", line 6, in <module>
+    from woocommerce import API
+ModuleNotFoundError: No module named 'woocommerce'
+2026-05-22 11:06:17,572 20544 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:06:17,576 20544 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-22 11:06:17,579 20544 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:06:17,619 20544 CRITICAL odoo19 odoo.modules.module: Couldn't load module woo_connector 
+2026-05-22 11:06:17,621 20544 WARNING odoo19 odoo.modules.loading: Transient module states were reset 
+2026-05-22 11:06:17,621 20544 ERROR odoo19 odoo.registry: Failed to load registry 
+2026-05-22 11:06:17,622 20544 WARNING odoo19 odoo.addons.base.models.ir_cron: Exception in cron: 
+Traceback (most recent call last):
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 118, in __new__
+    return cls.registries[db_name]
+           ~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\tools\lru.py", line 57, in __getitem__
+    val = self._values[key]
+          ~~~~~~~~~~~~^^^^^
+KeyError: 'odoo19'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 199, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 235, in _process_jobs_loop
+    registry = Registry(db_name).check_signaling()
+               ^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 120, in __new__
+    return cls.new(db_name)
+           ^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\tools\func.py", line 88, in locked
+    return func(inst, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\orm\registry.py", line 199, in new
+    load_modules(
+  File "D:\odoo19\odoo19\odoo\modules\loading.py", line 464, in load_modules
+    load_module_graph(
+  File "D:\odoo19\odoo19\odoo\modules\loading.py", line 178, in load_module_graph
+    load_openerp_module(package.name)
+  File "D:\odoo19\odoo19\odoo\modules\module.py", line 505, in load_openerp_module
+    __import__(qualname)
+  File "d:\odoo19\custom_addons\woo_connector\__init__.py", line 2, in <module>
+    from . import models
+  File "d:\odoo19\custom_addons\woo_connector\models\__init__.py", line 4, in <module>
+    from . import woo_instance
+  File "d:\odoo19\custom_addons\woo_connector\models\woo_instance.py", line 6, in <module>
+    from woocommerce import API
+ModuleNotFoundError: No module named 'woocommerce'
+2026-05-22 11:07:14,998 29020 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-05-22 11:07:14,999 29020 INFO ? odoo: Odoo version 19.0 
+2026-05-22 11:07:14,999 29020 INFO ? odoo: Using configuration file at d:\odoo19\odoo19.conf 
+2026-05-22 11:07:14,999 29020 INFO ? odoo: addons paths: _NamespacePath(['d:\\odoo19\\odoo19\\odoo\\addons', 'd:\\odoo19\\odoo19\\addons', 'd:\\odoo19\\custom_addons']) 
+2026-05-22 11:07:14,999 29020 INFO ? odoo: database: odoo19@localhost:5432 
+2026-05-22 11:07:15,951 29020 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:07:15,958 29020 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-05-22 11:07:15,995 29020 INFO odoo19 odoo.modules.loading: updating modules list 
+2026-05-22 11:07:16,004 29020 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-05-22 11:07:16,719 20544 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:07:16,724 20544 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-05-22 11:07:16,728 20544 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:07:16,809 20544 INFO odoo19 odoo.modules.loading: 75 modules loaded in 0.08s, 0 queries (+0 extra) 
+2026-05-22 11:07:17,047 20544 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-05-22 11:07:17,228 20544 INFO odoo19 odoo.registry: Registry loaded in 0.517s 
+2026-05-22 11:07:17,231 20544 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'WooCommerce Auto Sync' (33) starting 
+2026-05-22 11:07:17,380 20544 INFO odoo19 odoo.addons.woo_connector.models.woo_instance: Woo Cron (auto_sync) tick for 1 instances: odoo connect new 
+2026-05-22 11:07:17,383 20544 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'WooCommerce Auto Sync' (33) fully done (#loop 1; done 0; remaining 0; duration 0.16s) 
+2026-05-22 11:07:17,423 20544 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:07:17,880 29020 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Odoo WooCommerce Connector'] to user __system__ #1 via n/a 
+2026-05-22 11:07:17,880 29020 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Odoo WooCommerce Connector'] to user __system__ #1 via n/a 
+2026-05-22 11:07:19,608 29020 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-05-22 11:07:19,704 29020 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:07:21,203 29020 INFO odoo19 odoo.modules.loading: Loading module woo_connector (75/75) 
+2026-05-22 11:07:21,555 29020 INFO odoo19 odoo.registry: module woo_connector: creating or updating database tables 
+2026-05-22 11:07:22,078 29020 INFO odoo19 odoo.modules.loading: loading woo_connector/security/ir.model.access.csv 
+2026-05-22 11:07:22,138 29020 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_action.xml 
+2026-05-22 11:07:22,147 29020 INFO odoo19 odoo.modules.loading: loading woo_connector/data/cron.xml 
+2026-05-22 11:07:22,154 29020 ERROR odoo19 odoo.sql_db: bad query: b'SELECT "ir_cron"."id" FROM "ir_cron" WHERE "ir_cron"."id" IN (33) FOR NO KEY UPDATE SKIP LOCKED'
+ERROR: could not serialize access due to concurrent update
+ 
+2026-05-22 11:07:22,157 29020 WARNING odoo19 odoo.modules.loading: Transient module states were reset 
+2026-05-22 11:07:22,157 29020 ERROR odoo19 odoo.registry: Failed to load registry 
+2026-05-22 11:07:22,157 29020 CRITICAL odoo19 odoo.service.server: Failed to initialize database `odoo19`. 
+Traceback (most recent call last):
+  File "d:\odoo19\odoo19\odoo\tools\convert.py", line 605, in _tag_root
+    f(rec)
+  File "d:\odoo19\odoo19\odoo\tools\convert.py", line 460, in _tag_record
+    record = model._load_records([data], self.mode == 'update')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\odoo19\odoo19\odoo\orm\models.py", line 5171, in _load_records
+    data['record']._load_records_write(data['values'])
+  File "d:\odoo19\odoo19\odoo\orm\models.py", line 5092, in _load_records_write
+    self.write(values)
+  File "d:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 699, in write
+    self.lock_for_update(allow_referencing=True)
+  File "d:\odoo19\odoo19\odoo\orm\models.py", line 5585, in lock_for_update
+    rows = self.env.execute_query(SQL("%s %s", query.select(), lock_sql))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\odoo19\odoo19\odoo\orm\environments.py", line 534, in execute_query
+    self.cr.execute(query)
+  File "d:\odoo19\odoo19\odoo\sql_db.py", line 433, in execute
+    self._obj.execute(query, params)
+psycopg2.errors.SerializationFailure: could not serialize access due to concurrent update
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "d:\odoo19\odoo19\odoo\service\server.py", line 1544, in preload_registries
+    registry = Registry.new(dbname, update_module=update_module, install_modules=config['init'], upgrade_modules=config['update'], reinit_modules=config['reinit'])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\odoo19\odoo19\odoo\tools\func.py", line 88, in locked
+    return func(inst, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "d:\odoo19\odoo19\odoo\orm\registry.py", line 199, in new
+    load_modules(
+  File "d:\odoo19\odoo19\odoo\modules\loading.py", line 464, in load_modules
+    load_module_graph(
+  File "d:\odoo19\odoo19\odoo\modules\loading.py", line 224, in load_module_graph
+    load_data(env, idref, mode, kind='data', package=package)
+  File "d:\odoo19\odoo19\odoo\modules\loading.py", line 59, in load_data
+    convert_file(env, package.name, filename, idref, mode, noupdate=kind == 'demo')
+  File "d:\odoo19\odoo19\odoo\tools\convert.py", line 693, in convert_file
+    convert_xml_import(env, module, fp, idref, mode, noupdate)
+  File "d:\odoo19\odoo19\odoo\tools\convert.py", line 792, in convert_xml_import
+    obj.parse(doc.getroot())
+  File "d:\odoo19\odoo19\odoo\tools\convert.py", line 663, in parse
+    self._tag_root(de)
+  File "d:\odoo19\odoo19\odoo\tools\convert.py", line 618, in _tag_root
+    raise ParseError('while parsing %s:%s, somewhere inside\n%s' % (
+odoo.tools.convert.ParseError: while parsing file:/d:/odoo19/custom_addons/woo_connector/data/cron.xml:2, somewhere inside
+<record id="ir_cron_woo_auto_sync" model="ir.cron">
+        <field name="name">WooCommerce Auto Sync</field>
+        <field name="model_id" ref="model_woo_instance"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_auto_sync()</field>
+        <field name="interval_number">15</field>
+        <field name="interval_type">minutes</field>
+        <field name="active">True</field>
+    </record>
+2026-05-22 11:07:22,251 29020 INFO odoo19 odoo.service.server: Initiating shutdown 
+2026-05-22 11:07:22,251 29020 INFO odoo19 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-22 11:07:22,251 29020 INFO odoo19 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  
+2026-05-22 11:07:23,851 20544 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [440] 
+2026-05-22 11:07:27,493 20544 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [438, 439] 
+2026-05-22 11:07:31,497 20544 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [436, 437] 
+2026-05-22 11:07:36,056 20544 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [434, 435] 
+2026-05-22 11:07:39,684 20544 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [432, 433] 
+2026-05-22 11:07:43,115 20544 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [430, 431] 
+2026-05-22 11:07:43,132 20544 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 25.70s) 
+2026-05-22 11:08:16,385 20544 WARNING ? odoo.service.server: Thread <Thread(odoo.service.http.request.34092, started 34092)> virtual real time limit (158/120s) reached. 
+2026-05-22 11:08:16,385 20544 INFO ? odoo.service.server: Dumping stacktrace of limit exceeding threads before reloading 
+2026-05-22 11:08:16,486 20544 INFO ? odoo.tools.misc: 
+# Thread: <Thread(odoo.service.http.request.34092, started 34092)> (db:n/a) (uid:n/a) (url:n/a) (qc:n/a qt:n/a pt:n/a)
+File: "C:\Users\haris\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+  self._bootstrap_inner()
+File: "C:\Users\haris\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+  self.run()
+File: "C:\Users\haris\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+  self._target(*self._args, **self._kwargs)
+File: "C:\Users\haris\AppData\Local\Programs\Python\Python311\Lib\socketserver.py", line 691, in process_request_thread
+  self.finish_request(request, client_address)
+File: "C:\Users\haris\AppData\Local\Programs\Python\Python311\Lib\socketserver.py", line 361, in finish_request
+  self.RequestHandlerClass(request, client_address, self)
+File: "D:\odoo19\odoo19\odoo\service\server.py", line 143, in __init__
+  super().__init__(*args, **kwargs)
+File: "C:\Users\haris\AppData\Local\Programs\Python\Python311\Lib\socketserver.py", line 755, in __init__
+  self.handle()
+File: "D:\odoo19\.venv\Lib\site-packages\werkzeug\serving.py", line 363, in handle
+  super().handle()
+File: "C:\Users\haris\AppData\Local\Programs\Python\Python311\Lib\http\server.py", line 436, in handle
+  self.handle_one_request()
+File: "C:\Users\haris\AppData\Local\Programs\Python\Python311\Lib\http\server.py", line 404, in handle_one_request
+  self.raw_requestline = self.rfile.readline(65537)
+File: "C:\Users\haris\AppData\Local\Programs\Python\Python311\Lib\socket.py", line 706, in readinto
+  return self._sock.recv_into(b) 
+2026-05-22 11:08:30,651 21068 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-05-22 11:08:30,652 21068 INFO ? odoo: Odoo version 19.0 
+2026-05-22 11:08:30,652 21068 INFO ? odoo: Using configuration file at d:\odoo19\odoo19.conf 
+2026-05-22 11:08:30,652 21068 INFO ? odoo: addons paths: _NamespacePath(['D:\\odoo19\\odoo19\\odoo\\addons', 'd:\\odoo19\\odoo19_data\\addons\\19.0', 'd:\\odoo19\\odoo19\\addons', 'd:\\odoo19\\custom_addons']) 
+2026-05-22 11:08:30,652 21068 INFO ? odoo: database: odoo19@localhost:5432 
+2026-05-22 11:08:32,926 21068 INFO ? odoo.service.server: HTTP service (werkzeug) running on Harish:8070 
+2026-05-22 11:08:52,574 21068 INFO ? odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:08:52,578 21068 INFO ? odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-22 11:08:52,618 21068 INFO ? odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:08:54,183 21068 INFO ? odoo.modules.loading: 75 modules loaded in 1.56s, 0 queries (+0 extra) 
+2026-05-22 11:08:54,396 21068 INFO ? odoo.modules.loading: Modules loaded. 
+2026-05-22 11:08:54,460 21068 INFO ? odoo.registry: Registry loaded in 1.965s 
+2026-05-22 11:08:54,463 21068 INFO odoo19 odoo.addons.base.models.ir_http: Generating routing map for key None 
+2026-05-22 11:08:55,588 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:55] "GET /odoo HTTP/1.1" 200 - 108 0.210 2.885
+2026-05-22 11:08:55,716 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:55] "GET /web/webclient/load_menus HTTP/1.1" 200 - 17 0.045 0.038
+2026-05-22 11:08:55,767 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:55] "GET /web/manifest.webmanifest HTTP/1.1" 200 - 8 0.046 0.086
+2026-05-22 11:08:56,242 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:56] "GET /web/webclient/translations?hash=&lang=en_US HTTP/1.1" 200 - 2 0.008 0.047
+2026-05-22 11:08:56,464 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:56] "GET /web/bundle/web_tour.interactive?lang=en_US HTTP/1.1" 200 - 3 0.009 0.021
+2026-05-22 11:08:56,580 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:56] "POST /web/action/load HTTP/1.1" 200 - 6 0.014 0.009
+2026-05-22 11:08:56,780 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:56] "POST /mail/data HTTP/1.1" 200 - 27 0.107 0.116
+2026-05-22 11:08:56,781 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:56] "GET /web/image?model=res.users&field=avatar_128&id=2 HTTP/1.1" 304 - 15 0.024 0.107
+2026-05-22 11:08:56,813 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:56] "GET /bus/websocket_worker_bundle?v=19.0-2 HTTP/1.1" 304 - 4 0.024 0.135
+2026-05-22 11:08:56,903 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:56] "POST /mail/data HTTP/1.1" 200 - 39 0.134 0.118
+2026-05-22 11:08:57,133 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:57] "POST /discuss/channel/messages HTTP/1.1" 200 - 25 0.068 0.018
+2026-05-22 11:08:57,139 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:57] "GET /websocket?version=19.0-2 HTTP/1.1" 101 - 1 0.001 0.006
+2026-05-22 11:08:57,167 21068 INFO ? odoo.addons.bus.models.bus: Bus.loop listen imbus on db postgres 
+2026-05-22 11:08:57,508 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:57] "GET /web/bundle/web.assets_emoji?lang=en_US HTTP/1.1" 200 - 2 0.005 0.010
+2026-05-22 11:08:58,768 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:08:58] "GET /web/service-worker.js HTTP/1.1" 200 - 1 0.001 0.004
+2026-05-22 11:09:00,498 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:00] "POST /web/action/load HTTP/1.1" 200 - 10 0.014 0.009
+2026-05-22 11:09:00,834 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:00] "POST /web/dataset/call_kw/ir.module.module/get_views#ir.module.module.get_views HTTP/1.1" 200 - 53 0.044 0.053
+2026-05-22 11:09:00,856 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:00] "POST /web/dataset/call_kw/ir.module.module/search_panel_select_range#ir.module.module.search_panel_select_range HTTP/1.1" 200 - 1 0.002 0.004
+2026-05-22 11:09:01,183 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:01] "POST /web/dataset/call_kw/ir.module.module/web_search_read#ir.module.module.web_search_read HTTP/1.1" 200 - 4 0.010 0.013
+2026-05-22 11:09:01,216 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:01] "POST /web/dataset/call_kw/ir.module.module/check_module_update#ir.module.module.check_module_update HTTP/1.1" 200 - 2 0.002 0.009
+2026-05-22 11:09:01,232 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:01] "POST /web/dataset/call_kw/ir.module.module/search_panel_select_range#ir.module.module.search_panel_select_range HTTP/1.1" 200 - 44 0.041 0.032
+2026-05-22 11:09:01,523 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:01] "POST /web/dataset/call_kw/ir.module.module/check_module_update#ir.module.module.check_module_update HTTP/1.1" 200 - 2 0.001 0.004
+2026-05-22 11:09:05,189 21068 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_immediate_upgrade on ['Odoo WooCommerce Connector'] to user harishwagh@sdlccorp.com #2 via 127.0.0.1 
+2026-05-22 11:09:05,194 21068 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Odoo WooCommerce Connector'] to user harishwagh@sdlccorp.com #2 via 127.0.0.1 
+2026-05-22 11:09:05,194 21068 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Odoo WooCommerce Connector'] to user harishwagh@sdlccorp.com #2 via 127.0.0.1 
+2026-05-22 11:09:06,904 21068 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user harishwagh@sdlccorp.com #2 via 127.0.0.1 
+2026-05-22 11:09:06,987 21068 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:09:06,992 21068 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-22 11:09:07,025 21068 INFO odoo19 odoo.modules.loading: updating modules list 
+2026-05-22 11:09:07,026 21068 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via 127.0.0.1 
+2026-05-22 11:09:08,526 21068 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:09:08,564 21068 INFO odoo19 odoo.modules.loading: Loading module woo_connector (75/75) 
+2026-05-22 11:09:08,812 21068 INFO odoo19 odoo.registry: module woo_connector: creating or updating database tables 
+2026-05-22 11:09:09,194 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/security/ir.model.access.csv 
+2026-05-22 11:09:09,261 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_action.xml 
+2026-05-22 11:09:09,268 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/data/cron.xml 
+2026-05-22 11:09:09,299 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_instance_view.xml 
+2026-05-22 11:09:09,353 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_import_by_id_wizard_view.xml 
+2026-05-22 11:09:09,374 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_import_date_range_wizard_view.xml 
+2026-05-22 11:09:09,386 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_preview_view.xml 
+2026-05-22 11:09:09,416 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_manual_record_sync_views.xml 
+2026-05-22 11:09:09,603 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_connection_health_log_view.xml 
+2026-05-22 11:09:09,628 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_auto_mapping_views.xml 
+2026-05-22 11:09:09,656 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_field_mapping_views.xml 
+2026-05-22 11:09:09,691 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_template_woo_view.xml 
+2026-05-22 11:09:09,761 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_brand_view.xml 
+2026-05-22 11:09:09,789 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_category_sync_view.xml 
+2026-05-22 11:09:09,807 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_coupon_sync_view.xml 
+2026-05-22 11:09:09,827 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_product_sync_view.xml 
+2026-05-22 11:09:09,895 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_product_sync_form.xml 
+2026-05-22 11:09:09,903 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_ai_content_wizard_views.xml 
+2026-05-22 11:09:09,915 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_customer_sync_view.xml 
+2026-05-22 11:09:09,933 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_order_sync_view.xml 
+2026-05-22 11:09:09,956 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_report_view.xml 
+2026-05-22 11:09:09,981 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_queue_monitor_view.xml 
+2026-05-22 11:09:10,010 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_webhook_log_view.xml 
+2026-05-22 11:09:10,038 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_timeline_view.xml 
+2026-05-22 11:09:10,278 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sales_report.xml 
+2026-05-22 11:09:10,311 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_order_report.xml 
+2026-05-22 11:09:10,341 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_inventory_views.xml 
+2026-05-22 11:09:10,350 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_res_config_settings_view.xml 
+2026-05-22 11:09:10,457 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/data/woo_order_cron.xml 
+2026-05-22 11:09:10,475 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_dashboard_view.xml 
+2026-05-22 11:09:10,500 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_dashboard_action.xml 
+2026-05-22 11:09:10,503 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_actions.xml 
+2026-05-22 11:09:10,536 21068 INFO odoo19 odoo.modules.loading: loading woo_connector/views/menu.xml 
+2026-05-22 11:09:10,729 21068 INFO odoo19 odoo.modules.loading: Module woo_connector loaded in 2.16s, 1641 queries (+1641 other) 
+2026-05-22 11:09:10,729 21068 INFO odoo19 odoo.modules.loading: 75 modules loaded in 2.20s, 1641 queries (+1641 extra) 
+2026-05-22 11:09:11,943 21068 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-05-22 11:09:11,961 21068 INFO odoo19 odoo.registry: Registry changed, signaling through the database 
+2026-05-22 11:09:11,963 21068 INFO odoo19 odoo.registry: Registry loaded in 5.013s 
+2026-05-22 11:09:11,963 21068 INFO odoo19 odoo.addons.base.models.ir_module: getting next ir.actions.todo() 
+2026-05-22 11:09:11,985 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:11] "POST /web/dataset/call_button/ir.module.module/button_immediate_upgrade#ir.module.module.button_immediate_upgrade HTTP/1.1" 200 - 6221 3.226 3.576
+2026-05-22 11:09:12,015 21068 INFO odoo19 odoo.addons.base.models.ir_http: Generating routing map for key None 
+2026-05-22 11:09:13,029 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:13] "GET /odoo HTTP/1.1" 200 - 84 0.060 0.957
+2026-05-22 11:09:13,160 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:13] "GET /web/webclient/load_menus HTTP/1.1" 200 - 17 0.013 0.048
+2026-05-22 11:09:13,517 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:13] "GET /web/webclient/translations?hash=&lang=en_US HTTP/1.1" 200 - 2 0.002 0.012
+2026-05-22 11:09:13,533 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:13] "GET /web/manifest.webmanifest HTTP/1.1" 200 - 8 0.012 0.018
+2026-05-22 11:09:13,779 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:13] "GET /web/bundle/web_tour.interactive?lang=en_US HTTP/1.1" 200 - 3 0.003 0.012
+2026-05-22 11:09:13,866 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:13] "POST /web/action/load HTTP/1.1" 200 - 6 0.008 0.015
+2026-05-22 11:09:13,905 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:13] "POST /mail/data HTTP/1.1" 200 - 27 0.032 0.029
+2026-05-22 11:09:13,955 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:13] "GET /bus/websocket_worker_bundle?v=19.0-2 HTTP/1.1" 304 - 4 0.009 0.016
+2026-05-22 11:09:13,989 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:13] "GET /web/image?model=res.users&field=avatar_128&id=2 HTTP/1.1" 304 - 15 0.028 0.032
+2026-05-22 11:09:14,066 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:14] "POST /mail/data HTTP/1.1" 200 - 39 0.060 0.054
+2026-05-22 11:09:14,307 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:14] "GET /websocket?version=19.0-2 HTTP/1.1" 101 - 1 0.001 0.004
+2026-05-22 11:09:14,546 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:14] "POST /discuss/channel/messages HTTP/1.1" 200 - 21 0.020 0.021
+2026-05-22 11:09:14,771 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:14] "GET /web/bundle/web.assets_emoji?lang=en_US HTTP/1.1" 200 - 2 0.002 0.008
+2026-05-22 11:09:15,795 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:15] "POST /web/action/load HTTP/1.1" 200 - 25 0.030 0.024
+2026-05-22 11:09:16,132 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:16] "POST /web/action/run HTTP/1.1" 200 - 7 0.008 0.012
+2026-05-22 11:09:16,301 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:16] "POST /web/dataset/call_kw/woo.sync.dashboard/get_views#woo.sync.dashboard.get_views HTTP/1.1" 200 - 13 0.019 0.029
+2026-05-22 11:09:16,419 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:16] "POST /web/dataset/call_kw/woo.sync.dashboard/web_read#woo.sync.dashboard.web_read HTTP/1.1" 200 - 17 0.023 0.019
+2026-05-22 11:09:16,489 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:16] "GET /web/service-worker.js HTTP/1.1" 200 - 1 0.001 0.005
+2026-05-22 11:09:38,290 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:38] "POST /web/action/run HTTP/1.1" 200 - 6 0.006 0.011
+2026-05-22 11:09:38,682 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:38] "POST /web/dataset/call_kw/woo.sync.dashboard/web_read#woo.sync.dashboard.web_read HTTP/1.1" 200 - 17 0.026 0.030
+2026-05-22 11:09:41,292 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:09:41] "POST /web/action/load HTTP/1.1" 200 - 7 0.007 0.009
+2026-05-22 11:10:05,690 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:10:05] "POST /web/action/run HTTP/1.1" 200 - 6 0.008 0.004
+2026-05-22 11:10:05,959 21068 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:10:05] "POST /web/dataset/call_kw/woo.sync.dashboard/web_read#woo.sync.dashboard.web_read HTTP/1.1" 200 - 17 0.008 0.008
+2026-05-22 11:10:33,188 21068 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) starting 
+2026-05-22 11:10:33,560 21068 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-05-22 11:10:33,761 21068 INFO odoo19 odoo.addons.base.models.res_users: GC 'res.users.apikeys' delete 0 entries 
+2026-05-22 11:10:33,784 21068 INFO odoo19 odoo.addons.base.models.res_users: GC 'auth_totp.device' delete 0 entries 
+2026-05-22 11:10:33,810 21068 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-05-22 11:10:33,924 21068 INFO odoo19 odoo.addons.base.models.res_users: GC'd 0 user log entries 
+2026-05-22 11:10:34,048 21068 INFO odoo19 odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-05-22 11:10:34,092 21068 INFO odoo19 odoo.addons.api_doc.models.ir_attachment: GC'd 0 /doc cached index 
+2026-05-22 11:10:34,110 21068 INFO odoo19 odoo.addons.sms.models.sms_sms: GC'd 0 sms marked for deletion 
+2026-05-22 11:10:34,113 21068 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) fully done (#loop 1; done 0; remaining 0; duration 0.92s) 
+2026-05-22 11:11:17,651 40608 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-05-22 11:11:17,652 40608 INFO ? odoo: Odoo version 19.0 
+2026-05-22 11:11:17,652 40608 INFO ? odoo: Using configuration file at d:\odoo19\odoo19.conf 
+2026-05-22 11:11:17,652 40608 INFO ? odoo: addons paths: _NamespacePath(['d:\\odoo19\\odoo19\\odoo\\addons', 'd:\\odoo19\\odoo19\\addons', 'd:\\odoo19\\custom_addons']) 
+2026-05-22 11:11:17,652 40608 INFO ? odoo: database: odoo19@localhost:5432 
+2026-05-22 11:11:18,908 40608 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:11:18,922 40608 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-05-22 11:11:18,990 40608 INFO odoo19 odoo.modules.loading: updating modules list 
+2026-05-22 11:11:18,997 40608 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-05-22 11:11:20,742 40608 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Odoo WooCommerce Connector'] to user __system__ #1 via n/a 
+2026-05-22 11:11:20,742 40608 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Odoo WooCommerce Connector'] to user __system__ #1 via n/a 
+2026-05-22 11:11:22,088 40608 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-05-22 11:11:22,153 40608 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:11:23,504 40608 INFO odoo19 odoo.modules.loading: Loading module woo_connector (75/75) 
+2026-05-22 11:11:23,790 40608 INFO odoo19 odoo.registry: module woo_connector: creating or updating database tables 
+2026-05-22 11:11:24,247 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/security/ir.model.access.csv 
+2026-05-22 11:11:24,297 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_action.xml 
+2026-05-22 11:11:24,303 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/data/cron.xml 
+2026-05-22 11:11:24,333 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_instance_view.xml 
+2026-05-22 11:11:24,385 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_import_by_id_wizard_view.xml 
+2026-05-22 11:11:24,398 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_import_date_range_wizard_view.xml 
+2026-05-22 11:11:24,409 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_preview_view.xml 
+2026-05-22 11:11:24,436 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_manual_record_sync_views.xml 
+2026-05-22 11:11:24,616 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_connection_health_log_view.xml 
+2026-05-22 11:11:24,641 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_auto_mapping_views.xml 
+2026-05-22 11:11:24,666 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_field_mapping_views.xml 
+2026-05-22 11:11:24,700 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_template_woo_view.xml 
+2026-05-22 11:11:24,764 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_brand_view.xml 
+2026-05-22 11:11:24,794 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_category_sync_view.xml 
+2026-05-22 11:11:24,811 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_coupon_sync_view.xml 
+2026-05-22 11:11:24,831 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_product_sync_view.xml 
+2026-05-22 11:11:24,901 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_product_sync_form.xml 
+2026-05-22 11:11:24,910 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_ai_content_wizard_views.xml 
+2026-05-22 11:11:24,922 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_customer_sync_view.xml 
+2026-05-22 11:11:24,940 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_order_sync_view.xml 
+2026-05-22 11:11:24,963 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_report_view.xml 
+2026-05-22 11:11:24,990 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_queue_monitor_view.xml 
+2026-05-22 11:11:25,034 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_webhook_log_view.xml 
+2026-05-22 11:11:25,090 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_timeline_view.xml 
+2026-05-22 11:11:25,358 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sales_report.xml 
+2026-05-22 11:11:25,394 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_order_report.xml 
+2026-05-22 11:11:25,427 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_inventory_views.xml 
+2026-05-22 11:11:25,439 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_res_config_settings_view.xml 
+2026-05-22 11:11:25,559 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/data/woo_order_cron.xml 
+2026-05-22 11:11:25,579 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_dashboard_view.xml 
+2026-05-22 11:11:25,604 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_dashboard_action.xml 
+2026-05-22 11:11:25,608 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_actions.xml 
+2026-05-22 11:11:25,651 40608 INFO odoo19 odoo.modules.loading: loading woo_connector/views/menu.xml 
+2026-05-22 11:11:25,856 40608 INFO odoo19 odoo.modules.loading: Module woo_connector loaded in 2.35s, 1645 queries (+1645 other) 
+2026-05-22 11:11:25,856 40608 INFO odoo19 odoo.modules.loading: 75 modules loaded in 3.70s, 1645 queries (+1645 extra) 
+2026-05-22 11:11:27,104 40608 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-05-22 11:11:27,122 40608 INFO odoo19 odoo.registry: Registry changed, signaling through the database 
+2026-05-22 11:11:27,122 40608 INFO odoo19 odoo.registry: Registry loaded in 8.428s 
+2026-05-22 11:11:27,124 40608 INFO odoo19 odoo.service.server: Initiating shutdown 
+2026-05-22 11:11:27,124 40608 INFO odoo19 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-22 11:11:27,124 40608 INFO odoo19 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  
+2026-05-22 11:11:34,387 21068 INFO odoo19 odoo.registry: Reloading the model registry after database signaling. 
+2026-05-22 11:11:34,417 21068 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:11:34,425 21068 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-05-22 11:11:34,430 21068 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:11:34,565 21068 INFO odoo19 odoo.modules.loading: 75 modules loaded in 0.13s, 0 queries (+0 extra) 
+2026-05-22 11:11:35,286 21068 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-05-22 11:11:35,312 21068 INFO odoo19 odoo.registry: Registry loaded in 0.925s 
+2026-05-22 11:11:35,313 21068 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) starting 
+2026-05-22 11:11:35,380 21068 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) fully done (#loop 1; done 0; remaining 0; duration 0.06s) 
+2026-05-22 11:11:35,388 21068 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:11:41,368 21068 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [450, 451] 
+2026-05-22 11:11:45,794 21068 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [448, 449] 
+2026-05-22 11:11:46,652 21068 INFO ? odoo.service.server: Initiating shutdown 
+2026-05-22 11:11:46,652 21068 INFO ? odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-22 11:11:47,673 21068 INFO ? odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 6 connections  
+2026-05-22 11:11:47,693 21068 INFO ? odoo.service.server: cron1 max age (0s) reached, releasing connection. 
+2026-05-22 11:11:49,524 21068 ERROR odoo19 odoo.sql_db: bad query: b'SELECT "woo_instance"."id", "woo_instance"."name", "woo_instance"."shop_url", "woo_instance"."consumer_key", "woo_instance"."consumer_secret", "woo_instance"."active", "woo_instance"."wp_username", "woo_instance"."application_password", "woo_instance"."webhook_secret", "woo_instance"."smart_sku_matching", "woo_instance"."strict_sku_matching", "woo_instance"."auto_mapping_creation", "woo_instance"."strict_auto_mapping", "woo_instance"."auto_create_category_mapping", "woo_instance"."auto_create_tag_mapping", "woo_instance"."ai_error_assistant_enabled", "woo_instance"."ai_error_provider", "woo_instance"."ai_error_api_key", "woo_instance"."ai_error_model", "woo_instance"."ai_error_endpoint", "woo_instance"."ai_error_api_version", "woo_instance"."ai_error_max_tokens", "woo_instance"."ai_error_temperature", "woo_instance"."ai_error_timeout_seconds", "woo_instance"."health_last_checked_at", "woo_instance"."health_overall_status", "woo_instance"."health_response_time_ms", "woo_instance"."health_woo_version", "woo_instance"."health_currency", "woo_instance"."health_last_error", "woo_instance"."total_products", "woo_instance"."total_orders", "woo_instance"."total_customers", "woo_instance"."total_revenue", "woo_instance"."last_sync", "woo_instance"."webhook_product_create", "woo_instance"."webhook_product_update", "woo_instance"."webhook_customer_create", "woo_instance"."webhook_customer_update", "woo_instance"."webhook_order_create", "woo_instance"."webhook_order_update", "woo_instance"."webhook_category_create", "woo_instance"."webhook_category_update", "woo_instance"."webhook_giftcard_create", "woo_instance"."webhook_giftcard_update", "woo_instance"."cron_sync_products", "woo_instance"."cron_sync_customers", "woo_instance"."cron_sync_orders", "woo_instance"."cron_sync_categories", "woo_instance"."cron_sync_giftcards", "woo_instance"."auto_product_sync", "woo_instance"."auto_product_interval_type", "woo_instance"."last_product_sync_at", "woo_instance"."auto_customer_sync", "woo_instance"."auto_customer_interval_type", "woo_instance"."last_customer_sync_at", "woo_instance"."auto_order_sync", "woo_instance"."auto_order_interval_type", "woo_instance"."last_order_sync_at", "woo_instance"."auto_category_sync", "woo_instance"."auto_category_interval_type", "woo_instance"."last_category_sync_at", "woo_instance"."auto_coupon_sync", "woo_instance"."auto_coupon_interval_type", "woo_instance"."last_coupon_sync_at", "woo_instance"."auto_sync_hour", "woo_instance"."auto_sync_minute", "woo_instance"."auto_sync_weekday", "woo_instance"."auto_sync_month_day", "woo_instance"."create_uid", "woo_instance"."create_date", "woo_instance"."write_uid", "woo_instance"."write_date" FROM "woo_instance" WHERE "woo_instance"."id" IN (1)'
+ERROR: cursor already closed 
+2026-05-22 11:11:49,524 21068 WARNING odoo19 odoo.addons.woo_connector.models.woo_order_sync: Failed to sync Woo order 111: cursor already closed 
+2026-05-22 11:11:52,926 21068 ERROR odoo19 odoo.sql_db: bad query: b'SELECT "woo_instance"."id", "woo_instance"."name", "woo_instance"."shop_url", "woo_instance"."consumer_key", "woo_instance"."consumer_secret", "woo_instance"."active", "woo_instance"."wp_username", "woo_instance"."application_password", "woo_instance"."webhook_secret", "woo_instance"."smart_sku_matching", "woo_instance"."strict_sku_matching", "woo_instance"."auto_mapping_creation", "woo_instance"."strict_auto_mapping", "woo_instance"."auto_create_category_mapping", "woo_instance"."auto_create_tag_mapping", "woo_instance"."ai_error_assistant_enabled", "woo_instance"."ai_error_provider", "woo_instance"."ai_error_api_key", "woo_instance"."ai_error_model", "woo_instance"."ai_error_endpoint", "woo_instance"."ai_error_api_version", "woo_instance"."ai_error_max_tokens", "woo_instance"."ai_error_temperature", "woo_instance"."ai_error_timeout_seconds", "woo_instance"."health_last_checked_at", "woo_instance"."health_overall_status", "woo_instance"."health_response_time_ms", "woo_instance"."health_woo_version", "woo_instance"."health_currency", "woo_instance"."health_last_error", "woo_instance"."total_products", "woo_instance"."total_orders", "woo_instance"."total_customers", "woo_instance"."total_revenue", "woo_instance"."last_sync", "woo_instance"."webhook_product_create", "woo_instance"."webhook_product_update", "woo_instance"."webhook_customer_create", "woo_instance"."webhook_customer_update", "woo_instance"."webhook_order_create", "woo_instance"."webhook_order_update", "woo_instance"."webhook_category_create", "woo_instance"."webhook_category_update", "woo_instance"."webhook_giftcard_create", "woo_instance"."webhook_giftcard_update", "woo_instance"."cron_sync_products", "woo_instance"."cron_sync_customers", "woo_instance"."cron_sync_orders", "woo_instance"."cron_sync_categories", "woo_instance"."cron_sync_giftcards", "woo_instance"."auto_product_sync", "woo_instance"."auto_product_interval_type", "woo_instance"."last_product_sync_at", "woo_instance"."auto_customer_sync", "woo_instance"."auto_customer_interval_type", "woo_instance"."last_customer_sync_at", "woo_instance"."auto_order_sync", "woo_instance"."auto_order_interval_type", "woo_instance"."last_order_sync_at", "woo_instance"."auto_category_sync", "woo_instance"."auto_category_interval_type", "woo_instance"."last_category_sync_at", "woo_instance"."auto_coupon_sync", "woo_instance"."auto_coupon_interval_type", "woo_instance"."last_coupon_sync_at", "woo_instance"."auto_sync_hour", "woo_instance"."auto_sync_minute", "woo_instance"."auto_sync_weekday", "woo_instance"."auto_sync_month_day", "woo_instance"."create_uid", "woo_instance"."create_date", "woo_instance"."write_uid", "woo_instance"."write_date" FROM "woo_instance" WHERE "woo_instance"."id" IN (1)'
+ERROR: cursor already closed 
+2026-05-22 11:11:52,926 21068 WARNING odoo19 odoo.addons.woo_connector.models.woo_order_sync: Failed to sync Woo order 112: cursor already closed 
+2026-05-22 11:11:56,645 21068 ERROR odoo19 odoo.sql_db: bad query: b'SELECT "woo_instance"."id", "woo_instance"."name", "woo_instance"."shop_url", "woo_instance"."consumer_key", "woo_instance"."consumer_secret", "woo_instance"."active", "woo_instance"."wp_username", "woo_instance"."application_password", "woo_instance"."webhook_secret", "woo_instance"."smart_sku_matching", "woo_instance"."strict_sku_matching", "woo_instance"."auto_mapping_creation", "woo_instance"."strict_auto_mapping", "woo_instance"."auto_create_category_mapping", "woo_instance"."auto_create_tag_mapping", "woo_instance"."ai_error_assistant_enabled", "woo_instance"."ai_error_provider", "woo_instance"."ai_error_api_key", "woo_instance"."ai_error_model", "woo_instance"."ai_error_endpoint", "woo_instance"."ai_error_api_version", "woo_instance"."ai_error_max_tokens", "woo_instance"."ai_error_temperature", "woo_instance"."ai_error_timeout_seconds", "woo_instance"."health_last_checked_at", "woo_instance"."health_overall_status", "woo_instance"."health_response_time_ms", "woo_instance"."health_woo_version", "woo_instance"."health_currency", "woo_instance"."health_last_error", "woo_instance"."total_products", "woo_instance"."total_orders", "woo_instance"."total_customers", "woo_instance"."total_revenue", "woo_instance"."last_sync", "woo_instance"."webhook_product_create", "woo_instance"."webhook_product_update", "woo_instance"."webhook_customer_create", "woo_instance"."webhook_customer_update", "woo_instance"."webhook_order_create", "woo_instance"."webhook_order_update", "woo_instance"."webhook_category_create", "woo_instance"."webhook_category_update", "woo_instance"."webhook_giftcard_create", "woo_instance"."webhook_giftcard_update", "woo_instance"."cron_sync_products", "woo_instance"."cron_sync_customers", "woo_instance"."cron_sync_orders", "woo_instance"."cron_sync_categories", "woo_instance"."cron_sync_giftcards", "woo_instance"."auto_product_sync", "woo_instance"."auto_product_interval_type", "woo_instance"."last_product_sync_at", "woo_instance"."auto_customer_sync", "woo_instance"."auto_customer_interval_type", "woo_instance"."last_customer_sync_at", "woo_instance"."auto_order_sync", "woo_instance"."auto_order_interval_type", "woo_instance"."last_order_sync_at", "woo_instance"."auto_category_sync", "woo_instance"."auto_category_interval_type", "woo_instance"."last_category_sync_at", "woo_instance"."auto_coupon_sync", "woo_instance"."auto_coupon_interval_type", "woo_instance"."last_coupon_sync_at", "woo_instance"."auto_sync_hour", "woo_instance"."auto_sync_minute", "woo_instance"."auto_sync_weekday", "woo_instance"."auto_sync_month_day", "woo_instance"."create_uid", "woo_instance"."create_date", "woo_instance"."write_uid", "woo_instance"."write_date" FROM "woo_instance" WHERE "woo_instance"."id" IN (1)'
+ERROR: cursor already closed 
+2026-05-22 11:11:56,645 21068 WARNING odoo19 odoo.addons.woo_connector.models.woo_order_sync: Failed to sync Woo order 82: cursor already closed 
+2026-05-22 11:12:00,355 21068 ERROR odoo19 odoo.sql_db: bad query: b'SELECT "woo_instance"."id", "woo_instance"."name", "woo_instance"."shop_url", "woo_instance"."consumer_key", "woo_instance"."consumer_secret", "woo_instance"."active", "woo_instance"."wp_username", "woo_instance"."application_password", "woo_instance"."webhook_secret", "woo_instance"."smart_sku_matching", "woo_instance"."strict_sku_matching", "woo_instance"."auto_mapping_creation", "woo_instance"."strict_auto_mapping", "woo_instance"."auto_create_category_mapping", "woo_instance"."auto_create_tag_mapping", "woo_instance"."ai_error_assistant_enabled", "woo_instance"."ai_error_provider", "woo_instance"."ai_error_api_key", "woo_instance"."ai_error_model", "woo_instance"."ai_error_endpoint", "woo_instance"."ai_error_api_version", "woo_instance"."ai_error_max_tokens", "woo_instance"."ai_error_temperature", "woo_instance"."ai_error_timeout_seconds", "woo_instance"."health_last_checked_at", "woo_instance"."health_overall_status", "woo_instance"."health_response_time_ms", "woo_instance"."health_woo_version", "woo_instance"."health_currency", "woo_instance"."health_last_error", "woo_instance"."total_products", "woo_instance"."total_orders", "woo_instance"."total_customers", "woo_instance"."total_revenue", "woo_instance"."last_sync", "woo_instance"."webhook_product_create", "woo_instance"."webhook_product_update", "woo_instance"."webhook_customer_create", "woo_instance"."webhook_customer_update", "woo_instance"."webhook_order_create", "woo_instance"."webhook_order_update", "woo_instance"."webhook_category_create", "woo_instance"."webhook_category_update", "woo_instance"."webhook_giftcard_create", "woo_instance"."webhook_giftcard_update", "woo_instance"."cron_sync_products", "woo_instance"."cron_sync_customers", "woo_instance"."cron_sync_orders", "woo_instance"."cron_sync_categories", "woo_instance"."cron_sync_giftcards", "woo_instance"."auto_product_sync", "woo_instance"."auto_product_interval_type", "woo_instance"."last_product_sync_at", "woo_instance"."auto_customer_sync", "woo_instance"."auto_customer_interval_type", "woo_instance"."last_customer_sync_at", "woo_instance"."auto_order_sync", "woo_instance"."auto_order_interval_type", "woo_instance"."last_order_sync_at", "woo_instance"."auto_category_sync", "woo_instance"."auto_category_interval_type", "woo_instance"."last_category_sync_at", "woo_instance"."auto_coupon_sync", "woo_instance"."auto_coupon_interval_type", "woo_instance"."last_coupon_sync_at", "woo_instance"."auto_sync_hour", "woo_instance"."auto_sync_minute", "woo_instance"."auto_sync_weekday", "woo_instance"."auto_sync_month_day", "woo_instance"."create_uid", "woo_instance"."create_date", "woo_instance"."write_uid", "woo_instance"."write_date" FROM "woo_instance" WHERE "woo_instance"."id" IN (1)'
+ERROR: cursor already closed 
+2026-05-22 11:12:00,355 21068 WARNING odoo19 odoo.addons.woo_connector.models.woo_order_sync: Failed to sync Woo order 83: cursor already closed 
+2026-05-22 11:12:00,355 21068 ERROR odoo19 odoo.sql_db: bad query: b'SELECT "woo_instance"."id", "woo_instance"."name", "woo_instance"."shop_url", "woo_instance"."consumer_key", "woo_instance"."consumer_secret", "woo_instance"."active", "woo_instance"."wp_username", "woo_instance"."application_password", "woo_instance"."webhook_secret", "woo_instance"."smart_sku_matching", "woo_instance"."strict_sku_matching", "woo_instance"."auto_mapping_creation", "woo_instance"."strict_auto_mapping", "woo_instance"."auto_create_category_mapping", "woo_instance"."auto_create_tag_mapping", "woo_instance"."ai_error_assistant_enabled", "woo_instance"."ai_error_provider", "woo_instance"."ai_error_api_key", "woo_instance"."ai_error_model", "woo_instance"."ai_error_endpoint", "woo_instance"."ai_error_api_version", "woo_instance"."ai_error_max_tokens", "woo_instance"."ai_error_temperature", "woo_instance"."ai_error_timeout_seconds", "woo_instance"."health_last_checked_at", "woo_instance"."health_overall_status", "woo_instance"."health_response_time_ms", "woo_instance"."health_woo_version", "woo_instance"."health_currency", "woo_instance"."health_last_error", "woo_instance"."total_products", "woo_instance"."total_orders", "woo_instance"."total_customers", "woo_instance"."total_revenue", "woo_instance"."last_sync", "woo_instance"."webhook_product_create", "woo_instance"."webhook_product_update", "woo_instance"."webhook_customer_create", "woo_instance"."webhook_customer_update", "woo_instance"."webhook_order_create", "woo_instance"."webhook_order_update", "woo_instance"."webhook_category_create", "woo_instance"."webhook_category_update", "woo_instance"."webhook_giftcard_create", "woo_instance"."webhook_giftcard_update", "woo_instance"."cron_sync_products", "woo_instance"."cron_sync_customers", "woo_instance"."cron_sync_orders", "woo_instance"."cron_sync_categories", "woo_instance"."cron_sync_giftcards", "woo_instance"."auto_product_sync", "woo_instance"."auto_product_interval_type", "woo_instance"."last_product_sync_at", "woo_instance"."auto_customer_sync", "woo_instance"."auto_customer_interval_type", "woo_instance"."last_customer_sync_at", "woo_instance"."auto_order_sync", "woo_instance"."auto_order_interval_type", "woo_instance"."last_order_sync_at", "woo_instance"."auto_category_sync", "woo_instance"."auto_category_interval_type", "woo_instance"."last_category_sync_at", "woo_instance"."auto_coupon_sync", "woo_instance"."auto_coupon_interval_type", "woo_instance"."last_coupon_sync_at", "woo_instance"."auto_sync_hour", "woo_instance"."auto_sync_minute", "woo_instance"."auto_sync_weekday", "woo_instance"."auto_sync_month_day", "woo_instance"."create_uid", "woo_instance"."create_date", "woo_instance"."write_uid", "woo_instance"."write_date" FROM "woo_instance" WHERE "woo_instance"."id" IN (1)'
+ERROR: cursor already closed 
+2026-05-22 11:12:00,355 21068 ERROR odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) server action #511 failed 
+Traceback (most recent call last):
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 689, in _callback
+    self.env.flush_all()
+  File "D:\odoo19\odoo19\odoo\orm\environments.py", line 388, in flush_all
+    self[model_name].flush_model()
+  File "D:\odoo19\odoo19\odoo\orm\models.py", line 6362, in flush_model
+    self._flush()
+  File "D:\odoo19\odoo19\odoo\orm\models.py", line 6430, in _flush
+    model.browse(some_ids)._write_multi(vals_list)
+  File "D:\odoo19\odoo19\odoo\orm\models.py", line 4594, in _write_multi
+    self.env.execute_query(SQL(
+  File "D:\odoo19\odoo19\odoo\orm\environments.py", line 534, in execute_query
+    self.cr.execute(query)
+  File "D:\odoo19\odoo19\odoo\sql_db.py", line 433, in execute
+    self._obj.execute(query, params)
+psycopg2.InterfaceError: cursor already closed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 505, in _run_job
+    cron._callback(job['cron_name'], job['ir_actions_server_id'])
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 694, in _callback
+    self.env.cr.rollback()
+  File "D:\odoo19\odoo19\odoo\sql_db.py", line 569, in rollback
+    self._cnx.rollback()
+psycopg2.InterfaceError: connection already closed
+2026-05-22 11:12:00,361 21068 ERROR odoo19 odoo.sql_db: bad query: b'SELECT "woo_instance"."id", "woo_instance"."name", "woo_instance"."shop_url", "woo_instance"."consumer_key", "woo_instance"."consumer_secret", "woo_instance"."active", "woo_instance"."wp_username", "woo_instance"."application_password", "woo_instance"."webhook_secret", "woo_instance"."smart_sku_matching", "woo_instance"."strict_sku_matching", "woo_instance"."auto_mapping_creation", "woo_instance"."strict_auto_mapping", "woo_instance"."auto_create_category_mapping", "woo_instance"."auto_create_tag_mapping", "woo_instance"."ai_error_assistant_enabled", "woo_instance"."ai_error_provider", "woo_instance"."ai_error_api_key", "woo_instance"."ai_error_model", "woo_instance"."ai_error_endpoint", "woo_instance"."ai_error_api_version", "woo_instance"."ai_error_max_tokens", "woo_instance"."ai_error_temperature", "woo_instance"."ai_error_timeout_seconds", "woo_instance"."health_last_checked_at", "woo_instance"."health_overall_status", "woo_instance"."health_response_time_ms", "woo_instance"."health_woo_version", "woo_instance"."health_currency", "woo_instance"."health_last_error", "woo_instance"."total_products", "woo_instance"."total_orders", "woo_instance"."total_customers", "woo_instance"."total_revenue", "woo_instance"."last_sync", "woo_instance"."webhook_product_create", "woo_instance"."webhook_product_update", "woo_instance"."webhook_customer_create", "woo_instance"."webhook_customer_update", "woo_instance"."webhook_order_create", "woo_instance"."webhook_order_update", "woo_instance"."webhook_category_create", "woo_instance"."webhook_category_update", "woo_instance"."webhook_giftcard_create", "woo_instance"."webhook_giftcard_update", "woo_instance"."cron_sync_products", "woo_instance"."cron_sync_customers", "woo_instance"."cron_sync_orders", "woo_instance"."cron_sync_categories", "woo_instance"."cron_sync_giftcards", "woo_instance"."auto_product_sync", "woo_instance"."auto_product_interval_type", "woo_instance"."last_product_sync_at", "woo_instance"."auto_customer_sync", "woo_instance"."auto_customer_interval_type", "woo_instance"."last_customer_sync_at", "woo_instance"."auto_order_sync", "woo_instance"."auto_order_interval_type", "woo_instance"."last_order_sync_at", "woo_instance"."auto_category_sync", "woo_instance"."auto_category_interval_type", "woo_instance"."last_category_sync_at", "woo_instance"."auto_coupon_sync", "woo_instance"."auto_coupon_interval_type", "woo_instance"."last_coupon_sync_at", "woo_instance"."auto_sync_hour", "woo_instance"."auto_sync_minute", "woo_instance"."auto_sync_weekday", "woo_instance"."auto_sync_month_day", "woo_instance"."create_uid", "woo_instance"."create_date", "woo_instance"."write_uid", "woo_instance"."write_date" FROM "woo_instance" WHERE "woo_instance"."id" IN (1)'
+ERROR: cursor already closed 
+2026-05-22 11:12:00,361 21068 WARNING odoo19 odoo.addons.base.models.ir_cron: Exception in cron: 
+Traceback (most recent call last):
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 199, in _process_jobs
+    cls._process_jobs_loop(cron_cr, job_ids=[job['id'] for job in jobs])
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 236, in _process_jobs_loop
+    registry[IrCron._name]._process_job(cron_cr, job)
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 436, in _process_job
+    status = cls._run_job(job)
+             ^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_cron.py", line 511, in _run_job
+    done, remaining = progress.done, progress.remaining
+                      ^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\orm\fields.py", line 1702, in __get__
+    recs._fetch_field(self)
+  File "D:\odoo19\odoo19\odoo\orm\models.py", line 3772, in _fetch_field
+    self.fetch(fnames)
+  File "D:\odoo19\odoo19\odoo\orm\models.py", line 3812, in fetch
+    fetched = self._fetch_query(query, fields_to_fetch)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\orm\models.py", line 3917, in _fetch_query
+    rows = self.env.execute_query(query.select(*sql_terms))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\odoo19\odoo19\odoo\orm\environments.py", line 534, in execute_query
+    self.cr.execute(query)
+  File "D:\odoo19\odoo19\odoo\sql_db.py", line 433, in execute
+    self._obj.execute(query, params)
+psycopg2.InterfaceError: cursor already closed
+2026-05-22 11:12:48,969 21068 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) starting 
+2026-05-22 11:12:49,319 21068 INFO odoo19 odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-05-22 11:12:49,339 21068 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-05-22 11:12:49,347 21068 INFO odoo19 odoo.addons.base.models.res_users: GC'd 0 user log entries 
+2026-05-22 11:12:49,507 21068 INFO odoo19 odoo.addons.base.models.res_users: GC 'auth_totp.device' delete 0 entries 
+2026-05-22 11:12:49,665 21068 INFO odoo19 odoo.addons.api_doc.models.ir_attachment: GC'd 0 /doc cached index 
+2026-05-22 11:12:49,726 21068 INFO odoo19 odoo.addons.base.models.res_users: GC 'res.users.apikeys' delete 0 entries 
+2026-05-22 11:12:49,764 21068 INFO odoo19 odoo.addons.sms.models.sms_sms: GC'd 0 sms marked for deletion 
+2026-05-22 11:12:49,768 21068 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-05-22 11:12:49,800 21068 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) fully done (#loop 1; done 0; remaining 0; duration 0.83s) 
+2026-05-22 11:12:49,813 21068 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:12:54,583 21068 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [450, 451] 
+2026-05-22 11:12:58,350 21068 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [448, 449] 
+2026-05-22 11:13:02,199 21068 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [446, 447] 
+2026-05-22 11:13:06,070 21068 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [444, 445] 
+2026-05-22 11:13:10,315 21068 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [442, 443] 
+2026-05-22 11:13:14,787 21068 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [441] 
+2026-05-22 11:13:14,803 21068 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 24.98s) 
+2026-05-22 11:14:31,348 20624 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-05-22 11:14:31,348 20624 INFO ? odoo: Odoo version 19.0 
+2026-05-22 11:14:31,349 20624 INFO ? odoo: Using configuration file at d:\odoo19\odoo19.conf 
+2026-05-22 11:14:31,349 20624 INFO ? odoo: addons paths: _NamespacePath(['D:\\odoo19\\odoo19\\odoo\\addons', 'd:\\odoo19\\odoo19_data\\addons\\19.0', 'd:\\odoo19\\odoo19\\addons', 'd:\\odoo19\\custom_addons']) 
+2026-05-22 11:14:31,349 20624 INFO ? odoo: database: odoo19@localhost:5432 
+2026-05-22 11:14:33,501 20624 INFO ? odoo.service.server: HTTP service (werkzeug) running on Harish:8070 
+2026-05-22 11:15:15,704 20624 INFO ? odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:15:15,708 20624 INFO ? odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-22 11:15:15,746 20624 INFO ? odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:15:17,014 20624 INFO ? odoo.modules.loading: 75 modules loaded in 1.27s, 0 queries (+0 extra) 
+2026-05-22 11:15:17,209 20624 INFO ? odoo.modules.loading: Modules loaded. 
+2026-05-22 11:15:17,268 20624 INFO ? odoo.registry: Registry loaded in 1.660s 
+2026-05-22 11:15:17,270 20624 INFO odoo19 odoo.addons.base.models.ir_http: Generating routing map for key None 
+2026-05-22 11:15:17,312 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:15:17] "GET /websocket?version=19.0-2 HTTP/1.1" 101 - 23 0.063 1.644
+2026-05-22 11:15:17,692 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:15:17] "POST /bus/has_missed_notifications HTTP/1.1" 200 - 2 0.003 0.061
+2026-05-22 11:15:17,780 20624 INFO ? odoo.addons.bus.models.bus: Bus.loop listen imbus on db postgres 
+2026-05-22 11:16:25,535 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:25] "POST /web/action/load HTTP/1.1" 200 - 11 0.048 0.017
+2026-05-22 11:16:25,984 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:25] "POST /web/dataset/call_kw/ir.module.module/get_views#ir.module.module.get_views HTTP/1.1" 200 - 56 0.114 0.144
+2026-05-22 11:16:26,000 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:26] "POST /web/dataset/call_kw/ir.module.module/search_panel_select_range#ir.module.module.search_panel_select_range HTTP/1.1" 200 - 1 0.001 0.003
+2026-05-22 11:16:26,394 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:26] "POST /web/dataset/call_kw/ir.module.module/web_search_read#ir.module.module.web_search_read HTTP/1.1" 200 - 3 0.017 0.060
+2026-05-22 11:16:26,395 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:26] "POST /web/dataset/call_kw/ir.module.module/search_panel_select_range#ir.module.module.search_panel_select_range HTTP/1.1" 200 - 45 0.056 0.038
+2026-05-22 11:16:26,418 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:26] "POST /web/dataset/call_kw/ir.module.module/check_module_update#ir.module.module.check_module_update HTTP/1.1" 200 - 2 0.023 0.063
+2026-05-22 11:16:26,729 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:26] "POST /web/dataset/call_kw/ir.module.module/check_module_update#ir.module.module.check_module_update HTTP/1.1" 200 - 2 0.003 0.005
+2026-05-22 11:16:30,525 20624 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_immediate_upgrade on ['Odoo WooCommerce Connector'] to user harishwagh@sdlccorp.com #2 via 127.0.0.1 
+2026-05-22 11:16:30,527 20624 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Odoo WooCommerce Connector'] to user harishwagh@sdlccorp.com #2 via 127.0.0.1 
+2026-05-22 11:16:30,527 20624 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Odoo WooCommerce Connector'] to user harishwagh@sdlccorp.com #2 via 127.0.0.1 
+2026-05-22 11:16:32,226 20624 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user harishwagh@sdlccorp.com #2 via 127.0.0.1 
+2026-05-22 11:16:32,322 20624 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:16:32,327 20624 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-22 11:16:32,358 20624 INFO odoo19 odoo.modules.loading: updating modules list 
+2026-05-22 11:16:32,363 20624 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via 127.0.0.1 
+2026-05-22 11:16:33,634 20624 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:16:33,670 20624 INFO odoo19 odoo.modules.loading: Loading module woo_connector (75/75) 
+2026-05-22 11:16:33,986 20624 WARNING odoo19 odoo.addons.base.models.ir_cron: Skipping database odoo19 because of modules to install/upgrade/remove. 
+2026-05-22 11:16:34,006 20624 INFO odoo19 odoo.registry: module woo_connector: creating or updating database tables 
+2026-05-22 11:16:34,485 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/security/ir.model.access.csv 
+2026-05-22 11:16:34,550 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_action.xml 
+2026-05-22 11:16:34,558 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/data/cron.xml 
+2026-05-22 11:16:34,594 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_instance_view.xml 
+2026-05-22 11:16:34,674 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_import_by_id_wizard_view.xml 
+2026-05-22 11:16:34,690 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_import_date_range_wizard_view.xml 
+2026-05-22 11:16:34,716 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_preview_view.xml 
+2026-05-22 11:16:34,752 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_manual_record_sync_views.xml 
+2026-05-22 11:16:34,991 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_connection_health_log_view.xml 
+2026-05-22 11:16:35,025 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_auto_mapping_views.xml 
+2026-05-22 11:16:35,055 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_field_mapping_views.xml 
+2026-05-22 11:16:35,091 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_template_woo_view.xml 
+2026-05-22 11:16:35,154 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_brand_view.xml 
+2026-05-22 11:16:35,185 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_category_sync_view.xml 
+2026-05-22 11:16:35,203 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_coupon_sync_view.xml 
+2026-05-22 11:16:35,223 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_product_sync_view.xml 
+2026-05-22 11:16:35,292 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_product_sync_form.xml 
+2026-05-22 11:16:35,301 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_ai_content_wizard_views.xml 
+2026-05-22 11:16:35,313 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_customer_sync_view.xml 
+2026-05-22 11:16:35,331 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_order_sync_view.xml 
+2026-05-22 11:16:35,355 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_report_view.xml 
+2026-05-22 11:16:35,400 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_queue_monitor_view.xml 
+2026-05-22 11:16:35,436 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_webhook_log_view.xml 
+2026-05-22 11:16:35,475 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_timeline_view.xml 
+2026-05-22 11:16:35,729 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sales_report.xml 
+2026-05-22 11:16:35,764 20624 WARNING odoo19 odoo.addons.base.models.ir_cron: Skipping database odoo19 because of modules to install/upgrade/remove. 
+2026-05-22 11:16:35,767 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_order_report.xml 
+2026-05-22 11:16:35,796 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_inventory_views.xml 
+2026-05-22 11:16:35,806 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_res_config_settings_view.xml 
+2026-05-22 11:16:35,918 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/data/woo_order_cron.xml 
+2026-05-22 11:16:35,935 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_dashboard_view.xml 
+2026-05-22 11:16:35,956 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_dashboard_action.xml 
+2026-05-22 11:16:35,960 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_actions.xml 
+2026-05-22 11:16:35,993 20624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/menu.xml 
+2026-05-22 11:16:36,184 20624 INFO odoo19 odoo.modules.loading: Module woo_connector loaded in 2.51s, 1646 queries (+1656 other) 
+2026-05-22 11:16:36,184 20624 INFO odoo19 odoo.modules.loading: 75 modules loaded in 2.55s, 1646 queries (+1656 extra) 
+2026-05-22 11:16:37,373 20624 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-05-22 11:16:37,394 20624 INFO odoo19 odoo.registry: Registry changed, signaling through the database 
+2026-05-22 11:16:37,395 20624 INFO odoo19 odoo.registry: Registry loaded in 5.112s 
+2026-05-22 11:16:37,396 20624 INFO odoo19 odoo.addons.base.models.ir_module: getting next ir.actions.todo() 
+2026-05-22 11:16:37,417 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:37] "POST /web/dataset/call_button/ir.module.module/button_immediate_upgrade#ir.module.module.button_immediate_upgrade HTTP/1.1" 200 - 6226 3.383 3.516
+2026-05-22 11:16:37,445 20624 INFO odoo19 odoo.addons.base.models.ir_http: Generating routing map for key None 
+2026-05-22 11:16:38,465 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:38] "GET /odoo HTTP/1.1" 200 - 84 0.089 0.936
+2026-05-22 11:16:38,648 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:38] "GET /web/webclient/load_menus HTTP/1.1" 200 - 17 0.026 0.080
+2026-05-22 11:16:39,201 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:39] "GET /web/manifest.webmanifest HTTP/1.1" 200 - 8 0.020 0.023
+2026-05-22 11:16:39,245 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:39] "GET /web/webclient/translations?hash=&lang=en_US HTTP/1.1" 200 - 2 0.007 0.112
+2026-05-22 11:16:39,384 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:39] "GET /web/bundle/web_tour.interactive?lang=en_US HTTP/1.1" 200 - 3 0.002 0.012
+2026-05-22 11:16:39,617 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:39] "POST /web/action/load HTTP/1.1" 200 - 6 0.019 0.021
+2026-05-22 11:16:39,770 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:39] "POST /mail/data HTTP/1.1" 200 - 27 0.081 0.108
+2026-05-22 11:16:39,770 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:39] "GET /bus/websocket_worker_bundle?v=19.0-2 HTTP/1.1" 304 - 4 0.017 0.066
+2026-05-22 11:16:39,927 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:39] "POST /mail/data HTTP/1.1" 200 - 39 0.143 0.099
+2026-05-22 11:16:39,994 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:39] "GET /web/image?model=res.users&field=avatar_128&id=2 HTTP/1.1" 304 - 15 0.182 0.127
+2026-05-22 11:16:40,141 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:40] "GET /websocket?version=19.0-2 HTTP/1.1" 101 - 1 0.002 0.007
+2026-05-22 11:16:40,249 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:40] "POST /discuss/channel/messages HTTP/1.1" 200 - 21 0.015 0.031
+2026-05-22 11:16:40,631 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:40] "GET /web/bundle/web.assets_emoji?lang=en_US HTTP/1.1" 200 - 2 0.003 0.015
+2026-05-22 11:16:42,083 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:16:42] "GET /web/service-worker.js HTTP/1.1" 200 - 1 0.001 0.005
+2026-05-22 11:17:06,704 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:17:06] "POST /web/action/load HTTP/1.1" 200 - 6 0.002 0.008
+2026-05-22 11:17:06,970 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:17:06] "POST /web/dataset/call_kw#woo.dashboard.get_instances HTTP/1.1" 200 - 4 0.004 0.006
+2026-05-22 11:17:07,157 20624 WARNING odoo19 py.warnings: d:\odoo19\custom_addons\woo_connector\models\woo_dashboard.py:72: DeprecationWarning: Since 19.0, read_group is deprecated. Please use _read_group in the backend code or formatted_read_group for a complete formatted result
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "D:\odoo19\odoo19\odoo\service\server.py", line 143, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "D:\odoo19\odoo19\venv\Lib\site-packages\werkzeug\serving.py", line 390, in handle
+    super().handle()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "D:\odoo19\odoo19\venv\Lib\site-packages\werkzeug\serving.py", line 362, in run_wsgi
+    execute(self.server.app)
+  File "D:\odoo19\odoo19\venv\Lib\site-packages\werkzeug\serving.py", line 323, in execute
+    application_iter = app(environ, start_response)
+  File "D:\odoo19\odoo19\odoo\http.py", line 2829, in __call__
+    response = request._serve_db()
+  File "D:\odoo19\odoo19\odoo\http.py", line 2302, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "D:\odoo19\odoo19\odoo\service\model.py", line 188, in retrying
+    result = func()
+  File "D:\odoo19\odoo19\odoo\http.py", line 2357, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "D:\odoo19\odoo19\odoo\http.py", line 2572, in dispatch
+    result = self.request.registry['ir.http']._dispatch(endpoint)
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "D:\odoo19\odoo19\odoo\http.py", line 811, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "d:\odoo19\odoo19\addons\web\controllers\dataset.py", line 32, in call_kw
+    return call_kw(request.env[model], method, args, kwargs)
+  File "D:\odoo19\odoo19\odoo\service\model.py", line 97, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "d:\odoo19\custom_addons\woo_connector\models\woo_dashboard.py", line 441, in get_analytics_data
+    local_totals = self._totals_from_local_sync(selected_instances)
+  File "d:\odoo19\custom_addons\woo_connector\models\woo_dashboard.py", line 119, in _totals_from_local_sync
+    "customers": self._customer_count_from_orders(instances),
+  File "d:\odoo19\custom_addons\woo_connector\models\woo_dashboard.py", line 72, in _customer_count_from_orders
+    groups = Order.read_group(domain, ["customer_email"], ["customer_email"])
+ 
+2026-05-22 11:17:07,174 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:17:07] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 18 0.019 0.103
+2026-05-22 11:17:14,216 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:17:18,092 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:17:19,538 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:17:19] "POST /web/action/load HTTP/1.1" 200 - 11 0.010 0.015
+2026-05-22 11:17:19,927 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:17:19] "POST /web/dataset/call_kw/woo.report/get_views#woo.report.get_views HTTP/1.1" 200 - 30 0.023 0.036
+2026-05-22 11:17:20,273 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:17:20] "POST /web/dataset/call_kw/woo.report/web_search_read#woo.report.web_search_read HTTP/1.1" 200 - 4 0.010 0.006
+2026-05-22 11:17:21,893 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:17:25,251 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:17:27,005 20624 WARNING odoo19 py.warnings: d:\odoo19\custom_addons\woo_connector\models\woo_dashboard.py:135: DeprecationWarning: Since 19.0, read_group is deprecated. Please use _read_group in the backend code or formatted_read_group for a complete formatted result
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "D:\odoo19\odoo19\odoo\service\server.py", line 143, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "D:\odoo19\odoo19\venv\Lib\site-packages\werkzeug\serving.py", line 390, in handle
+    super().handle()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "D:\odoo19\odoo19\venv\Lib\site-packages\werkzeug\serving.py", line 362, in run_wsgi
+    execute(self.server.app)
+  File "D:\odoo19\odoo19\venv\Lib\site-packages\werkzeug\serving.py", line 323, in execute
+    application_iter = app(environ, start_response)
+  File "D:\odoo19\odoo19\odoo\http.py", line 2829, in __call__
+    response = request._serve_db()
+  File "D:\odoo19\odoo19\odoo\http.py", line 2302, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "D:\odoo19\odoo19\odoo\service\model.py", line 188, in retrying
+    result = func()
+  File "D:\odoo19\odoo19\odoo\http.py", line 2357, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "D:\odoo19\odoo19\odoo\http.py", line 2572, in dispatch
+    result = self.request.registry['ir.http']._dispatch(endpoint)
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "D:\odoo19\odoo19\odoo\http.py", line 811, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "d:\odoo19\odoo19\addons\web\controllers\dataset.py", line 32, in call_kw
+    return call_kw(request.env[model], method, args, kwargs)
+  File "D:\odoo19\odoo19\odoo\service\model.py", line 97, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "d:\odoo19\custom_addons\woo_connector\models\woo_dashboard.py", line 575, in get_analytics_data
+    "order_status": self._order_status_breakdown(
+  File "d:\odoo19\custom_addons\woo_connector\models\woo_dashboard.py", line 135, in _order_status_breakdown
+    groups = Order.read_group(domain, ["status"], ["status"])
+ 
+2026-05-22 11:17:27,007 20624 WARNING odoo19 py.warnings: d:\odoo19\custom_addons\woo_connector\models\woo_dashboard.py:156: DeprecationWarning: Since 19.0, read_group is deprecated. Please use _read_group in the backend code or formatted_read_group for a complete formatted result
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "D:\odoo19\odoo19\odoo\service\server.py", line 143, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "D:\odoo19\odoo19\venv\Lib\site-packages\werkzeug\serving.py", line 390, in handle
+    super().handle()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\haris\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "D:\odoo19\odoo19\venv\Lib\site-packages\werkzeug\serving.py", line 362, in run_wsgi
+    execute(self.server.app)
+  File "D:\odoo19\odoo19\venv\Lib\site-packages\werkzeug\serving.py", line 323, in execute
+    application_iter = app(environ, start_response)
+  File "D:\odoo19\odoo19\odoo\http.py", line 2829, in __call__
+    response = request._serve_db()
+  File "D:\odoo19\odoo19\odoo\http.py", line 2302, in _serve_db
+    return service_model.retrying(serve_func, env=self.env)
+  File "D:\odoo19\odoo19\odoo\service\model.py", line 188, in retrying
+    result = func()
+  File "D:\odoo19\odoo19\odoo\http.py", line 2357, in _serve_ir_http
+    response = self.dispatcher.dispatch(rule.endpoint, args)
+  File "D:\odoo19\odoo19\odoo\http.py", line 2572, in dispatch
+    result = self.request.registry['ir.http']._dispatch(endpoint)
+  File "D:\odoo19\odoo19\odoo\addons\base\models\ir_http.py", line 355, in _dispatch
+    result = endpoint(**request.params)
+  File "D:\odoo19\odoo19\odoo\http.py", line 811, in route_wrapper
+    result = endpoint(self, *args, **params_ok)
+  File "d:\odoo19\odoo19\addons\web\controllers\dataset.py", line 32, in call_kw
+    return call_kw(request.env[model], method, args, kwargs)
+  File "D:\odoo19\odoo19\odoo\service\model.py", line 97, in call_kw
+    result = method(recs, *args, **kwargs)
+  File "d:\odoo19\custom_addons\woo_connector\models\woo_dashboard.py", line 578, in get_analytics_data
+    "payments": self._payment_breakdown(
+  File "d:\odoo19\custom_addons\woo_connector\models\woo_dashboard.py", line 156, in _payment_breakdown
+    groups = Order.read_group(
+ 
+2026-05-22 11:17:27,013 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:17:27] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.011 19.712
+2026-05-22 11:17:34,065 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:17:36,853 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) starting 
+2026-05-22 11:17:37,305 20624 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-05-22 11:17:37,401 20624 INFO odoo19 odoo.addons.sms.models.sms_sms: GC'd 0 sms marked for deletion 
+2026-05-22 11:17:37,501 20624 INFO odoo19 odoo.addons.base.models.res_users: GC'd 0 user log entries 
+2026-05-22 11:17:37,553 20624 INFO odoo19 odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-05-22 11:17:37,583 20624 INFO odoo19 odoo.addons.base.models.res_users: GC 'auth_totp.device' delete 0 entries 
+2026-05-22 11:17:37,722 20624 INFO odoo19 odoo.addons.base.models.res_users: GC 'res.users.apikeys' delete 0 entries 
+2026-05-22 11:17:37,754 20624 INFO odoo19 odoo.addons.api_doc.models.ir_attachment: GC'd 0 /doc cached index 
+2026-05-22 11:17:37,793 20624 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-05-22 11:17:37,855 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) fully done (#loop 1; done 0; remaining 0; duration 1.00s) 
+2026-05-22 11:17:39,724 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [466] 
+2026-05-22 11:17:43,066 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [464, 465] 
+2026-05-22 11:17:46,634 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [462, 463] 
+2026-05-22 11:17:50,116 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [460, 461] 
+2026-05-22 11:17:53,447 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [458, 459] 
+2026-05-22 11:17:57,026 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [456, 457] 
+2026-05-22 11:17:57,039 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 22.97s) 
+2026-05-22 11:18:02,273 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:18:02] "POST /web/action/load HTTP/1.1" 200 - 9 0.010 0.008
+2026-05-22 11:18:02,551 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:18:02] "POST /web/dataset/call_kw/woo.sync.preview/get_views#woo.sync.preview.get_views HTTP/1.1" 200 - 24 0.015 0.016
+2026-05-22 11:18:02,616 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:18:02] "POST /web/dataset/call_kw/woo.sync.preview/web_search_read#woo.sync.preview.web_search_read HTTP/1.1" 200 - 3 0.005 0.006
+2026-05-22 11:18:05,818 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:18:05] "POST /web/action/load HTTP/1.1" 200 - 9 0.006 0.010
+2026-05-22 11:18:06,207 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:18:06] "POST /web/dataset/call_kw/woo.coupon.sync/get_views#woo.coupon.sync.get_views HTTP/1.1" 200 - 24 0.024 0.041
+2026-05-22 11:18:06,418 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:18:06] "POST /web/dataset/call_kw/woo.coupon.sync/web_search_read#woo.coupon.sync.web_search_read HTTP/1.1" 200 - 3 0.004 0.007
+2026-05-22 11:18:09,448 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:18:09] "POST /web/dataset/call_kw/woo.coupon.sync/web_search_read#woo.coupon.sync.web_search_read HTTP/1.1" 200 - 2 0.003 0.004
+2026-05-22 11:18:23,972 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:18:23] "POST /web/action/load HTTP/1.1" 200 - 10 0.006 0.008
+2026-05-22 11:18:24,275 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:18:24] "POST /web/dataset/call_kw/woo.inventory/get_views#woo.inventory.get_views HTTP/1.1" 200 - 13 0.021 0.027
+2026-05-22 11:18:24,322 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:18:24] "POST /web/dataset/call_kw/woo.inventory/web_search_read#woo.inventory.web_search_read HTTP/1.1" 200 - 3 0.011 0.007
+2026-05-22 11:18:31,050 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:18:35,031 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:18:38,979 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) starting 
+2026-05-22 11:18:39,436 20624 INFO odoo19 odoo.addons.api_doc.models.ir_attachment: GC'd 0 /doc cached index 
+2026-05-22 11:18:39,470 20624 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-05-22 11:18:39,632 20624 INFO odoo19 odoo.addons.base.models.res_users: GC 'res.users.apikeys' delete 0 entries 
+2026-05-22 11:18:39,669 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:18:39,745 20624 INFO odoo19 odoo.addons.sms.models.sms_sms: GC'd 0 sms marked for deletion 
+2026-05-22 11:18:39,778 20624 INFO odoo19 odoo.addons.base.models.res_users: GC 'auth_totp.device' delete 0 entries 
+2026-05-22 11:18:39,791 20624 INFO odoo19 odoo.addons.base.models.res_users: GC'd 0 user log entries 
+2026-05-22 11:18:39,848 20624 INFO odoo19 odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-05-22 11:18:39,866 20624 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-05-22 11:18:39,963 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) fully done (#loop 1; done 0; remaining 0; duration 0.98s) 
+2026-05-22 11:18:43,470 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:18:45,562 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:18:45] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.013 18.528
+2026-05-22 11:19:32,827 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:19:37,447 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:19:40,942 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:19:44,431 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:19:46,193 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:19:46] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.012 18.846
+2026-05-22 11:20:30,584 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:20:34,946 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:20:38,502 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:20:41,960 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:20:42,120 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Notification: Notify scheduled messages' (8) starting 
+2026-05-22 11:20:42,158 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Notification: Notify scheduled messages' (8) fully done (#loop 1; done 0; remaining 0; duration 0.05s) 
+2026-05-22 11:20:42,169 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Mail: Email Queue Manager' (3) starting 
+2026-05-22 11:20:42,189 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Mail: Email Queue Manager' (3) fully done (#loop 1; done 0; remaining 0; duration 0.03s) 
+2026-05-22 11:20:43,631 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:20:43] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.009 16.591
+2026-05-22 11:21:31,432 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:21:36,994 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:21:40,670 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:21:43,276 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) starting 
+2026-05-22 11:21:43,296 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) fully done (#loop 1; done 0; remaining 0; duration 0.03s) 
+2026-05-22 11:21:43,307 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'WooCommerce Auto Sync' (33) starting 
+2026-05-22 11:21:43,323 20624 INFO odoo19 odoo.addons.woo_connector.models.woo_instance: Woo Cron (auto_sync) tick for 1 instances: odoo connect new 
+2026-05-22 11:21:43,325 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'WooCommerce Auto Sync' (33) fully done (#loop 1; done 0; remaining 0; duration 0.02s) 
+2026-05-22 11:21:43,330 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:21:44,849 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:21:46,818 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:21:46] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.007 19.479
+2026-05-22 11:21:47,969 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [476, 477] 
+2026-05-22 11:21:51,519 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [474, 475] 
+2026-05-22 11:21:54,992 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [472, 473] 
+2026-05-22 11:21:58,420 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [470, 471] 
+2026-05-22 11:22:01,895 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [468, 469] 
+2026-05-22 11:22:05,242 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [467] 
+2026-05-22 11:22:05,248 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 21.91s) 
+2026-05-22 11:22:31,728 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:22:36,447 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:22:40,155 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:22:44,356 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:22:46,171 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:22:46] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.008 18.658
+2026-05-22 11:23:31,419 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:23:36,071 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:23:40,076 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:23:43,447 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:23:45,411 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:23:45] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.005 17.601
+2026-05-22 11:24:59,579 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:25:03,197 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:25:06,804 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:25:10,363 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:25:12,088 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:25:12] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.008 17.255
+2026-05-22 11:25:32,984 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:25:38,773 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:25:42,917 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:25:47,529 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:25:49,263 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:25:49] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.014 19.924
+2026-05-22 11:26:31,409 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:26:36,268 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:26:39,860 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:26:43,428 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:26:45,449 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:26:45] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.015 17.590
+2026-05-22 11:26:57,740 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:27:01,315 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [488] 
+2026-05-22 11:27:05,520 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [486, 487] 
+2026-05-22 11:27:08,865 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [484, 485] 
+2026-05-22 11:27:12,642 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [482, 483] 
+2026-05-22 11:27:16,192 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [480, 481] 
+2026-05-22 11:27:19,621 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [478, 479] 
+2026-05-22 11:27:19,629 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 21.89s) 
+2026-05-22 11:27:50,176 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:27:54,413 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:27:57,938 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:28:01,256 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:28:03,066 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:28:03] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.005 16.364
+2026-05-22 11:28:31,314 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:28:37,062 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:28:41,073 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:28:45,525 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:28:47,532 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:28:47] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.007 20.036
+2026-05-22 11:29:58,608 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:30:02,208 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:30:05,883 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:30:09,201 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:30:10,977 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:30:10] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.007 16.136
+2026-05-22 11:30:58,369 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:31:02,451 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:31:06,014 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:31:09,298 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:31:11,088 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:31:11] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.009 16.565
+2026-05-22 11:31:14,993 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) starting 
+2026-05-22 11:31:15,017 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) fully done (#loop 1; done 0; remaining 0; duration 0.03s) 
+2026-05-22 11:31:15,025 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:31:18,485 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [498, 499] 
+2026-05-22 11:31:22,157 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [496, 497] 
+2026-05-22 11:31:25,879 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [494, 495] 
+2026-05-22 11:31:29,286 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [492, 493] 
+2026-05-22 11:31:34,975 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [490, 491] 
+2026-05-22 11:31:39,654 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [489] 
+2026-05-22 11:31:39,668 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 24.64s) 
+2026-05-22 11:31:45,471 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:31:45] "POST /web/action/load HTTP/1.1" 200 - 10 0.006 0.015
+2026-05-22 11:31:45,866 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:31:45] "POST /web/dataset/call_kw/woo.instance/get_views#woo.instance.get_views HTTP/1.1" 200 - 26 0.017 0.049
+2026-05-22 11:31:46,195 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:31:46] "POST /web/dataset/call_kw/woo.instance/web_search_read#woo.instance.web_search_read HTTP/1.1" 200 - 3 0.002 0.004
+2026-05-22 11:31:46,223 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:31:49,944 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:31:53,902 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:31:57,655 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:31:59,307 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:31:59] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.010 17.369
+2026-05-22 11:32:31,268 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:32:35,694 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:32:39,226 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:32:42,673 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:32:45,493 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:32:45] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.010 17.681
+2026-05-22 11:33:54,925 20624 INFO odoo19 odoo.addons.base.models.res_device: User 2 inserts device log (TSpi9WlZTj59rmHVIoHGDJAnvZK7zVtheThbzNb90R) 
+2026-05-22 11:33:58,904 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:34:02,530 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:34:06,007 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:34:09,339 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:34:11,119 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:34:11] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 18 0.012 16.200
+2026-05-22 11:34:16,524 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:34:16] "POST /web/action/load HTTP/1.1" 200 - 10 0.015 0.031
+2026-05-22 11:34:16,901 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:34:16] "POST /web/dataset/call_kw/woo.auto.mapping/get_views#woo.auto.mapping.get_views HTTP/1.1" 200 - 18 0.014 0.021
+2026-05-22 11:34:17,132 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:34:17] "POST /web/dataset/call_kw/woo.auto.mapping/web_search_read#woo.auto.mapping.web_search_read HTTP/1.1" 200 - 3 0.009 0.008
+2026-05-22 11:34:18,949 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:34:18] "POST /web/dataset/call_kw/woo.auto.mapping/onchange#woo.auto.mapping.onchange HTTP/1.1" 200 - 2 0.003 0.004
+2026-05-22 11:34:20,928 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:34:20] "POST /web/dataset/call_kw/woo.instance/web_name_search#woo.instance.web_name_search HTTP/1.1" 200 - 2 0.002 0.007
+2026-05-22 11:34:30,565 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:34:34,011 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:34:37,544 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:34:40,953 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:34:42,681 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:34:42] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.005 15.659
+2026-05-22 11:34:45,040 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:34:45] "POST /web/dataset/call_kw/woo.auto.mapping/web_search_read#woo.auto.mapping.web_search_read HTTP/1.1" 200 - 2 0.002 0.005
+2026-05-22 11:35:32,069 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:35:36,616 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:35:40,215 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:35:43,652 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:35:45,801 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:35:45] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.010 18.294
+2026-05-22 11:36:20,553 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'WooCommerce Auto Sync' (33) starting 
+2026-05-22 11:36:20,581 20624 INFO odoo19 odoo.addons.woo_connector.models.woo_instance: Woo Cron (auto_sync) tick for 1 instances: odoo connect new 
+2026-05-22 11:36:20,587 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'WooCommerce Auto Sync' (33) fully done (#loop 1; done 0; remaining 0; duration 0.03s) 
+2026-05-22 11:36:20,606 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:36:25,447 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [510] 
+2026-05-22 11:36:28,907 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [508, 509] 
+2026-05-22 11:36:32,876 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [506, 507] 
+2026-05-22 11:36:38,116 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [504, 505] 
+2026-05-22 11:36:42,160 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [502, 503] 
+2026-05-22 11:36:46,515 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [500, 501] 
+2026-05-22 11:36:46,526 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 25.92s) 
+2026-05-22 11:36:47,796 6624 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-05-22 11:36:47,797 6624 INFO ? odoo: Odoo version 19.0 
+2026-05-22 11:36:47,797 6624 INFO ? odoo: Using configuration file at d:\odoo19\odoo19.conf 
+2026-05-22 11:36:47,797 6624 INFO ? odoo: addons paths: _NamespacePath(['d:\\odoo19\\odoo19\\odoo\\addons', 'd:\\odoo19\\odoo19\\addons', 'd:\\odoo19\\custom_addons']) 
+2026-05-22 11:36:47,797 6624 INFO ? odoo: database: odoo19@localhost:5432 
+2026-05-22 11:36:48,974 6624 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:36:48,980 6624 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-22 11:36:49,016 6624 INFO odoo19 odoo.modules.loading: updating modules list 
+2026-05-22 11:36:49,022 6624 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-05-22 11:36:50,973 6624 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Odoo WooCommerce Connector'] to user __system__ #1 via n/a 
+2026-05-22 11:36:50,974 6624 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Odoo WooCommerce Connector'] to user __system__ #1 via n/a 
+2026-05-22 11:36:52,419 6624 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-05-22 11:36:52,491 6624 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:36:54,315 6624 INFO odoo19 odoo.modules.loading: Loading module woo_connector (75/75) 
+2026-05-22 11:36:54,785 6624 INFO odoo19 odoo.registry: module woo_connector: creating or updating database tables 
+2026-05-22 11:36:55,355 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/security/ir.model.access.csv 
+2026-05-22 11:36:55,432 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_action.xml 
+2026-05-22 11:36:55,446 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/data/cron.xml 
+2026-05-22 11:36:55,524 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_instance_view.xml 
+2026-05-22 11:36:55,645 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_import_by_id_wizard_view.xml 
+2026-05-22 11:36:55,662 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_import_date_range_wizard_view.xml 
+2026-05-22 11:36:55,681 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_preview_view.xml 
+2026-05-22 11:36:55,726 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_manual_record_sync_views.xml 
+2026-05-22 11:36:56,072 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_connection_health_log_view.xml 
+2026-05-22 11:36:56,222 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_auto_mapping_views.xml 
+2026-05-22 11:36:56,279 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_field_mapping_views.xml 
+2026-05-22 11:36:56,331 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_template_woo_view.xml 
+2026-05-22 11:36:56,427 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_brand_view.xml 
+2026-05-22 11:36:56,468 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_category_sync_view.xml 
+2026-05-22 11:36:56,494 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_coupon_sync_view.xml 
+2026-05-22 11:36:56,526 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_product_sync_view.xml 
+2026-05-22 11:36:56,634 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_product_sync_form.xml 
+2026-05-22 11:36:56,651 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_ai_content_wizard_views.xml 
+2026-05-22 11:36:56,673 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_customer_sync_view.xml 
+2026-05-22 11:36:56,708 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_order_sync_view.xml 
+2026-05-22 11:36:56,744 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_report_view.xml 
+2026-05-22 11:36:56,781 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_queue_monitor_view.xml 
+2026-05-22 11:36:56,818 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_webhook_log_view.xml 
+2026-05-22 11:36:56,860 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_timeline_view.xml 
+2026-05-22 11:36:57,230 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sales_report.xml 
+2026-05-22 11:36:57,277 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_order_report.xml 
+2026-05-22 11:36:57,327 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_inventory_views.xml 
+2026-05-22 11:36:57,342 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_res_config_settings_view.xml 
+2026-05-22 11:36:57,496 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/data/woo_order_cron.xml 
+2026-05-22 11:36:57,521 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_dashboard_view.xml 
+2026-05-22 11:36:57,554 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_dashboard_action.xml 
+2026-05-22 11:36:57,558 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_actions.xml 
+2026-05-22 11:36:57,604 6624 INFO odoo19 odoo.modules.loading: loading woo_connector/views/menu.xml 
+2026-05-22 11:36:57,824 6624 INFO odoo19 odoo.modules.loading: Module woo_connector loaded in 3.51s, 1645 queries (+1645 other) 
+2026-05-22 11:36:57,824 6624 INFO odoo19 odoo.modules.loading: 75 modules loaded in 5.33s, 1645 queries (+1645 extra) 
+2026-05-22 11:36:59,397 6624 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-05-22 11:36:59,426 6624 INFO odoo19 odoo.registry: Registry changed, signaling through the database 
+2026-05-22 11:36:59,427 6624 INFO odoo19 odoo.registry: Registry loaded in 10.560s 
+2026-05-22 11:36:59,428 6624 INFO odoo19 odoo.service.server: Initiating shutdown 
+2026-05-22 11:36:59,428 6624 INFO odoo19 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-22 11:36:59,428 6624 INFO odoo19 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  
+2026-05-22 11:36:59,509 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:37:04,751 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:37:10,311 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:37:16,179 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:37:18,266 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:37:18] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.005 23.338
+2026-05-22 11:37:27,499 20624 INFO ? odoo.registry: Reloading the model registry after database signaling. 
+2026-05-22 11:37:27,509 20624 INFO ? odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:37:27,516 20624 INFO ? odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-05-22 11:37:27,519 20624 INFO ? odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:37:27,554 20624 INFO ? odoo.modules.loading: 75 modules loaded in 0.03s, 0 queries (+0 extra) 
+2026-05-22 11:37:27,753 20624 INFO ? odoo.modules.loading: Modules loaded. 
+2026-05-22 11:37:27,770 20624 INFO ? odoo.registry: Registry loaded in 0.272s 
+2026-05-22 11:37:27,770 20624 INFO odoo19 odoo.addons.base.models.ir_http: Generating routing map for key None 
+2026-05-22 11:37:32,072 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:37:36,945 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:37:42,447 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:37:46,695 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:37:49,676 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:37:49] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 52 0.042 22.139
+2026-05-22 11:38:46,691 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) starting 
+2026-05-22 11:38:47,128 20624 INFO odoo19 odoo.addons.api_doc.models.ir_attachment: GC'd 0 /doc cached index 
+2026-05-22 11:38:47,154 20624 INFO odoo19 odoo.addons.sms.models.sms_sms: GC'd 0 sms marked for deletion 
+2026-05-22 11:38:47,171 20624 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 1 entries 
+2026-05-22 11:38:47,319 20624 INFO odoo19 odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-05-22 11:38:47,353 20624 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-05-22 11:38:47,365 20624 INFO odoo19 odoo.addons.base.models.res_users: GC 'res.users.apikeys' delete 0 entries 
+2026-05-22 11:38:47,390 20624 INFO odoo19 odoo.addons.base.models.res_users: GC'd 0 user log entries 
+2026-05-22 11:38:47,404 20624 INFO odoo19 odoo.addons.base.models.res_users: GC 'auth_totp.device' delete 0 entries 
+2026-05-22 11:38:47,554 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) fully done (#loop 1; done 0; remaining 0; duration 0.86s) 
+2026-05-22 11:39:01,207 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:39:06,087 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:39:10,469 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:39:16,583 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:39:18,402 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:39:18] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.014 23.565
+2026-05-22 11:39:59,295 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:40:04,494 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:40:09,451 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:40:14,275 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:40:16,203 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:40:16] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.005 21.682
+2026-05-22 11:40:36,439 40572 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-05-22 11:40:36,440 40572 INFO ? odoo: Odoo version 19.0 
+2026-05-22 11:40:36,440 40572 INFO ? odoo: Using configuration file at d:\odoo19\odoo19.conf 
+2026-05-22 11:40:36,440 40572 INFO ? odoo: addons paths: _NamespacePath(['d:\\odoo19\\odoo19\\odoo\\addons', 'd:\\odoo19\\odoo19\\addons', 'd:\\odoo19\\custom_addons']) 
+2026-05-22 11:40:36,440 40572 INFO ? odoo: database: odoo19@localhost:5432 
+2026-05-22 11:40:37,390 40572 INFO ? odoo.service.server: Initiating shutdown 
+2026-05-22 11:40:37,390 40572 INFO ? odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-22 11:40:37,508 40572 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:40:37,519 40572 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-05-22 11:40:37,582 40572 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:40:39,442 40572 INFO odoo19 odoo.modules.loading: 75 modules loaded in 1.86s, 0 queries (+0 extra) 
+2026-05-22 11:40:39,676 40572 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-05-22 11:40:39,754 40572 INFO odoo19 odoo.registry: Registry loaded in 2.350s 
+2026-05-22 11:41:01,408 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:41:05,859 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:41:10,037 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:41:14,981 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:41:16,935 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:41:16] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.004 22.108
+2026-05-22 11:41:47,933 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) starting 
+2026-05-22 11:41:47,965 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) fully done (#loop 1; done 0; remaining 0; duration 0.03s) 
+2026-05-22 11:41:47,983 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:41:53,370 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [520, 521] 
+2026-05-22 11:41:58,992 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [518, 519] 
+2026-05-22 11:42:00,382 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:42:06,156 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [516, 517] 
+2026-05-22 11:42:06,651 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:42:11,492 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [514, 515] 
+2026-05-22 11:42:11,804 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:42:16,602 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [512, 513] 
+2026-05-22 11:42:16,940 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:42:20,075 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:42:20] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.028 25.522
+2026-05-22 11:42:23,276 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [511] 
+2026-05-22 11:42:23,290 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 35.30s) 
+2026-05-22 11:42:52,352 34264 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-05-22 11:42:52,353 34264 INFO ? odoo: Odoo version 19.0 
+2026-05-22 11:42:52,353 34264 INFO ? odoo: Using configuration file at d:\odoo19\odoo19.conf 
+2026-05-22 11:42:52,354 34264 INFO ? odoo: addons paths: _NamespacePath(['d:\\odoo19\\odoo19\\odoo\\addons', 'd:\\odoo19\\odoo19\\addons', 'd:\\odoo19\\custom_addons']) 
+2026-05-22 11:42:52,354 34264 INFO ? odoo: database: odoo19@localhost:5432 
+2026-05-22 11:42:53,132 34264 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:42:53,137 34264 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-22 11:42:53,171 34264 INFO odoo19 odoo.modules.loading: updating modules list 
+2026-05-22 11:42:53,176 34264 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-05-22 11:42:55,059 34264 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['Odoo WooCommerce Connector'] to user __system__ #1 via n/a 
+2026-05-22 11:42:55,059 34264 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['Odoo WooCommerce Connector'] to user __system__ #1 via n/a 
+2026-05-22 11:42:56,892 34264 INFO odoo19 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-05-22 11:42:57,010 34264 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:42:58,984 34264 INFO odoo19 odoo.modules.loading: Loading module woo_connector (75/75) 
+2026-05-22 11:42:59,465 34264 INFO odoo19 odoo.registry: module woo_connector: creating or updating database tables 
+2026-05-22 11:43:00,021 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/security/ir.model.access.csv 
+2026-05-22 11:43:00,133 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_action.xml 
+2026-05-22 11:43:00,146 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/data/cron.xml 
+2026-05-22 11:43:00,250 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_instance_view.xml 
+2026-05-22 11:43:00,418 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_import_by_id_wizard_view.xml 
+2026-05-22 11:43:00,440 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_import_date_range_wizard_view.xml 
+2026-05-22 11:43:00,462 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_preview_view.xml 
+2026-05-22 11:43:00,515 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_manual_record_sync_views.xml 
+2026-05-22 11:43:00,854 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_connection_health_log_view.xml 
+2026-05-22 11:43:00,910 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_auto_mapping_views.xml 
+2026-05-22 11:43:00,955 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_field_mapping_views.xml 
+2026-05-22 11:43:01,015 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_template_woo_view.xml 
+2026-05-22 11:43:01,132 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/product_brand_view.xml 
+2026-05-22 11:43:01,177 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_category_sync_view.xml 
+2026-05-22 11:43:01,194 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:43:01,203 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_coupon_sync_view.xml 
+2026-05-22 11:43:01,233 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_product_sync_view.xml 
+2026-05-22 11:43:01,301 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_product_sync_form.xml 
+2026-05-22 11:43:01,316 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_ai_content_wizard_views.xml 
+2026-05-22 11:43:01,336 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_customer_sync_view.xml 
+2026-05-22 11:43:01,371 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_order_sync_view.xml 
+2026-05-22 11:43:01,414 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_report_view.xml 
+2026-05-22 11:43:01,459 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_queue_monitor_view.xml 
+2026-05-22 11:43:01,503 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_webhook_log_view.xml 
+2026-05-22 11:43:01,552 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_timeline_view.xml 
+2026-05-22 11:43:01,915 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sales_report.xml 
+2026-05-22 11:43:01,983 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_order_report.xml 
+2026-05-22 11:43:02,040 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_inventory_views.xml 
+2026-05-22 11:43:02,059 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_res_config_settings_view.xml 
+2026-05-22 11:43:02,249 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/data/woo_order_cron.xml 
+2026-05-22 11:43:02,282 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_sync_dashboard_view.xml 
+2026-05-22 11:43:02,320 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_dashboard_action.xml 
+2026-05-22 11:43:02,326 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/woo_actions.xml 
+2026-05-22 11:43:02,394 34264 INFO odoo19 odoo.modules.loading: loading woo_connector/views/menu.xml 
+2026-05-22 11:43:02,691 34264 INFO odoo19 odoo.modules.loading: Module woo_connector loaded in 3.71s, 1622 queries (+1622 other) 
+2026-05-22 11:43:02,691 34264 INFO odoo19 odoo.modules.loading: 75 modules loaded in 5.68s, 1622 queries (+1622 extra) 
+2026-05-22 11:43:04,474 34264 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-05-22 11:43:04,501 34264 INFO odoo19 odoo.registry: Registry changed, signaling through the database 
+2026-05-22 11:43:04,503 34264 INFO odoo19 odoo.registry: Registry loaded in 11.471s 
+2026-05-22 11:43:04,503 34264 INFO odoo19 odoo.service.server: Initiating shutdown 
+2026-05-22 11:43:04,503 34264 INFO odoo19 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-22 11:43:04,503 34264 INFO odoo19 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  
+2026-05-22 11:43:06,472 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:43:10,426 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:43:14,782 38088 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-05-22 11:43:14,783 38088 INFO ? odoo: Odoo version 19.0 
+2026-05-22 11:43:14,783 38088 INFO ? odoo: Using configuration file at d:\odoo19\odoo19.conf 
+2026-05-22 11:43:14,783 38088 INFO ? odoo: addons paths: _NamespacePath(['d:\\odoo19\\odoo19\\odoo\\addons', 'd:\\odoo19\\odoo19\\addons', 'd:\\odoo19\\custom_addons']) 
+2026-05-22 11:43:14,784 38088 INFO ? odoo: database: odoo19@localhost:5432 
+2026-05-22 11:43:15,015 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:43:15,570 38088 INFO ? odoo.service.server: Initiating shutdown 
+2026-05-22 11:43:15,570 38088 INFO ? odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-22 11:43:15,679 38088 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:43:15,685 38088 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-05-22 11:43:15,733 38088 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:43:17,622 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:43:17] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.012 22.749
+2026-05-22 11:43:17,854 38088 INFO odoo19 odoo.modules.loading: 75 modules loaded in 2.12s, 0 queries (+0 extra) 
+2026-05-22 11:43:18,113 38088 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-05-22 11:43:18,180 38088 INFO odoo19 odoo.registry: Registry loaded in 2.597s 
+2026-05-22 11:43:26,097 25476 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-05-22 11:43:26,098 25476 INFO ? odoo: Odoo version 19.0 
+2026-05-22 11:43:26,098 25476 INFO ? odoo: Using configuration file at d:\odoo19\odoo19.conf 
+2026-05-22 11:43:26,098 25476 INFO ? odoo: addons paths: _NamespacePath(['d:\\odoo19\\odoo19\\odoo\\addons', 'd:\\odoo19\\odoo19\\addons', 'd:\\odoo19\\custom_addons']) 
+2026-05-22 11:43:26,099 25476 INFO ? odoo: database: odoo19@localhost:5432 
+2026-05-22 11:43:26,717 25476 INFO ? odoo.service.server: Initiating shutdown 
+2026-05-22 11:43:26,717 25476 INFO ? odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-22 11:43:26,810 25476 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:43:26,814 25476 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.00s, 0 queries (+0 extra) 
+2026-05-22 11:43:26,855 25476 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:43:28,323 25476 INFO odoo19 odoo.modules.loading: 75 modules loaded in 1.47s, 0 queries (+0 extra) 
+2026-05-22 11:43:28,542 25476 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-05-22 11:43:28,599 25476 INFO odoo19 odoo.registry: Registry loaded in 1.870s 
+2026-05-22 11:43:54,617 20624 INFO ? odoo.registry: Reloading the model registry after database signaling. 
+2026-05-22 11:43:54,632 20624 INFO ? odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:43:54,650 20624 INFO ? odoo.modules.loading: 1 modules loaded in 0.02s, 0 queries (+0 extra) 
+2026-05-22 11:43:54,655 20624 INFO ? odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:43:54,776 20624 INFO ? odoo.modules.loading: 75 modules loaded in 0.12s, 0 queries (+0 extra) 
+2026-05-22 11:43:55,497 20624 INFO ? odoo.modules.loading: Modules loaded. 
+2026-05-22 11:43:55,531 20624 INFO ? odoo.registry: Registry loaded in 0.913s 
+2026-05-22 11:43:55,532 20624 INFO odoo19 odoo.addons.base.models.ir_http: Generating routing map for key None 
+2026-05-22 11:44:02,921 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:44:08,619 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:44:13,524 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:44:15,250 5800 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-05-22 11:44:15,252 5800 INFO ? odoo: Odoo version 19.0 
+2026-05-22 11:44:15,252 5800 INFO ? odoo: Using configuration file at d:\odoo19\odoo19.conf 
+2026-05-22 11:44:15,252 5800 INFO ? odoo: addons paths: _NamespacePath(['d:\\odoo19\\odoo19\\odoo\\addons', 'd:\\odoo19\\odoo19\\addons', 'd:\\odoo19\\custom_addons']) 
+2026-05-22 11:44:15,253 5800 INFO ? odoo: database: odoo19@localhost:5432 
+2026-05-22 11:44:16,224 5800 INFO ? odoo.service.server: Initiating shutdown 
+2026-05-22 11:44:16,225 5800 INFO ? odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-05-22 11:44:16,347 5800 INFO odoo19 odoo.modules.loading: loading 1 modules... 
+2026-05-22 11:44:16,358 5800 INFO odoo19 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-05-22 11:44:16,421 5800 INFO odoo19 odoo.modules.loading: loading 75 modules... 
+2026-05-22 11:44:18,489 5800 INFO odoo19 odoo.modules.loading: 75 modules loaded in 2.07s, 0 queries (+0 extra) 
+2026-05-22 11:44:18,536 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:44:18,848 5800 INFO odoo19 odoo.modules.loading: Modules loaded. 
+2026-05-22 11:44:18,939 5800 INFO odoo19 odoo.registry: Registry loaded in 2.698s 
+2026-05-22 11:44:21,241 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:44:21] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 52 0.049 26.580
+2026-05-22 11:44:23,461 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) starting 
+2026-05-22 11:44:23,833 20624 INFO odoo19 odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-05-22 11:44:23,850 20624 INFO odoo19 odoo.addons.base.models.res_users: GC 'res.users.apikeys' delete 0 entries 
+2026-05-22 11:44:23,963 20624 INFO odoo19 odoo.addons.base.models.res_users: GC 'auth_totp.device' delete 0 entries 
+2026-05-22 11:44:24,014 20624 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-05-22 11:44:24,038 20624 INFO odoo19 odoo.addons.api_doc.models.ir_attachment: GC'd 0 /doc cached index 
+2026-05-22 11:44:24,063 20624 INFO odoo19 odoo.addons.sms.models.sms_sms: GC'd 0 sms marked for deletion 
+2026-05-22 11:44:24,072 20624 INFO odoo19 odoo.addons.base.models.res_device: GC device logs delete 0 entries 
+2026-05-22 11:44:24,089 20624 INFO odoo19 odoo.addons.base.models.res_users: GC'd 0 user log entries 
+2026-05-22 11:44:24,108 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Base: Auto-vacuum internal data' (1) fully done (#loop 1; done 0; remaining 0; duration 0.66s) 
+2026-05-22 11:44:59,869 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:45:04,943 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:45:08,542 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:45:12,202 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:45:13,890 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:45:13] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.009 19.042
+2026-05-22 11:45:59,116 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:46:02,792 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:46:06,704 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:46:10,040 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:46:11,891 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:46:11] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.005 17.377
+2026-05-22 11:46:24,258 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:46:27,851 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [532] 
+2026-05-22 11:46:31,452 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [530, 531] 
+2026-05-22 11:46:36,793 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [528, 529] 
+2026-05-22 11:46:40,941 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [526, 527] 
+2026-05-22 11:46:44,826 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [524, 525] 
+2026-05-22 11:46:48,390 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [522, 523] 
+2026-05-22 11:46:48,403 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 24.14s) 
+2026-05-22 11:46:59,132 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:47:03,175 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:47:07,039 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:47:10,476 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:47:12,215 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:47:12] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.012 17.341
+2026-05-22 11:47:59,153 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:48:02,829 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:48:06,744 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:48:10,826 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:48:12,510 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:48:12] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.010 17.964
+2026-05-22 11:48:59,798 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:49:04,340 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:49:08,270 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:49:11,775 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:49:13,472 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:49:13] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.013 18.636
+2026-05-22 11:49:59,148 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:50:02,735 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:50:06,340 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:50:09,755 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:50:11,910 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:50:11] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.010 17.395
+2026-05-22 11:50:59,517 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:51:03,744 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:51:07,487 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:51:11,594 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:51:13,684 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:51:13] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.011 18.865
+2026-05-22 11:51:48,741 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) starting 
+2026-05-22 11:51:48,754 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) fully done (#loop 1; done 0; remaining 0; duration 0.02s) 
+2026-05-22 11:51:48,762 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'WooCommerce Auto Sync' (33) starting 
+2026-05-22 11:51:48,773 20624 INFO odoo19 odoo.addons.woo_connector.models.woo_instance: Woo Cron (auto_sync) tick for 1 instances: odoo connect new 
+2026-05-22 11:51:48,776 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'WooCommerce Auto Sync' (33) fully done (#loop 1; done 0; remaining 0; duration 0.02s) 
+2026-05-22 11:51:48,781 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:51:53,898 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [542, 543] 
+2026-05-22 11:51:57,850 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [540, 541] 
+2026-05-22 11:51:58,487 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:52:02,600 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:52:02,735 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [538, 539] 
+2026-05-22 11:52:06,561 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:52:06,674 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [536, 537] 
+2026-05-22 11:52:10,408 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:52:10,929 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [534, 535] 
+2026-05-22 11:52:12,593 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:52:12] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.009 18.040
+2026-05-22 11:52:15,464 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [533] 
+2026-05-22 11:52:15,471 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 26.69s) 
+2026-05-22 11:52:59,784 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:53:03,761 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:53:07,834 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:53:11,702 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:53:13,412 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:53:13] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.010 18.534
+2026-05-22 11:53:58,613 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:54:03,615 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:54:07,795 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:54:11,895 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:54:13,604 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:54:13] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.010 19.085
+2026-05-22 11:55:00,199 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:55:04,589 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:55:08,173 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:55:11,848 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:55:13,616 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:55:13] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.009 18.789
+2026-05-22 11:55:59,022 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:56:03,117 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:56:07,067 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:56:10,496 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:56:12,408 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:56:12] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.010 17.901
+2026-05-22 11:56:15,764 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 11:56:19,551 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [554] 
+2026-05-22 11:56:23,797 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [552, 553] 
+2026-05-22 11:56:27,899 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [550, 551] 
+2026-05-22 11:56:31,758 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [548, 549] 
+2026-05-22 11:56:37,075 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [546, 547] 
+2026-05-22 11:56:40,452 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [544, 545] 
+2026-05-22 11:56:40,462 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 24.69s) 
+2026-05-22 11:56:58,308 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:57:01,859 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:57:05,241 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:57:08,872 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:57:10,831 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:57:10] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.010 15.985
+2026-05-22 11:57:59,094 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:58:02,666 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:58:06,517 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:58:10,068 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:58:12,389 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:58:12] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.008 17.867
+2026-05-22 11:58:49,696 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:58:54,198 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:58:58,137 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:59:01,961 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:59:03,689 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:59:03] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.011 17.517
+2026-05-22 11:59:30,946 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 11:59:36,191 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 11:59:40,120 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 11:59:43,918 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 11:59:45,746 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 11:59:45] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.007 18.224
+2026-05-22 12:00:59,575 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 12:01:05,274 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 12:01:10,047 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 12:01:11,458 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) starting 
+2026-05-22 12:01:11,587 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) fully done (#loop 1; done 0; remaining 0; duration 0.12s) 
+2026-05-22 12:01:16,094 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 12:01:19,719 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 12:01:19] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.012 24.896
+2026-05-22 12:01:40,845 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 12:01:51,888 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [564, 565] 
+2026-05-22 12:01:59,195 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [562, 563] 
+2026-05-22 12:02:02,475 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 12:02:08,156 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [560, 561] 
+2026-05-22 12:02:10,006 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 12:02:16,666 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [558, 559] 
+2026-05-22 12:02:18,539 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 12:02:24,446 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [556, 557] 
+2026-05-22 12:02:25,992 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 12:02:29,810 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 12:02:29] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.014 35.214
+2026-05-22 12:02:32,014 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [555] 
+2026-05-22 12:02:32,025 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 51.17s) 
+2026-05-22 12:03:04,134 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 12:03:12,371 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 12:03:20,120 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 12:03:27,649 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 12:03:32,181 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 12:03:32] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.029 37.279
+2026-05-22 12:04:01,757 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 12:04:09,017 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 12:04:16,534 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 12:04:23,810 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 12:04:27,452 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 12:04:27] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.011 32.835
+2026-05-22 12:05:05,702 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 12:05:15,706 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 12:05:24,154 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 12:05:31,909 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 12:05:36,486 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 12:05:36] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.015 41.633
+2026-05-22 12:06:02,267 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 12:06:10,290 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 12:06:17,381 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'WooCommerce Auto Sync' (33) starting 
+2026-05-22 12:06:17,413 20624 INFO odoo19 odoo.addons.woo_connector.models.woo_instance: Woo Cron (auto_sync) tick for 1 instances: odoo connect new 
+2026-05-22 12:06:17,420 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'WooCommerce Auto Sync' (33) fully done (#loop 1; done 0; remaining 0; duration 0.03s) 
+2026-05-22 12:06:17,441 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 12:06:17,632 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 12:06:25,218 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 12:06:26,253 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [576] 
+2026-05-22 12:06:29,214 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 12:06:29] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.015 34.634
+2026-05-22 12:06:35,449 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [574, 575] 
+2026-05-22 12:06:43,254 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [572, 573] 
+2026-05-22 12:06:50,305 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [570, 571] 
+2026-05-22 12:06:58,111 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [568, 569] 
+2026-05-22 12:07:03,386 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 12:07:06,046 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [566, 567] 
+2026-05-22 12:07:06,063 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) fully done (#loop 1; done 0; remaining 0; duration 48.62s) 
+2026-05-22 12:07:10,671 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 12:07:18,148 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 12:07:25,589 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 12:07:29,192 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 12:07:29] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.012 34.229
+2026-05-22 12:08:03,520 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 12:08:10,770 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 12:08:19,074 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 12:08:27,956 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 12:08:31,261 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 12:08:31] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.008 36.640
+2026-05-22 12:09:03,112 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 12:09:10,549 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 12:09:18,039 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 12:09:25,937 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 12:09:29,704 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 12:09:29] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.016 34.777
+2026-05-22 12:10:01,787 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 12:10:09,235 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 12:10:17,382 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 12:10:24,674 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 12:10:28,275 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 12:10:28] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.016 33.733
+2026-05-22 12:11:03,870 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 
+2026-05-22 12:11:10,594 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) starting 
+2026-05-22 12:11:10,623 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Payment: Post-process transactions' (15) fully done (#loop 1; done 0; remaining 0; duration 0.01s) 
+2026-05-22 12:11:11,985 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for orders (status 401). 
+2026-05-22 12:11:19,734 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for customers (status 401). 
+2026-05-22 12:11:27,627 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products/categories (status 401). 
+2026-05-22 12:11:31,271 20624 INFO odoo19 werkzeug: 127.0.0.1 - - [22/May/2026 12:11:31] "POST /web/dataset/call_kw#woo.dashboard.get_analytics_data HTTP/1.1" 200 - 17 0.011 36.410
+2026-05-22 12:11:33,220 20624 INFO odoo19 odoo.addons.base.models.ir_cron: Job 'Sync Woo Order Status' (34) starting 
+2026-05-22 12:11:43,292 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [586, 587] 
+2026-05-22 12:11:50,996 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [584, 585] 
+2026-05-22 12:11:59,192 20624 INFO odoo19 odoo.models.unlink: User #1 deleted woo.order.line.sync records with IDs: [582, 583] 
+2026-05-22 12:12:03,248 20624 WARNING odoo19 odoo.addons.woo_connector.models.woo_dashboard: Woo totals request failed for products (status 401). 

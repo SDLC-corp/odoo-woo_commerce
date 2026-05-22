@@ -1,0 +1,148 @@
+<odoo>
+    <record id="view_woo_queue_monitor_search" model="ir.ui.view">
+        <field name="name">woo.queue.monitor.search</field>
+        <field name="model">woo.report</field>
+        <field name="arch" type="xml">
+            <search string="Queue Monitor">
+                <field name="instance_id"/>
+                <field name="operation_type"/>
+                <field name="source_action"/>
+                <field name="sync_direction"/>
+                <field name="woo_id"/>
+                <field name="status"/>
+                <field name="retry_count"/>
+                <separator/>
+                <filter name="queue_failed" string="Failed" domain="[('status', '=', 'failed')]"/>
+                <filter name="queue_pending" string="Pending" domain="[('status', '=', 'pending')]"/>
+                <filter name="queue_running" string="Running" domain="[('status', '=', 'running')]"/>
+                <filter name="queue_success" string="Success" domain="[('status', '=', 'success')]"/>
+                <filter name="queue_today" string="Today" domain="[('create_date', '>=', context_today())]"/>
+                <separator/>
+                <filter name="group_instance" string="By Instance" context="{'group_by': 'instance_id'}"/>
+                <filter name="group_operation_type" string="By Operation Type" context="{'group_by': 'operation_type'}"/>
+                <filter name="group_source_action" string="By Source Action" context="{'group_by': 'source_action'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_woo_queue_monitor_list" model="ir.ui.view">
+        <field name="name">woo.queue.monitor.list</field>
+        <field name="model">woo.report</field>
+        <field name="arch" type="xml">
+            <list string="Woo Queue Monitor">
+                <header>
+                    <button name="action_retry_selected_failed_jobs"
+                            string="Retry Selected Failed Jobs"
+                            type="object"
+                            class="btn-primary"/>
+                    <button name="action_cancel_selected_jobs"
+                            string="Cancel Selected Pending Jobs"
+                            type="object"
+                            class="btn-secondary"/>
+                </header>
+                <button name="action_open_related_report"
+                        type="object"
+                        string="Open Related Report"
+                        class="btn-link"/>
+                <button name="action_open_webhook_log"
+                        type="object"
+                        string="Open Related Webhook Log"
+                        class="btn-link"
+                        invisible="not webhook_log_id"/>
+                <button name="action_open_related_timeline"
+                        type="object"
+                        string="Open Related Timeline"
+                        class="btn-link"/>
+                <field name="create_date"/>
+                <field name="instance_id"/>
+                <field name="operation_type"/>
+                <field name="sync_direction"/>
+                <field name="source_action"/>
+                <field name="woo_id"/>
+                <field name="status"/>
+                <field name="retry_count"/>
+                <field name="last_retry_date"/>
+                <field name="queue_duration_display" string="Duration"/>
+                <field name="error_message"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_woo_queue_monitor_form" model="ir.ui.view">
+        <field name="name">woo.queue.monitor.form</field>
+        <field name="model">woo.report</field>
+        <field name="arch" type="xml">
+            <form string="Woo Queue Job">
+                <header>
+                    <button name="action_retry_selected_failed_jobs"
+                            string="Retry Selected Failed Jobs"
+                            type="object"
+                            class="btn-primary"/>
+                    <button name="action_cancel_selected_jobs"
+                            string="Cancel Selected Pending Jobs"
+                            type="object"
+                            class="btn-secondary"/>
+                    <button name="action_open_webhook_log"
+                            string="Open Related Webhook Log"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="not webhook_log_id"/>
+                    <button name="action_open_related_timeline"
+                            string="Open Related Timeline"
+                            type="object"
+                            class="btn-secondary"/>
+                    <field name="status" widget="badge"/>
+                </header>
+                <sheet>
+                    <group col="4">
+                        <field name="instance_id"/>
+                        <field name="operation"/>
+                        <field name="operation_type"/>
+                        <field name="mode"/>
+                        <field name="sync_direction"/>
+                        <field name="source_action"/>
+                        <field name="woo_id"/>
+                        <field name="reference"/>
+                        <field name="retry_count"/>
+                        <field name="last_retry_date"/>
+                        <field name="create_date"/>
+                        <field name="queue_duration_display"/>
+                        <field name="queue_duration_seconds"/>
+                        <field name="timeline_count" readonly="1"/>
+                        <field name="webhook_log_id"/>
+                        <field name="run_on"/>
+                    </group>
+                    <group col="2">
+                        <field name="message"/>
+                        <field name="error_message"/>
+                    </group>
+                    <notebook>
+                        <page string="Payload">
+                            <field name="payload_json" widget="text" readonly="1"/>
+                        </page>
+                        <page string="Lines">
+                            <field name="line_ids" readonly="1">
+                                <list>
+                                    <field name="source_action"/>
+                                    <field name="record_type"/>
+                                    <field name="woo_id"/>
+                                    <field name="name"/>
+                                    <field name="status"/>
+                                    <field name="error_message"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_woo_queue_monitor" model="ir.actions.act_window">
+        <field name="name">Queue Monitor</field>
+        <field name="res_model">woo.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_woo_queue_monitor_list"/>
+        <field name="search_view_id" ref="view_woo_queue_monitor_search"/>
+    </record>
+</odoo>
