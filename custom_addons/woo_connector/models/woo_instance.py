@@ -1248,7 +1248,7 @@ class WooInstance(models.Model):
             results = rec._run_health_check()
             overall = rec.health_overall_status or "warning"
             summary = (
-                f"Health Check: {overall.title()} | "
+                f"{overall.title()} | "
                 f"Success: {len([r for r in results if r.get('status') == 'success'])}, "
                 f"Warning: {len([r for r in results if r.get('status') == 'warning'])}, "
                 f"Failed: {len([r for r in results if r.get('status') == 'failed'])}"
@@ -1548,10 +1548,15 @@ class WooInstance(models.Model):
                 # -----------------------------------------
                 # 2️⃣ SAFE FALLBACK
                 # -----------------------------------------
-                product.write({
+                product_vals = {
                     "name": name,
                     "default_code": normalized_sku or product.default_code,
-                })
+                }
+                if p.get("regular_price") not in (None, ""):
+                    product_vals["list_price"] = float(p.get("regular_price") or 0.0)
+                if "sale_price" in ProductTemplate._fields and p.get("sale_price") not in (None, ""):
+                    product_vals["sale_price"] = float(p.get("sale_price") or 0.0)
+                product.write(product_vals)
                 self._link_product_with_woo_id(product, woo_id, instance=self)
 
                 # -----------------------------------------
@@ -1638,7 +1643,10 @@ class WooInstance(models.Model):
                 }
 
                 existing = WooProduct.search(
-                    [("woo_product_id", "=", str(woo_id))],
+                    [
+                        ("woo_product_id", "=", str(woo_id)),
+                        ("instance_id", "=", self.id),
+                    ],
                     limit=1
                 )
 
@@ -1701,7 +1709,7 @@ class WooInstance(models.Model):
         WooCustomer = self.env["woo.customer.sync"]
 
         billing = order.get("billing") or {}
-        email = billing.get("email")
+        email = (billing.get("email") or "").strip().lower()
 
         # Skip orders without email
         if not email:
@@ -1765,7 +1773,7 @@ class WooInstance(models.Model):
 
             for c in response.json():
                 woo_id = c.get("id")
-                email = c.get("email")
+                email = (c.get("email") or "").strip().lower()
                 first = c.get("first_name") or ""
                 last = c.get("last_name") or ""
 

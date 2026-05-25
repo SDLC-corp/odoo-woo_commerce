@@ -317,3 +317,14 @@
     from { transform: scaleX(0); transform-origin: left; }
     to { transform: scaleX(1); transform-origin: left; }
 }
+
+/* Keep date pickers visually focused on the selected month in QA flows. */
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay,
+.bootstrap-datetimepicker-widget .day.old,
+.bootstrap-datetimepicker-widget .day.new,
+.datepicker-days td.old,
+.datepicker-days td.new {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}

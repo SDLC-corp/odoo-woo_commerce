@@ -158,6 +158,8 @@ class WooProductSync(models.Model):
             "default_code": payload.get("sku") or payload.get("slug") or product.default_code,
             "list_price": float(payload.get("regular_price") or 0.0),
         }
+        if "sale_price" in product._fields and payload.get("sale_price") not in (None, ""):
+            vals["sale_price"] = float(payload.get("sale_price") or 0.0)
         product.write(vals)
 
     def _push_single_to_woo(self):

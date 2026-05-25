@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, time
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -45,8 +46,8 @@ class WooSyncPreview(models.Model):
         ],
         default="created",
     )
-    date_from = fields.Datetime()
-    date_to = fields.Datetime()
+    date_from = fields.Date()
+    date_to = fields.Date()
     page_size = fields.Integer(default=50)
     update_existing = fields.Boolean(default=True)
 
@@ -94,10 +95,14 @@ class WooSyncPreview(models.Model):
             raise UserError(_("Unsupported record type for preview: %s") % record_type)
         return endpoint
 
-    def _to_woo_iso(self, value):
-        dt = fields.Datetime.to_datetime(value)
-        if not dt:
-            raise UserError(_("Invalid datetime in preview date range."))
+    def _to_woo_iso(self, value, end_of_day=False):
+        if isinstance(value, datetime):
+            dt = value
+        else:
+            date_value = fields.Date.to_date(value)
+            if not date_value:
+                raise UserError(_("Invalid date in preview date range."))
+            dt = datetime.combine(date_value, time.max if end_of_day else time.min)
         return dt.strftime("%Y-%m-%dT%H:%M:%S")
 
     def _build_date_params(self, page):
@@ -108,8 +113,8 @@ class WooSyncPreview(models.Model):
             "orderby": "date",
             "order": "asc",
         }
-        from_iso = self._to_woo_iso(self.date_from)
-        to_iso = self._to_woo_iso(self.date_to)
+        from_iso = self._to_woo_iso(self.date_from, end_of_day=False)
+        to_iso = self._to_woo_iso(self.date_to, end_of_day=True)
         if self.date_filter_type == "modified":
             params["modified_after"] = from_iso
             params["modified_before"] = to_iso
@@ -401,10 +406,10 @@ class WooSyncPreview(models.Model):
                 )
             if rec:
                 return {"record": rec, "matched_by": "woo_id", "warning": False, "would_use_sku_match": False}
-            email = payload.get("email")
+            email = (payload.get("email") or "").strip().lower()
             if email:
                 rec = self.env["woo.customer.sync"].search(
-                    [("instance_id", "=", instance.id), ("email", "=", email)], limit=1
+                    [("instance_id", "=", instance.id), ("email", "=ilike", email)], limit=1
                 )
                 if rec:
                     return {"record": rec, "matched_by": "email", "warning": False, "would_use_sku_match": False}

@@ -1,7 +1,7 @@
 from odoo import models, api, fields
 from odoo.exceptions import UserError
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 import json
 import logging
 
@@ -29,22 +29,27 @@ class WooDashboard(models.AbstractModel):
 
     def _fetch_json(self, url, auth, params=None):
         try:
-            r = requests.get(url, auth=auth, params=params or {}, timeout=30)
+            r = requests.get(url, auth=auth, params=params or {}, timeout=8)
             r.raise_for_status()
             return r.json()
         except Exception:
             return {}
 
     def _total_from_header(self, base, auth_candidates, endpoint):
+        tried = set()
         for auth in auth_candidates:
             if not auth or not all(auth):
                 continue
+            auth_key = tuple(auth)
+            if auth_key in tried:
+                continue
+            tried.add(auth_key)
             try:
                 r = requests.get(
                     f"{base}/wp-json/wc/v3/{endpoint}",
                     auth=auth,
                     params={"per_page": 1},
-                    timeout=30,
+                    timeout=6,
                 )
             except Exception as exc:
                 _logger.warning(
@@ -64,11 +69,16 @@ class WooDashboard(models.AbstractModel):
             )
         return 0
 
-    def _customer_count_from_orders(self, instances):
+    def _customer_count_from_orders(self, instances, date_from=None, date_to=None):
         if not instances:
             return 0
         Order = self.env["woo.order.sync"]
         domain = [("instance_id", "in", instances.ids)]
+        if date_from and date_to:
+            domain += [
+                ("date_created", ">=", date_from),
+                ("date_created", "<=", date_to),
+            ]
         groups = Order.read_group(domain, ["customer_email"], ["customer_email"])
         return sum(1 for g in groups if g.get("customer_email"))
 
@@ -94,7 +104,7 @@ class WooDashboard(models.AbstractModel):
             "net_sales": sum(instances.mapped("total_revenue")),
         }
 
-    def _totals_from_local_sync(self, instances):
+    def _totals_from_local_sync(self, instances, date_from=None, date_to=None):
         if not instances:
             return {
                 "products": 0,
@@ -111,16 +121,38 @@ class WooDashboard(models.AbstractModel):
         Category = self.env["woo.category.sync"]
         Coupon = self.env["woo.coupon.sync"]
 
-        domain = [("instance_id", "in", instances.ids)]
+        product_domain = [("instance_id", "in", instances.ids)]
+        order_domain = [("instance_id", "in", instances.ids)]
+        category_domain = [("instance_id", "in", instances.ids)]
         coupon_domain = ["|", ("instance_id", "=", False), ("instance_id", "in", instances.ids)]
+
+        if date_from and date_to:
+            product_domain += [
+                ("synced_on", ">=", date_from),
+                ("synced_on", "<=", date_to),
+            ]
+            order_domain += [
+                ("date_created", ">=", date_from),
+                ("date_created", "<=", date_to),
+            ]
+            category_domain += [
+                ("synced_on", ">=", date_from),
+                ("synced_on", "<=", date_to),
+            ]
+            coupon_domain += [
+                ("synced_on", ">=", date_from),
+                ("synced_on", "<=", date_to),
+            ]
+
+        orders = Order.search(order_domain)
         return {
-            "products": Product.search_count(domain),
-            "orders": Order.search_count(domain),
-            "customers": self._customer_count_from_orders(instances),
-            "categories": Category.search_count(domain),
+            "products": Product.search_count(product_domain),
+            "orders": len(orders),
+            "customers": self._customer_count_from_orders(instances, date_from=date_from, date_to=date_to),
+            "categories": Category.search_count(category_domain),
             "coupons": Coupon.search_count(coupon_domain),
-            "total_sales": sum(Order.search(domain).mapped("total_amount")),
-            "net_sales": sum(Order.search(domain).mapped("total_amount")),
+            "total_sales": sum(orders.mapped("total_amount")),
+            "net_sales": sum(orders.mapped("total_amount")),
         }
 
     def _order_status_breakdown(self, instances, date_from, date_to):
@@ -391,20 +423,15 @@ class WooDashboard(models.AbstractModel):
 
     @api.model
     def get_analytics_data(self, range="30", instance_id=None, fast=False):
-        days = int(range)
+        try:
+            days = int(range)
+        except Exception:
+            days = 30
         date_to = datetime.utcnow()
         if days <= 0:
-            date_from = date_to.replace(
-                hour=0,
-                minute=0,
-                second=0,
-                microsecond=0,
-            )
-            date_to = date_from.replace(
-                hour=23,
-                minute=59,
-                second=59,
-            )
+            today = fields.Date.context_today(self)
+            date_from = datetime.combine(today, time.min)
+            date_to = datetime.combine(today, time.max)
         else:
             date_from = date_to - timedelta(days=days)
 
@@ -437,16 +464,19 @@ class WooDashboard(models.AbstractModel):
         products = []
 
         if fast:
-            snapshot = self._totals_from_snapshots(selected_instances)
-            local_totals = self._totals_from_local_sync(selected_instances)
+            local_totals = self._totals_from_local_sync(
+                selected_instances,
+                date_from=after_local,
+                date_to=before_local,
+            )
 
-            total_products = snapshot["products"] or local_totals["products"]
-            total_orders = snapshot["orders"] or local_totals["orders"]
-            total_customers = snapshot["customers"] or local_totals["customers"]
-            total_categories = snapshot["categories"] or local_totals["categories"]
-            total_coupons = snapshot["coupons"] or local_totals["coupons"]
-            total_sales = snapshot["total_sales"] or local_totals["total_sales"]
-            net_sales = snapshot["net_sales"] or local_totals["net_sales"]
+            total_products = local_totals["products"]
+            total_orders = local_totals["orders"]
+            total_customers = local_totals["customers"]
+            total_categories = local_totals["categories"]
+            total_coupons = local_totals["coupons"]
+            total_sales = local_totals["total_sales"]
+            net_sales = local_totals["net_sales"]
 
             return {
                 "totals": {
@@ -546,7 +576,11 @@ class WooDashboard(models.AbstractModel):
         if total_customers == 0:
             total_customers = self._customer_count_from_orders(selected_instances)
 
-        local_totals = self._totals_from_local_sync(selected_instances)
+        local_totals = self._totals_from_local_sync(
+            selected_instances,
+            date_from=after_local,
+            date_to=before_local,
+        )
 
         # Keep dashboard responsive for live webhook updates by preferring local synced data
         # whenever remote analytics APIs are delayed.
@@ -599,14 +633,27 @@ class WooDashboard(models.AbstractModel):
 
     @api.model
     def manual_sync(self, instance_id=None):
+        def _sync_instance(instance):
+            errors = []
+            for method_name in ("action_sync_products", "action_sync_categories", "action_sync_orders", "action_sync_coupons"):
+                method = getattr(instance, method_name, False)
+                if not method:
+                    continue
+                try:
+                    method()
+                except Exception as exc:
+                    errors.append(f"{method_name}: {exc}")
+            if errors:
+                raise UserError("\n".join(errors))
+
         if instance_id and str(instance_id).lower() != "all":
             instance = self._get_instance_or_raise(instance_id)
-            instance.auto_sync_all(force=True)
+            _sync_instance(instance)
             return True
 
         instances = self._get_active_instances()
         for instance in instances:
-            instance.auto_sync_all(force=True)
+            _sync_instance(instance)
         return True
 
     @api.model

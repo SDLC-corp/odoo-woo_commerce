@@ -183,6 +183,8 @@ class ProductTemplate(models.Model):
                 vals["default_code"] = payload.get("sku") or payload.get("slug")
             if payload.get("regular_price") not in (None, ""):
                 vals["list_price"] = float(payload.get("regular_price") or 0.0)
+            if "sale_price" in self._fields and payload.get("sale_price") not in (None, ""):
+                vals["sale_price"] = float(payload.get("sale_price") or 0.0)
             self.write(vals)
 
             message = (
@@ -575,11 +577,12 @@ class ResPartner(models.Model):
         if wizard_action:
             return wizard_action
 
-        if not self.email:
+        email = (self.email or "").strip().lower()
+        if not email:
             raise UserError(_("Customer email is required for WooCommerce sync."))
 
         request_payload = {
-            "email": self.email,
+            "email": email,
             "name": self.name,
             "phone": self.phone,
         }
@@ -590,7 +593,7 @@ class ResPartner(models.Model):
                     ("instance_id", "=", resolved_instance.id),
                     "|",
                     ("woo_customer_id", "=", self.woo_customer_id or ""),
-                    ("email", "=", self.email),
+                    ("email", "=ilike", email),
                 ],
                 limit=1,
             )
@@ -598,8 +601,8 @@ class ResPartner(models.Model):
                 sync_customer = self.env["woo.customer.sync"].create(
                     {
                         "instance_id": resolved_instance.id,
-                        "name": self.name or self.email,
-                        "email": self.email,
+                        "name": self.name or email,
+                        "email": email,
                         "phone": self.phone,
                         "woo_customer_id": self.woo_customer_id or False,
                         "state": "synced",
@@ -610,7 +613,7 @@ class ResPartner(models.Model):
                 sync_customer.write(
                     {
                         "name": self.name or sync_customer.name,
-                        "email": self.email,
+                        "email": email,
                         "phone": self.phone,
                     }
                 )

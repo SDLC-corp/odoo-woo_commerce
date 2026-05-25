@@ -9,6 +9,7 @@ export class WooDashboard extends Component {
         this.refreshTimer = null;
         this.refreshQueued = false;
         this.busService = useService("bus_service");
+        this.notification = useService("notification");
         this.onDashboardBusMessage = this.onDashboardBusMessage.bind(this);
         this.state = useState({
             range: "30",
@@ -151,6 +152,11 @@ export class WooDashboard extends Component {
             };
 
             this.state.viz = this.buildViz(this.state.data);
+        } catch (error) {
+            this.notification.add(
+                error?.message || "Failed to load dashboard data.",
+                { type: "danger" }
+            );
         } finally {
             this.state.loading = false;
         }
@@ -163,17 +169,25 @@ export class WooDashboard extends Component {
 
     async syncNow() {
         this.state.loading = true;
-
-        await rpc("/web/dataset/call_kw", {
-            model: "woo.dashboard",
-            method: "manual_sync",
-            args: [],
-            kwargs: {
-                instance_id: this.state.instanceId,
-            },
-        });
-
-        await this.loadData();
+        try {
+            await rpc("/web/dataset/call_kw", {
+                model: "woo.dashboard",
+                method: "manual_sync",
+                args: [],
+                kwargs: {
+                    instance_id: this.state.instanceId,
+                },
+            });
+            await this.loadData();
+            this.notification.add("Sync started successfully.", { type: "success" });
+        } catch (error) {
+            this.notification.add(
+                error?.message || "Sync failed.",
+                { type: "danger" }
+            );
+        } finally {
+            this.state.loading = false;
+        }
     }
 
     async generateInsights() {
@@ -190,9 +204,35 @@ export class WooDashboard extends Component {
             });
             this.state.data.ai_insight = result || {};
             await this.loadData();
+            this.notification.add("AI insights generated.", { type: "success" });
+        } catch (error) {
+            this.notification.add(
+                error?.message || "AI insight generation failed.",
+                { type: "danger" }
+            );
         } finally {
             this.state.loading = false;
         }
+    }
+
+    async onInstanceChange(ev) {
+        this.state.instanceId = ev.target.value;
+        await this.loadData();
+    }
+
+    async onRangeChange(ev) {
+        this.state.range = ev.target.value;
+        await this.loadData();
+    }
+
+    async onSyncNowClick(ev) {
+        ev.preventDefault();
+        await this.syncNow();
+    }
+
+    async onGenerateInsightsClick(ev) {
+        ev.preventDefault();
+        await this.generateInsights();
     }
 
     startAutoRefresh() {

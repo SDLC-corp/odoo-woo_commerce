@@ -1,0 +1,27 @@
+# Odoo core/vendor code (keep out of app repo unless intentionally customized)
+/addons/
+/odoo/
+
+# Odoo runtime data/logs
+/odoo19_data/
+*.log
+
+# Local environment
+/.venv/
+.env
+.env.*
+
+# Python cache/build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local editor/OS artifacts
+.DS_Store
+Thumbs.db
+
+# Local config with potential secrets
+/odoo.conf
+
+# Keep custom modules in Git
+!/custom_addons/

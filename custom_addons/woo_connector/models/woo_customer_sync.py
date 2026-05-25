@@ -41,6 +41,10 @@ class WooCustomerSync(models.Model):
 
     synced_on = fields.Datetime(string="Synced On")
 
+    def _normalized_email(self):
+        self.ensure_one()
+        return (self.email or "").strip().lower()
+
     # --------------------------------------------------
     # SMART BUTTON (ORDERS)
     # --------------------------------------------------
@@ -74,16 +78,19 @@ class WooCustomerSync(models.Model):
         self.ensure_one()
 
         wcapi = self.instance_id._get_wcapi(self.instance_id)
+        email = self._normalized_email()
+        if not email:
+            raise UserError(_("Customer email is required for WooCommerce sync."))
 
         first_name = (self.name or "").split(" ")[0] if self.name else ""
         last_name = " ".join((self.name or "").split(" ")[1:]) if self.name else ""
 
         payload = {
-            "email": self.email,
+            "email": email,
             "first_name": first_name,
             "last_name": last_name,
             "billing": {
-                "email": self.email,
+                "email": email,
                 "phone": self.phone,
             },
         }
@@ -91,7 +98,7 @@ class WooCustomerSync(models.Model):
         # -----------------------------
         # UPDATE CUSTOMER
         # -----------------------------
-        if self.woo_customer_id.isdigit():
+        if (self.woo_customer_id or "").isdigit():
             response = wcapi.put(
                 f"customers/{self.woo_customer_id}",
                 payload
@@ -126,6 +133,7 @@ class WooCustomerSync(models.Model):
 
         self.write({
             "woo_customer_id": str(data.get("id")),
+            "email": email,
             "state": "synced",
             "synced_on": fields.Datetime.now(),
         })

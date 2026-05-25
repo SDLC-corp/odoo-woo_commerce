@@ -216,7 +216,7 @@ class WooWebhookSync(models.AbstractModel):
             WooCustomer = self.env["woo.customer.sync"]
 
             woo_id = data.get("id")
-            email = data.get("email")
+            email = (data.get("email") or "").strip().lower()
             first = data.get("first_name") or ""
             last = data.get("last_name") or ""
             name = (f"{first} {last}".strip() or email)

@@ -123,12 +123,12 @@ class WooImportByIdWizard(models.TransientModel):
             )
             if record:
                 return record
-            email = payload.get("email")
+            email = (payload.get("email") or "").strip().lower()
             if email:
                 return self.env["woo.customer.sync"].search(
                     [
                         ("instance_id", "=", instance.id),
-                        ("email", "=", email),
+                        ("email", "=ilike", email),
                     ],
                     limit=1,
                 )

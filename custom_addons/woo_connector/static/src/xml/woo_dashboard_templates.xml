@@ -17,7 +17,7 @@
       <div class="woo-hero-right">
         <div class="woo-control">
           <label>Instance</label>
-          <select t-model="state.instanceId" t-on-change="loadData">
+          <select t-att-value="state.instanceId" t-on-change="onInstanceChange">
             <option value="all">All</option>
             <option t-foreach="state.instances" t-as="i" t-key="i.id" t-att-value="i.id">
               <t t-esc="i.name"/>
@@ -26,17 +26,17 @@
         </div>
         <div class="woo-control">
           <label>Date Range</label>
-          <select t-model="state.range" t-on-change="loadData">
+          <select t-att-value="state.range" t-on-change="onRangeChange">
             <option value="0">Today</option>
             <option value="7">Last 7 days</option>
             <option value="30">Last 30 days</option>
             <option value="90">Last 90 days</option>
           </select>
         </div>
-        <button class="btn btn-primary" t-on-click="syncNow">
+        <button type="button" class="btn btn-primary" t-on-click="onSyncNowClick">
           Sync Now
         </button>
-        <button class="btn btn-secondary" t-on-click="generateInsights">
+        <button type="button" class="btn btn-secondary" t-on-click="onGenerateInsightsClick">
           Generate AI Insights
         </button>
       </div>

@@ -1,6 +1,6 @@
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, time
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -28,8 +28,8 @@ class WooImportDateRangeWizard(models.TransientModel):
         required=True,
         default="order",
     )
-    date_from = fields.Datetime(string="Date From", required=True)
-    date_to = fields.Datetime(string="Date To", required=True)
+    date_from = fields.Date(string="Date From", required=True)
+    date_to = fields.Date(string="Date To", required=True)
     date_filter_type = fields.Selection(
         [
             ("created", "Created Date"),
@@ -81,13 +81,14 @@ class WooImportDateRangeWizard(models.TransientModel):
             raise UserError(_("Unsupported record type: %s") % record_type)
         return endpoint
 
-    def _to_woo_iso(self, value):
+    def _to_woo_iso(self, value, end_of_day=False):
         if isinstance(value, datetime):
             dt = value
         else:
-            dt = fields.Datetime.to_datetime(value)
-        if not dt:
-            raise UserError(_("Invalid datetime value provided for date range import."))
+            date_value = fields.Date.to_date(value)
+            if not date_value:
+                raise UserError(_("Invalid date value provided for date range import."))
+            dt = datetime.combine(date_value, time.max if end_of_day else time.min)
         return dt.strftime("%Y-%m-%dT%H:%M:%S")
 
     def _build_date_params(self, page):
@@ -98,8 +99,8 @@ class WooImportDateRangeWizard(models.TransientModel):
             "orderby": "date",
             "order": "asc",
         }
-        from_iso = self._to_woo_iso(self.date_from)
-        to_iso = self._to_woo_iso(self.date_to)
+        from_iso = self._to_woo_iso(self.date_from, end_of_day=False)
+        to_iso = self._to_woo_iso(self.date_to, end_of_day=True)
         if self.date_filter_type == "modified":
             params["modified_after"] = from_iso
             params["modified_before"] = to_iso
@@ -149,12 +150,12 @@ class WooImportDateRangeWizard(models.TransientModel):
             )
             if record:
                 return record
-            email = payload.get("email")
+            email = (payload.get("email") or "").strip().lower()
             if email:
                 return self.env["woo.customer.sync"].search(
                     [
                         ("instance_id", "=", instance.id),
-                        ("email", "=", email),
+                        ("email", "=ilike", email),
                     ],
                     limit=1,
                 )
@@ -200,8 +201,8 @@ class WooImportDateRangeWizard(models.TransientModel):
             "record_type": self.record_type,
             "endpoint": self._api_endpoint_for_type(self.record_type),
             "date_filter_type": self.date_filter_type,
-            "date_from": fields.Datetime.to_string(self.date_from),
-            "date_to": fields.Datetime.to_string(self.date_to),
+            "date_from": fields.Date.to_string(self.date_from),
+            "date_to": fields.Date.to_string(self.date_to),
             "page_size": int(self.page_size or 50),
             "update_existing": bool(self.update_existing),
         }
@@ -373,6 +374,14 @@ class WooImportDateRangeWizard(models.TransientModel):
         if not instance:
             raise UserError(_("Woo instance is missing for retry."))
         data = payload_data if isinstance(payload_data, dict) else {}
+        date_from = fields.Date.to_date(data.get("date_from")) if data.get("date_from") else False
+        date_to = fields.Date.to_date(data.get("date_to")) if data.get("date_to") else False
+        if not date_from and data.get("date_from"):
+            dt = fields.Datetime.to_datetime(data.get("date_from"))
+            date_from = dt.date() if dt else False
+        if not date_to and data.get("date_to"):
+            dt = fields.Datetime.to_datetime(data.get("date_to"))
+            date_to = dt.date() if dt else False
         update_existing = data.get("update_existing", True)
         if isinstance(update_existing, str):
             update_existing = update_existing.strip().lower() in ("1", "true", "yes", "y")
@@ -380,8 +389,8 @@ class WooImportDateRangeWizard(models.TransientModel):
             {
                 "instance_id": instance.id,
                 "record_type": data.get("record_type"),
-                "date_from": data.get("date_from"),
-                "date_to": data.get("date_to"),
+                "date_from": date_from,
+                "date_to": date_to,
                 "date_filter_type": data.get("date_filter_type") or "created",
                 "page_size": int(data.get("page_size") or 50),
                 "update_existing": bool(update_existing),
