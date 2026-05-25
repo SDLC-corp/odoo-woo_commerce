@@ -1,6 +1,7 @@
 # Odoo core/vendor code (keep out of app repo unless intentionally customized)
 /addons/
 /odoo/
+/.venv/
 
 # Odoo runtime data/logs
 /odoo19_data/
