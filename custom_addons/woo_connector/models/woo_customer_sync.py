@@ -1,9 +1,64 @@
 import re
 
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$")
+# Phone may contain digits, optional leading "+", spaces, dashes, dots,
+# parentheses, and slashes. Length bounds are enforced separately.
+PHONE_ALLOWED_RE = re.compile(r"^[\d\s+\-\.\(\)\/]+$")
+PHONE_DIGIT_RE = re.compile(r"\d")
+PHONE_MIN_DIGITS = 7
+PHONE_MAX_DIGITS = 15  # E.164 international maximum
+PHONE_MAX_LENGTH = 25  # raw string length cap, allowing format characters
+PHONE_HELP_TEXT = (
+    "Customer billing phone. Digits and the characters + - . ( ) / and "
+    "spaces are allowed. Must contain %(min)s-%(max)s digits."
+) % {"min": PHONE_MIN_DIGITS, "max": PHONE_MAX_DIGITS}
+
+
+def _normalize_phone(value):
+    if value in (None, False):
+        return False
+    text = str(value).strip()
+    return text or False
+
+
+def _validate_phone(value):
+    """Raise ``ValidationError`` if *value* is not a plausible phone number.
+
+    Rules:
+    - Allowed characters: digits, +, spaces, hyphens, periods, parentheses,
+      forward slash.
+    - Total length: up to %(max_len)s characters (so format chars like " " or
+      "-" don't blow it up).
+    - Digit count: between %(min_d)s and %(max_d)s inclusive.
+    """
+    text = _normalize_phone(value)
+    if not text:
+        return False
+    if len(text) > PHONE_MAX_LENGTH:
+        raise ValidationError(_(
+            "Phone number is too long: %(value)s\n"
+            "Maximum %(max)s characters allowed."
+        ) % {"value": text, "max": PHONE_MAX_LENGTH})
+    if not PHONE_ALLOWED_RE.match(text):
+        raise ValidationError(_(
+            "Invalid phone number: %s\n"
+            "Only digits and the characters + - . ( ) / and spaces are allowed."
+        ) % text)
+    digits = PHONE_DIGIT_RE.findall(text)
+    if len(digits) < PHONE_MIN_DIGITS:
+        raise ValidationError(_(
+            "Phone number too short: %(value)s\n"
+            "Must contain at least %(min)s digits."
+        ) % {"value": text, "min": PHONE_MIN_DIGITS})
+    if len(digits) > PHONE_MAX_DIGITS:
+        raise ValidationError(_(
+            "Phone number too long: %(value)s\n"
+            "Must contain no more than %(max)s digits."
+        ) % {"value": text, "max": PHONE_MAX_DIGITS})
+    return text
 
 
 class WooCustomerSync(models.Model):
@@ -41,7 +96,8 @@ class WooCustomerSync(models.Model):
     )
     phone = fields.Char(
         string="Phone",
-        help="Billing phone number sent to WooCommerce.",
+        size=PHONE_MAX_LENGTH,
+        help=PHONE_HELP_TEXT,
     )
 
     state = fields.Selection(
@@ -70,12 +126,21 @@ class WooCustomerSync(models.Model):
         for vals in vals_list:
             if vals.get("email"):
                 vals["email"] = vals["email"].strip().lower()
+            if "phone" in vals:
+                vals["phone"] = _validate_phone(vals.get("phone")) or False
         return super().create(vals_list)
 
     def write(self, vals):
         if vals.get("email"):
             vals["email"] = vals["email"].strip().lower()
+        if "phone" in vals:
+            vals["phone"] = _validate_phone(vals.get("phone")) or False
         return super().write(vals)
+
+    @api.constrains("phone")
+    def _check_phone(self):
+        for rec in self:
+            _validate_phone(rec.phone)
 
     # --------------------------------------------------
     # SMART BUTTON (ORDERS)

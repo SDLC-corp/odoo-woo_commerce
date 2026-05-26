@@ -339,7 +339,15 @@
     to { transform: rotate(360deg); }
 }
 
-/* Keep date pickers visually focused on the selected month in QA flows. */
+/* Keep date pickers visually focused on the selected month in QA flows.
+   BUG-14: previous-month (April 26-30) and next-month days were rendered as
+   greyed cells in the current-month grid, confusing testers about which
+   month they were viewing. Odoo 17+ uses its own DateTimePicker component
+   (``web/core/datetime/datetime_picker``) whose out-of-month days carry the
+   class ``o_out_of_range``. Legacy selectors retained for compatibility. */
+.o_datetime_picker .o_date_item.o_out_of_range,
+.o_datetime_picker .o_date_item_button.o_out_of_range,
+.o_datetime_picker_table .o_out_of_range,
 .flatpickr-day.prevMonthDay,
 .flatpickr-day.nextMonthDay,
 .bootstrap-datetimepicker-widget .day.old,

@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <list string="Brands">
                 <field name="name"/>
+                <field name="display_name"/>
                 <field name="active"/>
             </list>
         </field>
@@ -16,10 +17,17 @@
         <field name="model">product.brand</field>
         <field name="arch" type="xml">
             <form string="Brand">
+                <header>
+                    <button name="action_save_and_close"
+                            type="object"
+                            string="Save &amp; Back to List"
+                            class="btn-primary"/>
+                </header>
                 <sheet>
                     <widget name="woo_field_help"/>
                     <group>
                         <field name="name"/>
+                        <field name="display_name" readonly="1"/>
                         <field name="active"/>
                         <field name="description"/>
                     </group>

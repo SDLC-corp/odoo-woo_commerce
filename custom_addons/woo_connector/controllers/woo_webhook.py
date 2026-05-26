@@ -1,4 +1,4 @@
-from odoo import http, fields
+from odoo import api, http, fields
 from odoo.http import request
 import logging
 import hmac
@@ -28,18 +28,121 @@ class WooWebhookController(http.Controller):
             return {}
 
     def _safe_create_webhook_log(self, vals):
+        """Create a webhook log on a dedicated cursor.
+
+        The log row is committed immediately and survives any rollback in the
+        main request transaction so we never silently drop a webhook event.
+        """
         try:
-            return request.env["woo.webhook.log"].sudo().create(vals)
+            registry = request.env.registry
+            uid = request.env.uid or 1
+            ctx = request.env.context
+            with registry.cursor() as new_cr:
+                new_env = api.Environment(new_cr, uid, ctx)
+                log = new_env["woo.webhook.log"].sudo().create(vals)
+                new_cr.commit()
+                log_id = log.id
+            return request.env["woo.webhook.log"].sudo().browse(log_id)
         except Exception as exc:
-            _logger.warning("Unable to create webhook log: %s", exc)
-            return False
+            _logger.warning("Unable to create webhook log on isolated cursor: %s", exc)
+            try:
+                return request.env["woo.webhook.log"].sudo().create(vals)
+            except Exception as fallback_exc:
+                _logger.exception("Webhook log creation failed: %s", fallback_exc)
+                return False
 
     def _safe_update_webhook_log(self, webhook_log, vals):
+        """Update a webhook log on a dedicated cursor so status survives rollbacks."""
+        if not webhook_log:
+            return
+        log_id = getattr(webhook_log, "id", False)
+        if not log_id:
+            return
         try:
-            if webhook_log and webhook_log.exists():
-                webhook_log.sudo().write(vals)
+            registry = request.env.registry
+            uid = request.env.uid or 1
+            ctx = request.env.context
+            with registry.cursor() as new_cr:
+                new_env = api.Environment(new_cr, uid, ctx)
+                rec = new_env["woo.webhook.log"].sudo().browse(log_id)
+                if rec.exists():
+                    rec.write(vals)
+                    new_cr.commit()
         except Exception as exc:
-            _logger.warning("Unable to update webhook log %s: %s", getattr(webhook_log, "id", None), exc)
+            _logger.warning("Unable to update webhook log %s on isolated cursor: %s", log_id, exc)
+            try:
+                if webhook_log.exists():
+                    webhook_log.sudo().write(vals)
+            except Exception as fallback_exc:
+                _logger.warning("Webhook log update fallback failed for %s: %s", log_id, fallback_exc)
+
+    @http.route(
+        "/woo/webhook/ping",
+        type="http",
+        auth="public",
+        methods=["GET", "POST"],
+        csrf=False,
+    )
+    def woo_webhook_ping(self, **kwargs):
+        """Diagnostic endpoint that always creates a Webhook Log entry.
+
+        Hit this from a browser or curl when you need to confirm the Odoo
+        instance is reachable from the outside world and that the Webhook
+        Logs page renders incoming events end-to-end.
+        """
+        headers_dict = self._headers_to_dict()
+        instance = request.env["woo.instance"].sudo().search(
+            [("active", "=", True)], order="id desc", limit=1
+        )
+        payload = {
+            "source": "ping",
+            "remote_addr": request.httprequest.remote_addr,
+            "method": request.httprequest.method,
+            "query": dict(kwargs),
+            "_simulated": True,
+        }
+        vals = request.env["woo.webhook.log"].sudo().prepare_create_vals(
+            instance=instance or False,
+            topic="diagnostic.ping",
+            payload=payload,
+            headers=headers_dict,
+            source_action="webhook_ping",
+            status="success",
+        )
+        vals["processed_datetime"] = fields.Datetime.now()
+        log = self._safe_create_webhook_log(vals)
+        body = json.dumps({
+            "status": "ok",
+            "log_id": log.id if log else False,
+            "instance_id": instance.id if instance else False,
+            "message": "Open WooCommerce > Reporting > Webhook Logs to see this entry.",
+        })
+        return request.make_response(body, headers=[("Content-Type", "application/json")])
+
+    @http.route(
+        "/woo/webhook",
+        type="http",
+        auth="public",
+        methods=["GET"],
+        csrf=False,
+    )
+    def woo_webhook_get(self, **kwargs):
+        """Return a diagnostic JSON when someone visits the URL with GET.
+
+        WooCommerce delivers via POST. A GET here usually means a human
+        verifying reachability — return a clear hint and *do not* log it as
+        a webhook event (use /woo/webhook/ping if you want a row created).
+        """
+        body = json.dumps({
+            "status": "ok",
+            "message": (
+                "Woo webhook endpoint is reachable. WooCommerce should POST "
+                "to this URL with X-WC-Webhook-* headers. To log a diagnostic "
+                "entry, GET /woo/webhook/ping instead."
+            ),
+            "method": "POST",
+        })
+        return request.make_response(body, headers=[("Content-Type", "application/json")])
 
     @http.route(
         "/woo/webhook",

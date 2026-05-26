@@ -201,6 +201,64 @@ class WooWebhookLog(models.Model):
         for rec in self:
             rec.webhook_report_count = len(rec.webhook_report_ids)
 
+    @api.model
+    def action_simulate_webhook(self):
+        """Create a sample webhook log so QA can verify the page renders.
+
+        Useful when WooCommerce cannot reach the Odoo host (e.g. local dev on
+        ``localhost:8070``) but testers still need to validate the listing,
+        filters, and retry flow.
+        """
+        instance = self.env["woo.instance"].search(
+            [("active", "=", True)], order="id desc", limit=1
+        )
+        sample_payload = {
+            "id": 999000 + (self.search_count([]) % 100),
+            "status": "processing",
+            "currency": "USD",
+            "total": "42.00",
+            "billing": {"email": "qa-sample@example.com"},
+            "line_items": [
+                {"name": "Sample Product", "quantity": 1, "price": "42.00"}
+            ],
+            "_simulated": True,
+        }
+        sample_headers = {
+            "X-WC-Webhook-Topic": "order.updated",
+            "X-WC-Webhook-Source": instance.shop_url if instance else "simulated",
+            "X-WC-Webhook-Delivery-ID": "qa-simulated",
+            "User-Agent": "Odoo Simulated Webhook",
+        }
+        vals = self.prepare_create_vals(
+            instance=instance,
+            topic="order.updated",
+            payload=sample_payload,
+            headers=sample_headers,
+            source_action="qa_simulate",
+            status="success",
+        )
+        vals["processed_datetime"] = fields.Datetime.now()
+        log = self.create(vals)
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Webhook Logs"),
+                "message": _(
+                    "A simulated webhook event was logged so you can verify "
+                    "the list view. Refresh to see it."
+                ),
+                "type": "success",
+                "next": {
+                    "type": "ir.actions.act_window",
+                    "res_model": "woo.webhook.log",
+                    "view_mode": "form",
+                    "res_id": log.id,
+                    "target": "current",
+                },
+            },
+        }
+
     @staticmethod
     def _serialize_json(value):
         if value in (None, False):

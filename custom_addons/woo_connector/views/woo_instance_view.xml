@@ -45,6 +45,12 @@
                             type="object"
                             string="Sync Inventory"/>
 
+                    <button name="action_register_woo_webhooks"
+                            type="object"
+                            string="Register Webhooks"
+                            class="btn-secondary"
+                            confirm="This will create WooCommerce webhooks pointing at this Odoo instance for every enabled webhook flag below. Continue?"/>
+
 <!--                    <button name="action_sync_reports"-->
 <!--                            string="Sync Reports"-->
 <!--                            type="object"/>-->

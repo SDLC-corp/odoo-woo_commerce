@@ -2,11 +2,11 @@
     background: #e8f4fb;
     border: 1px solid #b6dcef;
     border-radius: 8px;
-    padding: 14px 16px;
+    padding: 12px 16px;
     margin: 8px 0 14px 0;
     color: #163b56;
     font-size: 13px;
-    line-height: 1.55;
+    line-height: 1.5;
 }
 
 .o_woo_help_panel .o_woo_help_header {
@@ -15,12 +15,21 @@
     justify-content: space-between;
     gap: 8px;
     margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #c7e1ef;
 }
 
 .o_woo_help_panel .o_woo_help_title {
     font-weight: 700;
     color: #163b56;
     font-size: 14px;
+}
+
+.o_woo_help_panel .o_woo_help_meta {
+    color: #5b7a92;
+    font-size: 12px;
+    margin-left: 6px;
+    font-weight: 400;
 }
 
 .o_woo_help_panel .o_woo_help_toggle {
@@ -41,10 +50,19 @@
 .o_woo_help_panel .o_woo_help_list {
     margin: 0;
     padding-left: 18px;
+    column-count: 2;
+    column-gap: 32px;
+    column-rule: 1px solid #cfe5f1;
+    max-height: 280px;
+    overflow-y: auto;
 }
 
 .o_woo_help_panel .o_woo_help_list li {
-    margin-bottom: 4px;
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 5px;
+    padding-right: 8px;
 }
 
 .o_woo_help_panel .o_woo_help_list strong {
@@ -56,6 +74,37 @@
     color: #2575a8;
 }
 
+.o_woo_help_panel.o_woo_help_collapsed .o_woo_help_list {
+    display: none;
+}
+
 .o_form_view .o_woo_help_panel {
     margin-top: 0;
+}
+
+/* Compact view when the panel is shown inside a narrow form (e.g. wizards in a dialog) */
+@media (max-width: 992px) {
+    .o_woo_help_panel .o_woo_help_list {
+        column-count: 1;
+        column-rule: none;
+        max-height: 220px;
+    }
+}
+
+/* Custom scrollbar so the panel scroll affordance doesn't clash with the form */
+.o_woo_help_panel .o_woo_help_list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.o_woo_help_panel .o_woo_help_list::-webkit-scrollbar-thumb {
+    background: #b6dcef;
+    border-radius: 4px;
+}
+
+.o_woo_help_panel .o_woo_help_list::-webkit-scrollbar-thumb:hover {
+    background: #8cc3df;
+}
+
+.o_woo_help_panel .o_woo_help_list::-webkit-scrollbar-track {
+    background: transparent;
 }

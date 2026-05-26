@@ -134,10 +134,15 @@ class WooWebhookSync(models.AbstractModel):
 
             sale_price_raw = data.get("sale_price")
             regular_price_raw = data.get("regular_price")
-            effective_sale_price = (
+            # Map WooCommerce fields 1:1 to Odoo fields:
+            #   list_price (Regular Price) <- regular_price
+            #   sale_price                  <- sale_price (0 if not on sale)
+            # Conflating these is BUG-37 and made Sale Price equal Regular Price.
+            regular_price_value = float(regular_price_raw or 0.0)
+            sale_price_value = (
                 float(sale_price_raw)
                 if sale_price_raw not in (None, "")
-                else float(regular_price_raw or 0.0)
+                else 0.0
             )
 
             vals = {
@@ -146,8 +151,8 @@ class WooWebhookSync(models.AbstractModel):
                 "product_tmpl_id": product.id,
                 "name": name,
                 "sku": sku,
-                "list_price": effective_sale_price,
-                "sale_price": float(data.get("sale_price") or 0.0),
+                "list_price": regular_price_value,
+                "sale_price": sale_price_value,
                 "manage_stock": data.get("manage_stock", False),
                 "qty_available": float(data.get("stock_quantity") or 0.0),
                 "stock_status": data.get("stock_status"),
@@ -160,10 +165,10 @@ class WooWebhookSync(models.AbstractModel):
                 write_vals = {
                     "name": name or product.name,
                     "default_code": sku or product.default_code,
-                    "list_price": effective_sale_price,
+                    "list_price": regular_price_value,
                 }
                 if "sale_price" in product._fields:
-                    write_vals["sale_price"] = float(sale_price_raw or 0.0)
+                    write_vals["sale_price"] = sale_price_value
                 product.write(write_vals)
 
             existing = WooProduct.search(
@@ -231,6 +236,13 @@ class WooWebhookSync(models.AbstractModel):
     def sync_customer(self, data, instance, source_action=None, log_result=True):
         try:
             WooCustomer = self.env["woo.customer.sync"]
+            from .woo_customer_sync import (
+                PHONE_ALLOWED_RE,
+                PHONE_DIGIT_RE,
+                PHONE_MIN_DIGITS,
+                PHONE_MAX_DIGITS,
+                PHONE_MAX_LENGTH,
+            )
 
             woo_id = data.get("id")
             email = (data.get("email") or "").strip().lower()
@@ -238,12 +250,31 @@ class WooWebhookSync(models.AbstractModel):
             last = data.get("last_name") or ""
             name = (f"{first} {last}".strip() or email)
 
+            raw_phone = (
+                data.get("billing", {}).get("phone")
+                if isinstance(data.get("billing"), dict)
+                else data.get("phone")
+            )
+            phone = (str(raw_phone).strip() if raw_phone else "") or False
+            if phone:
+                digit_count = len(PHONE_DIGIT_RE.findall(phone))
+                if (
+                    len(phone) > PHONE_MAX_LENGTH
+                    or not PHONE_ALLOWED_RE.match(phone)
+                    or digit_count < PHONE_MIN_DIGITS
+                    or digit_count > PHONE_MAX_DIGITS
+                ):
+                    # WooCommerce occasionally returns junk phone values
+                    # (``"N/A"``, comments, etc.). Drop those instead of
+                    # failing the sync — Woo is the source of truth.
+                    phone = False
+
             vals = {
                 "instance_id": instance.id,
                 "woo_customer_id": str(woo_id) if woo_id else f"guest_{email}",
                 "name": name,
                 "email": email,
-                "phone": data.get("billing", {}).get("phone") if isinstance(data.get("billing"), dict) else data.get("phone"),
+                "phone": phone,
                 "state": "synced",
                 "synced_on": fields.Datetime.now(),
             }
@@ -437,14 +468,18 @@ class WooWebhookSync(models.AbstractModel):
             if not woo_id:
                 return
 
+            allowed_types = {"percent", "fixed_cart", "fixed_product"}
+            raw_discount_type = (data.get("discount_type") or "").strip().lower()
+            discount_type = raw_discount_type if raw_discount_type in allowed_types else False
+
             vals = {
                 "instance_id": instance.id,
                 "name": data.get("code"),
                 "woo_coupon_id": str(woo_id),
-                "discount_type": data.get("discount_type"),
-                "amount": float(data.get("amount") or 0.0),
-                "usage_limit": data.get("usage_limit"),
-                "usage_count": data.get("usage_count"),
+                "discount_type": discount_type,
+                "amount": instance._parse_coupon_amount(data.get("amount")),
+                "usage_limit": data.get("usage_limit") or 0,
+                "usage_count": data.get("usage_count") or 0,
                 "expiry_date": instance._parse_woo_datetime(data.get("date_expires")),
                 "status": data.get("status"),
                 "state": "synced",

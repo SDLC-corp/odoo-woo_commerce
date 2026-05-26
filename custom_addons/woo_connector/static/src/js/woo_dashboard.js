@@ -205,7 +205,6 @@ export class WooDashboard extends Component {
         }
         this.state.aiGenerating = true;
         this.state.loading = true;
-        this.notification.add("Generating AI insights, please wait...", { type: "info" });
         try {
             const result = await rpc("/web/dataset/call_kw", {
                 model: "woo.dashboard",
@@ -220,17 +219,34 @@ export class WooDashboard extends Component {
                 summary_text: result?.summary_text || "",
                 status: result?.status || "draft",
                 generated_at: result?.generated_at || "",
+                error_message: result?.error_message || "",
                 actionable_recommendations: result?.actionable_recommendations || [],
                 predicted_top_products_to_restock: result?.predicted_top_products_to_restock || [],
                 products_at_risk_of_stockout: result?.products_at_risk_of_stockout || [],
                 low_sales_products: result?.low_sales_products || [],
                 sales_summary: result?.sales_summary || {},
             };
-            await this.loadData();
-            this.notification.add("AI insights generated.", { type: "success" });
+            const status = result?.status || "draft";
+            if (status === "failed") {
+                this.notification.add(
+                    result?.error_message || "AI insight generation failed.",
+                    { type: "danger" }
+                );
+            } else if (status === "fallback") {
+                this.notification.add(
+                    result?.error_message
+                        ? `AI insights produced from fallback: ${result.error_message}`
+                        : "AI insights produced from fallback (provider unavailable).",
+                    { type: "warning" }
+                );
+                await this.loadData();
+            } else {
+                this.notification.add("AI insights generated.", { type: "success" });
+                await this.loadData();
+            }
         } catch (error) {
             const msg = error?.data?.message || error?.message || "AI insight generation failed.";
-            this.notification.add(msg, { type: "danger", sticky: true });
+            this.notification.add(msg, { type: "danger" });
         } finally {
             this.state.aiGenerating = false;
             this.state.loading = false;

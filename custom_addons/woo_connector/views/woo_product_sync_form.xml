@@ -53,7 +53,13 @@
                     </group>
                     <group string="Pricing">
                         <field name="list_price"/>
-                        <field name="sale_price"/>
+                        <field name="is_on_sale" widget="boolean_toggle" readonly="1"/>
+                        <field name="sale_price" invisible="not is_on_sale"/>
+                        <label for="sale_price" string="Sale Price"
+                               invisible="is_on_sale"/>
+                        <div invisible="is_on_sale" class="text-muted">
+                            <span>No active sale on this product.</span>
+                        </div>
                     </group>
                     <group string="Inventory">
                         <field name="manage_stock"/>

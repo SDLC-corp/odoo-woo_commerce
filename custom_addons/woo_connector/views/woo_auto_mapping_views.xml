@@ -36,7 +36,7 @@
                     <div class="oe_button_box" name="button_box">
                         <button name="action_test_mapping"
                                 type="object"
-                                class="oe_stat_button"
+                                class="oe_stat_button o_woo_test_mapping_btn"
                                 icon="fa-check">
                             <span>Test Mapping</span>
                         </button>

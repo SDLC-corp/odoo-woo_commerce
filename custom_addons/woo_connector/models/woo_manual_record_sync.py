@@ -1,4 +1,8 @@
+import logging
+
 from odoo import _, api, fields, models
+
+_logger = logging.getLogger(__name__)
 from odoo.exceptions import UserError
 
 
@@ -492,6 +496,70 @@ class SaleOrder(models.Model):
                 error_message=error_message,
             )
             raise UserError(error_message)
+
+
+class StockPicking(models.Model):
+    """Auto-subscribe the customer to outgoing deliveries.
+
+    BUG-40: clicking *Send Message* on a delivery order produced a chatter
+    entry but no email, because Odoo's mail composer only emails followers
+    (and, by default, no one is following a stock.picking when it is
+    auto-generated from a sale order). By subscribing the picking's
+    ``partner_id`` as a follower at create-time, *Send Message* now defaults
+    to "to: <customer>" and the email goes out as expected.
+    """
+
+    _inherit = "stock.picking"
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        pickings = super().create(vals_list)
+        for picking in pickings:
+            try:
+                picking._woo_subscribe_customer_to_chatter()
+            except Exception:  # pragma: no cover - defensive only
+                _logger.exception(
+                    "Failed to subscribe customer to picking %s", picking.id
+                )
+        return pickings
+
+    def write(self, vals):
+        result = super().write(vals)
+        if "partner_id" in vals:
+            for picking in self:
+                try:
+                    picking._woo_subscribe_customer_to_chatter()
+                except Exception:  # pragma: no cover
+                    _logger.exception(
+                        "Failed to refresh subscriber on picking %s", picking.id
+                    )
+        return result
+
+    def _woo_subscribe_customer_to_chatter(self):
+        """Subscribe ``partner_id`` (and the underlying customer) as followers.
+
+        Only fires for outgoing pickings (delivery orders) with a valid
+        partner that has an email — skipping the cases where the email
+        cannot be delivered anyway.
+        """
+        self.ensure_one()
+        if not self.partner_id:
+            return
+        if getattr(self.picking_type_id, "code", False) != "outgoing":
+            return
+        partners = self.partner_id
+        # Also include the commercial partner if it differs (B2B contacts
+        # under a parent company).
+        commercial = getattr(self.partner_id, "commercial_partner_id", False)
+        if commercial and commercial != self.partner_id:
+            partners |= commercial
+        partners = partners.filtered(lambda p: p.email)
+        if not partners:
+            return
+        existing_follower_ids = set(self.message_partner_ids.ids)
+        to_subscribe = partners.filtered(lambda p: p.id not in existing_follower_ids)
+        if to_subscribe:
+            self.message_subscribe(partner_ids=to_subscribe.ids)
 
 
 class ResPartner(models.Model):

@@ -28,6 +28,12 @@
                   decoration-danger="status == 'failed'"
                   decoration-success="status == 'success'"
                   decoration-muted="status == 'ignored'">
+                <header>
+                    <button name="action_simulate_webhook"
+                            type="object"
+                            string="Simulate Test Webhook"
+                            class="btn-secondary"/>
+                </header>
                 <field name="received_datetime"/>
                 <field name="instance_id"/>
                 <field name="topic"/>
@@ -127,5 +133,32 @@
         <field name="view_mode">list,form</field>
         <field name="view_id" ref="woo_webhook_log_list_view"/>
         <field name="search_view_id" ref="woo_webhook_log_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No webhook events received yet</p>
+            <p>
+                Webhook Logs capture every event WooCommerce posts to this Odoo instance
+                (product/order/customer/coupon/category created or updated), along with
+                date/time, event type, status, and any error message.
+            </p>
+            <p>
+                To see entries here:
+            </p>
+            <ul>
+                <li><strong>Production / staging</strong>: configure WooCommerce webhooks to
+                    deliver to <code>&lt;your-odoo-host&gt;/woo/webhook?instance_id=&lt;id&gt;</code>.
+                    The fastest way is to open the Instance form and click
+                    <em>Register Webhooks</em> &#8212; it creates them for you.</li>
+                <li><strong>Reachability check</strong>: open
+                    <code>&lt;your-odoo-host&gt;/woo/webhook/ping</code> in a browser. A new
+                    row appears here on every hit, proving the route is accessible.</li>
+                <li><strong>Local / no public URL</strong>: click
+                    <em>Simulate Test Webhook</em> above to insert a sample entry so the page
+                    can still be QA-verified.</li>
+                <li><strong>Signature verification</strong>: set the same
+                    <em>Webhook Secret</em> on the Instance form and in every WooCommerce
+                    webhook config. Mismatches show up here with status
+                    <em>Failed</em> and <em>signature_status = Invalid</em>.</li>
+            </ul>
+        </field>
     </record>
 </odoo>

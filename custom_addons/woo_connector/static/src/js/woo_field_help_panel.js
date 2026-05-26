@@ -9,14 +9,22 @@ export class WooFieldHelpPanel extends Component {
         ...standardWidgetProps,
         title: { type: String, optional: true },
         only_with_help: { type: Boolean, optional: true },
+        default_collapsed: { type: Boolean, optional: true },
+        auto_collapse_threshold: { type: Number, optional: true },
     };
     static defaultProps = {
         title: "Fields and their uses :-",
         only_with_help: false,
+        default_collapsed: false,
+        auto_collapse_threshold: 30,
     };
 
     setup() {
-        this.state = useState({ collapsed: false });
+        this.state = useState({
+            collapsed:
+                this.props.default_collapsed ||
+                this.fieldEntries.length > this.props.auto_collapse_threshold,
+        });
     }
 
     get fieldEntries() {
@@ -48,7 +56,6 @@ export class WooFieldHelpPanel extends Component {
     }
 
     _fallbackDescription(name, def) {
-        const niceName = (def.string || name).toLowerCase();
         const typeWord = {
             many2one: "linked record",
             one2many: "list of related records",
@@ -65,7 +72,7 @@ export class WooFieldHelpPanel extends Component {
             html: "rich text",
             binary: "file",
         }[def.type] || "value";
-        return `Displays ${niceName} (${typeWord}).`;
+        return `Displays ${(def.string || name).toLowerCase()} (${typeWord}).`;
     }
 
     toggle() {
@@ -78,5 +85,7 @@ registry.category("view_widgets").add("woo_field_help", {
     extractProps: ({ attrs }) => ({
         title: attrs.title,
         only_with_help: attrs.only_with_help === "1" || attrs.only_with_help === "true",
+        default_collapsed: attrs.default_collapsed === "1" || attrs.default_collapsed === "true",
+        auto_collapse_threshold: attrs.auto_collapse_threshold ? Number(attrs.auto_collapse_threshold) : undefined,
     }),
 });

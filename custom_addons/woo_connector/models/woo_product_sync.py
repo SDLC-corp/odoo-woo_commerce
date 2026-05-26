@@ -1,4 +1,4 @@
-from odoo import models, fields, _
+from odoo import api, models, fields, _
 from odoo.exceptions import UserError
 from datetime import datetime
 import requests
@@ -52,6 +52,22 @@ class WooProductSync(models.Model):
     # -----------------------------
     list_price = fields.Float(string="Regular Price", help="Default selling price in WooCommerce, before any sale.")
     sale_price = fields.Float(string="Sale Price", help="Discounted selling price in WooCommerce, if a sale is active.")
+    is_on_sale = fields.Boolean(
+        string="On Sale",
+        compute="_compute_is_on_sale",
+        store=True,
+        help="True when a non-zero sale price is set in WooCommerce that is "
+        "lower than the regular price.",
+    )
+
+    @api.depends("list_price", "sale_price")
+    def _compute_is_on_sale(self):
+        for rec in self:
+            rec.is_on_sale = bool(
+                rec.sale_price
+                and rec.sale_price > 0
+                and (not rec.list_price or rec.sale_price < rec.list_price)
+            )
 
     # -----------------------------
     # STOCK

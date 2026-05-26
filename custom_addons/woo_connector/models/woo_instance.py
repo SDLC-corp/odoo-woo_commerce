@@ -568,6 +568,20 @@ class WooInstance(models.Model):
 
     def _resolve_mapping_candidate(self, records, mapping_type, label):
         self.ensure_one()
+        # Be defensive: callers initialize candidate buckets as Python lists
+        # (e.g. ``model_candidates = []``) and only assign a recordset when a
+        # match is found. When nothing matches we still receive a list here,
+        # which would crash with "'list' object has no attribute 'exists'".
+        if isinstance(records, (list, tuple)):
+            if not records:
+                return False, False
+            first = next((r for r in records if hasattr(r, "_name")), None)
+            if first is None:
+                return False, False
+            ids = [r.id for r in records if getattr(r, "id", False)]
+            records = self.env[first._name].browse(ids)
+        if not records:
+            return False, False
         records = records.exists()
         if not records:
             return False, False
@@ -592,7 +606,7 @@ class WooInstance(models.Model):
         if not normalized:
             return False, False
 
-        model_candidates = []
+        model_candidates = self.env["woo.instance"].browse()  # placeholder empty recordset
         if self.env.registry.get("payment.provider"):
             providers = self.env["payment.provider"].sudo().search([])
             exact = providers.filtered(
@@ -1363,7 +1377,7 @@ class WooInstance(models.Model):
                 "title": _("Connection Health Check"),
                 "message": summary,
                 "type": "success" if overall == "healthy" else ("warning" if overall == "warning" else "danger"),
-                "sticky": overall != "healthy",
+                "sticky": False,
             },
         }
 
@@ -1457,6 +1471,125 @@ class WooInstance(models.Model):
                 f"{details}"
                 f"{hint}"
             )
+
+    # =================================================
+    # REGISTER WEBHOOKS IN WOOCOMMERCE
+    # =================================================
+    _WEBHOOK_DEFINITIONS = [
+        ("Odoo: Product Created", "product.created", "webhook_product_create"),
+        ("Odoo: Product Updated", "product.updated", "webhook_product_update"),
+        ("Odoo: Order Created", "order.created", "webhook_order_create"),
+        ("Odoo: Order Updated", "order.updated", "webhook_order_update"),
+        ("Odoo: Customer Created", "customer.created", "webhook_customer_create"),
+        ("Odoo: Customer Updated", "customer.updated", "webhook_customer_update"),
+        ("Odoo: Coupon Created", "coupon.created", "webhook_giftcard_create"),
+        ("Odoo: Coupon Updated", "coupon.updated", "webhook_giftcard_update"),
+    ]
+
+    def _resolve_callback_base_url(self):
+        self.ensure_one()
+        base = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("web.base.url", default="")
+            or ""
+        ).rstrip("/")
+        return base
+
+    def action_register_woo_webhooks(self):
+        """Register WooCommerce webhooks pointing back to this Odoo instance.
+
+        For each enabled webhook flag, POSTs to /wp-json/wc/v3/webhooks creating
+        a webhook that delivers to /woo/webhook?instance_id=<id>. Existing
+        webhooks with the same delivery URL + topic are skipped so this is
+        safe to re-run.
+        """
+        self.ensure_one()
+        base_url = self._resolve_callback_base_url()
+        if not base_url:
+            raise UserError(_(
+                "Set 'web.base.url' (Settings > Technical > System Parameters) "
+                "to a URL WooCommerce can reach before registering webhooks."
+            ))
+        parsed = urlparse(base_url)
+        host = (parsed.hostname or "").lower()
+        if host in ("localhost", "127.0.0.1"):
+            raise UserError(_(
+                "web.base.url is %s, which WooCommerce cannot reach. "
+                "Expose Odoo via a public URL (e.g. ngrok, reverse proxy) and "
+                "update System Parameters > web.base.url first."
+            ) % base_url)
+
+        wcapi = self._get_wcapi(self)
+        delivery_url = f"{base_url}/woo/webhook?instance_id={self.id}"
+
+        try:
+            existing_resp = wcapi.get("webhooks", params={"per_page": 100})
+            existing = existing_resp.json() if existing_resp.status_code == 200 else []
+        except Exception as exc:
+            raise UserError(_("Could not list existing WooCommerce webhooks: %s") % exc)
+
+        existing_keys = set()
+        if isinstance(existing, list):
+            for item in existing:
+                if isinstance(item, dict):
+                    existing_keys.add(
+                        (
+                            (item.get("topic") or "").lower(),
+                            (item.get("delivery_url") or "").rstrip("/"),
+                        )
+                    )
+
+        created = []
+        skipped = []
+        failed = []
+        for label, topic, flag in self._WEBHOOK_DEFINITIONS:
+            if not getattr(self, flag, False):
+                continue
+            key = (topic, delivery_url.rstrip("/"))
+            if key in existing_keys:
+                skipped.append(topic)
+                continue
+            payload = {
+                "name": label,
+                "topic": topic,
+                "delivery_url": delivery_url,
+                "status": "active",
+            }
+            if self.webhook_secret:
+                payload["secret"] = self.webhook_secret
+            try:
+                resp = wcapi.post("webhooks", payload)
+                if resp.status_code in (200, 201):
+                    created.append(topic)
+                else:
+                    failed.append(f"{topic}: HTTP {resp.status_code} {resp.text[:200]}")
+            except Exception as exc:
+                failed.append(f"{topic}: {exc}")
+
+        if not created and not skipped and not failed:
+            raise UserError(_(
+                "No webhook flags are enabled on this Instance. "
+                "Tick the webhook_* checkboxes you want first, then run this again."
+            ))
+
+        message_parts = []
+        if created:
+            message_parts.append(_("Created: %s") % ", ".join(created))
+        if skipped:
+            message_parts.append(_("Already existed: %s") % ", ".join(skipped))
+        if failed:
+            message_parts.append(_("Failed: %s") % " | ".join(failed))
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Register WooCommerce Webhooks"),
+                "message": "\n".join(message_parts),
+                "type": "success" if not failed else "warning",
+                "sticky": bool(failed),
+            },
+        }
 
     def auto_sync_all(self, force=True):
         self.ensure_one()
@@ -1641,19 +1774,23 @@ class WooInstance(models.Model):
                 # -----------------------------------------
                 sale_price_raw = p.get("sale_price")
                 regular_price_raw = p.get("regular_price")
-                effective_sale_price = (
+                # Regular Price (``list_price`` in Odoo) must always map to the
+                # WooCommerce ``regular_price`` field. Sale Price is a separate
+                # value and must remain zero / empty when no sale is active —
+                # otherwise the UI shows Regular = Sale, which is BUG-37.
+                regular_price_value = float(regular_price_raw or 0.0)
+                sale_price_value = (
                     float(sale_price_raw)
                     if sale_price_raw not in (None, "")
-                    else float(regular_price_raw or 0.0)
+                    else 0.0
                 )
                 product_vals = {
                     "name": name,
                     "default_code": normalized_sku or product.default_code,
-                    # Odoo Sale Price should follow latest Woo sale price when available.
-                    "list_price": effective_sale_price,
+                    "list_price": regular_price_value,
                 }
                 if "sale_price" in ProductTemplate._fields:
-                    product_vals["sale_price"] = float(sale_price_raw or 0.0)
+                    product_vals["sale_price"] = sale_price_value
                 product.write(product_vals)
                 self._link_product_with_woo_id(product, woo_id, instance=self)
 
@@ -1722,8 +1859,8 @@ class WooInstance(models.Model):
                     "sku": normalized_sku,
 
                     # Pricing
-                    "list_price": effective_sale_price,
-                    "sale_price": float(sale_price_raw or 0.0),
+                    "list_price": regular_price_value,
+                    "sale_price": sale_price_value,
 
                     # Stock
                     "manage_stock": p.get("manage_stock", False),
@@ -2106,6 +2243,37 @@ class WooInstance(models.Model):
     # =================================================
     # SYNC COUPONS
     # =================================================
+    def _parse_coupon_amount(self, raw):
+        """Robustly convert a WooCommerce coupon ``amount`` field to float.
+
+        WC returns ``amount`` as a string; some stores publish it with
+        comma decimal separators or trailing whitespace. ``float()`` blows up
+        on those inputs and the surrounding ``or 0.0`` would silently bury
+        a real discount as ``0``. Strip whitespace, normalise the decimal
+        separator, and only fall back to ``0.0`` for truly empty values.
+        """
+        if raw in (None, "", False):
+            return 0.0
+        if isinstance(raw, (int, float)):
+            try:
+                return float(raw)
+            except (TypeError, ValueError):
+                return 0.0
+        text = str(raw).strip()
+        if not text:
+            return 0.0
+        # Locale-tolerant: accept "70,00" as 70.00 when no '.' is present.
+        if "," in text and "." not in text:
+            text = text.replace(",", ".")
+        else:
+            # "1,234.56" → "1234.56"
+            text = text.replace(",", "")
+        try:
+            return float(text)
+        except (TypeError, ValueError):
+            _logger.warning("Coupon amount not numeric: %r", raw)
+            return 0.0
+
     def action_sync_coupons(self):
         self.ensure_one()
         WooCoupon = self.env["woo.coupon.sync"]
@@ -2123,14 +2291,24 @@ class WooInstance(models.Model):
                 if not woo_id:
                     continue
 
+                # BUG-29: WooCommerce returns ``amount`` as a string and
+                # occasionally with thousand separators (locale-dependent).
+                # ``float("70.00")`` works but ``float("70,00")`` raises and
+                # the surrounding ``or 0.0`` would otherwise mask the value
+                # silently. Parse defensively so non-numeric input degrades to
+                # 0 without silently dropping legit values.
+                amount_value = self._parse_coupon_amount(c.get("amount"))
+                allowed_types = {"percent", "fixed_cart", "fixed_product"}
+                raw_discount_type = (c.get("discount_type") or "").strip().lower()
+                discount_type = raw_discount_type if raw_discount_type in allowed_types else False
                 vals = {
                     "instance_id": self.id,
                     "name": c.get("code"),
                     "woo_coupon_id": str(woo_id),
-                    "discount_type": c.get("discount_type"),
-                    "amount": float(c.get("amount") or 0.0),
-                    "usage_limit": c.get("usage_limit"),
-                    "usage_count": c.get("usage_count"),
+                    "discount_type": discount_type,
+                    "amount": amount_value,
+                    "usage_limit": c.get("usage_limit") or 0,
+                    "usage_count": c.get("usage_count") or 0,
                     "expiry_date": self._parse_woo_datetime(c.get("date_expires")),
                     "status": c.get("status"),
                     "state": "synced",
@@ -2520,16 +2698,26 @@ class WooInstance(models.Model):
         return vals
 
     def _get_field_mappings(self, model):
+        """Return a list of (woo_key, odoo_field) tuples for *model*.
+
+        A list (not a dict) on purpose: users may legitimately map the same
+        Woo field to multiple Odoo fields (e.g. ``name`` → both ``name`` and
+        ``display_name``). The previous dict-comprehension silently
+        collapsed duplicates and dropped all but one mapping — making
+        "mapping not working" a recurrent complaint.
+        """
         mappings = self.env["woo.field.mapping"].search([
             ("instance_id", "=", self.id),
             ("model", "=", model),
             ("active", "=", True),
         ])
-
-        return {
-            m.woo_field_key.name: m.odoo_field_id.name
-            for m in mappings
-        }
+        pairs = []
+        for m in mappings:
+            woo_key = m.woo_field_key.name if m.woo_field_key else False
+            odoo_field = m.odoo_field_id.name if m.odoo_field_id else False
+            if woo_key and odoo_field:
+                pairs.append((woo_key, odoo_field))
+        return pairs
 
     def _normalize_woo_mapping_key(self, key):
         aliases = {
@@ -2597,7 +2785,7 @@ class WooInstance(models.Model):
         record_fields = record._fields
         protected_fields = self._protected_mapping_fields(model)
 
-        for woo_key, odoo_field in mappings.items():
+        for woo_key, odoo_field in mappings:
             value = self._get_nested_value(woo_data, woo_key)
 
             if (
@@ -2606,12 +2794,17 @@ class WooInstance(models.Model):
                 and not record_fields[odoo_field].readonly
             ):
                 value = self._coerce_mapping_value(record_fields[odoo_field], value)
-                if value not in (None, "", False):
+                # Only skip truly absent values (None / empty string). Using
+                # ``value not in (None, "", False)`` would also discard
+                # legitimate ``0`` numeric and ``False`` boolean values —
+                # ``0 == False`` and ``0 in (None, "", False)`` is ``True``.
+                # That silently dropped stock_quantity=0, sale_price=0,
+                # manage_stock=False, etc. (and made mapping look broken).
+                if value is not None and value != "":
                     vals[odoo_field] = value
 
         if vals:
             record.write(vals)
-
 
         return vals
 
