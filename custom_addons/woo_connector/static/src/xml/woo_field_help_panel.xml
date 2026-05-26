@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="woo_connector.WooFieldHelpPanel">
+        <div class="o_woo_help_panel" t-if="fieldEntries.length">
+            <div class="o_woo_help_header">
+                <span class="o_woo_help_title">
+                    <t t-esc="props.title"/>
+                </span>
+                <button type="button" class="o_woo_help_toggle btn btn-link btn-sm"
+                        t-on-click="() => this.toggle()"
+                        t-att-aria-expanded="state.collapsed ? 'false' : 'true'"
+                        t-att-title="state.collapsed ? 'Show field help' : 'Hide field help'">
+                    <i t-att-class="state.collapsed ? 'fa fa-chevron-down' : 'fa fa-chevron-up'"/>
+                </button>
+            </div>
+            <ul class="o_woo_help_list" t-if="!state.collapsed">
+                <li t-foreach="fieldEntries" t-as="f" t-key="f.name">
+                    <strong t-esc="f.label"/>
+                    <span class="o_woo_help_sep"> : </span>
+                    <span t-esc="f.help"/>
+                </li>
+            </ul>
+        </div>
+    </t>
+
+</templates>

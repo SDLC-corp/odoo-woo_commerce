@@ -67,17 +67,16 @@ class WooSyncDashboard(models.Model):
     @api.onchange("date_filter")
     def _onchange_date_filter(self):
         for rec in self:
-            now_dt = fields.Datetime.now()
+            today = fields.Date.context_today(rec)
             if rec.date_filter == "today":
-                today = fields.Date.context_today(rec)
                 rec.date_from = datetime.combine(today, time.min)
                 rec.date_to = datetime.combine(today, time.max)
             elif rec.date_filter == "last_7_days":
-                rec.date_from = now_dt - timedelta(days=7)
-                rec.date_to = now_dt
+                rec.date_from = datetime.combine(today - timedelta(days=6), time.min)
+                rec.date_to = datetime.combine(today, time.max)
             elif rec.date_filter == "last_30_days":
-                rec.date_from = now_dt - timedelta(days=30)
-                rec.date_to = now_dt
+                rec.date_from = datetime.combine(today - timedelta(days=29), time.min)
+                rec.date_to = datetime.combine(today, time.max)
 
     @api.constrains("date_filter", "date_from", "date_to")
     def _check_custom_range(self):
@@ -87,19 +86,18 @@ class WooSyncDashboard(models.Model):
 
     def _get_window(self):
         self.ensure_one()
-        now_dt = fields.Datetime.now()
+        today = fields.Date.context_today(self)
         if self.date_filter == "today":
-            today = fields.Date.context_today(self)
             start = datetime.combine(today, time.min)
             end = datetime.combine(today, time.max)
             return start, end
         if self.date_filter == "last_7_days":
-            return now_dt - timedelta(days=7), now_dt
+            return datetime.combine(today - timedelta(days=6), time.min), datetime.combine(today, time.max)
         if self.date_filter == "last_30_days":
-            return now_dt - timedelta(days=30), now_dt
+            return datetime.combine(today - timedelta(days=29), time.min), datetime.combine(today, time.max)
         if self.date_filter == "custom" and self.date_from and self.date_to:
             return self.date_from, self.date_to
-        return now_dt - timedelta(days=30), now_dt
+        return datetime.combine(today - timedelta(days=29), time.min), datetime.combine(today, time.max)
 
     def _build_domain(self, date_field):
         self.ensure_one()

@@ -36,8 +36,20 @@
         <button type="button" class="btn btn-primary" t-on-click="onSyncNowClick">
           Sync Now
         </button>
-        <button type="button" class="btn btn-secondary" t-on-click="onGenerateInsightsClick">
-          Generate AI Insights
+        <button
+          type="button"
+          class="btn btn-secondary woo-ai-btn"
+          t-att-class="{ 'woo-btn-loading': state.aiGenerating }"
+          t-att-disabled="state.aiGenerating || undefined"
+          t-on-click="(ev) => this.onGenerateInsightsClick(ev)"
+        >
+          <t t-if="state.aiGenerating">
+            <span class="woo-btn-spinner" role="status" aria-label="Generating"></span>
+            Generating...
+          </t>
+          <t t-else="">
+            Generate AI Insights
+          </t>
         </button>
       </div>
     </div>

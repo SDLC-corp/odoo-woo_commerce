@@ -8,7 +8,6 @@
 *.log
 
 # Local environment
-/.venv/
 .env
 .env.*
 

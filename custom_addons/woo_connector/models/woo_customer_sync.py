@@ -1,5 +1,9 @@
+import re
+
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+
+EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$")
 
 
 class WooCustomerSync(models.Model):
@@ -16,17 +20,29 @@ class WooCustomerSync(models.Model):
         "woo.instance",
         required=True,
         ondelete="cascade",
+        help="WooCommerce Instance this customer belongs to.",
     )
 
-    name = fields.Char(string="Customer Name", required=True)
+    name = fields.Char(
+        string="Customer Name",
+        required=True,
+        help="Full customer display name shown in both Odoo and WooCommerce.",
+    )
 
     woo_customer_id = fields.Char(
         string="Woo Customer ID",
         index=True,
+        help="The numeric ID of this customer in WooCommerce. Empty for guest checkouts.",
     )
 
-    email = fields.Char(string="Email")
-    phone = fields.Char(string="Phone")
+    email = fields.Char(
+        string="Email",
+        help="Customer email used for WooCommerce sync. Always stored and sent in lowercase.",
+    )
+    phone = fields.Char(
+        string="Phone",
+        help="Billing phone number sent to WooCommerce.",
+    )
 
     state = fields.Selection(
         [
@@ -37,13 +53,29 @@ class WooCustomerSync(models.Model):
         default="synced",
         string="Status",
         tracking=True,
+        help="Sync status with WooCommerce: Draft (not yet sent), Synced (in sync), or Error (last push failed).",
     )
 
-    synced_on = fields.Datetime(string="Synced On")
+    synced_on = fields.Datetime(
+        string="Synced On",
+        help="Last date/time this customer was successfully pushed to or pulled from WooCommerce.",
+    )
 
     def _normalized_email(self):
         self.ensure_one()
         return (self.email or "").strip().lower()
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("email"):
+                vals["email"] = vals["email"].strip().lower()
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if vals.get("email"):
+            vals["email"] = vals["email"].strip().lower()
+        return super().write(vals)
 
     # --------------------------------------------------
     # SMART BUTTON (ORDERS)
@@ -51,6 +83,7 @@ class WooCustomerSync(models.Model):
     order_count = fields.Integer(
         compute="_compute_order_count",
         string="Orders",
+        help="Number of WooCommerce orders linked to this customer's email.",
     )
 
     # --------------------------------------------------
@@ -81,6 +114,10 @@ class WooCustomerSync(models.Model):
         email = self._normalized_email()
         if not email:
             raise UserError(_("Customer email is required for WooCommerce sync."))
+        if not EMAIL_RE.match(email):
+            raise UserError(_("Invalid email address format: %s") % email)
+        if self.email and self.email != email:
+            self.with_context(skip_email_normalize=True).write({"email": email})
 
         first_name = (self.name or "").split(" ")[0] if self.name else ""
         last_name = " ".join((self.name or "").split(" ")[1:]) if self.name else ""

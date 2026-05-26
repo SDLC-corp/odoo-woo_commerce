@@ -5,6 +5,7 @@
         <field name="arch" type="xml">
             <form string="Import by Date Range">
                 <sheet>
+                    <widget name="woo_field_help"/>
                     <group>
                         <field name="instance_id" required="1"/>
                         <field name="record_type" required="1"/>

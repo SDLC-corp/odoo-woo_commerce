@@ -649,7 +649,7 @@ class WooSyncPreview(models.Model):
         self.ensure_one()
         return {
             "type": "ir.actions.act_window",
-            "name": _("Sync Preview"),
+            "name": _("Preview Result"),
             "res_model": "woo.sync.preview",
             "view_mode": "form",
             "res_id": self.id,

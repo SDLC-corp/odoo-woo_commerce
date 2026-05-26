@@ -11,6 +11,7 @@ class WooImportByIdWizard(models.TransientModel):
         string="Woo Instance",
         required=True,
         default=lambda self: self._default_instance_id(),
+        help="Source WooCommerce instance to pull the record from.",
     )
     record_type = fields.Selection(
         [
@@ -22,14 +23,17 @@ class WooImportByIdWizard(models.TransientModel):
         ],
         required=True,
         default="product",
+        help="Type of WooCommerce record to import (product, order, customer, category, or coupon).",
     )
     woo_id = fields.Char(
         string="Woo ID",
         required=True,
+        help="Numeric ID of the record in WooCommerce. Look it up in the Woo admin URL or in the relevant list view.",
     )
     update_existing = fields.Boolean(
         string="Update existing record if found",
         default=True,
+        help="If on, an existing Odoo record with the same Woo ID is updated. If off, the import is skipped when a match is found.",
     )
 
     def _default_instance_id(self):
@@ -275,7 +279,12 @@ class WooImportByIdWizard(models.TransientModel):
         woo_id = self._normalize_woo_id()
         preview = self.env["woo.sync.preview"].create_and_run_preview(
             {
-                "name": _("Preview - Import by Woo ID"),
+                "name": _("Import by Woo ID #%(woo_id)s - %(type)s") % {
+                    "woo_id": woo_id,
+                    "type": dict(self.env["woo.sync.preview"].RECORD_TYPE_SELECTION).get(
+                        self.record_type, self.record_type
+                    ),
+                },
                 "source_mode": "import_by_id",
                 "instance_id": self.instance_id.id,
                 "record_type": self.record_type,

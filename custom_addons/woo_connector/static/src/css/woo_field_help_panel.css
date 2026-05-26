@@ -1,0 +1,61 @@
+.o_woo_help_panel {
+    background: #e8f4fb;
+    border: 1px solid #b6dcef;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 8px 0 14px 0;
+    color: #163b56;
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.o_woo_help_panel .o_woo_help_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.o_woo_help_panel .o_woo_help_title {
+    font-weight: 700;
+    color: #163b56;
+    font-size: 14px;
+}
+
+.o_woo_help_panel .o_woo_help_toggle {
+    color: #2575a8;
+    padding: 0 6px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.o_woo_help_panel .o_woo_help_toggle:focus,
+.o_woo_help_panel .o_woo_help_toggle:hover {
+    color: #14507a;
+    text-decoration: none;
+    outline: none;
+}
+
+.o_woo_help_panel .o_woo_help_list {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.o_woo_help_panel .o_woo_help_list li {
+    margin-bottom: 4px;
+}
+
+.o_woo_help_panel .o_woo_help_list strong {
+    color: #102c45;
+}
+
+.o_woo_help_panel .o_woo_help_sep {
+    margin: 0 2px;
+    color: #2575a8;
+}
+
+.o_form_view .o_woo_help_panel {
+    margin-top: 0;
+}

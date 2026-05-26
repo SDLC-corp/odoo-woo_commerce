@@ -35,6 +35,7 @@
         <field name="name">WooCommerce Coupons</field>
         <field name="res_model">woo.coupon.sync</field>
         <field name="view_mode">list,form</field>
+        <field name="view_id" ref="woo_coupon_sync_list"/>
     </record>
 
     <!-- ================= FIELD MAPPING ================= -->

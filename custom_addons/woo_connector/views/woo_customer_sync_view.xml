@@ -41,6 +41,7 @@
                 </header>
 
                 <sheet>
+                    <widget name="woo_field_help"/>
 
                     <!-- SMART BUTTON -->
                     <div class="oe_button_box" name="button_box">

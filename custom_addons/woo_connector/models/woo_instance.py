@@ -18,6 +18,73 @@ import re
 _logger = logging.getLogger(__name__)
 
 
+class _FallbackWooAPI:
+    """Requests-based fallback when python-woocommerce is not installed."""
+
+    def __init__(self, instance):
+        self.instance = instance
+
+    def _build_url(self, endpoint):
+        base_url = self.instance._get_base_url().rstrip("/")
+        endpoint = (endpoint or "").lstrip("/")
+        return f"{base_url}/wp-json/wc/v3/{endpoint}"
+
+    def _request(self, method, endpoint, data=None, params=None):
+        url = self._build_url(endpoint)
+        verify_ssl = not self.instance._is_local_url(url)
+        params = dict(params or {})
+
+        auth_candidates = []
+        if self.instance.consumer_key and self.instance.consumer_secret:
+            auth_candidates.append((self.instance.consumer_key, self.instance.consumer_secret))
+        if self.instance.wp_username and self.instance.application_password:
+            auth_candidates.append((self.instance.wp_username, self.instance.application_password))
+
+        seen = set()
+        for auth in auth_candidates:
+            if auth in seen:
+                continue
+            seen.add(auth)
+            response = requests.request(
+                method,
+                url,
+                auth=auth,
+                params=params,
+                json=data,
+                timeout=30,
+                verify=verify_ssl,
+            )
+            if response.status_code != 401:
+                return response
+
+        query_params = dict(params)
+        if self.instance.consumer_key and self.instance.consumer_secret:
+            query_params.update({
+                "consumer_key": self.instance.consumer_key,
+                "consumer_secret": self.instance.consumer_secret,
+            })
+        return requests.request(
+            method,
+            url,
+            params=query_params,
+            json=data,
+            timeout=30,
+            verify=verify_ssl,
+        )
+
+    def get(self, endpoint, params=None):
+        return self._request("GET", endpoint, params=params)
+
+    def post(self, endpoint, data=None):
+        return self._request("POST", endpoint, data=data)
+
+    def put(self, endpoint, data=None):
+        return self._request("PUT", endpoint, data=data)
+
+    def delete(self, endpoint, params=None):
+        return self._request("DELETE", endpoint, params=params)
+
+
 class WooInstance(models.Model):
     _name = "woo.instance"
     _description = "WooCommerce Instance"
@@ -25,15 +92,37 @@ class WooInstance(models.Model):
     # ------------------------------------------------
     # BASIC CONFIG
     # ------------------------------------------------
-    name = fields.Char(required=True)
+    name = fields.Char(required=True, help="Display name for this WooCommerce instance (e.g. 'Main Store').")
 
-    shop_url = fields.Char(string="Shop URL", required=True)
-    consumer_key = fields.Char(required=True)
-    consumer_secret = fields.Char(required=True)
-    active = fields.Boolean(default=True)
-    wp_username = fields.Char(string="WP Username")
-    application_password = fields.Char(string="Application Password")
-    webhook_secret = fields.Char(string="Webhook Secret")
+    shop_url = fields.Char(
+        string="Shop URL",
+        required=True,
+        help="Public base URL of the WooCommerce store (e.g. https://shop.example.com).",
+    )
+    consumer_key = fields.Char(
+        required=True,
+        help="WooCommerce REST API consumer key generated in WooCommerce > Settings > Advanced > REST API.",
+    )
+    consumer_secret = fields.Char(
+        required=True,
+        help="WooCommerce REST API consumer secret paired with the consumer key.",
+    )
+    active = fields.Boolean(
+        default=True,
+        help="Uncheck to disable this instance without deleting it. Inactive instances are excluded from cron sync and webhook routing.",
+    )
+    wp_username = fields.Char(
+        string="WP Username",
+        help="WordPress admin username, used as a fallback for endpoints not covered by the REST consumer key.",
+    )
+    application_password = fields.Char(
+        string="Application Password",
+        help="WordPress Application Password for the above user. Used when consumer key auth is rejected.",
+    )
+    webhook_secret = fields.Char(
+        string="Webhook Secret",
+        help="Shared secret used to verify HMAC signatures of incoming WooCommerce webhooks.",
+    )
     smart_sku_matching = fields.Boolean(
         string="Enable Smart SKU Matching",
         default=True,
@@ -225,9 +314,11 @@ class WooInstance(models.Model):
     # =================================================
     def _get_wcapi(self, rec):
         if not WooAPI:
-            raise UserError(
-                _("Missing Python dependency 'woocommerce'. Install it in the Odoo environment and restart the server.")
+            _logger.warning(
+                "python-woocommerce package not installed; using requests-based fallback API for instance %s.",
+                rec.display_name,
             )
+            return _FallbackWooAPI(rec)
         return WooAPI(
             url=rec._get_base_url(),
             consumer_key=rec.consumer_key,
@@ -1248,9 +1339,9 @@ class WooInstance(models.Model):
             results = rec._run_health_check()
             overall = rec.health_overall_status or "warning"
             summary = (
-                f"{overall.title()} | "
-                f"Success: {len([r for r in results if r.get('status') == 'success'])}, "
-                f"Warning: {len([r for r in results if r.get('status') == 'warning'])}, "
+                f"{overall.title()} — "
+                f"Success: {len([r for r in results if r.get('status') == 'success'])} | "
+                f"Warning: {len([r for r in results if r.get('status') == 'warning'])} | "
                 f"Failed: {len([r for r in results if r.get('status') == 'failed'])}"
             )
             rec._create_sync_report(
@@ -1548,14 +1639,21 @@ class WooInstance(models.Model):
                 # -----------------------------------------
                 # 2️⃣ SAFE FALLBACK
                 # -----------------------------------------
+                sale_price_raw = p.get("sale_price")
+                regular_price_raw = p.get("regular_price")
+                effective_sale_price = (
+                    float(sale_price_raw)
+                    if sale_price_raw not in (None, "")
+                    else float(regular_price_raw or 0.0)
+                )
                 product_vals = {
                     "name": name,
                     "default_code": normalized_sku or product.default_code,
+                    # Odoo Sale Price should follow latest Woo sale price when available.
+                    "list_price": effective_sale_price,
                 }
-                if p.get("regular_price") not in (None, ""):
-                    product_vals["list_price"] = float(p.get("regular_price") or 0.0)
-                if "sale_price" in ProductTemplate._fields and p.get("sale_price") not in (None, ""):
-                    product_vals["sale_price"] = float(p.get("sale_price") or 0.0)
+                if "sale_price" in ProductTemplate._fields:
+                    product_vals["sale_price"] = float(sale_price_raw or 0.0)
                 product.write(product_vals)
                 self._link_product_with_woo_id(product, woo_id, instance=self)
 
@@ -1624,8 +1722,8 @@ class WooInstance(models.Model):
                     "sku": normalized_sku,
 
                     # Pricing
-                    "list_price": float(p.get("regular_price") or 0.0),
-                    "sale_price": float(p.get("sale_price") or 0.0),
+                    "list_price": effective_sale_price,
+                    "sale_price": float(sale_price_raw or 0.0),
 
                     # Stock
                     "manage_stock": p.get("manage_stock", False),
@@ -2827,7 +2925,5 @@ class WooInstance(models.Model):
                         "auto": True,
                         "mode": "cron",
                     })
-
-
 
 

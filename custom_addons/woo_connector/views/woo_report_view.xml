@@ -56,6 +56,7 @@
                             invisible="status != 'failed'"/>
                 </header>
                 <sheet>
+                    <widget name="woo_field_help"/>
                     <group col="4">
                         <field name="instance_id"/>
                         <field name="operation"/>

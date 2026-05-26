@@ -35,6 +35,54 @@ class WooDashboard(models.AbstractModel):
         except Exception:
             return {}
 
+    def _instance_fetch_json(self, instance, endpoint, params=None, timeout=6):
+        base = instance._get_base_url().rstrip("/")
+        url = f"{base}/{endpoint.lstrip('/')}"
+        try:
+            response = instance._woo_get(url, params=params or {}, timeout=timeout)
+            if response.status_code != 200:
+                _logger.warning(
+                    "Woo request failed for %s on %s (status %s).",
+                    endpoint,
+                    instance.display_name,
+                    response.status_code,
+                )
+                return {}
+            payload = response.json()
+            return payload if isinstance(payload, (dict, list)) else {}
+        except Exception as exc:
+            _logger.warning(
+                "Woo request failed for %s on %s: %s",
+                endpoint,
+                instance.display_name,
+                exc,
+            )
+            return {}
+
+    def _instance_total_from_header(self, instance, endpoint):
+        base = instance._get_base_url().rstrip("/")
+        url = f"{base}/wp-json/wc/v3/{endpoint}"
+        try:
+            response = instance._woo_get(url, params={"per_page": 1}, timeout=4)
+        except Exception as exc:
+            _logger.warning(
+                "Woo totals request failed for %s on %s: %s",
+                endpoint,
+                instance.display_name,
+                exc,
+            )
+            return 0
+
+        if response.status_code != 200:
+            _logger.warning(
+                "Woo totals request failed for %s on %s (status %s).",
+                endpoint,
+                instance.display_name,
+                response.status_code,
+            )
+            return 0
+        return int(response.headers.get("X-WP-Total", 0) or 0)
+
     def _total_from_header(self, base, auth_candidates, endpoint):
         tried = set()
         for auth in auth_candidates:
@@ -427,13 +475,17 @@ class WooDashboard(models.AbstractModel):
             days = int(range)
         except Exception:
             days = 30
-        date_to = datetime.utcnow()
+        # Use full local-day boundaries for dashboard ranges so "Last 7 days"
+        # always includes today's records the same way "Today" does.
+        today = fields.Date.context_today(self)
         if days <= 0:
-            today = fields.Date.context_today(self)
             date_from = datetime.combine(today, time.min)
             date_to = datetime.combine(today, time.max)
         else:
-            date_from = date_to - timedelta(days=days)
+            # Last N days inclusive: [today-(N-1) 00:00:00, today 23:59:59]
+            start_day = today - timedelta(days=max(days - 1, 0))
+            date_from = datetime.combine(start_day, time.min)
+            date_to = datetime.combine(today, time.max)
 
         after_api = date_from.strftime("%Y-%m-%dT00:00:00")
         before_api = date_to.strftime("%Y-%m-%dT23:59:59")
@@ -514,30 +566,17 @@ class WooDashboard(models.AbstractModel):
             }
 
         for inst in selected_instances:
-            base = inst.shop_url.rstrip("/")
-            auth_v3 = (inst.consumer_key, inst.consumer_secret)
-            auth_app = (inst.wp_username, inst.application_password)
-            auth_analytics = auth_app if all(auth_app) else auth_v3
-
-            revenue = self._fetch_json(
-                f"{base}/wp-json/wc-analytics/reports/revenue/stats",
-                auth_analytics,
+            revenue = self._instance_fetch_json(
+                inst,
+                "wp-json/wc-analytics/reports/revenue/stats",
                 {"after": after_api, "before": before_api, "interval": "day"},
+                timeout=6,
             )
 
-            auth_candidates = [auth_v3, auth_app]
-            total_products += self._total_from_header(
-                base, auth_candidates, "products"
-            )
-            total_orders += self._total_from_header(
-                base, auth_candidates, "orders"
-            )
-            total_customers += self._total_from_header(
-                base, auth_candidates, "customers"
-            )
-            total_categories += self._total_from_header(
-                base, auth_candidates, "products/categories"
-            )
+            total_products += self._instance_total_from_header(inst, "products")
+            total_orders += self._instance_total_from_header(inst, "orders")
+            total_customers += self._instance_total_from_header(inst, "customers")
+            total_categories += self._instance_total_from_header(inst, "products/categories")
 
             totals = revenue.get("totals", {}) or {}
             total_sales += float(totals.get("total_sales", 0.0) or 0.0)
@@ -559,16 +598,18 @@ class WooDashboard(models.AbstractModel):
                 )
 
             if not is_all:
-                categories = self._fetch_json(
-                    f"{base}/wp-json/wc-analytics/reports/categories",
-                    auth_analytics,
+                categories = self._instance_fetch_json(
+                    inst,
+                    "wp-json/wc-analytics/reports/categories",
                     {"after": after_api, "before": before_api, "per_page": 5},
+                    timeout=5,
                 ) or []
 
-                products = self._fetch_json(
-                    f"{base}/wp-json/wc-analytics/reports/products",
-                    auth_analytics,
+                products = self._instance_fetch_json(
+                    inst,
+                    "wp-json/wc-analytics/reports/products",
                     {"after": after_api, "before": before_api, "per_page": 5},
+                    timeout=5,
                 ) or []
 
         intervals = sorted(intervals_map.values(), key=lambda x: x["interval"])
@@ -635,26 +676,42 @@ class WooDashboard(models.AbstractModel):
     def manual_sync(self, instance_id=None):
         def _sync_instance(instance):
             errors = []
+            success = []
             for method_name in ("action_sync_products", "action_sync_categories", "action_sync_orders", "action_sync_coupons"):
                 method = getattr(instance, method_name, False)
                 if not method:
                     continue
                 try:
                     method()
+                    success.append(method_name)
                 except Exception as exc:
                     errors.append(f"{method_name}: {exc}")
-            if errors:
-                raise UserError("\n".join(errors))
+            return {
+                "instance": instance.display_name,
+                "success": success,
+                "errors": errors,
+            }
 
+        results = []
         if instance_id and str(instance_id).lower() != "all":
             instance = self._get_instance_or_raise(instance_id)
-            _sync_instance(instance)
-            return True
+            results.append(_sync_instance(instance))
+        else:
+            instances = self._get_active_instances()
+            for instance in instances:
+                results.append(_sync_instance(instance))
 
-        instances = self._get_active_instances()
-        for instance in instances:
-            _sync_instance(instance)
-        return True
+        total_success = sum(len(item["success"]) for item in results)
+        total_errors = sum(len(item["errors"]) for item in results)
+        all_errors = [err for item in results for err in item["errors"]]
+
+        return {
+            "ok": total_errors == 0,
+            "total_success": total_success,
+            "total_errors": total_errors,
+            "errors": all_errors,
+            "results": results,
+        }
 
     @api.model
     def generate_ai_insights(self, range="30", instance_id=None):

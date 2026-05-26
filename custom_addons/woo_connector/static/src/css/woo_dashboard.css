@@ -83,6 +83,22 @@
     background: #ffffff;
 }
 
+.woo-btn-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.9;
+}
+
+.woo-btn-spinner {
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: woo-spin 0.8s linear infinite;
+}
+
 .woo-kpis {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -316,6 +332,11 @@
 @keyframes glide {
     from { transform: scaleX(0); transform-origin: left; }
     to { transform: scaleX(1); transform-origin: left; }
+}
+
+@keyframes woo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 /* Keep date pickers visually focused on the selected month in QA flows. */

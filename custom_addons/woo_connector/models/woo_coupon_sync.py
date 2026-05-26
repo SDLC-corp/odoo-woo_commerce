@@ -12,25 +12,34 @@ class WooCouponSync(models.Model):
         string="Woo Instance",
         required=True,
         ondelete="cascade",
+        help="WooCommerce Instance this coupon belongs to.",
     )
 
-    name = fields.Char(string="Coupon Code", required=True)
-    woo_coupon_id = fields.Char(string="Woo Coupon ID", index=True)
+    name = fields.Char(
+        string="Coupon Code",
+        required=True,
+        help="The unique coupon code customers enter at checkout (e.g. SUMMER25).",
+    )
+    woo_coupon_id = fields.Char(
+        string="Woo Coupon ID",
+        index=True,
+        help="Numeric coupon ID in WooCommerce. Used for Import by Woo ID and to update the existing coupon on push.",
+    )
     discount_type = fields.Selection([
         ("percent", "Percentage"),
         ("fixed_cart", "Fixed Cart"),
         ("fixed_product", "Fixed Product"),
-    ])
-    amount = fields.Float()
-    usage_limit = fields.Integer()
-    usage_count = fields.Integer()
-    expiry_date = fields.Datetime()
-    status = fields.Char()
+    ], help="Discount mode applied by the coupon: percentage of total, fixed amount off the cart, or fixed amount off each matching product.")
+    amount = fields.Float(help="Discount value. Interpreted as percent or currency depending on Discount Type.")
+    usage_limit = fields.Integer(help="Maximum number of times this coupon may be redeemed in WooCommerce. 0 / empty means unlimited.")
+    usage_count = fields.Integer(help="How many times the coupon has already been used in WooCommerce.")
+    expiry_date = fields.Datetime(help="Date after which the coupon is no longer valid.")
+    status = fields.Char(help="Free-text status reported by WooCommerce (e.g. publish, draft, expired).")
     state = fields.Selection([
         ("synced", "Synced"),
         ("failed", "Failed"),
-    ], default="synced")
-    synced_on = fields.Datetime()
+    ], default="synced", help="Sync state with WooCommerce: Synced if last push/pull succeeded, Failed otherwise.")
+    synced_on = fields.Datetime(help="Last date/time this coupon was successfully pushed to or pulled from WooCommerce.")
 
     def _manual_sync_report(self, status, message, sync_direction, payload=None, error_message=None):
         self.ensure_one()

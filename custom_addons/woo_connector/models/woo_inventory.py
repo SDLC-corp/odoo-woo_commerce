@@ -12,24 +12,31 @@ class WooInventory(models.Model):
         string="Woo Instance",
         required=True,
         ondelete="cascade",
+        help="WooCommerce Instance this inventory record belongs to.",
     )
 
     woo_product_id = fields.Char(
         string="Woo Product ID",
         required=True,
         index=True,
+        help="Numeric product ID in WooCommerce that this inventory row tracks.",
     )
 
     product_name = fields.Char(
         string="Product Name",
         required=True,
+        help="Display name of the product in WooCommerce at the time of last sync.",
     )
 
-    sku = fields.Char(string="SKU")
+    sku = fields.Char(
+        string="SKU",
+        help="Stock Keeping Unit identifier shared between Odoo and WooCommerce.",
+    )
 
     quantity = fields.Integer(
         string="Stock Quantity",
         default=0,
+        help="On-hand stock quantity reported by WooCommerce on the last refresh.",
     )
 
     stock_status = fields.Selection(
@@ -40,6 +47,7 @@ class WooInventory(models.Model):
         string="Stock Status",
         compute="_compute_stock_status",
         store=True,
+        help="Computed status: In stock when quantity > 0, otherwise Out of stock.",
     )
 
     @api.depends("quantity")

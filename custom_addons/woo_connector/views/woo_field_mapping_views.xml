@@ -14,6 +14,7 @@
                 </header>
 
                 <sheet>
+                    <widget name="woo_field_help"/>
                     <group>
                         <field name="instance_id"/>
                         <field name="model" invisible="1"/>

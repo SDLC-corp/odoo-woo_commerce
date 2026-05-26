@@ -6,3 +6,21 @@
 .o_woo_product_list .o_data_cell[name="product_tmpl_id"] a:hover {
     color: #4a57ff;
 }
+
+.o_woo_coupon_list .o_data_cell[name="usage_limit"],
+.o_woo_coupon_list .o_data_cell[name="usage_count"],
+.o_woo_coupon_list .o_data_cell[name="expiry_date"],
+.o_woo_coupon_list .o_list_renderer th[data-name="usage_limit"],
+.o_woo_coupon_list .o_list_renderer th[data-name="usage_count"],
+.o_woo_coupon_list .o_list_renderer th[data-name="expiry_date"] {
+    min-width: 140px;
+    white-space: nowrap;
+}
+
+.o_woo_inventory_list .o_data_cell[name="quantity"],
+.o_woo_inventory_list .o_data_cell[name="stock_status"],
+.o_woo_inventory_list .o_list_renderer th[data-name="quantity"],
+.o_woo_inventory_list .o_list_renderer th[data-name="stock_status"] {
+    min-width: 170px;
+    white-space: nowrap;
+}

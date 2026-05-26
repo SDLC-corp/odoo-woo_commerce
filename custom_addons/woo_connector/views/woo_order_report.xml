@@ -82,11 +82,11 @@
     <record id="action_woo_cancelled_orders" model="ir.actions.act_window">
         <field name="name">Cancelled Orders</field>
         <field name="res_model">woo.order.sync</field>
-        <field name="view_mode">list,pivot,graph</field>
+        <field name="view_mode">list,form</field>
         <field name="view_id" ref="view_woo_order_report_tree"/>
         <field name="search_view_id" ref="view_woo_order_report_search"/>
         <field name="domain">[('woo_order_id','!=',False), ('status','=','cancelled')]</field>
-        <field name="context">{'search_default_woo_orders':1, 'search_default_cancelled':1, 'group_by':'instance_id'}</field>
+        <field name="context">{'search_default_woo_orders':1, 'search_default_cancelled':1, 'group_by': []}</field>
     </record>
 
 </odoo>

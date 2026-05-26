@@ -17,6 +17,7 @@ export class WooDashboard extends Component {
             instances: [],
             initialLoad: true,
             loading: false,
+            aiGenerating: false,
             data: {
                 totals: {
                     instances: 0,
@@ -163,14 +164,13 @@ export class WooDashboard extends Component {
 
         if (fast) {
             this.state.initialLoad = false;
-            await this.loadData();
         }
     }
 
     async syncNow() {
         this.state.loading = true;
         try {
-            await rpc("/web/dataset/call_kw", {
+            const result = await rpc("/web/dataset/call_kw", {
                 model: "woo.dashboard",
                 method: "manual_sync",
                 args: [],
@@ -179,7 +179,16 @@ export class WooDashboard extends Component {
                 },
             });
             await this.loadData();
-            this.notification.add("Sync started successfully.", { type: "success" });
+            const errors = result?.total_errors || 0;
+            const success = result?.total_success || 0;
+            if (errors > 0) {
+                this.notification.add(
+                    `Sync completed with warnings. Success: ${success}, Failed: ${errors}.`,
+                    { type: "warning" }
+                );
+            } else {
+                this.notification.add("Sync completed successfully.", { type: "success" });
+            }
         } catch (error) {
             this.notification.add(
                 error?.message || "Sync failed.",
@@ -191,7 +200,12 @@ export class WooDashboard extends Component {
     }
 
     async generateInsights() {
+        if (this.state.aiGenerating) {
+            return;
+        }
+        this.state.aiGenerating = true;
         this.state.loading = true;
+        this.notification.add("Generating AI insights, please wait...", { type: "info" });
         try {
             const result = await rpc("/web/dataset/call_kw", {
                 model: "woo.dashboard",
@@ -202,15 +216,23 @@ export class WooDashboard extends Component {
                     instance_id: this.state.instanceId,
                 },
             });
-            this.state.data.ai_insight = result || {};
+            this.state.data.ai_insight = {
+                summary_text: result?.summary_text || "",
+                status: result?.status || "draft",
+                generated_at: result?.generated_at || "",
+                actionable_recommendations: result?.actionable_recommendations || [],
+                predicted_top_products_to_restock: result?.predicted_top_products_to_restock || [],
+                products_at_risk_of_stockout: result?.products_at_risk_of_stockout || [],
+                low_sales_products: result?.low_sales_products || [],
+                sales_summary: result?.sales_summary || {},
+            };
             await this.loadData();
             this.notification.add("AI insights generated.", { type: "success" });
         } catch (error) {
-            this.notification.add(
-                error?.message || "AI insight generation failed.",
-                { type: "danger" }
-            );
+            const msg = error?.data?.message || error?.message || "AI insight generation failed.";
+            this.notification.add(msg, { type: "danger", sticky: true });
         } finally {
+            this.state.aiGenerating = false;
             this.state.loading = false;
         }
     }

@@ -11,6 +11,7 @@
                     <button string="Close" special="cancel" class="btn-link"/>
                 </header>
                 <sheet>
+                    <widget name="woo_field_help"/>
                     <group>
                         <field name="product_sync_id" readonly="1"/>
                         <field name="generation_type"/>

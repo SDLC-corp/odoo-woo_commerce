@@ -181,10 +181,15 @@ class ProductTemplate(models.Model):
                 vals["name"] = payload.get("name")
             if payload.get("sku") or payload.get("slug"):
                 vals["default_code"] = payload.get("sku") or payload.get("slug")
-            if payload.get("regular_price") not in (None, ""):
-                vals["list_price"] = float(payload.get("regular_price") or 0.0)
-            if "sale_price" in self._fields and payload.get("sale_price") not in (None, ""):
-                vals["sale_price"] = float(payload.get("sale_price") or 0.0)
+            sale_price_raw = payload.get("sale_price")
+            regular_price_raw = payload.get("regular_price")
+            vals["list_price"] = (
+                float(sale_price_raw)
+                if sale_price_raw not in (None, "")
+                else float(regular_price_raw or 0.0)
+            )
+            if "sale_price" in self._fields:
+                vals["sale_price"] = float(sale_price_raw or 0.0)
             self.write(vals)
 
             message = (
@@ -414,10 +419,11 @@ class SaleOrder(models.Model):
                 )
             )
 
+        partner_email = (self.partner_id.email or "").strip().lower() if self.partner_id else False
         request_payload = {
             "status": "processing" if self.state in ("sale", "done") else "pending",
             "billing": {
-                "email": self.partner_id.email,
+                "email": partner_email,
                 "first_name": (self.partner_id.name or "").split(" ")[0] if self.partner_id.name else "",
                 "last_name": " ".join((self.partner_id.name or "").split(" ")[1:]) if self.partner_id.name else "",
             },
@@ -439,7 +445,7 @@ class SaleOrder(models.Model):
                         "woo_order_id": woo_id,
                         "name": self.name,
                         "customer_name": self.partner_id.name,
-                        "customer_email": self.partner_id.email,
+                        "customer_email": partner_email,
                         "total_amount": self.amount_total,
                         "currency": self.currency_id.name,
                         "status": "pending",
@@ -453,7 +459,7 @@ class SaleOrder(models.Model):
                     {
                         "sale_order_id": self.id,
                         "customer_name": self.partner_id.name,
-                        "customer_email": self.partner_id.email,
+                        "customer_email": partner_email,
                         "total_amount": self.amount_total,
                         "currency": self.currency_id.name,
                     }
@@ -526,12 +532,13 @@ class ResPartner(models.Model):
             last = payload.get("last_name") or ""
             name = f"{first} {last}".strip() or payload.get("email") or self.name
             phone = (payload.get("billing") or {}).get("phone") if isinstance(payload.get("billing"), dict) else payload.get("phone")
+            normalized_email = ((payload.get("email") or self.email or "").strip().lower()) or False
             self.write(
                 {
                     "woo_instance_id": resolved_instance.id,
                     "woo_customer_id": str(payload.get("id") or woo_id),
                     "name": name,
-                    "email": payload.get("email") or self.email,
+                    "email": normalized_email,
                     "phone": phone or self.phone,
                 }
             )

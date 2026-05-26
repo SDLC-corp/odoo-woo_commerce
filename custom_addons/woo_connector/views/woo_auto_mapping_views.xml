@@ -4,6 +4,10 @@
         <field name="model">woo.auto.mapping</field>
         <field name="arch" type="xml">
             <list>
+                <button name="action_test_mapping"
+                        type="object"
+                        string="Test Mapping"
+                        class="btn-link"/>
                 <field name="instance_id"/>
                 <field name="mapping_type"/>
                 <field name="woo_label"/>
@@ -21,7 +25,22 @@
         <field name="model">woo.auto.mapping</field>
         <field name="arch" type="xml">
             <form string="Woo Auto Mapping">
+                <header>
+                    <button name="action_test_mapping"
+                            type="object"
+                            string="Test Mapping"
+                            class="btn-secondary"/>
+                </header>
                 <sheet>
+                    <widget name="woo_field_help"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_test_mapping"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-check">
+                            <span>Test Mapping</span>
+                        </button>
+                    </div>
                     <group col="2">
                         <field name="instance_id"/>
                         <field name="mapping_type"/>

@@ -83,27 +83,36 @@ class WooOrderSync(models.Model):
         string="Woo Instance",
         required=True,
         ondelete="cascade",
+        help="WooCommerce Instance this order belongs to.",
     )
 
     woo_order_id = fields.Char(
         string="Woo Order ID",
         required=True,
         index=True,
+        help="Numeric order ID in WooCommerce. Unique per instance.",
     )
 
-    name = fields.Char(string="Order Number", required=True)
-    customer_name = fields.Char()
-    customer_email = fields.Char()
+    name = fields.Char(
+        string="Order Number",
+        required=True,
+        help="Order reference / display name (e.g. #1042).",
+    )
+    customer_name = fields.Char(help="Customer name as recorded by WooCommerce at checkout.")
+    customer_email = fields.Char(help="Customer email captured by WooCommerce. Used for matching customers across syncs.")
 
-    total_amount = fields.Float()
-    currency = fields.Char()
-    status = fields.Char()
-    payment_method = fields.Char()
-    payment_method_title = fields.Char()
-    date_created = fields.Datetime()
-    customer_note = fields.Text()
+    total_amount = fields.Float(help="Order grand total reported by WooCommerce, including tax and shipping.")
+    currency = fields.Char(help="ISO currency code of the order (e.g. USD, INR, EUR).")
+    status = fields.Char(help="Raw status value reported by WooCommerce (pending, processing, completed, ...).")
+    payment_method = fields.Char(help="Payment method code from WooCommerce (e.g. bacs, paypal, stripe).")
+    payment_method_title = fields.Char(help="Display title of the payment method shown to the buyer.")
+    date_created = fields.Datetime(help="Date/time the order was created in WooCommerce.")
+    customer_note = fields.Text(help="Customer-provided note left at checkout.")
 
-    synced_on = fields.Datetime(default=fields.Datetime.now)
+    synced_on = fields.Datetime(
+        default=fields.Datetime.now,
+        help="Last date/time this order was successfully synced with WooCommerce.",
+    )
 
     # --------------------------------------------------
     # RELATIONS
@@ -112,12 +121,14 @@ class WooOrderSync(models.Model):
         "woo.order.line.sync",
         "order_sync_id",
         string="Order Lines",
+        help="Product lines for this WooCommerce order.",
     )
 
     sale_order_id = fields.Many2one(
         "sale.order",
         string="Sale Order",
         readonly=True,
+        help="The Odoo Sale Order created from this WooCommerce order, once converted.",
     )
 
     order_state = fields.Selection(
@@ -150,7 +161,7 @@ class WooOrderSync(models.Model):
         ],
         string="Woo Order Status",
         tracking=True,
-        # default="pending",
+        help="Live WooCommerce order status. Clickable status bar lets you push a new status to WooCommerce.",
     )
 
     woo_status_label = fields.Char(

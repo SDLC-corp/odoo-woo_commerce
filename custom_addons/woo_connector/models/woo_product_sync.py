@@ -23,12 +23,13 @@ class WooProductSync(models.Model):
         string="Woo Instance",
         required=True,
         ondelete="cascade",
+        help="WooCommerce Instance this product belongs to.",
     )
 
-    name = fields.Char(string="Product Name", required=True)
-    sku = fields.Char(string="SKU")
-    woo_product_id = fields.Char(string="Woo Product ID")
-    synced_on = fields.Datetime(string="Synced On")
+    name = fields.Char(string="Product Name", required=True, help="Product display name shown in WooCommerce.")
+    sku = fields.Char(string="SKU", help="Stock Keeping Unit shared between Odoo and WooCommerce.")
+    woo_product_id = fields.Char(string="Woo Product ID", help="Numeric product ID in WooCommerce.")
+    synced_on = fields.Datetime(string="Synced On", help="Last successful sync date with WooCommerce.")
 
     state = fields.Selection(
         selection_add=[("failed", "Failed")],
@@ -36,31 +37,34 @@ class WooProductSync(models.Model):
         string="Status",
         default="synced",
         required=True,
+        help="Sync state: Synced if last push/pull succeeded, Failed otherwise.",
     )
 
     product_tmpl_id = fields.Many2one(
         comodel_name="product.template",
         string="Odoo Product",
         ondelete="set null",
+        help="Linked Odoo product template. Used as the source/destination for sync.",
     )
 
     # -----------------------------
     # PRICING
     # -----------------------------
-    list_price = fields.Float(string="Regular Price")
-    sale_price = fields.Float(string="Sale Price")
+    list_price = fields.Float(string="Regular Price", help="Default selling price in WooCommerce, before any sale.")
+    sale_price = fields.Float(string="Sale Price", help="Discounted selling price in WooCommerce, if a sale is active.")
 
     # -----------------------------
     # STOCK
     # -----------------------------
-    manage_stock = fields.Boolean(string="Manage Stock")
-    qty_available = fields.Float(string="Stock Qty")
+    manage_stock = fields.Boolean(string="Manage Stock", help="Whether WooCommerce tracks stock for this product.")
+    qty_available = fields.Float(string="Stock Qty", help="On-hand quantity reported by WooCommerce on the last sync.")
     stock_status = fields.Selection(
         [
             ("instock", "In Stock"),
             ("outofstock", "Out of Stock"),
         ],
         string="Stock Status",
+        help="Stock state in WooCommerce: In Stock or Out of Stock.",
     )
 
     # -----------------------------
@@ -69,27 +73,30 @@ class WooProductSync(models.Model):
     category_ids = fields.Many2many(
         "product.category",
         string="Categories",
+        help="Odoo product categories this WooCommerce product maps to.",
     )
 
     tag_ids = fields.Many2many(
         "product.tag",
         string="Tags",
+        help="Tags applied to this product in WooCommerce.",
     )
 
     brand_id = fields.Many2one(
         "product.brand",
         string="Brand",
+        help="Brand associated with this product.",
     )
 
     # -----------------------------
     # PUBLISHING
     # -----------------------------
-    published_date = fields.Datetime(string="Published On")
-    description = fields.Html(string="Long Description", sanitize=False)
-    short_description = fields.Text(string="Short Description")
-    seo_title = fields.Char(string="SEO Title")
-    seo_description = fields.Text(string="SEO Description")
-    ai_content_last_generated = fields.Datetime(string="AI Content Last Generated")
+    published_date = fields.Datetime(string="Published On", help="Date the product was published in WooCommerce.")
+    description = fields.Html(string="Long Description", sanitize=False, help="Full product description shown on the WooCommerce product page.")
+    short_description = fields.Text(string="Short Description", help="Brief summary shown next to the product image.")
+    seo_title = fields.Char(string="SEO Title", help="Title tag value for search engine indexing.")
+    seo_description = fields.Text(string="SEO Description", help="Meta description used by search engines.")
+    ai_content_last_generated = fields.Datetime(string="AI Content Last Generated", help="Last time AI-generated copy (description / SEO) was written to this product.")
 
     # --------------------------------------------------
     # SMART BUTTON ACTION

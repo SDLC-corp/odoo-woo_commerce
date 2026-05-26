@@ -12,6 +12,7 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <widget name="woo_field_help"/>
                     <group>
                         <field name="woo_url"/>
                         <field name="consumer_key"/>

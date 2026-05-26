@@ -132,13 +132,21 @@ class WooWebhookSync(models.AbstractModel):
                     })
                 tag_ids.append(tag.id)
 
+            sale_price_raw = data.get("sale_price")
+            regular_price_raw = data.get("regular_price")
+            effective_sale_price = (
+                float(sale_price_raw)
+                if sale_price_raw not in (None, "")
+                else float(regular_price_raw or 0.0)
+            )
+
             vals = {
                 "instance_id": instance.id,
                 "woo_product_id": str(woo_id),
                 "product_tmpl_id": product.id,
                 "name": name,
                 "sku": sku,
-                "list_price": float(data.get("regular_price") or 0.0),
+                "list_price": effective_sale_price,
                 "sale_price": float(data.get("sale_price") or 0.0),
                 "manage_stock": data.get("manage_stock", False),
                 "qty_available": float(data.get("stock_quantity") or 0.0),
@@ -148,6 +156,15 @@ class WooWebhookSync(models.AbstractModel):
                 "state": "synced",
                 "synced_on": fields.Datetime.now(),
             }
+            if product:
+                write_vals = {
+                    "name": name or product.name,
+                    "default_code": sku or product.default_code,
+                    "list_price": effective_sale_price,
+                }
+                if "sale_price" in product._fields:
+                    write_vals["sale_price"] = float(sale_price_raw or 0.0)
+                product.write(write_vals)
 
             existing = WooProduct.search(
                 [
