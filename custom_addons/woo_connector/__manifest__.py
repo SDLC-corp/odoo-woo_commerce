@@ -74,6 +74,7 @@
             "woo_connector/static/src/js/woo_field_help_panel.js",
             "woo_connector/static/src/xml/woo_field_help_panel.xml",
             "woo_connector/static/src/css/woo_field_help_panel.css",
+            "woo_connector/static/src/js/woo_pdf_fallback.js",
         ],
     },
 

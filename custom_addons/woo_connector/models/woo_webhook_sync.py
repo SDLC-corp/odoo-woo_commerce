@@ -237,11 +237,8 @@ class WooWebhookSync(models.AbstractModel):
         try:
             WooCustomer = self.env["woo.customer.sync"]
             from .woo_customer_sync import (
-                PHONE_ALLOWED_RE,
-                PHONE_DIGIT_RE,
                 PHONE_MIN_DIGITS,
                 PHONE_MAX_DIGITS,
-                PHONE_MAX_LENGTH,
             )
 
             woo_id = data.get("id")
@@ -255,19 +252,18 @@ class WooWebhookSync(models.AbstractModel):
                 if isinstance(data.get("billing"), dict)
                 else data.get("phone")
             )
-            phone = (str(raw_phone).strip() if raw_phone else "") or False
-            if phone:
-                digit_count = len(PHONE_DIGIT_RE.findall(phone))
-                if (
-                    len(phone) > PHONE_MAX_LENGTH
-                    or not PHONE_ALLOWED_RE.match(phone)
-                    or digit_count < PHONE_MIN_DIGITS
-                    or digit_count > PHONE_MAX_DIGITS
-                ):
-                    # WooCommerce occasionally returns junk phone values
-                    # (``"N/A"``, comments, etc.). Drop those instead of
-                    # failing the sync — Woo is the source of truth.
-                    phone = False
+            # WooCommerce stores billing phone as a free-text field —
+            # ``+91 98765 43210``, ``(415) 555-1234``, ``N/A`` etc. The
+            # Odoo-side field now requires exactly ``PHONE_MAX_DIGITS``
+            # digits and no separators. Strip non-digit characters and only
+            # keep the result when it fits the policy; drop everything else
+            # silently so junk values from Woo never block the customer
+            # sync.
+            phone = False
+            if raw_phone:
+                digits_only = "".join(ch for ch in str(raw_phone) if ch.isdigit())
+                if PHONE_MIN_DIGITS <= len(digits_only) <= PHONE_MAX_DIGITS:
+                    phone = digits_only
 
             vals = {
                 "instance_id": instance.id,

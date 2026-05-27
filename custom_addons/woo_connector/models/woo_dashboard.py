@@ -16,6 +16,20 @@ class WooDashboard(models.AbstractModel):
     def _get_active_instances(self):
         return self.env["woo.instance"].search([("active", "=", True)])
 
+    def _is_live_analytics_enabled(self):
+        """Production-safe toggle for expensive live Woo analytics calls.
+
+        Default is disabled to keep dashboard fast/stable and avoid repeated
+        external timeouts. Enable explicitly with system parameter:
+        ``woo_connector.dashboard_live_analytics=true``.
+        """
+        value = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("woo_connector.dashboard_live_analytics", "false")
+        )
+        return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
     def _get_instance_or_raise(self, instance_id=None):
         if instance_id:
             instance = self.env["woo.instance"].browse(int(instance_id))
@@ -188,6 +202,7 @@ class WooDashboard(models.AbstractModel):
     def _totals_from_local_sync(self, instances, date_from=None, date_to=None):
         if not instances:
             return {
+                "instances": 0,
                 "products": 0,
                 "orders": 0,
                 "customers": 0,
@@ -227,6 +242,9 @@ class WooDashboard(models.AbstractModel):
 
         orders = Order.search(order_domain)
         return {
+            "instances": self._instance_count_for_window(
+                instances, date_from=date_from, date_to=date_to
+            ),
             "products": Product.search_count(product_domain),
             "orders": len(orders),
             "customers": self._customer_count(
@@ -237,6 +255,45 @@ class WooDashboard(models.AbstractModel):
             "total_sales": sum(orders.mapped("total_amount")),
             "net_sales": sum(orders.mapped("total_amount")),
         }
+
+    def _instance_count_for_window(self, instances, date_from=None, date_to=None):
+        """Count instances that have sync activity in the selected window."""
+        if not instances:
+            return 0
+        if len(instances) == 1:
+            return 1
+
+        instance_ids = set()
+        model_specs = [
+            ("woo.product.sync", "synced_on"),
+            ("woo.order.sync", "date_created"),
+            ("woo.customer.sync", "synced_on"),
+            ("woo.category.sync", "synced_on"),
+            ("woo.coupon.sync", "synced_on"),
+        ]
+        for model_name, date_field in model_specs:
+            domain = [
+                ("instance_id", "in", instances.ids),
+                ("instance_id", "!=", False),
+            ]
+            if date_from and date_to:
+                domain += [
+                    (date_field, ">=", date_from),
+                    (date_field, "<=", date_to),
+                ]
+            groups = self.env[model_name].read_group(
+                domain,
+                ["instance_id"],
+                ["instance_id"],
+                lazy=False,
+            )
+            for group in groups:
+                grouped_instance = group.get("instance_id")
+                if isinstance(grouped_instance, (list, tuple)) and grouped_instance:
+                    instance_ids.add(grouped_instance[0])
+                elif isinstance(grouped_instance, int):
+                    instance_ids.add(grouped_instance)
+        return len(instance_ids)
 
     def _order_status_breakdown(self, instances, date_from, date_to):
         Order = self.env["woo.order.sync"]
@@ -500,6 +557,58 @@ class WooDashboard(models.AbstractModel):
             ),
         }
 
+    def _build_local_dashboard_payload(
+        self,
+        selected_instances,
+        is_all,
+        window_totals,
+        base_totals,
+        date_from,
+        date_to,
+        days,
+    ):
+        # Product/customer/category/coupon/instance cards remain stable
+        # (not date-windowed). Only order and revenue metrics follow the
+        # selected date range.
+        return {
+            "totals": {
+                "instances": base_totals["instances"],
+                "products": base_totals["products"],
+                "orders": window_totals["orders"],
+                "customers": base_totals["customers"],
+                "categories": base_totals["categories"],
+                "coupons": base_totals["coupons"],
+                "total_sales": window_totals["total_sales"],
+                "net_sales": window_totals["net_sales"],
+            },
+            "intervals": [],
+            "categories": [],
+            "products": [],
+            "order_status": self._order_status_breakdown(
+                selected_instances, date_from, date_to
+            ),
+            "payments": self._payment_breakdown(
+                selected_instances, date_from, date_to
+            ),
+            "gift_cards": {
+                "total": 0,
+                "used": 0,
+                "pending": 0,
+                "expired": 0,
+                "no_balance": 0,
+            },
+            "recent_orders": self._recent_orders(
+                selected_instances, date_from, date_to
+            ),
+            "meta": {
+                "date_from": date_from,
+                "date_to": date_to,
+                "instance_name": "All Instances" if is_all else selected_instances[:1].name,
+                "is_all": is_all,
+            },
+            "ai_insight": self._latest_ai_insight(selected_instances, days, is_all),
+        }
+
     @api.model
     def get_dashboard_data(self, range="30", instance_id=None, fast=False):
         return self.get_analytics_data(range=range, instance_id=instance_id, fast=fast)
@@ -544,66 +653,36 @@ class WooDashboard(models.AbstractModel):
             selected_instances = self.env["woo.instance"].browse(instance.id)
             is_all = False
 
+        window_totals = self._totals_from_local_sync(
+            selected_instances,
+            date_from=after_local,
+            date_to=before_local,
+        )
+        base_totals = self._totals_from_local_sync(selected_instances)
+
+        # Production default: use local synced data for dashboard KPIs.
+        # Live Woo analytics can be enabled explicitly via system parameter.
+        use_live_woo = bool(not fast and self._is_live_analytics_enabled())
+        if not use_live_woo:
+            return self._build_local_dashboard_payload(
+                selected_instances,
+                is_all,
+                window_totals,
+                base_totals,
+                after_local,
+                before_local,
+                days,
+            )
+
         total_products = 0
         total_orders = 0
         total_customers = 0
         total_categories = 0
-        total_coupons = 0
         total_sales = 0.0
         net_sales = 0.0
         intervals_map = {}
         categories = []
         products = []
-
-        if fast:
-            local_totals = self._totals_from_local_sync(
-                selected_instances,
-                date_from=after_local,
-                date_to=before_local,
-            )
-
-            total_products = local_totals["products"]
-            total_orders = local_totals["orders"]
-            total_customers = local_totals["customers"]
-            total_categories = local_totals["categories"]
-            total_coupons = local_totals["coupons"]
-            total_sales = local_totals["total_sales"]
-            net_sales = local_totals["net_sales"]
-
-            return {
-                "totals": {
-                    "instances": len(instances),
-                    "products": total_products,
-                    "orders": total_orders,
-                    "customers": total_customers,
-                    "categories": total_categories,
-                    "coupons": total_coupons,
-                    "total_sales": total_sales,
-                    "net_sales": net_sales,
-                },
-                "intervals": [],
-                "categories": [],
-                "products": [],
-                "order_status": {},
-                "payments": [],
-                "gift_cards": {
-                    "total": 0,
-                    "used": 0,
-                    "pending": 0,
-                    "expired": 0,
-                    "no_balance": 0,
-                },
-                "recent_orders": self._recent_orders(
-                    selected_instances, after_local, before_local
-                ),
-                "meta": {
-                    "date_from": after_local,
-                    "date_to": before_local,
-                    "instance_name": "All Instances" if is_all else selected_instances[:1].name,
-                    "is_all": is_all,
-                },
-                "ai_insight": self._latest_ai_insight(selected_instances, days, is_all),
-            }
 
         for inst in selected_instances:
             revenue = self._instance_fetch_json(
@@ -657,12 +736,6 @@ class WooDashboard(models.AbstractModel):
         if total_customers == 0:
             total_customers = self._customer_count(selected_instances)
 
-        local_totals = self._totals_from_local_sync(
-            selected_instances,
-            date_from=after_local,
-            date_to=before_local,
-        )
-
         # BUG-16: the dashboard previously took ``max()`` of the WooCommerce
         # X-WP-Total header (which reports all-time counts for the resource,
         # not a date-windowed slice) and the locally summed value. When the
@@ -672,25 +745,19 @@ class WooDashboard(models.AbstractModel):
         #
         # Source of truth must be the locally synced records inside the
         # selected window, since that's what every other dashboard tile and
-        # the Orders list view reflect. WC analytics totals are still used
-        # as a cold-start fallback for stores where the local sync table
-        # is empty.
-        total_products = local_totals["products"] or total_products
-        total_orders = local_totals["orders"] or total_orders
-        total_customers = local_totals["customers"] or total_customers
-        total_categories = local_totals["categories"] or total_categories
-        total_coupons = local_totals["coupons"]
-        # Revenue: same rationale. WC "total_sales" / "net_sales" headers
-        # include refund and rounding adjustments that won't match the raw
-        # order sum visible in the Orders list view.
-        if local_totals["total_sales"]:
-            total_sales = local_totals["total_sales"]
-        if local_totals["net_sales"]:
-            net_sales = local_totals["net_sales"]
+        # the Orders list view reflect.
+        total_products = base_totals["products"]
+        total_orders = window_totals["orders"]
+        total_customers = base_totals["customers"]
+        total_categories = base_totals["categories"]
+        total_coupons = base_totals["coupons"]
+        # Revenue must also strictly follow selected date range.
+        total_sales = window_totals["total_sales"]
+        net_sales = window_totals["net_sales"]
 
         return {
             "totals": {
-                "instances": len(instances),
+                "instances": base_totals["instances"],
                 "products": total_products,
                 "orders": total_orders,
                 "customers": total_customers,
@@ -737,7 +804,10 @@ class WooDashboard(models.AbstractModel):
                 if not method:
                     continue
                 try:
-                    method()
+                    # Isolate each sync stage so a single DB/HTTP failure
+                    # does not poison the whole manual sync transaction.
+                    with self.env.cr.savepoint():
+                        method()
                     success.append(method_name)
                 except Exception as exc:
                     errors.append(f"{method_name}: {exc}")

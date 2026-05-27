@@ -4,17 +4,19 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
 EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$")
-# Phone may contain digits, optional leading "+", spaces, dashes, dots,
-# parentheses, and slashes. Length bounds are enforced separately.
-PHONE_ALLOWED_RE = re.compile(r"^[\d\s+\-\.\(\)\/]+$")
+# Phone field: digits only (0-9). No spaces, dashes, plus signs, parentheses
+# or any other punctuation. Enforced both at the field (``size``) and via
+# create / write / @api.constrains so paste, import, and webhook paths all
+# obey the same rule.
+PHONE_ALLOWED_RE = re.compile(r"^\d+$")
 PHONE_DIGIT_RE = re.compile(r"\d")
-PHONE_MIN_DIGITS = 7
-PHONE_MAX_DIGITS = 15  # E.164 international maximum
-PHONE_MAX_LENGTH = 25  # raw string length cap, allowing format characters
+PHONE_MIN_DIGITS = 10
+PHONE_MAX_DIGITS = 10
+PHONE_MAX_LENGTH = PHONE_MAX_DIGITS  # input cap == digit cap (no formatting chars)
 PHONE_HELP_TEXT = (
-    "Customer billing phone. Digits and the characters + - . ( ) / and "
-    "spaces are allowed. Must contain %(min)s-%(max)s digits."
-) % {"min": PHONE_MIN_DIGITS, "max": PHONE_MAX_DIGITS}
+    "Customer billing phone. Digits only (0-9). Must be exactly "
+    "%(max)s digits."
+) % {"max": PHONE_MAX_DIGITS}
 
 
 def _normalize_phone(value):
@@ -28,35 +30,28 @@ def _validate_phone(value):
     """Raise ``ValidationError`` if *value* is not a plausible phone number.
 
     Rules:
-    - Allowed characters: digits, +, spaces, hyphens, periods, parentheses,
-      forward slash.
-    - Total length: up to %(max_len)s characters (so format chars like " " or
-      "-" don't blow it up).
-    - Digit count: between %(min_d)s and %(max_d)s inclusive.
+    - Digits only (0-9). No spaces, dashes, plus signs, parentheses, or any
+      other punctuation are accepted.
+    - Length must be exactly ``PHONE_MAX_DIGITS`` (10) digits.
     """
     text = _normalize_phone(value)
     if not text:
         return False
-    if len(text) > PHONE_MAX_LENGTH:
-        raise ValidationError(_(
-            "Phone number is too long: %(value)s\n"
-            "Maximum %(max)s characters allowed."
-        ) % {"value": text, "max": PHONE_MAX_LENGTH})
     if not PHONE_ALLOWED_RE.match(text):
         raise ValidationError(_(
             "Invalid phone number: %s\n"
-            "Only digits and the characters + - . ( ) / and spaces are allowed."
+            "Only digits (0-9) are allowed. No spaces, dashes, plus signs, "
+            "parentheses, or other characters."
         ) % text)
-    digits = PHONE_DIGIT_RE.findall(text)
-    if len(digits) < PHONE_MIN_DIGITS:
+    if len(text) < PHONE_MIN_DIGITS:
         raise ValidationError(_(
             "Phone number too short: %(value)s\n"
-            "Must contain at least %(min)s digits."
-        ) % {"value": text, "min": PHONE_MIN_DIGITS})
-    if len(digits) > PHONE_MAX_DIGITS:
+            "Must be exactly %(max)s digits."
+        ) % {"value": text, "max": PHONE_MAX_DIGITS})
+    if len(text) > PHONE_MAX_DIGITS:
         raise ValidationError(_(
             "Phone number too long: %(value)s\n"
-            "Must contain no more than %(max)s digits."
+            "Must be exactly %(max)s digits."
         ) % {"value": text, "max": PHONE_MAX_DIGITS})
     return text
 

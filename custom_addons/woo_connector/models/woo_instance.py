@@ -16,6 +16,7 @@ from time import perf_counter
 import re
 
 _logger = logging.getLogger(__name__)
+_FALLBACK_WARNED_INSTANCES = set()
 
 
 class _FallbackWooAPI:
@@ -314,10 +315,12 @@ class WooInstance(models.Model):
     # =================================================
     def _get_wcapi(self, rec):
         if not WooAPI:
-            _logger.warning(
-                "python-woocommerce package not installed; using requests-based fallback API for instance %s.",
-                rec.display_name,
-            )
+            if rec.id not in _FALLBACK_WARNED_INSTANCES:
+                _FALLBACK_WARNED_INSTANCES.add(rec.id)
+                _logger.info(
+                    "python-woocommerce package not installed; using requests-based fallback API for instance %s.",
+                    rec.display_name,
+                )
             return _FallbackWooAPI(rec)
         return WooAPI(
             url=rec._get_base_url(),
@@ -326,6 +329,15 @@ class WooInstance(models.Model):
             version="wc/v3",
             timeout=30,
         )
+
+    def _normalize_customer_phone(self, raw_phone):
+        """Normalize Woo phone to local strict format (10 digits) or False."""
+        if not raw_phone:
+            return False
+        digits_only = "".join(ch for ch in str(raw_phone) if ch.isdigit())
+        if len(digits_only) >= 10:
+            return digits_only[-10:]
+        return False
 
     def _parse_woo_datetime(self, value):
         if not value:
@@ -1966,7 +1978,7 @@ class WooInstance(models.Model):
                     or email
             ),
             "email": email,
-            "phone": billing.get("phone"),
+            "phone": self._normalize_customer_phone(billing.get("phone")),
             "state": "synced",
             "synced_on": fields.Datetime.now(),
         }
@@ -2017,7 +2029,7 @@ class WooInstance(models.Model):
                     "woo_customer_id": str(woo_id) if woo_id else (f"guest_{email}" if email else False),
                     "name": f"{first} {last}".strip() or email or f"Customer {woo_id}",
                     "email": email,
-                    "phone": (c.get("billing") or {}).get("phone"),
+                    "phone": self._normalize_customer_phone((c.get("billing") or {}).get("phone")),
                     "state": "synced",
                     "synced_on": fields.Datetime.now(),
                 }
@@ -2068,6 +2080,8 @@ class WooInstance(models.Model):
         self.ensure_one()
         WooOrder = self.env["woo.order.sync"]
         synced = 0
+        failed = 0
+        failure_messages = []
 
         try:
             self.env.cr.execute(
@@ -2094,60 +2108,88 @@ class WooInstance(models.Model):
                 if not woo_id:
                     continue
 
-                billing = o.get("billing") or {}
-                mapping_context = self._apply_auto_mappings_from_order_payload(o)
+                try:
+                    # Keep each order isolated to avoid transaction-wide abort
+                    # on concurrent-update/serialization conflicts.
+                    with self.env.cr.savepoint():
+                        billing = o.get("billing") or {}
+                        mapping_context = self._apply_auto_mappings_from_order_payload(o)
 
-                # 🔥 CUSTOMER SYNC (ALREADY GOOD)
-                partner = self._sync_customer_from_order(o)
+                        # Ensure customer upsert runs before order upsert.
+                        self._sync_customer_from_order(o)
 
-                vals = {
-                    "woo_order_id": str(woo_id),
-                    "name": o.get("number"),
-                    "customer_name": f"{billing.get('first_name', '')} {billing.get('last_name', '')}",
-                    "customer_email": billing.get("email"),
-                    "total_amount": float(o.get("total", 0.0)),
-                    "currency": o.get("currency"),
-                    "status": o.get("status"),
-                    "payment_method": o.get("payment_method"),
-                    "payment_method_title": o.get("payment_method_title"),
-                    "date_created": self._parse_woo_datetime(
-                        o.get("date_created")
-                    ),
-                    "state": "synced",
-                    "synced_on": fields.Datetime.now(),
-                    "instance_id": self.id,
-                    "order_state": (mapping_context or {}).get("mapped_order_state") or "draft",
-                }
+                        vals = {
+                            "woo_order_id": str(woo_id),
+                            "name": o.get("number"),
+                            "customer_name": f"{billing.get('first_name', '')} {billing.get('last_name', '')}",
+                            "customer_email": billing.get("email"),
+                            "total_amount": float(o.get("total", 0.0)),
+                            "currency": o.get("currency"),
+                            "status": o.get("status"),
+                            "payment_method": o.get("payment_method"),
+                            "payment_method_title": o.get("payment_method_title"),
+                            "date_created": self._parse_woo_datetime(
+                                o.get("date_created")
+                            ),
+                            "state": "synced",
+                            "synced_on": fields.Datetime.now(),
+                            "instance_id": self.id,
+                            "order_state": (mapping_context or {}).get("mapped_order_state") or "draft",
+                        }
 
-                existing = WooOrder.search(
-                    [
-                        ("woo_order_id", "=", str(woo_id)),
-                        ("instance_id", "=", self.id),
-                    ],
-                    order="synced_on desc, id desc",
-                )
+                        existing = WooOrder.search(
+                            [
+                                ("woo_order_id", "=", str(woo_id)),
+                                ("instance_id", "=", self.id),
+                            ],
+                            order="synced_on desc, id desc",
+                        )
 
-                if existing:
-                    order_sync = existing[0]
-                    if len(existing) > 1:
-                        (existing - order_sync).unlink()
-                    order_sync.write(vals)
-                else:
-                    order_sync = WooOrder.create(vals)
+                        if existing:
+                            order_sync = existing[0]
+                            if len(existing) > 1:
+                                (existing - order_sync).unlink()
+                            order_sync.write(vals)
+                        else:
+                            order_sync = WooOrder.create(vals)
 
-                # 🔥 APPLY ORDER FIELD MAPPING (THIS WAS MISSING)
-                self._apply_field_mapping(
-                    model="order",
-                    woo_data=o,
-                    record=order_sync,
-                )
-
-                # 🔥 ORDER LINES
-                order_sync.sync_order_lines(order_sync, o)
-
-                synced += 1
+                        self._apply_field_mapping(
+                            model="order",
+                            woo_data=o,
+                            record=order_sync,
+                        )
+                        order_sync.sync_order_lines(order_sync, o)
+                        synced += 1
+                except Exception as exc:
+                    failed += 1
+                    msg = f"Woo order {woo_id}: {exc}"
+                    failure_messages.append(msg)
+                    _logger.warning("Failed to sync %s", msg)
 
             WooOrder._cleanup_duplicates(self.id)
+
+            if failed:
+                summary = (
+                    f"{synced} orders synced, {failed} failed."
+                    if synced
+                    else f"Order sync failed for {failed} records."
+                )
+                self._create_sync_report(
+                    "Order Sync",
+                    "failed" if not synced else "success",
+                    summary,
+                    error_message="\n".join(failure_messages[:10]),
+                )
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": "Orders Synced with Warnings",
+                        "message": summary,
+                        "type": "warning",
+                        "sticky": False,
+                    },
+                }
 
             self._create_sync_report(
                 "Order Sync", "success",
@@ -2160,6 +2202,7 @@ class WooInstance(models.Model):
             )
 
         except Exception as e:
+            self.env.cr.rollback()
             self._create_sync_report("Order Sync", "failed", str(e))
             raise UserError(str(e))
 
@@ -3118,5 +3161,3 @@ class WooInstance(models.Model):
                         "auto": True,
                         "mode": "cron",
                     })
-
-

@@ -32,3 +32,4 @@ from . import woo_import_date_range_wizard
 from . import woo_sync_preview
 from . import woo_manual_record_sync
 from . import res_config_settings
+from . import ir_actions_report
