@@ -1,53 +1,14 @@
-# sphinx build directories
-_build/
+# Only the connector module is tracked in this repo.
+# Ignore everything at the root, then re-include what we want.
+/*
+!/.gitignore
+!/sdlc_woo_connector/
 
-# dotfiles
-.*
-!.gitignore
-!.github
-!.mailmap
-!.weblate.json
-# compiled python files
-*.py[co]
+# Python cache/build artifacts (also inside the module)
 __pycache__/
-# setup.py egg_info
-*.egg-info
-# emacs backup files
-*~
-# hg stuff
-*.orig
-status
-# odoo filestore
-odoo/filestore
-# maintenance migration scripts
-odoo/addons/base/maintenance
+*.py[cod]
+*$py.class
 
-
-# generated for windows installer?
-install/win32/*.bat
-install/win32/meta.py
-
-# needed only when building for win32
-setup/win32/static/less/
-setup/win32/static/wkhtmltopdf/
-setup/win32/static/postgresql*.exe
-
-# js tooling
-node_modules
-jsconfig.json
-tsconfig.json
-package-lock.json
-package.json
-.husky
-
-# various virtualenv
-/bin/
-/build/
-/dist/
-/include/
-/lib/
-/man/
-/share/
-/src/
-/addons/
-/.venv/
+# Local editor/OS artifacts
+.DS_Store
+Thumbs.db
