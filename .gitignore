@@ -1,17 +1,10 @@
-# Odoo core/vendor code (keep out of app repo unless intentionally customized)
-/addons/
-/odoo/
-/.venv/
+# Only the connector module is tracked in this repo.
+# Ignore everything at the root, then re-include what we want.
+/*
+!/.gitignore
+!/sdlc_woo_connector/
 
-# Odoo runtime data/logs
-/odoo19_data/
-*.log
-
-# Local environment
-.env
-.env.*
-
-# Python cache/build artifacts
+# Python cache/build artifacts (also inside the module)
 __pycache__/
 *.py[cod]
 *$py.class
@@ -19,9 +12,3 @@ __pycache__/
 # Local editor/OS artifacts
 .DS_Store
 Thumbs.db
-
-# Local config with potential secrets
-/odoo.conf
-
-# Keep custom modules in Git
-!/custom_addons/

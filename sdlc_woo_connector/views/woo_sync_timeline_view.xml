@@ -1,0 +1,278 @@
+<odoo>
+    <record id="view_woo_sync_timeline_search" model="ir.ui.view">
+        <field name="name">woo.sync.timeline.search</field>
+        <field name="model">woo.sync.timeline</field>
+        <field name="arch" type="xml">
+            <search string="Woo Sync Timeline">
+                <field name="event_datetime"/>
+                <field name="instance_id"/>
+                <field name="operation_type"/>
+                <field name="source_action"/>
+                <field name="woo_id"/>
+                <field name="status"/>
+                <field name="sync_direction"/>
+                <field name="event_type"/>
+
+                <separator/>
+                <filter name="timeline_failed" string="Failed" domain="[('status', '=', 'failed')]"/>
+                <filter name="timeline_success" string="Successful" domain="[('status', '=', 'success')]"/>
+                <filter name="timeline_imports" string="Imports" domain="[('sync_direction', '=', 'import')]"/>
+                <filter name="timeline_exports" string="Exports" domain="[('sync_direction', '=', 'export')]"/>
+                <filter name="timeline_webhooks" string="Webhooks" domain="[('event_type', '=', 'webhook')]"/>
+
+                <separator/>
+                <filter name="group_status" string="Group by Status" context="{'group_by': 'status'}"/>
+                <filter name="group_source_action" string="Group by Source Action" context="{'group_by': 'source_action'}"/>
+                <filter name="group_instance" string="Group by Instance" context="{'group_by': 'instance_id'}"/>
+                <filter name="group_direction" string="Group by Direction" context="{'group_by': 'sync_direction'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_woo_sync_timeline_list" model="ir.ui.view">
+        <field name="name">woo.sync.timeline.list</field>
+        <field name="model">woo.sync.timeline</field>
+        <field name="arch" type="xml">
+            <list string="Woo Sync Timeline" create="false" edit="false" delete="false">
+                <button name="action_open_source_document"
+                        type="object"
+                        string="Open Source"
+                        class="btn-link"/>
+                <field name="event_datetime"/>
+                <field name="instance_id"/>
+                <field name="operation_type"/>
+                <field name="event_type"/>
+                <field name="sync_direction"/>
+                <field name="source_action"/>
+                <field name="status"/>
+                <field name="woo_id"/>
+                <field name="report_id"/>
+                <field name="webhook_log_id"/>
+                <field name="message"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_woo_sync_timeline_form" model="ir.ui.view">
+        <field name="name">woo.sync.timeline.form</field>
+        <field name="model">woo.sync.timeline</field>
+        <field name="arch" type="xml">
+            <form string="Woo Sync Timeline" create="false" edit="false" delete="false">
+                <header>
+                    <button name="action_open_source_document"
+                            string="Open Source"
+                            type="object"
+                            class="btn-primary"
+                            invisible="not report_id and not webhook_log_id and not model_name"/>
+                </header>
+                <sheet>
+                    <widget name="woo_field_help"/>
+                    <group col="4">
+                        <field name="event_datetime"/>
+                        <field name="instance_id"/>
+                        <field name="event_type"/>
+                        <field name="status"/>
+                        <field name="operation_type"/>
+                        <field name="sync_direction"/>
+                        <field name="source_action"/>
+                        <field name="woo_id"/>
+                        <field name="model_name"/>
+                        <field name="res_id"/>
+                        <field name="report_id"/>
+                        <field name="webhook_log_id"/>
+                    </group>
+                    <group>
+                        <field name="message"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_woo_sync_timeline" model="ir.actions.act_window">
+        <field name="name">Sync Timeline</field>
+        <field name="res_model">woo.sync.timeline</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_woo_sync_timeline_search"/>
+    </record>
+
+    <record id="view_product_template_form_woo_sync_timeline" model="ir.ui.view">
+        <field name="name">product.template.form.woo.sync.timeline</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="woo_connector.view_product_template_form_woo"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="woo_sync_timeline_button_box_product">
+                    <button name="action_open_woo_sync_history"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-history">
+                        <field name="woo_timeline_count" widget="statinfo" string="Sync History"/>
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Woo Sync Timeline">
+                    <field name="woo_timeline_ids" readonly="1">
+                        <list create="false" edit="false" delete="false">
+                            <field name="event_datetime"/>
+                            <field name="event_type"/>
+                            <field name="sync_direction"/>
+                            <field name="status"/>
+                            <field name="source_action"/>
+                            <field name="woo_id"/>
+                            <field name="message"/>
+                            <field name="report_id"/>
+                            <field name="webhook_log_id"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sale_order_form_woo_sync_timeline" model="ir.ui.view">
+        <field name="name">sale.order.form.woo.sync.timeline</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="woo_connector.view_sale_order_form_woo_manual_sync"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="woo_sync_timeline_button_box_sale_order">
+                    <button name="action_open_woo_sync_history"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-history">
+                        <field name="woo_timeline_count" widget="statinfo" string="Sync History"/>
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Woo Sync Timeline">
+                    <field name="woo_timeline_ids" readonly="1">
+                        <list create="false" edit="false" delete="false">
+                            <field name="event_datetime"/>
+                            <field name="event_type"/>
+                            <field name="sync_direction"/>
+                            <field name="status"/>
+                            <field name="source_action"/>
+                            <field name="woo_id"/>
+                            <field name="message"/>
+                            <field name="report_id"/>
+                            <field name="webhook_log_id"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_res_partner_form_woo_sync_timeline" model="ir.ui.view">
+        <field name="name">res.partner.form.woo.sync.timeline</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="woo_connector.view_res_partner_form_woo_manual_sync"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="woo_sync_timeline_button_box_partner">
+                    <button name="action_open_woo_sync_history"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-history">
+                        <field name="woo_timeline_count" widget="statinfo" string="Sync History"/>
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Woo Sync Timeline">
+                    <field name="woo_timeline_ids" readonly="1">
+                        <list create="false" edit="false" delete="false">
+                            <field name="event_datetime"/>
+                            <field name="event_type"/>
+                            <field name="sync_direction"/>
+                            <field name="status"/>
+                            <field name="source_action"/>
+                            <field name="woo_id"/>
+                            <field name="message"/>
+                            <field name="report_id"/>
+                            <field name="webhook_log_id"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_category_form_woo_sync_timeline" model="ir.ui.view">
+        <field name="name">product.category.form.woo.sync.timeline</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="woo_connector.view_product_category_form_woo_manual_sync"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="woo_sync_timeline_button_box_category">
+                    <button name="action_open_woo_sync_history"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-history">
+                        <field name="woo_timeline_count" widget="statinfo" string="Sync History"/>
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <page string="Woo Sync Timeline">
+                        <field name="woo_timeline_ids" readonly="1">
+                            <list create="false" edit="false" delete="false">
+                                <field name="event_datetime"/>
+                                <field name="event_type"/>
+                                <field name="sync_direction"/>
+                                <field name="status"/>
+                                <field name="source_action"/>
+                                <field name="woo_id"/>
+                                <field name="message"/>
+                                <field name="report_id"/>
+                                <field name="webhook_log_id"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_woo_coupon_sync_form_sync_timeline" model="ir.ui.view">
+        <field name="name">woo.coupon.sync.form.sync.timeline</field>
+        <field name="model">woo.coupon.sync</field>
+        <field name="inherit_id" ref="woo_connector.woo_coupon_sync_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="woo_sync_timeline_button_box_coupon">
+                    <button name="action_open_woo_sync_history"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-history">
+                        <field name="woo_timeline_count" widget="statinfo" string="Sync History"/>
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <page string="Woo Sync Timeline">
+                        <field name="woo_timeline_ids" readonly="1">
+                            <list create="false" edit="false" delete="false">
+                                <field name="event_datetime"/>
+                                <field name="event_type"/>
+                                <field name="sync_direction"/>
+                                <field name="status"/>
+                                <field name="source_action"/>
+                                <field name="woo_id"/>
+                                <field name="message"/>
+                                <field name="report_id"/>
+                                <field name="webhook_log_id"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

@@ -1,0 +1,8 @@
+.o_woo_product_list .o_data_cell[name="product_tmpl_id"] a {
+    color: #5f6bff;
+    font-weight: 600;
+}
+
+.o_woo_product_list .o_data_cell[name="product_tmpl_id"] a:hover {
+    color: #4a57ff;
+}
