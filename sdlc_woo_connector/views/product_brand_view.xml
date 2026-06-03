@@ -46,3 +46,4 @@
     <menuitem id="menu_product_brand" name="Product Brands" parent="menu_product_brand_root" action="action_product_brand"/>
 
 </odoo>
+

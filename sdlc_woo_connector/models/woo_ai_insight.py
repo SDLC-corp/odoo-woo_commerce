@@ -26,10 +26,13 @@ class WooAIInsight(models.Model):
     generated_at = fields.Datetime(string="Generated On")
     error_message = fields.Text(string="Error")
 
-    _woo_ai_insight_scope_uniq = models.Constraint(
-        "unique(instance_id, scope, range_days)",
-        "Only one latest AI insight record is stored per scope and date range.",
-    )
+    _sql_constraints = [
+        (
+            "woo_ai_insight_scope_uniq",
+            "unique(instance_id, scope, range_days)",
+            "Only one latest AI insight record is stored per scope and date range.",
+        )
+    ]
 
     @api.model
     def upsert_latest(self, values):

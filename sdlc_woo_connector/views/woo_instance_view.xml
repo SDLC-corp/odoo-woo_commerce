@@ -12,10 +12,6 @@
                             string="Test Connection"
                             type="object"
                             class="btn-primary"/>
-                    <button name="action_run_health_check"
-                            string="Run Health Check"
-                            type="object"
-                            class="btn-secondary"/>
 
                     <button name="action_sync_products"
                             string="Sync Products"
@@ -45,19 +41,12 @@
                             type="object"
                             string="Sync Inventory"/>
 
-                    <button name="action_register_woo_webhooks"
-                            type="object"
-                            string="Register Webhooks"
-                            class="btn-secondary"
-                            confirm="This will create WooCommerce webhooks pointing at this Odoo instance for every enabled webhook flag below. Continue?"/>
-
 <!--                    <button name="action_sync_reports"-->
 <!--                            string="Sync Reports"-->
 <!--                            type="object"/>-->
                 </header>
 
                 <sheet>
-                    <widget name="woo_field_help"/>
 
                     <group string="Basic Configuration" col="2">
                         <group>
@@ -71,12 +60,6 @@
                             <field name="wp_username"/>
                             <field name="application_password" password="True"/>
                             <field name="webhook_secret"/>
-                            <field name="smart_sku_matching"/>
-                            <field name="strict_sku_matching" invisible="not smart_sku_matching"/>
-                            <field name="auto_mapping_creation"/>
-                            <field name="strict_auto_mapping" invisible="not auto_mapping_creation"/>
-                            <field name="auto_create_category_mapping" invisible="not auto_mapping_creation"/>
-                            <field name="auto_create_tag_mapping" invisible="not auto_mapping_creation"/>
                         </group>
                     </group>
 
@@ -235,48 +218,6 @@
                             </group>
                         </page>
 
-                        <page string="Connection Health">
-                            <group col="2">
-                                <group>
-                                    <field name="health_last_checked_at" readonly="1"/>
-                                    <field name="health_overall_status" widget="badge" readonly="1"/>
-                                    <field name="health_response_time_ms" readonly="1"/>
-                                </group>
-                                <group>
-                                    <field name="health_woo_version" readonly="1"/>
-                                    <field name="health_currency" readonly="1"/>
-                                    <field name="health_last_error" readonly="1"/>
-                                </group>
-                            </group>
-                            <field name="health_log_ids" readonly="1" nolabel="1">
-                                <list create="0" delete="0">
-                                    <field name="checked_at"/>
-                                    <field name="check_type"/>
-                                    <field name="status"/>
-                                    <field name="response_time_ms"/>
-                                    <field name="message"/>
-                                </list>
-                            </field>
-                        </page>
-
-                        <page string="AI Error Assistant">
-                            <group col="2">
-                                <group>
-                                    <field name="ai_error_assistant_enabled"/>
-                                    <field name="ai_error_provider" invisible="not ai_error_assistant_enabled"/>
-                                    <field name="ai_error_model" invisible="not ai_error_assistant_enabled"/>
-                                    <field name="ai_error_max_tokens" invisible="not ai_error_assistant_enabled"/>
-                                    <field name="ai_error_temperature" invisible="not ai_error_assistant_enabled"/>
-                                    <field name="ai_error_timeout_seconds" invisible="not ai_error_assistant_enabled"/>
-                                </group>
-                                <group>
-                                    <field name="ai_error_endpoint" invisible="not ai_error_assistant_enabled"/>
-                                    <field name="ai_error_api_version" invisible="not ai_error_assistant_enabled or ai_error_provider != 'azure_openai'"/>
-                                    <field name="ai_error_api_key" password="True" invisible="not ai_error_assistant_enabled"/>
-                                </group>
-                            </group>
-                        </page>
-
                     </notebook>
 
                 </sheet>
@@ -381,3 +322,4 @@
 </record>
 
 </odoo>
+

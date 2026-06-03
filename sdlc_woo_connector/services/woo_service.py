@@ -1,25 +1,9 @@
 from odoo.exceptions import UserError
-from odoo import _
-
-try:
-    from woocommerce import API as WooAPI
-except Exception:
-    WooAPI = False
 
 class WooService:
     def __init__(self, instance):
         self.instance = instance
-        if not WooAPI:
-            # Reuse instance fallback client so sync keeps working without python-woocommerce.
-            self.wcapi = instance._get_wcapi(instance)
-        else:
-            self.wcapi = WooAPI(
-                url=instance.shop_url.rstrip("/"),
-                consumer_key=instance.consumer_key,
-                consumer_secret=instance.consumer_secret,
-                version="wc/v3",
-                timeout=30,
-            )
+        self.wcapi = instance._get_wcapi(instance)
 
     def get(self, endpoint, params=None):
         response = self.wcapi.get(endpoint, params=params or {})

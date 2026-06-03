@@ -1,5 +1,12 @@
 <odoo>
 
+    <!-- ================= INSTANCES ================= -->
+    <record id="action_woo_instance" model="ir.actions.act_window">
+        <field name="name">WooCommerce Instances</field>
+        <field name="res_model">woo.instance</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
     <!-- ================= PRODUCTS ================= -->
     <record id="action_woo_products" model="ir.actions.act_window">
         <field name="name">WooCommerce Products</field>
@@ -35,7 +42,6 @@
         <field name="name">WooCommerce Coupons</field>
         <field name="res_model">woo.coupon.sync</field>
         <field name="view_mode">list,form</field>
-        <field name="view_id" ref="woo_coupon_sync_list"/>
     </record>
 
     <!-- ================= FIELD MAPPING ================= -->
@@ -65,6 +71,11 @@
 <!--        <field name="params"-->
 <!--               eval="{'title': 'Dashboard', 'message': 'Dashboard coming soon', 'type': 'info'}"/>-->
 <!--    </record>-->
+    <record id="action_woo_dashboard" model="ir.actions.client">
+        <field name="name">Woo Dashboard</field>
+        <field name="tag">woo_dashboard</field>
+    </record>
+
     <record id="action_woo_data" model="ir.actions.client">
         <field name="name">WooCommerce Data</field>
         <field name="tag">display_notification</field>
@@ -142,4 +153,18 @@
     </record>
 
 
+    <record id="action_open_new_odoo_product" model="ir.actions.act_window">
+        <field name="name">New Product</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="target">current</field>
+        <field name="context">
+            {
+                'form_view_initial_mode': 'edit',
+                'default_detailed_type': 'product'
+            }
+        </field>
+    </record>
+
 </odoo>
+

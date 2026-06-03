@@ -74,19 +74,13 @@ class ProductTemplate(models.Model):
             },
         }
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        instance = False
-        normalized_vals_list = []
-        for vals in vals_list:
-            data = dict(vals)
-            if not data.get("woo_instance_id"):
-                if instance is False:
-                    instance = self.env["woo.instance"].search(
-                        [("active", "=", True)],
-                        limit=1,
-                    )
-                if instance:
-                    data["woo_instance_id"] = instance.id
-            normalized_vals_list.append(data)
-        return super().create(normalized_vals_list)
+    @api.model
+    def create(self, vals):
+        if not vals.get("woo_instance_id"):
+            instance = self.env["woo.instance"].search(
+                [("active", "=", True)],
+                limit=1
+            )
+            if instance:
+                vals["woo_instance_id"] = instance.id
+        return super().create(vals)

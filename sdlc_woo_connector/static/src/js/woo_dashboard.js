@@ -1,6 +1,7 @@
+/** @odoo-module **/
+
 import { registry } from "@web/core/registry";
 import { Component, useState, onMounted, onWillUnmount } from "@odoo/owl";
-import { rpc } from "@web/core/network/rpc";
 import { useService } from "@web/core/utils/hooks";
 
 export class WooDashboard extends Component {
@@ -8,8 +9,8 @@ export class WooDashboard extends Component {
         this.refreshIntervalMs = 60000;
         this.refreshTimer = null;
         this.refreshQueued = false;
-        this.busService = useService("bus_service");
-        this.notification = useService("notification");
+        this.orm = useService("orm");
+        this.busService = this.env.services.bus_service || null;
         this.onDashboardBusMessage = this.onDashboardBusMessage.bind(this);
         this.state = useState({
             range: "30",
@@ -17,7 +18,6 @@ export class WooDashboard extends Component {
             instances: [],
             initialLoad: true,
             loading: false,
-            aiGenerating: false,
             data: {
                 totals: {
                     instances: 0,
@@ -77,20 +77,12 @@ export class WooDashboard extends Component {
         });
 
         onWillUnmount(() => {
-            if (this.busService) {
-                this.busService.unsubscribe("woo_dashboard_update", this.onDashboardBusMessage);
-            }
             this.stopAutoRefresh();
         });
     }
 
     async loadInstances() {
-        const res = await rpc("/web/dataset/call_kw", {
-            model: "woo.dashboard",
-            method: "get_instances",
-            args: [],
-            kwargs: {},
-        });
+        const res = await this.orm.call("woo.dashboard", "get_instances", [], {});
         this.state.instances = res || [];
     }
 
@@ -99,15 +91,10 @@ export class WooDashboard extends Component {
         const fast = this.state.initialLoad;
 
         try {
-            const res = await rpc("/web/dataset/call_kw", {
-                model: "woo.dashboard",
-                method: "get_analytics_data",
-                args: [],
-                kwargs: {
-                    range: this.state.range,
-                    instance_id: this.state.instanceId,
-                    fast,
-                },
+            const res = await this.orm.call("woo.dashboard", "get_analytics_data", [], {
+                range: this.state.range,
+                instance_id: this.state.instanceId,
+                fast,
             });
 
             this.state.data = {
@@ -153,124 +140,38 @@ export class WooDashboard extends Component {
             };
 
             this.state.viz = this.buildViz(this.state.data);
-        } catch (error) {
-            this.notification.add(
-                error?.message || "Failed to load dashboard data.",
-                { type: "danger" }
-            );
         } finally {
             this.state.loading = false;
         }
 
         if (fast) {
             this.state.initialLoad = false;
+            await this.loadData();
         }
     }
 
     async syncNow() {
         this.state.loading = true;
-        try {
-            const result = await rpc("/web/dataset/call_kw", {
-                model: "woo.dashboard",
-                method: "manual_sync",
-                args: [],
-                kwargs: {
-                    instance_id: this.state.instanceId,
-                },
-            });
-            await this.loadData();
-            const errors = result?.total_errors || 0;
-            const success = result?.total_success || 0;
-            if (errors > 0) {
-                this.notification.add(
-                    `Sync completed with warnings. Success: ${success}, Failed: ${errors}.`,
-                    { type: "warning" }
-                );
-            } else {
-                this.notification.add("Sync completed successfully.", { type: "success" });
-            }
-        } catch (error) {
-            this.notification.add(
-                error?.message || "Sync failed.",
-                { type: "danger" }
-            );
-        } finally {
-            this.state.loading = false;
-        }
+
+        await this.orm.call("woo.dashboard", "manual_sync", [], {
+            instance_id: this.state.instanceId,
+        });
+
+        await this.loadData();
     }
 
     async generateInsights() {
-        if (this.state.aiGenerating) {
-            return;
-        }
-        this.state.aiGenerating = true;
         this.state.loading = true;
         try {
-            const result = await rpc("/web/dataset/call_kw", {
-                model: "woo.dashboard",
-                method: "generate_ai_insights",
-                args: [],
-                kwargs: {
-                    range: this.state.range,
-                    instance_id: this.state.instanceId,
-                },
+            const result = await this.orm.call("woo.dashboard", "generate_ai_insights", [], {
+                range: this.state.range,
+                instance_id: this.state.instanceId,
             });
-            this.state.data.ai_insight = {
-                summary_text: result?.summary_text || "",
-                status: result?.status || "draft",
-                generated_at: result?.generated_at || "",
-                error_message: result?.error_message || "",
-                actionable_recommendations: result?.actionable_recommendations || [],
-                predicted_top_products_to_restock: result?.predicted_top_products_to_restock || [],
-                products_at_risk_of_stockout: result?.products_at_risk_of_stockout || [],
-                low_sales_products: result?.low_sales_products || [],
-                sales_summary: result?.sales_summary || {},
-            };
-            const status = result?.status || "draft";
-            if (status === "failed") {
-                this.notification.add(
-                    result?.error_message || "AI insight generation failed.",
-                    { type: "danger" }
-                );
-            } else if (status === "fallback") {
-                this.notification.add(
-                    result?.error_message
-                        ? `AI insights produced from fallback: ${result.error_message}`
-                        : "AI insights produced from fallback (provider unavailable).",
-                    { type: "warning" }
-                );
-                await this.loadData();
-            } else {
-                this.notification.add("AI insights generated.", { type: "success" });
-                await this.loadData();
-            }
-        } catch (error) {
-            const msg = error?.data?.message || error?.message || "AI insight generation failed.";
-            this.notification.add(msg, { type: "danger" });
+            this.state.data.ai_insight = result || {};
+            await this.loadData();
         } finally {
-            this.state.aiGenerating = false;
             this.state.loading = false;
         }
-    }
-
-    async onInstanceChange(ev) {
-        this.state.instanceId = ev.target.value;
-        await this.loadData();
-    }
-
-    async onRangeChange(ev) {
-        this.state.range = ev.target.value;
-        await this.loadData();
-    }
-
-    async onSyncNowClick(ev) {
-        ev.preventDefault();
-        await this.syncNow();
-    }
-
-    async onGenerateInsightsClick(ev) {
-        ev.preventDefault();
-        await this.generateInsights();
     }
 
     startAutoRefresh() {

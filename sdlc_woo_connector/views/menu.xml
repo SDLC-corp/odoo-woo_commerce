@@ -20,16 +20,10 @@
               action="action_woo_dashboard"
               sequence="2"/>
 
-    <menuitem id="woo_queue_monitor_menu"
-              name="Queue Monitor"
-              parent="woo_root_menu"
-              action="action_woo_queue_monitor"
-              sequence="3"/>
-
     <menuitem id="woo_data_menu"
               name="WooCommerce Data"
               parent="woo_root_menu"
-              sequence="4"/>
+              sequence="3"/>
 
     <!-- ================= DATA SUB MENUS ================= -->
     <menuitem id="woo_product_menu"
@@ -56,24 +50,6 @@
               action="action_woo_categories"
               sequence="4"/>
 
-    <menuitem id="woo_import_by_id_menu"
-              name="Import by Woo ID"
-              parent="woo_data_menu"
-              action="action_woo_import_by_id_wizard"
-              sequence="5"/>
-
-    <menuitem id="woo_import_by_date_range_menu"
-              name="Import by Date Range"
-              parent="woo_data_menu"
-              action="action_woo_import_date_range_wizard"
-              sequence="6"/>
-
-    <menuitem id="woo_preview_sync_menu"
-              name="Preview Sync"
-              parent="woo_data_menu"
-              action="action_woo_sync_preview"
-              sequence="7"/>
-
 
 
 
@@ -82,12 +58,12 @@
               name="Coupons"
               parent="woo_root_menu"
               action="action_woo_coupons"
-              sequence="5"/>
+              sequence="4"/>
 
     <menuitem id="woo_field_mapping_root_menu"
               name="Field Mapping"
               parent="woo_root_menu"
-              sequence="6"/>
+              sequence="5"/>
 
     <menuitem id="woo_field_mapping_product_menu"
               name="Product Field Mapping"
@@ -113,22 +89,16 @@
               action="action_woo_field_mapping_category"
               sequence="4"/>
 
-    <menuitem id="woo_auto_mapping_menu"
-              name="Auto Mappings"
-              parent="woo_field_mapping_root_menu"
-              action="action_woo_auto_mapping"
-              sequence="5"/>
-
     <menuitem id="woo_inventory_menu"
               name="Inventory"
               parent="woo_root_menu"
               action="action_woo_inventory"
-              sequence="7"/>
+              sequence="6"/>
 
     <menuitem id="woo_shipping_menu"
               name="Shipping"
               parent="woo_root_menu"
-              sequence="8"/>
+              sequence="7"/>
 
     <menuitem id="woo_delivery_orders_menu"
               name="Delivery Orders"
@@ -145,19 +115,13 @@
     <menuitem id="woo_reports_menu"
               name="Reports"
               parent="woo_root_menu"
-              sequence="9"/>
+              sequence="8"/>
 
     <menuitem id="woo_sync_reports_menu"
               name="Sync Reports"
               parent="woo_reports_menu"
               action="action_woo_sync_reports"
               sequence="1"/>
-
-    <menuitem id="woo_sync_timeline_menu"
-              name="Sync Timeline"
-              parent="woo_reports_menu"
-              action="action_woo_sync_timeline"
-              sequence="2"/>
 
     <menuitem id="woo_sales_report_menu"
               name="Sales Report"
@@ -171,23 +135,11 @@
               action="action_woo_webhook_reports"
               sequence="5"/>
 
-    <menuitem id="woo_webhook_logs_menu"
-              name="Webhook Logs"
-              parent="woo_reports_menu"
-              action="action_woo_webhook_logs"
-              sequence="6"/>
-
-    <menuitem id="woo_connection_health_logs_menu"
-              name="Connection Health Logs"
-              parent="woo_reports_menu"
-              action="action_woo_connection_health_logs"
-              sequence="7"/>
-
     <menuitem id="woo_cancelled_orders_menu"
               name="Cancelled Orders"
               parent="woo_reports_menu"
               action="action_woo_cancelled_orders"
-              sequence="8"/>
+              sequence="7"/>
 
     <menuitem id="woo_mapping_reports_menu"
               name="Mapping Reports"
@@ -196,3 +148,4 @@
               sequence="50"/>
 
 </odoo>
+

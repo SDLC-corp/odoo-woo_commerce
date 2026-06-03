@@ -2,7 +2,7 @@
 <odoo>
 
     <!-- ========================================================= -->
-    <!-- LIST VIEW (Odoo 18) -->
+    <!-- LIST VIEW (Odoo 17) -->
     <!-- ========================================================= -->
     <record id="view_woo_product_sync_list" model="ir.ui.view">
         <field name="name">woo.product.sync.list</field>
@@ -56,7 +56,7 @@
     <!-- ========================================================= -->
     <!-- FORM VIEW -->
     <!-- ========================================================= -->
-    <record id="view_product_template_form_woo_create_button" model="ir.ui.view">
+    <record id="view_product_template_form_woo" model="ir.ui.view">
         <field name="name">product.template.form.woo</field>
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>
@@ -67,7 +67,8 @@
             </xpath>
 
             <!-- Add Woo button in the button box -->
-            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+            <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
+                <field name="woo_product_id" invisible="1"/>
                 <button name="action_woo_create"
                         type="object"
                         class="oe_stat_button btn-primary"
@@ -94,3 +95,4 @@
 <!--    </record>-->
 
 </odoo>
+

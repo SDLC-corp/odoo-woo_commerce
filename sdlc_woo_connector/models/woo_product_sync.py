@@ -1,11 +1,8 @@
-from odoo import api, models, fields, _
+from odoo import models, fields, _
 from odoo.exceptions import UserError
 from datetime import datetime
 import requests
 from requests.exceptions import Timeout, RequestException
-import logging
-
-_logger = logging.getLogger(__name__)
 
 
 class WooProductSync(models.Model):
@@ -13,7 +10,6 @@ class WooProductSync(models.Model):
     _description = "WooCommerce Product Data"
     _rec_name = "name"
     _order = "synced_on desc"
-    _inherit = "woo.sync.engine"
 
     # --------------------------------------------------
     # BASIC FIELDS
@@ -23,64 +19,46 @@ class WooProductSync(models.Model):
         string="Woo Instance",
         required=True,
         ondelete="cascade",
-        help="WooCommerce Instance this product belongs to.",
     )
 
-    name = fields.Char(string="Product Name", required=True, help="Product display name shown in WooCommerce.")
-    sku = fields.Char(string="SKU", help="Stock Keeping Unit shared between Odoo and WooCommerce.")
-    woo_product_id = fields.Char(string="Woo Product ID", help="Numeric product ID in WooCommerce.")
-    synced_on = fields.Datetime(string="Synced On", help="Last successful sync date with WooCommerce.")
+    name = fields.Char(string="Product Name", required=True)
+    sku = fields.Char(string="SKU")
+    woo_product_id = fields.Char(string="Woo Product ID")
+    synced_on = fields.Datetime(string="Synced On")
 
     state = fields.Selection(
-        selection_add=[("failed", "Failed")],
-        ondelete={"failed": "set default"},
+        [
+            ("synced", "Synced"),
+            ("failed", "Failed"),
+        ],
         string="Status",
         default="synced",
         required=True,
-        help="Sync state: Synced if last push/pull succeeded, Failed otherwise.",
     )
 
     product_tmpl_id = fields.Many2one(
         comodel_name="product.template",
         string="Odoo Product",
         ondelete="set null",
-        help="Linked Odoo product template. Used as the source/destination for sync.",
     )
 
     # -----------------------------
     # PRICING
     # -----------------------------
-    list_price = fields.Float(string="Regular Price", help="Default selling price in WooCommerce, before any sale.")
-    sale_price = fields.Float(string="Sale Price", help="Discounted selling price in WooCommerce, if a sale is active.")
-    is_on_sale = fields.Boolean(
-        string="On Sale",
-        compute="_compute_is_on_sale",
-        store=True,
-        help="True when a non-zero sale price is set in WooCommerce that is "
-        "lower than the regular price.",
-    )
-
-    @api.depends("list_price", "sale_price")
-    def _compute_is_on_sale(self):
-        for rec in self:
-            rec.is_on_sale = bool(
-                rec.sale_price
-                and rec.sale_price > 0
-                and (not rec.list_price or rec.sale_price < rec.list_price)
-            )
+    list_price = fields.Float(string="Regular Price")
+    sale_price = fields.Float(string="Sale Price")
 
     # -----------------------------
     # STOCK
     # -----------------------------
-    manage_stock = fields.Boolean(string="Manage Stock", help="Whether WooCommerce tracks stock for this product.")
-    qty_available = fields.Float(string="Stock Qty", help="On-hand quantity reported by WooCommerce on the last sync.")
+    manage_stock = fields.Boolean(string="Manage Stock")
+    qty_available = fields.Float(string="Stock Qty")
     stock_status = fields.Selection(
         [
             ("instock", "In Stock"),
             ("outofstock", "Out of Stock"),
         ],
         string="Stock Status",
-        help="Stock state in WooCommerce: In Stock or Out of Stock.",
     )
 
     # -----------------------------
@@ -89,30 +67,27 @@ class WooProductSync(models.Model):
     category_ids = fields.Many2many(
         "product.category",
         string="Categories",
-        help="Odoo product categories this WooCommerce product maps to.",
     )
 
     tag_ids = fields.Many2many(
         "product.tag",
         string="Tags",
-        help="Tags applied to this product in WooCommerce.",
     )
 
     brand_id = fields.Many2one(
         "product.brand",
         string="Brand",
-        help="Brand associated with this product.",
     )
 
     # -----------------------------
     # PUBLISHING
     # -----------------------------
-    published_date = fields.Datetime(string="Published On", help="Date the product was published in WooCommerce.")
-    description = fields.Html(string="Long Description", sanitize=False, help="Full product description shown on the WooCommerce product page.")
-    short_description = fields.Text(string="Short Description", help="Brief summary shown next to the product image.")
-    seo_title = fields.Char(string="SEO Title", help="Title tag value for search engine indexing.")
-    seo_description = fields.Text(string="SEO Description", help="Meta description used by search engines.")
-    ai_content_last_generated = fields.Datetime(string="AI Content Last Generated", help="Last time AI-generated copy (description / SEO) was written to this product.")
+    published_date = fields.Datetime(string="Published On")
+    description = fields.Html(string="Long Description", sanitize=False)
+    short_description = fields.Text(string="Short Description")
+    seo_title = fields.Char(string="SEO Title")
+    seo_description = fields.Text(string="SEO Description")
+    ai_content_last_generated = fields.Datetime(string="AI Content Last Generated")
 
     # --------------------------------------------------
     # SMART BUTTON ACTION
@@ -181,8 +156,6 @@ class WooProductSync(models.Model):
             "default_code": payload.get("sku") or payload.get("slug") or product.default_code,
             "list_price": float(payload.get("regular_price") or 0.0),
         }
-        if "sale_price" in product._fields and payload.get("sale_price") not in (None, ""):
-            vals["sale_price"] = float(payload.get("sale_price") or 0.0)
         product.write(vals)
 
     def _push_single_to_woo(self):
@@ -320,41 +293,19 @@ class WooProductSync(models.Model):
     #         "product_tmpl_id": product.id,
     #     }
     def _prepare_vals(self, p):
-        instance = self.instance_id if self.instance_id else False
         sku = p.get("sku") or p.get("slug")
-        if instance:
-            sku = instance._normalize_sku(sku)
-        else:
-            sku = (sku or "").strip()
 
         ProductTmpl = self.env["product.template"]
         Category = self.env["product.category"]
         Tag = self.env["product.tag"]
-        woo_id = str(p.get("id") or "")
-        if instance:
-            instance._apply_auto_mappings_from_product_payload(p)
 
         # -----------------------------
         # PRODUCT TEMPLATE
         # -----------------------------
         product = ProductTmpl.search(
-            [
-                ("woo_product_id", "=", woo_id),
-                ("woo_instance_id", "in", [False, instance.id if instance else False]),
-            ],
-            limit=1,
+            [("default_code", "=", sku)],
+            limit=1
         )
-
-        if not product and instance and instance.smart_sku_matching and sku:
-            match_info = instance._find_odoo_product_by_sku(sku, instance=instance)
-            product = match_info.get("product_tmpl")
-            if product:
-                instance._link_product_with_woo_id(product, woo_id, instance=instance)
-                _logger.info(
-                    "Product matched by SKU %s and Woo ID %s was linked.",
-                    sku,
-                    woo_id,
-                )
 
         if not product:
             product = ProductTmpl.create({
@@ -366,8 +317,6 @@ class WooProductSync(models.Model):
             })
         else:
             self._sync_product_template_core_fields(product, p)
-        if instance and woo_id:
-            instance._link_product_with_woo_id(product, woo_id, instance=instance)
 
         # -----------------------------
         # CATEGORIES
@@ -409,7 +358,7 @@ class WooProductSync(models.Model):
             stock_status = "instock" if qty > 0 else "outofstock"
 
         return {
-            "woo_product_id": woo_id,
+            "woo_product_id": str(p.get("id")),
             "name": p.get("name"),
             "sku": sku,
             "product_tmpl_id": product.id,
@@ -493,6 +442,22 @@ class WooProductSync(models.Model):
             "target": "current",
             "context": {
                 "default_type": "product",
+            },
+        }
+
+    def action_open_odoo_product(self):
+        self.ensure_one()
+
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Product",
+            "res_model": "product.template",
+            "view_mode": "form",
+            "target": "current",
+            "context": {
+                "default_woo_instance_id": self.instance_id.id,
+                "default_name": self.name,
+                "default_default_code": self.sku,
             },
         }
 

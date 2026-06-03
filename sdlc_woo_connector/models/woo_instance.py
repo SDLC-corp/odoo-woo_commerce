@@ -1,27 +1,21 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 import requests
-import json
 from requests.exceptions import RequestException, Timeout
-try:
-    from woocommerce import API as WooAPI
-except Exception:
-    WooAPI = False
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import logging
 from datetime import datetime
-from urllib.parse import urlparse
-from time import perf_counter
-import re
+
+try:
+    from woocommerce import API
+except ImportError:
+    API = None
 
 _logger = logging.getLogger(__name__)
-_FALLBACK_WARNED_INSTANCES = set()
 
 
-class _FallbackWooAPI:
-    """Requests-based fallback when python-woocommerce is not installed."""
-
+class _WooRequestsFallbackAPI:
     def __init__(self, instance):
         self.instance = instance
 
@@ -30,60 +24,37 @@ class _FallbackWooAPI:
         endpoint = (endpoint or "").lstrip("/")
         return f"{base_url}/wp-json/wc/v3/{endpoint}"
 
-    def _request(self, method, endpoint, data=None, params=None):
-        url = self._build_url(endpoint)
-        verify_ssl = not self.instance._is_local_url(url)
-        params = dict(params or {})
-
-        auth_candidates = []
-        if self.instance.consumer_key and self.instance.consumer_secret:
-            auth_candidates.append((self.instance.consumer_key, self.instance.consumer_secret))
-        if self.instance.wp_username and self.instance.application_password:
-            auth_candidates.append((self.instance.wp_username, self.instance.application_password))
-
-        seen = set()
-        for auth in auth_candidates:
-            if auth in seen:
-                continue
-            seen.add(auth)
-            response = requests.request(
-                method,
-                url,
-                auth=auth,
-                params=params,
-                json=data,
-                timeout=30,
-                verify=verify_ssl,
-            )
-            if response.status_code != 401:
-                return response
-
-        query_params = dict(params)
-        if self.instance.consumer_key and self.instance.consumer_secret:
-            query_params.update({
-                "consumer_key": self.instance.consumer_key,
-                "consumer_secret": self.instance.consumer_secret,
-            })
-        return requests.request(
-            method,
-            url,
-            params=query_params,
-            json=data,
-            timeout=30,
-            verify=verify_ssl,
+    def get(self, endpoint, params=None, **kwargs):
+        timeout = kwargs.get("timeout", 30)
+        return self.instance._woo_get(
+            self._build_url(endpoint),
+            params=params,
+            timeout=timeout,
         )
 
-    def get(self, endpoint, params=None):
-        return self._request("GET", endpoint, params=params)
+    def post(self, endpoint, data=None, **kwargs):
+        timeout = kwargs.get("timeout", 30)
+        return self.instance._woo_post(
+            self._build_url(endpoint),
+            data=data,
+            timeout=timeout,
+        )
 
-    def post(self, endpoint, data=None):
-        return self._request("POST", endpoint, data=data)
+    def put(self, endpoint, data=None, **kwargs):
+        timeout = kwargs.get("timeout", 30)
+        return self.instance._woo_put(
+            self._build_url(endpoint),
+            data=data,
+            timeout=timeout,
+        )
 
-    def put(self, endpoint, data=None):
-        return self._request("PUT", endpoint, data=data)
-
-    def delete(self, endpoint, params=None):
-        return self._request("DELETE", endpoint, params=params)
+    def delete(self, endpoint, params=None, **kwargs):
+        timeout = kwargs.get("timeout", 30)
+        return self.instance._woo_delete(
+            self._build_url(endpoint),
+            params=params,
+            timeout=timeout,
+        )
 
 
 class WooInstance(models.Model):
@@ -93,106 +64,15 @@ class WooInstance(models.Model):
     # ------------------------------------------------
     # BASIC CONFIG
     # ------------------------------------------------
-    name = fields.Char(required=True, help="Display name for this WooCommerce instance (e.g. 'Main Store').")
+    name = fields.Char(required=True)
 
-    shop_url = fields.Char(
-        string="Shop URL",
-        required=True,
-        help="Public base URL of the WooCommerce store (e.g. https://shop.example.com).",
-    )
-    consumer_key = fields.Char(
-        required=True,
-        help="WooCommerce REST API consumer key generated in WooCommerce > Settings > Advanced > REST API.",
-    )
-    consumer_secret = fields.Char(
-        required=True,
-        help="WooCommerce REST API consumer secret paired with the consumer key.",
-    )
-    active = fields.Boolean(
-        default=True,
-        help="Uncheck to disable this instance without deleting it. Inactive instances are excluded from cron sync and webhook routing.",
-    )
-    wp_username = fields.Char(
-        string="WP Username",
-        help="WordPress admin username, used as a fallback for endpoints not covered by the REST consumer key.",
-    )
-    application_password = fields.Char(
-        string="Application Password",
-        help="WordPress Application Password for the above user. Used when consumer key auth is rejected.",
-    )
-    webhook_secret = fields.Char(
-        string="Webhook Secret",
-        help="Shared secret used to verify HMAC signatures of incoming WooCommerce webhooks.",
-    )
-    smart_sku_matching = fields.Boolean(
-        string="Enable Smart SKU Matching",
-        default=True,
-    )
-    strict_sku_matching = fields.Boolean(
-        string="Strict SKU Matching",
-        default=True,
-    )
-    auto_mapping_creation = fields.Boolean(
-        string="Enable Auto Mapping Creation",
-        default=True,
-    )
-    strict_auto_mapping = fields.Boolean(
-        string="Strict Auto Mapping",
-        default=True,
-    )
-    auto_create_category_mapping = fields.Boolean(
-        string="Auto Create Category Mapping",
-        default=True,
-    )
-    auto_create_tag_mapping = fields.Boolean(
-        string="Auto Create Tag Mapping",
-        default=True,
-    )
-    ai_error_assistant_enabled = fields.Boolean(
-        string="Enable AI Error Assistant",
-        default=False,
-    )
-    ai_error_provider = fields.Selection(
-        [
-            ("openai", "OpenAI"),
-            ("azure_openai", "Azure OpenAI"),
-            ("custom", "Custom Endpoint"),
-        ],
-        string="AI Provider",
-        default="openai",
-    )
-    ai_error_api_key = fields.Char(string="AI API Key")
-    ai_error_model = fields.Char(string="AI Model", default="gpt-4o-mini")
-    ai_error_endpoint = fields.Char(string="AI Endpoint URL", default="https://api.openai.com/v1")
-    ai_error_api_version = fields.Char(string="Azure API Version", default="2024-02-15-preview")
-    ai_error_max_tokens = fields.Integer(string="AI Max Tokens", default=500)
-    ai_error_temperature = fields.Float(string="AI Temperature", default=0.2)
-    ai_error_timeout_seconds = fields.Integer(string="AI Timeout (seconds)", default=20)
-
-    # ------------------------------------------------
-    # CONNECTION HEALTH
-    # ------------------------------------------------
-    health_last_checked_at = fields.Datetime(string="Last Health Check", readonly=True)
-    health_overall_status = fields.Selection(
-        [
-            ("healthy", "Healthy"),
-            ("warning", "Warning"),
-            ("failed", "Failed"),
-        ],
-        string="Health Status",
-        default="warning",
-        readonly=True,
-    )
-    health_response_time_ms = fields.Float(string="API Response Time (ms)", readonly=True)
-    health_woo_version = fields.Char(string="WooCommerce Version", readonly=True)
-    health_currency = fields.Char(string="Woo Currency", readonly=True)
-    health_last_error = fields.Text(string="Health Check Last Error", readonly=True)
-    health_log_ids = fields.One2many(
-        "woo.connection.health.log",
-        "instance_id",
-        string="Health Check Logs",
-        readonly=True,
-    )
+    shop_url = fields.Char(string="Shop URL", required=True)
+    consumer_key = fields.Char(required=True)
+    consumer_secret = fields.Char(required=True)
+    active = fields.Boolean(default=True)
+    wp_username = fields.Char(string="WP Username")
+    application_password = fields.Char(string="Application Password")
+    webhook_secret = fields.Char(string="Webhook Secret")
 
     # ------------------------------------------------
     # ANALYTICS SNAPSHOT (PER INSTANCE)
@@ -314,30 +194,19 @@ class WooInstance(models.Model):
     # INTERNAL HELPERS
     # =================================================
     def _get_wcapi(self, rec):
-        if not WooAPI:
-            if rec.id not in _FALLBACK_WARNED_INSTANCES:
-                _FALLBACK_WARNED_INSTANCES.add(rec.id)
-                _logger.info(
-                    "python-woocommerce package not installed; using requests-based fallback API for instance %s.",
-                    rec.display_name,
-                )
-            return _FallbackWooAPI(rec)
-        return WooAPI(
+        if API is None:
+            _logger.warning(
+                "python-woocommerce package not installed; using requests-based fallback API for instance %s.",
+                rec.name,
+            )
+            return _WooRequestsFallbackAPI(rec)
+        return API(
             url=rec._get_base_url(),
             consumer_key=rec.consumer_key,
             consumer_secret=rec.consumer_secret,
             version="wc/v3",
             timeout=30,
         )
-
-    def _normalize_customer_phone(self, raw_phone):
-        """Normalize Woo phone to local strict format (10 digits) or False."""
-        if not raw_phone:
-            return False
-        digits_only = "".join(ch for ch in str(raw_phone) if ch.isdigit())
-        if len(digits_only) >= 10:
-            return digits_only[-10:]
-        return False
 
     def _parse_woo_datetime(self, value):
         if not value:
@@ -357,47 +226,29 @@ class WooInstance(models.Model):
     def _is_local_url(self, url):
         return "localhost" in (url or "") or "127.0.0.1" in (url or "")
 
-    def _test_connection_base_candidates(self):
-        """Build candidate base URLs for connection test.
-        For localhost without explicit port, also try common local WP ports.
-        """
-        self.ensure_one()
-        base_url = self._get_base_url()
-        candidates = [base_url]
-
-        parsed = urlparse(base_url)
-        host = (parsed.hostname or "").lower()
-        if host in ("localhost", "127.0.0.1") and parsed.port in (None, 80, 443):
-            path = (parsed.path or "").rstrip("/")
-            for port in (8080, 8000, 8888, 8081):
-                candidate = f"{parsed.scheme}://{host}:{port}{path}"
-                if candidate not in candidates:
-                    candidates.append(candidate)
-
-        return candidates
-
-    def _woo_get(self, url, params=None, timeout=30):
+    def _woo_request(self, method, url, params=None, data=None, timeout=30):
         params = params or {}
         verify_ssl = not self._is_local_url(url)
+        request_method = getattr(requests, method.lower())
+
+        def _request(auth=None, query_params=None):
+            kwargs = {
+                "params": query_params if query_params is not None else params,
+                "timeout": timeout,
+                "verify": verify_ssl,
+            }
+            if auth:
+                kwargs["auth"] = auth
+            if data is not None:
+                kwargs["json"] = data
+            return request_method(url, **kwargs)
 
         # 1) API consumer key/secret via basic auth.
-        response = requests.get(
-            url,
-            auth=(self.consumer_key, self.consumer_secret),
-            params=params,
-            timeout=timeout,
-            verify=verify_ssl,
-        )
+        response = _request(auth=(self.consumer_key, self.consumer_secret))
 
         # 2) Fallback with WP username + application password (if configured).
         if response.status_code == 401 and self.wp_username and self.application_password:
-            response = requests.get(
-                url,
-                auth=(self.wp_username, self.application_password),
-                params=params,
-                timeout=timeout,
-                verify=verify_ssl,
-            )
+            response = _request(auth=(self.wp_username, self.application_password))
 
         # 3) Fallback with consumer key/secret in query string (some local stacks require this).
         if response.status_code == 401:
@@ -406,992 +257,20 @@ class WooInstance(models.Model):
                 "consumer_key": self.consumer_key,
                 "consumer_secret": self.consumer_secret,
             })
-            response = requests.get(
-                url,
-                params=query,
-                timeout=timeout,
-                verify=verify_ssl,
-            )
+            response = _request(query_params=query)
         return response
 
-    def _woo_options(self, url, params=None, timeout=20):
-        params = params or {}
-        verify_ssl = not self._is_local_url(url)
+    def _woo_get(self, url, params=None, timeout=30):
+        return self._woo_request("get", url, params=params, timeout=timeout)
 
-        response = requests.options(
-            url,
-            auth=(self.consumer_key, self.consumer_secret),
-            params=params,
-            timeout=timeout,
-            verify=verify_ssl,
-        )
+    def _woo_post(self, url, data=None, timeout=30):
+        return self._woo_request("post", url, data=data, timeout=timeout)
 
-        if response.status_code == 401 and self.wp_username and self.application_password:
-            response = requests.options(
-                url,
-                auth=(self.wp_username, self.application_password),
-                params=params,
-                timeout=timeout,
-                verify=verify_ssl,
-            )
+    def _woo_put(self, url, data=None, timeout=30):
+        return self._woo_request("put", url, data=data, timeout=timeout)
 
-        if response.status_code == 401:
-            query = dict(params)
-            query.update({
-                "consumer_key": self.consumer_key,
-                "consumer_secret": self.consumer_secret,
-            })
-            response = requests.options(
-                url,
-                params=query,
-                timeout=timeout,
-                verify=verify_ssl,
-            )
-        return response
-
-    def _normalize_sku(self, sku):
-        value = (sku or "").strip()
-        return value or False
-
-    def _find_odoo_product_by_sku(self, sku, instance=None):
-        self.ensure_one()
-        normalized_sku = self._normalize_sku(sku)
-        if not normalized_sku:
-            return {"product_tmpl": False, "matched_by": False, "warning": False}
-
-        strict = bool(self.strict_sku_matching)
-        instance = instance or self
-        ProductTmpl = self.env["product.template"].sudo()
-        ProductVariant = self.env["product.product"].sudo()
-
-        tmpl_domain = [("default_code", "=", normalized_sku)]
-        if "woo_instance_id" in ProductTmpl._fields and instance:
-            tmpl_domain.append(("woo_instance_id", "in", [False, instance.id]))
-        tmpl_matches = ProductTmpl.search(tmpl_domain, order="id asc")
-        if len(tmpl_matches) > 1:
-            message = _(
-                "Duplicate Odoo products found for SKU '%s'. Please resolve duplicate Internal References."
-            ) % normalized_sku
-            if strict:
-                raise UserError(message)
-            _logger.warning(message)
-            return {"product_tmpl": tmpl_matches[:1], "matched_by": "sku_template", "warning": message}
-        if tmpl_matches:
-            return {"product_tmpl": tmpl_matches[:1], "matched_by": "sku_template", "warning": False}
-
-        variant_domain = [("default_code", "=", normalized_sku)]
-        if "woo_instance_id" in ProductTmpl._fields and instance:
-            variant_domain.append(("product_tmpl_id.woo_instance_id", "in", [False, instance.id]))
-        variant_matches = ProductVariant.search(variant_domain, order="id asc")
-        if len(variant_matches) > 1:
-            message = _(
-                "Duplicate Odoo variants found for SKU '%s'. Please resolve duplicate Internal References."
-            ) % normalized_sku
-            if strict:
-                raise UserError(message)
-            _logger.warning(message)
-            variant_matches = variant_matches[:1]
-
-        if not variant_matches:
-            return {"product_tmpl": False, "matched_by": False, "warning": False}
-
-        variant = variant_matches[:1]
-        template = variant.product_tmpl_id
-        if template.product_variant_count > 1:
-            message = _(
-                "SKU '%s' belongs to a product variant in a multi-variant template. "
-                "Unsafe overwrite avoided; manual review required."
-            ) % normalized_sku
-            _logger.warning(message)
-            return {"product_tmpl": False, "matched_by": False, "warning": message}
-
-        return {"product_tmpl": template, "matched_by": "sku_variant", "warning": False}
-
-    def _find_woo_product_by_sku(self, sku):
-        self.ensure_one()
-        normalized_sku = self._normalize_sku(sku)
-        if not normalized_sku:
-            return {"product": False, "warning": False}
-
-        wcapi = self._get_wcapi(self)
-        response = wcapi.get("products", params={"sku": normalized_sku, "per_page": 20})
-        if response.status_code != 200:
-            raise UserError(
-                _("Failed Woo SKU search for '%(sku)s'. Status: %(status)s\n%(body)s")
-                % {
-                    "sku": normalized_sku,
-                    "status": response.status_code,
-                    "body": response.text,
-                }
-            )
-
-        found = response.json()
-        if not isinstance(found, list) or not found:
-            return {"product": False, "warning": False}
-
-        strict = bool(self.strict_sku_matching)
-        if len(found) > 1:
-            message = _(
-                "Multiple WooCommerce products found for SKU '%s'."
-            ) % normalized_sku
-            if strict:
-                raise UserError(message)
-            _logger.warning("%s Using first result due to non-strict mode.", message)
-
-        candidate = found[0]
-        candidate_type = (candidate.get("type") or "").lower()
-        parent_id = int(candidate.get("parent_id") or 0)
-        if candidate_type == "variation" or parent_id:
-            message = _(
-                "Woo SKU '%s' matched a variation record. Unsafe overwrite avoided; manual review required."
-            ) % normalized_sku
-            _logger.warning(message)
-            return {"product": False, "warning": message}
-
-        return {"product": candidate, "warning": False}
-
-    def _link_product_with_woo_id(self, product, woo_id, instance=None):
-        self.ensure_one()
-        product.ensure_one()
-        instance = instance or self
-        woo_id_text = str(woo_id or "").strip()
-        if not woo_id_text:
-            return False
-
-        vals = {}
-        if "woo_product_id" in product._fields and (product.woo_product_id or "") != woo_id_text:
-            vals["woo_product_id"] = woo_id_text
-        if (
-            instance
-            and "woo_instance_id" in product._fields
-            and (not product.woo_instance_id or product.woo_instance_id.id != instance.id)
-        ):
-            vals["woo_instance_id"] = instance.id
-        if vals:
-            product.write(vals)
-            return True
-        return False
-
-    def _normalize_mapping_name(self, name):
-        value = (name or "").strip().lower()
-        value = re.sub(r"\s+", " ", value)
-        value = re.sub(r"[^a-z0-9 _.-]+", "", value)
-        return value or False
-
-    def _resolve_mapping_candidate(self, records, mapping_type, label):
-        self.ensure_one()
-        # Be defensive: callers initialize candidate buckets as Python lists
-        # (e.g. ``model_candidates = []``) and only assign a recordset when a
-        # match is found. When nothing matches we still receive a list here,
-        # which would crash with "'list' object has no attribute 'exists'".
-        if isinstance(records, (list, tuple)):
-            if not records:
-                return False, False
-            first = next((r for r in records if hasattr(r, "_name")), None)
-            if first is None:
-                return False, False
-            ids = [r.id for r in records if getattr(r, "id", False)]
-            records = self.env[first._name].browse(ids)
-        if not records:
-            return False, False
-        records = records.exists()
-        if not records:
-            return False, False
-        if len(records) == 1:
-            return records[0], False
-
-        message = _(
-            "Auto mapping conflict for %(type)s '%(label)s': %(count)s candidates found."
-        ) % {
-            "type": mapping_type,
-            "label": label or "",
-            "count": len(records),
-        }
-        if self.strict_auto_mapping:
-            return False, message
-        _logger.warning("%s Using first candidate due to non-strict mode.", message)
-        return records[0], message
-
-    def _find_matching_payment(self, woo_method, woo_title):
-        self.ensure_one()
-        normalized = self._normalize_mapping_name(woo_method or woo_title)
-        if not normalized:
-            return False, False
-
-        model_candidates = self.env["woo.instance"].browse()  # placeholder empty recordset
-        if self.env.registry.get("payment.provider"):
-            providers = self.env["payment.provider"].sudo().search([])
-            exact = providers.filtered(
-                lambda r: self._normalize_mapping_name(getattr(r, "code", False)) == normalized
-                or self._normalize_mapping_name(getattr(r, "name", False)) == normalized
-            )
-            if exact:
-                model_candidates = exact
-        if not model_candidates and self.env.registry.get("account.payment.method"):
-            methods = self.env["account.payment.method"].sudo().search([])
-            exact = methods.filtered(
-                lambda r: self._normalize_mapping_name(getattr(r, "code", False)) == normalized
-                or self._normalize_mapping_name(getattr(r, "name", False)) == normalized
-            )
-            if exact:
-                model_candidates = exact
-
-        candidate, warning = self._resolve_mapping_candidate(
-            model_candidates,
-            "payment_method",
-            woo_title or woo_method,
-        )
-        if candidate:
-            return {
-                "odoo_model": candidate._name,
-                "odoo_res_id": candidate.id,
-                "odoo_value": False,
-                "warning": warning,
-            }, False
-        return False, warning
-
-    def _find_matching_shipping(self, shipping_title):
-        self.ensure_one()
-        normalized = self._normalize_mapping_name(shipping_title)
-        if not normalized or not self.env.registry.get("delivery.carrier"):
-            return False, False
-        carriers = self.env["delivery.carrier"].sudo().search([])
-        exact = carriers.filtered(
-            lambda r: self._normalize_mapping_name(getattr(r, "name", False)) == normalized
-        )
-        candidate, warning = self._resolve_mapping_candidate(exact, "shipping_method", shipping_title)
-        if candidate:
-            return {
-                "odoo_model": candidate._name,
-                "odoo_res_id": candidate.id,
-                "odoo_value": False,
-                "warning": warning,
-            }, False
-        return False, warning
-
-    def _find_matching_tax(self, tax_label, tax_rate=False):
-        self.ensure_one()
-        if not self.env.registry.get("account.tax"):
-            return False, False
-        normalized = self._normalize_mapping_name(tax_label)
-        taxes = self.env["account.tax"].sudo().search([])
-        candidates = taxes
-        if tax_rate not in (False, None, ""):
-            try:
-                rate_float = float(tax_rate)
-                candidates = candidates.filtered(lambda t: abs((t.amount or 0.0) - rate_float) < 0.0001)
-            except Exception:
-                pass
-        if normalized:
-            name_matches = candidates.filtered(
-                lambda t: self._normalize_mapping_name(getattr(t, "name", False)) == normalized
-            )
-            if name_matches:
-                candidates = name_matches
-        candidate, warning = self._resolve_mapping_candidate(candidates, "tax", tax_label)
-        if candidate:
-            return {
-                "odoo_model": candidate._name,
-                "odoo_res_id": candidate.id,
-                "odoo_value": False,
-                "warning": warning,
-            }, False
-        return False, warning
-
-    def _find_matching_category(self, category_name):
-        self.ensure_one()
-        normalized = self._normalize_mapping_name(category_name)
-        if not normalized:
-            return False, False
-        categories = self.env["product.category"].sudo().search([])
-        exact = categories.filtered(
-            lambda c: self._normalize_mapping_name(getattr(c, "name", False)) == normalized
-        )
-        candidate, warning = self._resolve_mapping_candidate(exact, "category", category_name)
-        if candidate:
-            return {
-                "odoo_model": candidate._name,
-                "odoo_res_id": candidate.id,
-                "odoo_value": False,
-                "warning": warning,
-            }, False
-        if self.auto_create_category_mapping:
-            created = self.env["product.category"].sudo().create({"name": category_name})
-            return {
-                "odoo_model": created._name,
-                "odoo_res_id": created.id,
-                "odoo_value": False,
-                "warning": _("Category '%s' was created for auto mapping.") % category_name,
-            }, False
-        return False, False
-
-    def _find_matching_tag(self, tag_name):
-        self.ensure_one()
-        normalized = self._normalize_mapping_name(tag_name)
-        if not normalized or not self.env.registry.get("product.tag"):
-            return False, False
-        tags = self.env["product.tag"].sudo().search([])
-        exact = tags.filtered(
-            lambda t: self._normalize_mapping_name(getattr(t, "name", False)) == normalized
-        )
-        candidate, warning = self._resolve_mapping_candidate(exact, "tag", tag_name)
-        if candidate:
-            return {
-                "odoo_model": candidate._name,
-                "odoo_res_id": candidate.id,
-                "odoo_value": False,
-                "warning": warning,
-            }, False
-        if self.auto_create_tag_mapping:
-            created = self.env["product.tag"].sudo().create({"name": tag_name})
-            return {
-                "odoo_model": created._name,
-                "odoo_res_id": created.id,
-                "odoo_value": False,
-                "warning": _("Tag '%s' was created for auto mapping.") % tag_name,
-            }, False
-        return False, False
-
-    def _find_matching_order_status(self, woo_status):
-        self.ensure_one()
-        if not woo_status:
-            return False, False
-        normalized = self._normalize_mapping_name(woo_status)
-        mapping = {
-            "pending": "pending",
-            "processing": "confirmed",
-            "on-hold": "confirmed",
-            "completed": "delivered",
-            "cancelled": "cancelled",
-            "refunded": "refunded",
-            "failed": "cancelled",
-        }
-        return {
-            "odoo_model": False,
-            "odoo_res_id": False,
-            "odoo_value": mapping.get(normalized, "draft"),
-            "warning": False,
-        }, False
-
-    def _log_auto_mapping(self, status, message, mapping_type=None, woo_label=None, payload_data=None):
-        self.ensure_one()
-        self._create_sync_report(
-            operation="Auto Mapping",
-            status=status,
-            message=message,
-            mode="manual",
-            source_action="auto_mapping",
-            operation_type=mapping_type or "mapping",
-            sync_direction="import",
-            woo_id=woo_label or False,
-            payload_data=payload_data or {},
-            error_message=message if status == "failed" else False,
-        )
-
-    def _auto_create_mapping(self, mapping_type, woo_label, match_data):
-        self.ensure_one()
-        Mapping = self.env["woo.auto.mapping"].sudo()
-        normalized_key = self._normalize_mapping_name(woo_label)
-        if not normalized_key:
-            return False
-        existing = Mapping.search(
-            [
-                ("instance_id", "=", self.id),
-                ("mapping_type", "=", mapping_type),
-                ("woo_key", "=", normalized_key),
-            ],
-            limit=1,
-        )
-        vals = {
-            "instance_id": self.id,
-            "mapping_type": mapping_type,
-            "woo_key": normalized_key,
-            "woo_label": woo_label,
-            "odoo_model": (match_data or {}).get("odoo_model") or False,
-            "odoo_res_id": (match_data or {}).get("odoo_res_id") or False,
-            "odoo_value": (match_data or {}).get("odoo_value") or False,
-            "auto_created": True,
-            "active": True,
-            "note": (match_data or {}).get("warning") or False,
-        }
-        if existing:
-            existing.write(vals)
-            return existing
-        return Mapping.create(vals)
-
-    def _get_auto_mapping(self, mapping_type, woo_label):
-        self.ensure_one()
-        normalized_key = self._normalize_mapping_name(woo_label)
-        if not normalized_key:
-            return False
-        return self.env["woo.auto.mapping"].sudo().search(
-            [
-                ("instance_id", "=", self.id),
-                ("mapping_type", "=", mapping_type),
-                ("woo_key", "=", normalized_key),
-                ("active", "=", True),
-            ],
-            limit=1,
-        )
-
-    def _ensure_auto_mapping(self, mapping_type, woo_label, payload_data=None, tax_rate=False):
-        self.ensure_one()
-        if not woo_label:
-            return False
-        existing = self._get_auto_mapping(mapping_type, woo_label)
-        if existing:
-            return existing
-        if not self.auto_mapping_creation:
-            return False
-
-        finder_map = {
-            "payment_method": lambda: self._find_matching_payment(
-                payload_data.get("payment_method") if isinstance(payload_data, dict) else woo_label,
-                woo_label,
-            ),
-            "shipping_method": lambda: self._find_matching_shipping(woo_label),
-            "tax": lambda: self._find_matching_tax(woo_label, tax_rate=tax_rate),
-            "category": lambda: self._find_matching_category(woo_label),
-            "tag": lambda: self._find_matching_tag(woo_label),
-            "order_status": lambda: self._find_matching_order_status(woo_label),
-        }
-        finder = finder_map.get(mapping_type)
-        if not finder:
-            return False
-
-        match_data, warning = finder()
-        if warning:
-            self._log_auto_mapping(
-                status="failed" if self.strict_auto_mapping else "success",
-                message=warning,
-                mapping_type=mapping_type,
-                woo_label=woo_label,
-                payload_data=payload_data,
-            )
-            if self.strict_auto_mapping:
-                return False
-        if not match_data:
-            return False
-
-        mapping = self._auto_create_mapping(mapping_type, woo_label, match_data)
-        if mapping:
-            target_name = mapping.odoo_display_name or mapping.odoo_value or "N/A"
-            message = _(
-                "%(type)s '%(woo)s' automatically mapped to '%(odoo)s'."
-            ) % {
-                "type": dict(mapping._fields["mapping_type"].selection).get(mapping.mapping_type, mapping.mapping_type),
-                "woo": woo_label,
-                "odoo": target_name,
-            }
-            self._log_auto_mapping(
-                status="success",
-                message=message,
-                mapping_type=mapping_type,
-                woo_label=woo_label,
-                payload_data=payload_data,
-            )
-        return mapping
-
-    def _apply_auto_mappings_from_order_payload(self, order_payload):
-        self.ensure_one()
-        data = order_payload if isinstance(order_payload, dict) else {}
-        if not data:
-            return {}
-
-        payment_title = data.get("payment_method_title") or data.get("payment_method")
-        if payment_title:
-            self._ensure_auto_mapping("payment_method", payment_title, payload_data=data)
-
-        for shipping in data.get("shipping_lines", []) or []:
-            if not isinstance(shipping, dict):
-                continue
-            shipping_label = shipping.get("method_title") or shipping.get("method_id")
-            if shipping_label:
-                self._ensure_auto_mapping("shipping_method", shipping_label, payload_data=shipping)
-
-        for tax in data.get("tax_lines", []) or []:
-            if not isinstance(tax, dict):
-                continue
-            tax_label = tax.get("label") or tax.get("rate_code")
-            tax_rate = tax.get("rate_percent") or tax.get("rate")
-            if tax_label:
-                self._ensure_auto_mapping("tax", tax_label, payload_data=tax, tax_rate=tax_rate)
-
-        status_text = data.get("status")
-        status_mapping = False
-        if status_text:
-            status_mapping = self._ensure_auto_mapping("order_status", status_text, payload_data=data)
-        mapped_order_state = status_mapping.odoo_value if status_mapping else False
-        return {"mapped_order_state": mapped_order_state}
-
-    def _apply_auto_mappings_from_product_payload(self, product_payload):
-        self.ensure_one()
-        data = product_payload if isinstance(product_payload, dict) else {}
-        if not data:
-            return
-
-        for category in data.get("categories", []) or []:
-            if not isinstance(category, dict):
-                continue
-            category_label = category.get("name")
-            if category_label:
-                self._ensure_auto_mapping("category", category_label, payload_data=category)
-
-        for tag in data.get("tags", []) or []:
-            if not isinstance(tag, dict):
-                continue
-            tag_label = tag.get("name")
-            if tag_label:
-                self._ensure_auto_mapping("tag", tag_label, payload_data=tag)
-
-    # =================================================
-    # CONNECTION HEALTH CHECK
-    # =================================================
-    def _health_result(self, check_type, status, message, response_time_ms=None, details=None):
-        return {
-            "check_type": check_type,
-            "status": status,
-            "message": message,
-            "response_time_ms": response_time_ms,
-            "details_json": json.dumps(details or {}, default=str),
-        }
-
-    def _check_store_url_validation(self):
-        self.ensure_one()
-        try:
-            normalized = self._get_base_url()
-            parsed = urlparse(normalized)
-            if parsed.scheme not in ("http", "https") or not parsed.netloc:
-                return self._health_result(
-                    "store_url_validation",
-                    "failed",
-                    "Store URL is invalid. Use a valid URL with http/https and host.",
-                    details={"shop_url": self.shop_url},
-                )
-
-            host = (parsed.hostname or "").lower()
-            if host in ("localhost", "127.0.0.1") and parsed.port is None:
-                return self._health_result(
-                    "store_url_validation",
-                    "warning",
-                    "Store URL uses localhost without explicit port.",
-                    details={"normalized_url": normalized},
-                )
-            return self._health_result(
-                "store_url_validation",
-                "success",
-                "Store URL format is valid.",
-                details={"normalized_url": normalized},
-            )
-        except Exception as exc:
-            return self._health_result(
-                "store_url_validation",
-                "failed",
-                str(exc),
-            )
-
-    def _check_api_auth(self):
-        self.ensure_one()
-        url = f"{self._get_base_url()}/wp-json/wc/v3/products"
-        start = perf_counter()
-        try:
-            response = self._woo_get(url, params={"per_page": 1}, timeout=20)
-            elapsed_ms = round((perf_counter() - start) * 1000.0, 2)
-            if response.status_code == 200:
-                return self._health_result(
-                    "api_auth",
-                    "success",
-                    "API authentication is valid.",
-                    response_time_ms=elapsed_ms,
-                    details={"status_code": response.status_code},
-                )
-            return self._health_result(
-                "api_auth",
-                "failed",
-                f"Authentication failed (HTTP {response.status_code}).",
-                response_time_ms=elapsed_ms,
-                details={"status_code": response.status_code, "response": response.text[:300]},
-            )
-        except Exception as exc:
-            elapsed_ms = round((perf_counter() - start) * 1000.0, 2)
-            return self._health_result(
-                "api_auth",
-                "failed",
-                str(exc),
-                response_time_ms=elapsed_ms,
-            )
-
-    def _check_rest_api_reachability(self):
-        self.ensure_one()
-        url = f"{self._get_base_url()}/wp-json/wc/v3/system_status"
-        start = perf_counter()
-        try:
-            response = self._woo_get(url, timeout=20)
-            elapsed_ms = round((perf_counter() - start) * 1000.0, 2)
-            if response.status_code == 200:
-                return self._health_result(
-                    "api_reachability",
-                    "success",
-                    "WooCommerce REST API is reachable.",
-                    response_time_ms=elapsed_ms,
-                    details={"status_code": response.status_code},
-                )
-            return self._health_result(
-                "api_reachability",
-                "failed",
-                f"REST API unreachable or denied (HTTP {response.status_code}).",
-                response_time_ms=elapsed_ms,
-                details={"status_code": response.status_code, "response": response.text[:300]},
-            )
-        except Exception as exc:
-            elapsed_ms = round((perf_counter() - start) * 1000.0, 2)
-            return self._health_result(
-                "api_reachability",
-                "failed",
-                str(exc),
-                response_time_ms=elapsed_ms,
-            )
-
-    def _check_read_permission(self):
-        self.ensure_one()
-        url = f"{self._get_base_url()}/wp-json/wc/v3/products"
-        try:
-            response = self._woo_get(url, params={"per_page": 1}, timeout=20)
-            if response.status_code != 200:
-                return self._health_result(
-                    "read_permission",
-                    "failed",
-                    f"Read permission check failed (HTTP {response.status_code}).",
-                    details={"status_code": response.status_code, "response": response.text[:300]},
-                )
-
-            payload = response.json()
-            if isinstance(payload, list):
-                return self._health_result(
-                    "read_permission",
-                    "success",
-                    "Read permission is available.",
-                    details={"records_returned": len(payload)},
-                )
-            return self._health_result(
-                "read_permission",
-                "warning",
-                "Read endpoint responded, but payload format is unexpected.",
-                details={"payload_type": type(payload).__name__},
-            )
-        except Exception as exc:
-            return self._health_result(
-                "read_permission",
-                "failed",
-                str(exc),
-            )
-
-    def _check_write_capability(self):
-        self.ensure_one()
-        url = f"{self._get_base_url()}/wp-json/wc/v3/products"
-        try:
-            response = self._woo_options(url, timeout=20)
-            code = response.status_code
-            allow = response.headers.get("Allow", "") or response.headers.get("allow", "")
-            allow_upper = allow.upper()
-
-            if code in (200, 204):
-                if "POST" in allow_upper or "PUT" in allow_upper or "PATCH" in allow_upper:
-                    return self._health_result(
-                        "write_capability",
-                        "success",
-                        "Write capability appears available (OPTIONS metadata).",
-                        details={"status_code": code, "allow": allow},
-                    )
-                return self._health_result(
-                    "write_capability",
-                    "warning",
-                    "Could not confirm write methods from OPTIONS response.",
-                    details={"status_code": code, "allow": allow},
-                )
-            if code in (401, 403):
-                return self._health_result(
-                    "write_capability",
-                    "failed",
-                    f"Write capability denied (HTTP {code}).",
-                    details={"status_code": code, "response": response.text[:300]},
-                )
-            if code in (404, 405):
-                return self._health_result(
-                    "write_capability",
-                    "warning",
-                    "Safe write capability probe not supported by server (OPTIONS).",
-                    details={"status_code": code},
-                )
-            return self._health_result(
-                "write_capability",
-                "warning",
-                f"Write capability probe returned HTTP {code}.",
-                details={"status_code": code, "response": response.text[:300]},
-            )
-        except Exception as exc:
-            return self._health_result(
-                "write_capability",
-                "warning",
-                f"Write capability probe failed safely: {exc}",
-            )
-
-    def _check_webhook_config(self):
-        self.ensure_one()
-        base_url = (self.env["ir.config_parameter"].sudo().get_param("web.base.url") or "").strip()
-        if not base_url:
-            return self._health_result(
-                "webhook_endpoint",
-                "warning",
-                "System parameter 'web.base.url' is not configured.",
-            )
-
-        webhook_url = f"{base_url.rstrip('/')}/woo/webhook"
-        parsed = urlparse(webhook_url)
-        if parsed.scheme not in ("http", "https") or not parsed.netloc:
-            return self._health_result(
-                "webhook_endpoint",
-                "failed",
-                "Webhook endpoint URL format is invalid.",
-                details={"webhook_url": webhook_url},
-            )
-
-        return self._health_result(
-            "webhook_endpoint",
-            "success",
-            "Webhook endpoint URL format is valid.",
-            details={"webhook_url": webhook_url},
-        )
-
-    def _check_woo_version(self):
-        self.ensure_one()
-        url = f"{self._get_base_url()}/wp-json/wc/v3/system_status"
-        try:
-            response = self._woo_get(url, timeout=20)
-            if response.status_code != 200:
-                return self._health_result(
-                    "woo_version",
-                    "failed",
-                    f"Could not detect WooCommerce version (HTTP {response.status_code}).",
-                    details={"status_code": response.status_code, "response": response.text[:300]},
-                )
-            data = response.json()
-            version = (data.get("environment") or {}).get("wc_version") if isinstance(data, dict) else False
-            if version:
-                return self._health_result(
-                    "woo_version",
-                    "success",
-                    f"WooCommerce version detected: {version}.",
-                    details={"woo_version": version},
-                )
-            return self._health_result(
-                "woo_version",
-                "warning",
-                "WooCommerce version not found in system status response.",
-            )
-        except Exception as exc:
-            return self._health_result(
-                "woo_version",
-                "failed",
-                str(exc),
-            )
-
-    def _check_currency(self):
-        self.ensure_one()
-        url = f"{self._get_base_url()}/wp-json/wc/v3/system_status"
-        try:
-            response = self._woo_get(url, timeout=20)
-            if response.status_code != 200:
-                return self._health_result(
-                    "currency_check",
-                    "warning",
-                    f"Currency check skipped (HTTP {response.status_code}).",
-                )
-
-            data = response.json()
-            woo_currency = False
-            if isinstance(data, dict):
-                env_data = data.get("environment") or {}
-                settings_data = data.get("settings") or {}
-                woo_currency = env_data.get("currency") or settings_data.get("currency") or settings_data.get("currency_code")
-
-            odoo_currency = (self.env.company.currency_id.name or "").upper()
-            woo_currency = (woo_currency or "").upper()
-
-            if not woo_currency:
-                return self._health_result(
-                    "currency_check",
-                    "warning",
-                    "Woo currency could not be detected.",
-                    details={"odoo_currency": odoo_currency},
-                )
-
-            if woo_currency != odoo_currency:
-                return self._health_result(
-                    "currency_check",
-                    "warning",
-                    f"Currency mismatch: Woo={woo_currency}, Odoo={odoo_currency}.",
-                    details={"woo_currency": woo_currency, "odoo_currency": odoo_currency},
-                )
-
-            return self._health_result(
-                "currency_check",
-                "success",
-                f"Currency matches: {woo_currency}.",
-                details={"woo_currency": woo_currency, "odoo_currency": odoo_currency},
-            )
-        except Exception as exc:
-            return self._health_result(
-                "currency_check",
-                "warning",
-                f"Currency check failed: {exc}",
-            )
-
-    def _measure_response_time(self):
-        self.ensure_one()
-        url = f"{self._get_base_url()}/wp-json/wc/v3/products"
-        start = perf_counter()
-        try:
-            response = self._woo_get(url, params={"per_page": 1}, timeout=20)
-            elapsed_ms = round((perf_counter() - start) * 1000.0, 2)
-            if response.status_code == 200:
-                return self._health_result(
-                    "response_time",
-                    "success",
-                    f"Measured API response time: {elapsed_ms} ms.",
-                    response_time_ms=elapsed_ms,
-                )
-            return self._health_result(
-                "response_time",
-                "warning",
-                f"Response time measured with HTTP {response.status_code}: {elapsed_ms} ms.",
-                response_time_ms=elapsed_ms,
-                details={"status_code": response.status_code},
-            )
-        except Exception as exc:
-            elapsed_ms = round((perf_counter() - start) * 1000.0, 2)
-            return self._health_result(
-                "response_time",
-                "failed",
-                str(exc),
-                response_time_ms=elapsed_ms,
-            )
-
-    def _compute_overall_health(self, results):
-        statuses = [r.get("status") for r in results]
-        if any(status == "failed" for status in statuses):
-            return "failed"
-        if any(status == "warning" for status in statuses):
-            return "warning"
-        return "healthy"
-
-    def _run_health_check(self):
-        self.ensure_one()
-        checks = [
-            self._check_store_url_validation,
-            self._check_api_auth,
-            self._check_rest_api_reachability,
-            self._check_read_permission,
-            self._check_write_capability,
-            self._check_webhook_config,
-            self._check_woo_version,
-            self._check_currency,
-            self._measure_response_time,
-        ]
-
-        results = []
-        for fn in checks:
-            try:
-                result = fn()
-            except Exception as exc:
-                result = self._health_result(fn.__name__, "failed", str(exc))
-            results.append(result)
-
-        HealthLog = self.env["woo.connection.health.log"].sudo()
-        for row in results:
-            try:
-                HealthLog.create(
-                    {
-                        "instance_id": self.id,
-                        "check_type": row.get("check_type"),
-                        "status": row.get("status"),
-                        "message": row.get("message"),
-                        "response_time_ms": row.get("response_time_ms"),
-                        "details_json": row.get("details_json"),
-                    }
-                )
-            except Exception as log_exc:
-                _logger.exception(
-                    "Connection health log create failed for instance %s: %s",
-                    self.display_name,
-                    log_exc,
-                )
-
-        overall = self._compute_overall_health(results)
-        response_ms = next((r.get("response_time_ms") for r in results if r.get("check_type") == "response_time"), False)
-        version_detail = False
-        currency_detail = False
-        last_error = False
-        for r in results:
-            if r.get("check_type") == "woo_version":
-                try:
-                    details = json.loads(r.get("details_json") or "{}")
-                    version_detail = details.get("woo_version") or version_detail
-                except Exception:
-                    pass
-            if r.get("check_type") == "currency_check":
-                try:
-                    details = json.loads(r.get("details_json") or "{}")
-                    currency_detail = details.get("woo_currency") or currency_detail
-                except Exception:
-                    pass
-            if r.get("status") == "failed" and not last_error:
-                last_error = r.get("message")
-
-        self.write(
-            {
-                "health_last_checked_at": fields.Datetime.now(),
-                "health_overall_status": overall,
-                "health_response_time_ms": response_ms or 0.0,
-                "health_woo_version": version_detail or False,
-                "health_currency": currency_detail or False,
-                "health_last_error": last_error or False,
-            }
-        )
-        return results
-
-    def action_run_health_check(self):
-        for rec in self:
-            results = rec._run_health_check()
-            overall = rec.health_overall_status or "warning"
-            summary = (
-                f"{overall.title()} — "
-                f"Success: {len([r for r in results if r.get('status') == 'success'])} | "
-                f"Warning: {len([r for r in results if r.get('status') == 'warning'])} | "
-                f"Failed: {len([r for r in results if r.get('status') == 'failed'])}"
-            )
-            rec._create_sync_report(
-                operation="Connection Health Check",
-                status="failed" if overall == "failed" else "success",
-                message=summary,
-                mode="manual",
-                source_action="connection_health_check",
-                operation_type="analytics",
-                sync_direction="import",
-                payload_data={"results": results, "overall": overall},
-                error_message=summary if overall == "failed" else False,
-            )
-
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": _("Connection Health Check"),
-                "message": summary,
-                "type": "success" if overall == "healthy" else ("warning" if overall == "warning" else "danger"),
-                "sticky": False,
-            },
-        }
+    def _woo_delete(self, url, params=None, timeout=30):
+        return self._woo_request("delete", url, params=params, timeout=timeout)
 
     def _success_toast(self, title, message):
         return {
@@ -1432,176 +311,37 @@ class WooInstance(models.Model):
     # =================================================
     def action_test_connection(self):
         for rec in self:
-            errors = []
-            tested_urls = []
-            for base_url in rec._test_connection_base_candidates():
-                url = f"{base_url}/wp-json/wc/v3/system_status"
-                tested_urls.append(url)
-                try:
-                    r = rec._woo_get(url, timeout=20)
-                except Exception as e:
-                    errors.append(f"{url} -> {e}")
-                    continue
-
-                if r.status_code == 200:
-                    if base_url != rec._get_base_url():
-                        rec.shop_url = base_url
-                    return {
-                        "type": "ir.actions.client",
-                        "tag": "display_notification",
-                        "params": {
-                            "title": "Connected",
-                            "message": f"WooCommerce connection successful ({base_url}).",
-                            "type": "success",
-                            "sticky": False,
-                        },
-                    }
-
-                if r.status_code in (401, 403):
-                    raise UserError(
-                        "Connection reached WooCommerce, but authentication failed.\n"
-                        f"URL: {url}\n"
-                        "Check consumer key/secret permissions (Read/Write), or WP app credentials."
-                    )
-
-                errors.append(f"{url} -> HTTP {r.status_code}: {r.text}")
-
-            hint = ""
-            normalized = rec._get_base_url()
-            parsed = urlparse(normalized)
-            host = (parsed.hostname or "").lower()
-            if host in ("localhost", "127.0.0.1") and parsed.port is None:
-                hint = (
-                    "\nTip: your Shop URL uses localhost without a port. "
-                    "Set explicit WordPress port, for example: "
-                    "http://localhost:8080/woocommerce/wordpress"
+            if not rec.wp_username or not rec.application_password:
+                raise UserError(
+                    "Please enter WP Username and Application Password."
                 )
 
-            details = "\n".join(errors) if errors else "\n".join(tested_urls)
-            raise UserError(
-                "Connection error:\n"
-                f"{details}"
-                f"{hint}"
-            )
+            url = f"{rec._get_base_url()}/wp-json/wc/v3/system_status"
 
-    # =================================================
-    # REGISTER WEBHOOKS IN WOOCOMMERCE
-    # =================================================
-    _WEBHOOK_DEFINITIONS = [
-        ("Odoo: Product Created", "product.created", "webhook_product_create"),
-        ("Odoo: Product Updated", "product.updated", "webhook_product_update"),
-        ("Odoo: Order Created", "order.created", "webhook_order_create"),
-        ("Odoo: Order Updated", "order.updated", "webhook_order_update"),
-        ("Odoo: Customer Created", "customer.created", "webhook_customer_create"),
-        ("Odoo: Customer Updated", "customer.updated", "webhook_customer_update"),
-        ("Odoo: Coupon Created", "coupon.created", "webhook_giftcard_create"),
-        ("Odoo: Coupon Updated", "coupon.updated", "webhook_giftcard_update"),
-    ]
-
-    def _resolve_callback_base_url(self):
-        self.ensure_one()
-        base = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("web.base.url", default="")
-            or ""
-        ).rstrip("/")
-        return base
-
-    def action_register_woo_webhooks(self):
-        """Register WooCommerce webhooks pointing back to this Odoo instance.
-
-        For each enabled webhook flag, POSTs to /wp-json/wc/v3/webhooks creating
-        a webhook that delivers to /woo/webhook?instance_id=<id>. Existing
-        webhooks with the same delivery URL + topic are skipped so this is
-        safe to re-run.
-        """
-        self.ensure_one()
-        base_url = self._resolve_callback_base_url()
-        if not base_url:
-            raise UserError(_(
-                "Set 'web.base.url' (Settings > Technical > System Parameters) "
-                "to a URL WooCommerce can reach before registering webhooks."
-            ))
-        parsed = urlparse(base_url)
-        host = (parsed.hostname or "").lower()
-        if host in ("localhost", "127.0.0.1"):
-            raise UserError(_(
-                "web.base.url is %s, which WooCommerce cannot reach. "
-                "Expose Odoo via a public URL (e.g. ngrok, reverse proxy) and "
-                "update System Parameters > web.base.url first."
-            ) % base_url)
-
-        wcapi = self._get_wcapi(self)
-        delivery_url = f"{base_url}/woo/webhook?instance_id={self.id}"
-
-        try:
-            existing_resp = wcapi.get("webhooks", params={"per_page": 100})
-            existing = existing_resp.json() if existing_resp.status_code == 200 else []
-        except Exception as exc:
-            raise UserError(_("Could not list existing WooCommerce webhooks: %s") % exc)
-
-        existing_keys = set()
-        if isinstance(existing, list):
-            for item in existing:
-                if isinstance(item, dict):
-                    existing_keys.add(
-                        (
-                            (item.get("topic") or "").lower(),
-                            (item.get("delivery_url") or "").rstrip("/"),
-                        )
-                    )
-
-        created = []
-        skipped = []
-        failed = []
-        for label, topic, flag in self._WEBHOOK_DEFINITIONS:
-            if not getattr(self, flag, False):
-                continue
-            key = (topic, delivery_url.rstrip("/"))
-            if key in existing_keys:
-                skipped.append(topic)
-                continue
-            payload = {
-                "name": label,
-                "topic": topic,
-                "delivery_url": delivery_url,
-                "status": "active",
-            }
-            if self.webhook_secret:
-                payload["secret"] = self.webhook_secret
             try:
-                resp = wcapi.post("webhooks", payload)
-                if resp.status_code in (200, 201):
-                    created.append(topic)
-                else:
-                    failed.append(f"{topic}: HTTP {resp.status_code} {resp.text[:200]}")
-            except Exception as exc:
-                failed.append(f"{topic}: {exc}")
+                r = requests.get(
+                    url,
+                    auth=(rec.wp_username, rec.application_password),
+                    timeout=20,
+                )
+            except Exception as e:
+                raise UserError(f"Connection error:\n{str(e)}")
 
-        if not created and not skipped and not failed:
-            raise UserError(_(
-                "No webhook flags are enabled on this Instance. "
-                "Tick the webhook_* checkboxes you want first, then run this again."
-            ))
+            if r.status_code == 200:
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": "Connected",
+                        "message": "WooCommerce connection successful.",
+                        "type": "success",
+                        "sticky": False,
+                    },
+                }
 
-        message_parts = []
-        if created:
-            message_parts.append(_("Created: %s") % ", ".join(created))
-        if skipped:
-            message_parts.append(_("Already existed: %s") % ", ".join(skipped))
-        if failed:
-            message_parts.append(_("Failed: %s") % " | ".join(failed))
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": _("Register WooCommerce Webhooks"),
-                "message": "\n".join(message_parts),
-                "type": "success" if not failed else "warning",
-                "sticky": bool(failed),
-            },
-        }
+            raise UserError(
+                f"Connection failed\nStatus: {r.status_code}\nResponse:\n{r.text}"
+            )
 
     def auto_sync_all(self, force=True):
         self.ensure_one()
@@ -1690,93 +430,30 @@ class WooInstance(models.Model):
         ProductTemplate = self.env["product.template"]
 
         synced = 0
-        sku_linked = 0
-        sku_conflicts = 0
 
         try:
             products = self.fetch_products()
 
             for p in products:
-                if not isinstance(p, dict):
-                    _logger.warning(
-                        "Skipping malformed Woo product payload for instance %s: %s",
-                        self.display_name,
-                        type(p).__name__,
-                    )
-                    continue
-
                 woo_id = p.get("id")
                 if not woo_id:
                     continue
 
-                self._apply_auto_mappings_from_product_payload(p)
-
                 name = p.get("name")
                 sku = p.get("sku") or p.get("slug")
-                normalized_sku = self._normalize_sku(sku)
 
                 # -----------------------------------------
                 # 1️⃣ FIND OR CREATE PRODUCT
                 # -----------------------------------------
                 product = ProductTemplate.search(
-                    [
-                        ("woo_product_id", "=", str(woo_id)),
-                        ("woo_instance_id", "in", [False, self.id]),
-                    ],
-                    limit=1,
+                    [("default_code", "=", sku)],
+                    limit=1
                 )
-
-                if not product and self.smart_sku_matching and normalized_sku:
-                    try:
-                        match_info = self._find_odoo_product_by_sku(normalized_sku, instance=self)
-                        product = match_info.get("product_tmpl")
-                        warning = match_info.get("warning")
-                        if warning:
-                            sku_conflicts += 1
-                            self._create_sync_report(
-                                operation="Product Sync",
-                                status="failed",
-                                message=warning,
-                                source_action="smart_sku_matching",
-                                operation_type="product",
-                                sync_direction="import",
-                                woo_id=str(woo_id),
-                                payload_data=p,
-                                error_message=warning,
-                            )
-                        if product:
-                            self._link_product_with_woo_id(product, woo_id, instance=self)
-                            sku_linked += 1
-                            match_msg = _(
-                                "Product matched by SKU %(sku)s and Woo ID %(woo)s was linked."
-                            ) % {"sku": normalized_sku, "woo": woo_id}
-                            _logger.info(match_msg)
-                    except Exception as match_exc:
-                        sku_conflicts += 1
-                        warning_message = str(match_exc)
-                        self._create_sync_report(
-                            operation="Product Sync",
-                            status="failed",
-                            message=warning_message,
-                            source_action="smart_sku_matching",
-                            operation_type="product",
-                            sync_direction="import",
-                            woo_id=str(woo_id),
-                            payload_data=p,
-                            error_message=warning_message,
-                        )
-                        _logger.warning(
-                            "Smart SKU matching failed for Woo product %s (SKU: %s): %s",
-                            woo_id,
-                            normalized_sku,
-                            warning_message,
-                        )
-                        continue
 
                 if not product:
                     product = ProductTemplate.create({
                         "name": name,
-                        "default_code": normalized_sku,
+                        "default_code": sku,
                         "sale_ok": True,
                         "purchase_ok": True,
                     })
@@ -1784,27 +461,10 @@ class WooInstance(models.Model):
                 # -----------------------------------------
                 # 2️⃣ SAFE FALLBACK
                 # -----------------------------------------
-                sale_price_raw = p.get("sale_price")
-                regular_price_raw = p.get("regular_price")
-                # Regular Price (``list_price`` in Odoo) must always map to the
-                # WooCommerce ``regular_price`` field. Sale Price is a separate
-                # value and must remain zero / empty when no sale is active —
-                # otherwise the UI shows Regular = Sale, which is BUG-37.
-                regular_price_value = float(regular_price_raw or 0.0)
-                sale_price_value = (
-                    float(sale_price_raw)
-                    if sale_price_raw not in (None, "")
-                    else 0.0
-                )
-                product_vals = {
+                product.write({
                     "name": name,
-                    "default_code": normalized_sku or product.default_code,
-                    "list_price": regular_price_value,
-                }
-                if "sale_price" in ProductTemplate._fields:
-                    product_vals["sale_price"] = sale_price_value
-                product.write(product_vals)
-                self._link_product_with_woo_id(product, woo_id, instance=self)
+                    "default_code": sku,
+                })
 
                 # -----------------------------------------
                 # 3️⃣ WOO SYNC RECORD
@@ -1824,8 +484,6 @@ class WooInstance(models.Model):
                 # Categories
                 category_ids = []
                 for c in p.get("categories", []):
-                    if not isinstance(c, dict):
-                        continue
                     category = self.env["product.category"].search(
                         [("name", "=", c.get("name"))],
                         limit=1
@@ -1839,8 +497,6 @@ class WooInstance(models.Model):
                 # Tags
                 tag_ids = []
                 for t in p.get("tags", []):
-                    if not isinstance(t, dict):
-                        continue
                     tag = self.env["product.tag"].search(
                         [("name", "=", t.get("name"))],
                         limit=1
@@ -1868,11 +524,11 @@ class WooInstance(models.Model):
                     # Identity
                     "product_tmpl_id": product.id,
                     "name": p.get("name"),
-                    "sku": normalized_sku,
+                    "sku": sku,
 
                     # Pricing
-                    "list_price": regular_price_value,
-                    "sale_price": sale_price_value,
+                    "list_price": float(p.get("regular_price") or 0.0),
+                    "sale_price": float(p.get("sale_price") or 0.0),
 
                     # Stock
                     "manage_stock": p.get("manage_stock", False),
@@ -1890,10 +546,7 @@ class WooInstance(models.Model):
                 }
 
                 existing = WooProduct.search(
-                    [
-                        ("woo_product_id", "=", str(woo_id)),
-                        ("instance_id", "=", self.id),
-                    ],
+                    [("woo_product_id", "=", str(woo_id))],
                     limit=1
                 )
 
@@ -1915,11 +568,7 @@ class WooInstance(models.Model):
             self._create_sync_report(
                 operation="Product Sync",
                 status="success",
-                message=(
-                    f"{synced} products synced successfully. "
-                    f"SKU linked: {sku_linked}. "
-                    f"SKU conflicts/warnings: {sku_conflicts}."
-                ),
+                message=f"{synced} products synced successfully",
             )
 
             return {
@@ -1927,11 +576,7 @@ class WooInstance(models.Model):
                 "tag": "display_notification",
                 "params": {
                     "title": "Products Synced",
-                    "message": (
-                        f"{synced} products synced successfully. "
-                        f"SKU linked: {sku_linked}. "
-                        f"Warnings: {sku_conflicts}."
-                    ),
+                    "message": f"{synced} products synced successfully",
                     "sticky": False,
                 },
             }
@@ -1956,7 +601,7 @@ class WooInstance(models.Model):
         WooCustomer = self.env["woo.customer.sync"]
 
         billing = order.get("billing") or {}
-        email = (billing.get("email") or "").strip().lower()
+        email = billing.get("email")
 
         # Skip orders without email
         if not email:
@@ -1978,7 +623,7 @@ class WooInstance(models.Model):
                     or email
             ),
             "email": email,
-            "phone": self._normalize_customer_phone(billing.get("phone")),
+            "phone": billing.get("phone"),
             "state": "synced",
             "synced_on": fields.Datetime.now(),
         }
@@ -2020,7 +665,7 @@ class WooInstance(models.Model):
 
             for c in response.json():
                 woo_id = c.get("id")
-                email = (c.get("email") or "").strip().lower()
+                email = c.get("email")
                 first = c.get("first_name") or ""
                 last = c.get("last_name") or ""
 
@@ -2029,7 +674,7 @@ class WooInstance(models.Model):
                     "woo_customer_id": str(woo_id) if woo_id else (f"guest_{email}" if email else False),
                     "name": f"{first} {last}".strip() or email or f"Customer {woo_id}",
                     "email": email,
-                    "phone": self._normalize_customer_phone((c.get("billing") or {}).get("phone")),
+                    "phone": (c.get("billing") or {}).get("phone"),
                     "state": "synced",
                     "synced_on": fields.Datetime.now(),
                 }
@@ -2080,8 +725,6 @@ class WooInstance(models.Model):
         self.ensure_one()
         WooOrder = self.env["woo.order.sync"]
         synced = 0
-        failed = 0
-        failure_messages = []
 
         try:
             self.env.cr.execute(
@@ -2108,88 +751,58 @@ class WooInstance(models.Model):
                 if not woo_id:
                     continue
 
-                try:
-                    # Keep each order isolated to avoid transaction-wide abort
-                    # on concurrent-update/serialization conflicts.
-                    with self.env.cr.savepoint():
-                        billing = o.get("billing") or {}
-                        mapping_context = self._apply_auto_mappings_from_order_payload(o)
+                billing = o.get("billing") or {}
 
-                        # Ensure customer upsert runs before order upsert.
-                        self._sync_customer_from_order(o)
+                # 🔥 CUSTOMER SYNC (ALREADY GOOD)
+                partner = self._sync_customer_from_order(o)
 
-                        vals = {
-                            "woo_order_id": str(woo_id),
-                            "name": o.get("number"),
-                            "customer_name": f"{billing.get('first_name', '')} {billing.get('last_name', '')}",
-                            "customer_email": billing.get("email"),
-                            "total_amount": float(o.get("total", 0.0)),
-                            "currency": o.get("currency"),
-                            "status": o.get("status"),
-                            "payment_method": o.get("payment_method"),
-                            "payment_method_title": o.get("payment_method_title"),
-                            "date_created": self._parse_woo_datetime(
-                                o.get("date_created")
-                            ),
-                            "state": "synced",
-                            "synced_on": fields.Datetime.now(),
-                            "instance_id": self.id,
-                            "order_state": (mapping_context or {}).get("mapped_order_state") or "draft",
-                        }
+                vals = {
+                    "woo_order_id": str(woo_id),
+                    "name": o.get("number"),
+                    "customer_name": f"{billing.get('first_name', '')} {billing.get('last_name', '')}",
+                    "customer_email": billing.get("email"),
+                    "total_amount": float(o.get("total", 0.0)),
+                    "currency": o.get("currency"),
+                    "status": o.get("status"),
+                    "payment_method": o.get("payment_method"),
+                    "payment_method_title": o.get("payment_method_title"),
+                    "date_created": self._parse_woo_datetime(
+                        o.get("date_created")
+                    ),
+                    "state": "synced",
+                    "synced_on": fields.Datetime.now(),
+                    "instance_id": self.id,
+                }
 
-                        existing = WooOrder.search(
-                            [
-                                ("woo_order_id", "=", str(woo_id)),
-                                ("instance_id", "=", self.id),
-                            ],
-                            order="synced_on desc, id desc",
-                        )
+                existing = WooOrder.search(
+                    [
+                        ("woo_order_id", "=", str(woo_id)),
+                        ("instance_id", "=", self.id),
+                    ],
+                    order="synced_on desc, id desc",
+                )
 
-                        if existing:
-                            order_sync = existing[0]
-                            if len(existing) > 1:
-                                (existing - order_sync).unlink()
-                            order_sync.write(vals)
-                        else:
-                            order_sync = WooOrder.create(vals)
+                if existing:
+                    order_sync = existing[0]
+                    if len(existing) > 1:
+                        (existing - order_sync).unlink()
+                    order_sync.write(vals)
+                else:
+                    order_sync = WooOrder.create(vals)
 
-                        self._apply_field_mapping(
-                            model="order",
-                            woo_data=o,
-                            record=order_sync,
-                        )
-                        order_sync.sync_order_lines(order_sync, o)
-                        synced += 1
-                except Exception as exc:
-                    failed += 1
-                    msg = f"Woo order {woo_id}: {exc}"
-                    failure_messages.append(msg)
-                    _logger.warning("Failed to sync %s", msg)
+                # 🔥 APPLY ORDER FIELD MAPPING (THIS WAS MISSING)
+                self._apply_field_mapping(
+                    model="order",
+                    woo_data=o,
+                    record=order_sync,
+                )
+
+                # 🔥 ORDER LINES
+                order_sync.sync_order_lines(order_sync, o)
+
+                synced += 1
 
             WooOrder._cleanup_duplicates(self.id)
-
-            if failed:
-                summary = (
-                    f"{synced} orders synced, {failed} failed."
-                    if synced
-                    else f"Order sync failed for {failed} records."
-                )
-                self._create_sync_report(
-                    "Order Sync",
-                    "failed" if not synced else "success",
-                    summary,
-                    error_message="\n".join(failure_messages[:10]),
-                )
-                return {
-                    "type": "ir.actions.client",
-                    "tag": "display_notification",
-                    "params": {
-                        "title": "Orders Synced with Warnings",
-                        "message": summary,
-                        "type": "warning",
-                        "sticky": False,
-                    },
-                }
 
             self._create_sync_report(
                 "Order Sync", "success",
@@ -2202,7 +815,6 @@ class WooInstance(models.Model):
             )
 
         except Exception as e:
-            self.env.cr.rollback()
             self._create_sync_report("Order Sync", "failed", str(e))
             raise UserError(str(e))
 
@@ -2226,8 +838,6 @@ class WooInstance(models.Model):
                 woo_id = c.get("id")
                 if not woo_id:
                     continue
-                if c.get("name"):
-                    self._ensure_auto_mapping("category", c.get("name"), payload_data=c)
 
                 vals = {
                     "name": c.get("name"),
@@ -2286,37 +896,6 @@ class WooInstance(models.Model):
     # =================================================
     # SYNC COUPONS
     # =================================================
-    def _parse_coupon_amount(self, raw):
-        """Robustly convert a WooCommerce coupon ``amount`` field to float.
-
-        WC returns ``amount`` as a string; some stores publish it with
-        comma decimal separators or trailing whitespace. ``float()`` blows up
-        on those inputs and the surrounding ``or 0.0`` would silently bury
-        a real discount as ``0``. Strip whitespace, normalise the decimal
-        separator, and only fall back to ``0.0`` for truly empty values.
-        """
-        if raw in (None, "", False):
-            return 0.0
-        if isinstance(raw, (int, float)):
-            try:
-                return float(raw)
-            except (TypeError, ValueError):
-                return 0.0
-        text = str(raw).strip()
-        if not text:
-            return 0.0
-        # Locale-tolerant: accept "70,00" as 70.00 when no '.' is present.
-        if "," in text and "." not in text:
-            text = text.replace(",", ".")
-        else:
-            # "1,234.56" → "1234.56"
-            text = text.replace(",", "")
-        try:
-            return float(text)
-        except (TypeError, ValueError):
-            _logger.warning("Coupon amount not numeric: %r", raw)
-            return 0.0
-
     def action_sync_coupons(self):
         self.ensure_one()
         WooCoupon = self.env["woo.coupon.sync"]
@@ -2334,24 +913,14 @@ class WooInstance(models.Model):
                 if not woo_id:
                     continue
 
-                # BUG-29: WooCommerce returns ``amount`` as a string and
-                # occasionally with thousand separators (locale-dependent).
-                # ``float("70.00")`` works but ``float("70,00")`` raises and
-                # the surrounding ``or 0.0`` would otherwise mask the value
-                # silently. Parse defensively so non-numeric input degrades to
-                # 0 without silently dropping legit values.
-                amount_value = self._parse_coupon_amount(c.get("amount"))
-                allowed_types = {"percent", "fixed_cart", "fixed_product"}
-                raw_discount_type = (c.get("discount_type") or "").strip().lower()
-                discount_type = raw_discount_type if raw_discount_type in allowed_types else False
                 vals = {
                     "instance_id": self.id,
                     "name": c.get("code"),
                     "woo_coupon_id": str(woo_id),
-                    "discount_type": discount_type,
-                    "amount": amount_value,
-                    "usage_limit": c.get("usage_limit") or 0,
-                    "usage_count": c.get("usage_count") or 0,
+                    "discount_type": c.get("discount_type"),
+                    "amount": float(c.get("amount") or 0.0),
+                    "usage_limit": c.get("usage_limit"),
+                    "usage_count": c.get("usage_count"),
                     "expiry_date": self._parse_woo_datetime(c.get("date_expires")),
                     "status": c.get("status"),
                     "state": "synced",
@@ -2508,42 +1077,15 @@ class WooInstance(models.Model):
             )
             raise UserError(_("Analytics sync failed:\n%s") % e)
 
-    def _create_sync_report(
-            self,
-            operation,
-            status,
-            message="",
-            mode="manual",
-            source_action=None,
-            reference=None,
-            operation_type=None,
-            sync_direction=None,
-            woo_id=None,
-            payload_data=None,
-            error_message=None,
-            webhook_log_id=None,
-    ):
-        payload_json = False
-        if payload_data not in (None, False, ""):
-            try:
-                payload_json = json.dumps(payload_data, default=str)
-            except Exception:
-                payload_json = json.dumps({"raw_payload": str(payload_data)})
-
+    def _create_sync_report(self, operation, status, message="", mode="manual", source_action=None, reference=None):
         report = self.env["woo.report"].create({
             "instance_id": self.id,
             "operation": operation,
             "status": status,
             "message": message,
-            "error_message": error_message if error_message is not None else (message if status == "failed" else False),
             "mode": mode,
             "source_action": source_action,
             "reference": reference,
-            "operation_type": operation_type,
-            "sync_direction": sync_direction,
-            "woo_id": woo_id or reference,
-            "payload_json": payload_json,
-            "webhook_log_id": webhook_log_id.id if hasattr(webhook_log_id, "id") else webhook_log_id or False,
         })
 
         self.env["woo.report.line"].create({
@@ -2572,8 +1114,6 @@ class WooInstance(models.Model):
                 )
         except Exception as e:
             _logger.debug("Failed to push Woo dashboard update event: %s", e)
-
-        return report
 
     def _map_values(self, mappings, woo_data):
         vals = {}
@@ -2655,29 +1195,7 @@ class WooInstance(models.Model):
             )
 
         response.raise_for_status()
-        payload = response.json()
-
-        # WooCommerce list endpoints should return a list, but some stacks/plugins
-        # can wrap data in a dict or return non-dict rows.
-        if isinstance(payload, dict):
-            if isinstance(payload.get("data"), list):
-                payload = payload.get("data")
-            elif isinstance(payload.get("products"), list):
-                payload = payload.get("products")
-            else:
-                raise UserError(
-                    "Unexpected Woo products response format. "
-                    "Expected a list of products."
-                )
-
-        if not isinstance(payload, list):
-            raise UserError(
-                "Unexpected Woo products response format. "
-                "Expected a list of products."
-            )
-
-        # Keep only dict items so sync logic using .get(...) remains safe.
-        return [item for item in payload if isinstance(item, dict)]
+        return response.json()
 
     def fetch_sample_product(self):
         self.ensure_one()
@@ -2741,26 +1259,16 @@ class WooInstance(models.Model):
         return vals
 
     def _get_field_mappings(self, model):
-        """Return a list of (woo_key, odoo_field) tuples for *model*.
-
-        A list (not a dict) on purpose: users may legitimately map the same
-        Woo field to multiple Odoo fields (e.g. ``name`` → both ``name`` and
-        ``display_name``). The previous dict-comprehension silently
-        collapsed duplicates and dropped all but one mapping — making
-        "mapping not working" a recurrent complaint.
-        """
         mappings = self.env["woo.field.mapping"].search([
             ("instance_id", "=", self.id),
             ("model", "=", model),
             ("active", "=", True),
         ])
-        pairs = []
-        for m in mappings:
-            woo_key = m.woo_field_key.name if m.woo_field_key else False
-            odoo_field = m.odoo_field_id.name if m.odoo_field_id else False
-            if woo_key and odoo_field:
-                pairs.append((woo_key, odoo_field))
-        return pairs
+
+        return {
+            m.woo_field_key.name: m.odoo_field_id.name
+            for m in mappings
+        }
 
     def _normalize_woo_mapping_key(self, key):
         aliases = {
@@ -2828,7 +1336,7 @@ class WooInstance(models.Model):
         record_fields = record._fields
         protected_fields = self._protected_mapping_fields(model)
 
-        for woo_key, odoo_field in mappings:
+        for woo_key, odoo_field in mappings.items():
             value = self._get_nested_value(woo_data, woo_key)
 
             if (
@@ -2837,17 +1345,12 @@ class WooInstance(models.Model):
                 and not record_fields[odoo_field].readonly
             ):
                 value = self._coerce_mapping_value(record_fields[odoo_field], value)
-                # Only skip truly absent values (None / empty string). Using
-                # ``value not in (None, "", False)`` would also discard
-                # legitimate ``0`` numeric and ``False`` boolean values —
-                # ``0 == False`` and ``0 in (None, "", False)`` is ``True``.
-                # That silently dropped stock_quantity=0, sale_price=0,
-                # manage_stock=False, etc. (and made mapping look broken).
-                if value is not None and value != "":
+                if value not in (None, "", False):
                     vals[odoo_field] = value
 
         if vals:
             record.write(vals)
+
 
         return vals
 
@@ -3161,3 +1664,7 @@ class WooInstance(models.Model):
                         "auto": True,
                         "mode": "cron",
                     })
+
+
+
+

@@ -4,7 +4,7 @@ Items below are marked as **Needs confirmation** based on current code state.
 
 ## 1. Odoo Version Support
 - Manifest does not explicitly pin supported Odoo major version.
-- Repository path indicates Odoo 18.
+- Repository path indicates Odoo 17.
 - **Needs confirmation**: official supported versions.
 
 ## 2. Legacy Connector Model Usage

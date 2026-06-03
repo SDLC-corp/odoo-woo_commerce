@@ -100,7 +100,7 @@ Step 4: Monitor Logs
 
 ## 4. Prerequisites
 - Odoo version:
-  - Module is in an Odoo 18 codebase (`odoo-18.0`).  
+  - Module is in an Odoo 17 codebase (`odoo17`).  
   - Exact supported Odoo versions are not declared in manifest. **Needs confirmation**
 - Required Odoo dependencies from `__manifest__.py`:
   - `base`, `web`, `bus`, `product`, `sale_management`, `contacts`, `stock`, `stock_delivery`, `mail`

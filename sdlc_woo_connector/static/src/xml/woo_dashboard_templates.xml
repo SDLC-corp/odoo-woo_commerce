@@ -17,7 +17,7 @@
       <div class="woo-hero-right">
         <div class="woo-control">
           <label>Instance</label>
-          <select t-att-value="state.instanceId" t-on-change="onInstanceChange">
+          <select t-model="state.instanceId" t-on-change="loadData">
             <option value="all">All</option>
             <option t-foreach="state.instances" t-as="i" t-key="i.id" t-att-value="i.id">
               <t t-esc="i.name"/>
@@ -26,30 +26,18 @@
         </div>
         <div class="woo-control">
           <label>Date Range</label>
-          <select t-att-value="state.range" t-on-change="onRangeChange">
+          <select t-model="state.range" t-on-change="loadData">
             <option value="0">Today</option>
             <option value="7">Last 7 days</option>
             <option value="30">Last 30 days</option>
             <option value="90">Last 90 days</option>
           </select>
         </div>
-        <button type="button" class="btn btn-primary" t-on-click="onSyncNowClick">
+        <button class="btn btn-primary" t-on-click="syncNow">
           Sync Now
         </button>
-        <button
-          type="button"
-          class="btn btn-secondary woo-ai-btn"
-          t-att-class="{ 'woo-btn-loading': state.aiGenerating }"
-          t-att-disabled="state.aiGenerating || undefined"
-          t-on-click="(ev) => this.onGenerateInsightsClick(ev)"
-        >
-          <t t-if="state.aiGenerating">
-            <span class="woo-btn-spinner" role="status" aria-label="Generating"></span>
-            Generating...
-          </t>
-          <t t-else="">
-            Generate AI Insights
-          </t>
+        <button class="btn btn-secondary" t-on-click="generateInsights">
+          Generate AI Insights
         </button>
       </div>
     </div>

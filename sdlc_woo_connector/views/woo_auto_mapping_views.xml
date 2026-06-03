@@ -83,3 +83,4 @@
         <field name="search_view_id" ref="view_woo_auto_mapping_search"/>
     </record>
 </odoo>
+

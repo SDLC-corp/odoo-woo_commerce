@@ -6,13 +6,6 @@ class WooFieldMapping(models.Model):
     _name = "woo.field.mapping"
     _description = "Woo Field Mapping"
     _rec_name = "odoo_field_id"
-    _order = "instance_id, model, odoo_field_id"
-
-    _uniq_woo_field_mapping = models.Constraint(
-        "unique(instance_id, model, woo_field_key, odoo_field_id)",
-        "Duplicate field mapping for the same instance / model / Woo field / "
-        "Odoo field is not allowed.",
-    )
 
     # ------------------------------------------------
     # CORE CONFIG
@@ -235,9 +228,7 @@ class WooFieldMapping(models.Model):
 
         value = self.instance_id._get_nested_value(sample, self.woo_field_key.name)
 
-        # Treat None / empty string as "missing"; ``0`` and ``False`` are
-        # legitimate values that should still produce a success preview.
-        if value is None or value == "":
+        if value in (None, "", False):
             raise UserError(
                 f"The Woo field '{self.woo_field_key.name}' is empty or not present in the sample {self.model} payload."
             )

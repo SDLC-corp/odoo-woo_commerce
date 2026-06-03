@@ -1,7 +1,7 @@
 from odoo import models, api, fields
 from odoo.exceptions import UserError
 import requests
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta
 import json
 import logging
 
@@ -16,20 +16,6 @@ class WooDashboard(models.AbstractModel):
     def _get_active_instances(self):
         return self.env["woo.instance"].search([("active", "=", True)])
 
-    def _is_live_analytics_enabled(self):
-        """Production-safe toggle for expensive live Woo analytics calls.
-
-        Default is disabled to keep dashboard fast/stable and avoid repeated
-        external timeouts. Enable explicitly with system parameter:
-        ``woo_connector.dashboard_live_analytics=true``.
-        """
-        value = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("woo_connector.dashboard_live_analytics", "false")
-        )
-        return str(value).strip().lower() in {"1", "true", "yes", "on"}
-
     def _get_instance_or_raise(self, instance_id=None):
         if instance_id:
             instance = self.env["woo.instance"].browse(int(instance_id))
@@ -43,75 +29,22 @@ class WooDashboard(models.AbstractModel):
 
     def _fetch_json(self, url, auth, params=None):
         try:
-            r = requests.get(url, auth=auth, params=params or {}, timeout=8)
+            r = requests.get(url, auth=auth, params=params or {}, timeout=30)
             r.raise_for_status()
             return r.json()
         except Exception:
             return {}
 
-    def _instance_fetch_json(self, instance, endpoint, params=None, timeout=6):
-        base = instance._get_base_url().rstrip("/")
-        url = f"{base}/{endpoint.lstrip('/')}"
-        try:
-            response = instance._woo_get(url, params=params or {}, timeout=timeout)
-            if response.status_code != 200:
-                _logger.warning(
-                    "Woo request failed for %s on %s (status %s).",
-                    endpoint,
-                    instance.display_name,
-                    response.status_code,
-                )
-                return {}
-            payload = response.json()
-            return payload if isinstance(payload, (dict, list)) else {}
-        except Exception as exc:
-            _logger.warning(
-                "Woo request failed for %s on %s: %s",
-                endpoint,
-                instance.display_name,
-                exc,
-            )
-            return {}
-
-    def _instance_total_from_header(self, instance, endpoint):
-        base = instance._get_base_url().rstrip("/")
-        url = f"{base}/wp-json/wc/v3/{endpoint}"
-        try:
-            response = instance._woo_get(url, params={"per_page": 1}, timeout=4)
-        except Exception as exc:
-            _logger.warning(
-                "Woo totals request failed for %s on %s: %s",
-                endpoint,
-                instance.display_name,
-                exc,
-            )
-            return 0
-
-        if response.status_code != 200:
-            _logger.warning(
-                "Woo totals request failed for %s on %s (status %s).",
-                endpoint,
-                instance.display_name,
-                response.status_code,
-            )
-            return 0
-        return int(response.headers.get("X-WP-Total", 0) or 0)
-
     def _total_from_header(self, base, auth_candidates, endpoint):
-        tried = set()
         for auth in auth_candidates:
             if not auth or not all(auth):
                 continue
-            auth_key = tuple(auth)
-            if auth_key in tried:
-                continue
-            tried.add(auth_key)
             try:
                 r = requests.get(
                     f"{base}/wp-json/wc/v3/{endpoint}",
                     auth=auth,
                     params={"per_page": 1},
-                    timeout=6,
+                    timeout=30,
                 )
             except Exception as exc:
                 _logger.warning(
@@ -131,51 +64,13 @@ class WooDashboard(models.AbstractModel):
             )
         return 0
 
-    def _customer_count_from_orders(self, instances, date_from=None, date_to=None):
-        """Distinct customer email count from orders in the given window.
-
-        Used only as a fallback when the dedicated ``woo.customer.sync`` table
-        is empty. Prefer ``_customer_count`` for the actual KPI value.
-        """
+    def _customer_count_from_orders(self, instances):
         if not instances:
             return 0
         Order = self.env["woo.order.sync"]
-        domain = [
-            ("instance_id", "in", instances.ids),
-            ("customer_email", "!=", False),
-            ("customer_email", "!=", ""),
-        ]
-        if date_from and date_to:
-            domain += [
-                ("date_created", ">=", date_from),
-                ("date_created", "<=", date_to),
-            ]
-        groups = Order._read_group(domain, groupby=["customer_email"])
-        return sum(1 for group in groups if group and group[0])
-
-    def _customer_count(self, instances, date_from=None, date_to=None):
-        """Actual customer count for the dashboard KPI card.
-
-        Counts records on ``woo.customer.sync`` directly. Falls back to
-        distinct order emails when the customer table is empty so the card
-        is not stuck at zero on a fresh import.
-        """
-        if not instances:
-            return 0
-        Customer = self.env["woo.customer.sync"]
         domain = [("instance_id", "in", instances.ids)]
-        if date_from and date_to:
-            domain += [
-                ("synced_on", ">=", date_from),
-                ("synced_on", "<=", date_to),
-            ]
-        count = Customer.search_count(domain)
-        if count:
-            return count
-        # No customer.sync rows for this window — derive from order emails.
-        return self._customer_count_from_orders(
-            instances, date_from=date_from, date_to=date_to
-        )
+        groups = Order.read_group(domain, ["customer_email"], ["customer_email"])
+        return sum(1 for g in groups if g.get("customer_email"))
 
     def _totals_from_snapshots(self, instances):
         if not instances:
@@ -199,10 +94,9 @@ class WooDashboard(models.AbstractModel):
             "net_sales": sum(instances.mapped("total_revenue")),
         }
 
-    def _totals_from_local_sync(self, instances, date_from=None, date_to=None):
+    def _totals_from_local_sync(self, instances):
         if not instances:
             return {
-                "instances": 0,
                 "products": 0,
                 "orders": 0,
                 "customers": 0,
@@ -217,83 +111,17 @@ class WooDashboard(models.AbstractModel):
         Category = self.env["woo.category.sync"]
         Coupon = self.env["woo.coupon.sync"]
 
-        product_domain = [("instance_id", "in", instances.ids)]
-        order_domain = [("instance_id", "in", instances.ids)]
-        category_domain = [("instance_id", "in", instances.ids)]
+        domain = [("instance_id", "in", instances.ids)]
         coupon_domain = ["|", ("instance_id", "=", False), ("instance_id", "in", instances.ids)]
-
-        if date_from and date_to:
-            product_domain += [
-                ("synced_on", ">=", date_from),
-                ("synced_on", "<=", date_to),
-            ]
-            order_domain += [
-                ("date_created", ">=", date_from),
-                ("date_created", "<=", date_to),
-            ]
-            category_domain += [
-                ("synced_on", ">=", date_from),
-                ("synced_on", "<=", date_to),
-            ]
-            coupon_domain += [
-                ("synced_on", ">=", date_from),
-                ("synced_on", "<=", date_to),
-            ]
-
-        orders = Order.search(order_domain)
         return {
-            "instances": self._instance_count_for_window(
-                instances, date_from=date_from, date_to=date_to
-            ),
-            "products": Product.search_count(product_domain),
-            "orders": len(orders),
-            "customers": self._customer_count(
-                instances, date_from=date_from, date_to=date_to
-            ),
-            "categories": Category.search_count(category_domain),
+            "products": Product.search_count(domain),
+            "orders": Order.search_count(domain),
+            "customers": self._customer_count_from_orders(instances),
+            "categories": Category.search_count(domain),
             "coupons": Coupon.search_count(coupon_domain),
-            "total_sales": sum(orders.mapped("total_amount")),
-            "net_sales": sum(orders.mapped("total_amount")),
+            "total_sales": sum(Order.search(domain).mapped("total_amount")),
+            "net_sales": sum(Order.search(domain).mapped("total_amount")),
         }
-
-    def _instance_count_for_window(self, instances, date_from=None, date_to=None):
-        """Count instances that have sync activity in the selected window."""
-        if not instances:
-            return 0
-        if len(instances) == 1:
-            return 1
-
-        instance_ids = set()
-        model_specs = [
-            ("woo.product.sync", "synced_on"),
-            ("woo.order.sync", "date_created"),
-            ("woo.customer.sync", "synced_on"),
-            ("woo.category.sync", "synced_on"),
-            ("woo.coupon.sync", "synced_on"),
-        ]
-        for model_name, date_field in model_specs:
-            domain = [
-                ("instance_id", "in", instances.ids),
-                ("instance_id", "!=", False),
-            ]
-            if date_from and date_to:
-                domain += [
-                    (date_field, ">=", date_from),
-                    (date_field, "<=", date_to),
-                ]
-            groups = self.env[model_name].read_group(
-                domain,
-                ["instance_id"],
-                ["instance_id"],
-                lazy=False,
-            )
-            for group in groups:
-                grouped_instance = group.get("instance_id")
-                if isinstance(grouped_instance, (list, tuple)) and grouped_instance:
-                    instance_ids.add(grouped_instance[0])
-                elif isinstance(grouped_instance, int):
-                    instance_ids.add(grouped_instance)
-        return len(instance_ids)
 
     def _order_status_breakdown(self, instances, date_from, date_to):
         Order = self.env["woo.order.sync"]
@@ -304,11 +132,8 @@ class WooDashboard(models.AbstractModel):
                 ("date_created", "<=", date_to),
             ]
 
-        # ``_read_group`` returns a list of tuples: [(status_value, count), ...]
-        groups = Order._read_group(
-            domain, groupby=["status"], aggregates=["__count"]
-        )
-        counts = {status: count for status, count in groups if status}
+        groups = Order.read_group(domain, ["status"], ["status"])
+        counts = {g["status"]: g["status_count"] for g in groups if g.get("status")}
         return {
             "pending": counts.get("pending", 0),
             "processing": counts.get("processing", 0),
@@ -328,20 +153,18 @@ class WooDashboard(models.AbstractModel):
                 ("date_created", "<=", date_to),
             ]
 
-        # _read_group with multiple aggregates returns tuples of
-        # (groupby_value, count, sum) in declared order.
-        groups = Order._read_group(
+        groups = Order.read_group(
             domain,
-            groupby=["payment_method_title"],
-            aggregates=["__count", "total_amount:sum"],
+            ["payment_method_title", "total_amount:sum"],
+            ["payment_method_title"],
         )
         return [
             {
-                "title": title or "Unknown",
-                "count": count or 0,
-                "amount": float(amount or 0.0),
+                "title": g.get("payment_method_title") or "Unknown",
+                "count": g.get("payment_method_title_count", 0),
+                "amount": g.get("total_amount", 0.0),
             }
-            for title, count, amount in groups
+            for g in groups
         ]
 
     def _recent_orders(self, instances, date_from, date_to, limit=6):
@@ -557,58 +380,6 @@ class WooDashboard(models.AbstractModel):
             ),
         }
 
-    def _build_local_dashboard_payload(
-        self,
-        selected_instances,
-        is_all,
-        window_totals,
-        base_totals,
-        date_from,
-        date_to,
-        days,
-    ):
-        # Product/customer/category/coupon/instance cards remain stable
-        # (not date-windowed). Only order and revenue metrics follow the
-        # selected date range.
-        return {
-            "totals": {
-                "instances": base_totals["instances"],
-                "products": base_totals["products"],
-                "orders": window_totals["orders"],
-                "customers": base_totals["customers"],
-                "categories": base_totals["categories"],
-                "coupons": base_totals["coupons"],
-                "total_sales": window_totals["total_sales"],
-                "net_sales": window_totals["net_sales"],
-            },
-            "intervals": [],
-            "categories": [],
-            "products": [],
-            "order_status": self._order_status_breakdown(
-                selected_instances, date_from, date_to
-            ),
-            "payments": self._payment_breakdown(
-                selected_instances, date_from, date_to
-            ),
-            "gift_cards": {
-                "total": 0,
-                "used": 0,
-                "pending": 0,
-                "expired": 0,
-                "no_balance": 0,
-            },
-            "recent_orders": self._recent_orders(
-                selected_instances, date_from, date_to
-            ),
-            "meta": {
-                "date_from": date_from,
-                "date_to": date_to,
-                "instance_name": "All Instances" if is_all else selected_instances[:1].name,
-                "is_all": is_all,
-            },
-            "ai_insight": self._latest_ai_insight(selected_instances, days, is_all),
-        }
-
     @api.model
     def get_dashboard_data(self, range="30", instance_id=None, fast=False):
         return self.get_analytics_data(range=range, instance_id=instance_id, fast=fast)
@@ -620,21 +391,22 @@ class WooDashboard(models.AbstractModel):
 
     @api.model
     def get_analytics_data(self, range="30", instance_id=None, fast=False):
-        try:
-            days = int(range)
-        except Exception:
-            days = 30
-        # Use full local-day boundaries for dashboard ranges so "Last 7 days"
-        # always includes today's records the same way "Today" does.
-        today = fields.Date.context_today(self)
+        days = int(range)
+        date_to = datetime.utcnow()
         if days <= 0:
-            date_from = datetime.combine(today, time.min)
-            date_to = datetime.combine(today, time.max)
+            date_from = date_to.replace(
+                hour=0,
+                minute=0,
+                second=0,
+                microsecond=0,
+            )
+            date_to = date_from.replace(
+                hour=23,
+                minute=59,
+                second=59,
+            )
         else:
-            # Last N days inclusive: [today-(N-1) 00:00:00, today 23:59:59]
-            start_day = today - timedelta(days=max(days - 1, 0))
-            date_from = datetime.combine(start_day, time.min)
-            date_to = datetime.combine(today, time.max)
+            date_from = date_to - timedelta(days=days)
 
         after_api = date_from.strftime("%Y-%m-%dT00:00:00")
         before_api = date_to.strftime("%Y-%m-%dT23:59:59")
@@ -653,49 +425,89 @@ class WooDashboard(models.AbstractModel):
             selected_instances = self.env["woo.instance"].browse(instance.id)
             is_all = False
 
-        window_totals = self._totals_from_local_sync(
-            selected_instances,
-            date_from=after_local,
-            date_to=before_local,
-        )
-        base_totals = self._totals_from_local_sync(selected_instances)
-
-        # Production default: use local synced data for dashboard KPIs.
-        # Live Woo analytics can be enabled explicitly via system parameter.
-        use_live_woo = bool(not fast and self._is_live_analytics_enabled())
-        if not use_live_woo:
-            return self._build_local_dashboard_payload(
-                selected_instances,
-                is_all,
-                window_totals,
-                base_totals,
-                after_local,
-                before_local,
-                days,
-            )
-
         total_products = 0
         total_orders = 0
         total_customers = 0
         total_categories = 0
+        total_coupons = 0
         total_sales = 0.0
         net_sales = 0.0
         intervals_map = {}
         categories = []
         products = []
 
+        if fast:
+            snapshot = self._totals_from_snapshots(selected_instances)
+            local_totals = self._totals_from_local_sync(selected_instances)
+
+            total_products = snapshot["products"] or local_totals["products"]
+            total_orders = snapshot["orders"] or local_totals["orders"]
+            total_customers = snapshot["customers"] or local_totals["customers"]
+            total_categories = snapshot["categories"] or local_totals["categories"]
+            total_coupons = snapshot["coupons"] or local_totals["coupons"]
+            total_sales = snapshot["total_sales"] or local_totals["total_sales"]
+            net_sales = snapshot["net_sales"] or local_totals["net_sales"]
+
+            return {
+                "totals": {
+                    "instances": len(instances),
+                    "products": total_products,
+                    "orders": total_orders,
+                    "customers": total_customers,
+                    "categories": total_categories,
+                    "coupons": total_coupons,
+                    "total_sales": total_sales,
+                    "net_sales": net_sales,
+                },
+                "intervals": [],
+                "categories": [],
+                "products": [],
+                "order_status": {},
+                "payments": [],
+                "gift_cards": {
+                    "total": 0,
+                    "used": 0,
+                    "pending": 0,
+                    "expired": 0,
+                    "no_balance": 0,
+                },
+                "recent_orders": self._recent_orders(
+                    selected_instances, after_local, before_local
+                ),
+                "meta": {
+                    "date_from": after_local,
+                    "date_to": before_local,
+                    "instance_name": "All Instances" if is_all else selected_instances[:1].name,
+                    "is_all": is_all,
+                },
+                "ai_insight": self._latest_ai_insight(selected_instances, days, is_all),
+            }
+
         for inst in selected_instances:
-            revenue = self._instance_fetch_json(
-                inst,
-                "wp-json/wc-analytics/reports/revenue/stats",
+            base = inst.shop_url.rstrip("/")
+            auth_v3 = (inst.consumer_key, inst.consumer_secret)
+            auth_app = (inst.wp_username, inst.application_password)
+            auth_analytics = auth_app if all(auth_app) else auth_v3
+
+            revenue = self._fetch_json(
+                f"{base}/wp-json/wc-analytics/reports/revenue/stats",
+                auth_analytics,
                 {"after": after_api, "before": before_api, "interval": "day"},
-                timeout=6,
             )
 
-            total_products += self._instance_total_from_header(inst, "products")
-            total_orders += self._instance_total_from_header(inst, "orders")
-            total_customers += self._instance_total_from_header(inst, "customers")
-            total_categories += self._instance_total_from_header(inst, "products/categories")
+            auth_candidates = [auth_v3, auth_app]
+            total_products += self._total_from_header(
+                base, auth_candidates, "products"
+            )
+            total_orders += self._total_from_header(
+                base, auth_candidates, "orders"
+            )
+            total_customers += self._total_from_header(
+                base, auth_candidates, "customers"
+            )
+            total_categories += self._total_from_header(
+                base, auth_candidates, "products/categories"
+            )
 
             totals = revenue.get("totals", {}) or {}
             total_sales += float(totals.get("total_sales", 0.0) or 0.0)
@@ -717,47 +529,38 @@ class WooDashboard(models.AbstractModel):
                 )
 
             if not is_all:
-                categories = self._instance_fetch_json(
-                    inst,
-                    "wp-json/wc-analytics/reports/categories",
+                categories = self._fetch_json(
+                    f"{base}/wp-json/wc-analytics/reports/categories",
+                    auth_analytics,
                     {"after": after_api, "before": before_api, "per_page": 5},
-                    timeout=5,
                 ) or []
 
-                products = self._instance_fetch_json(
-                    inst,
-                    "wp-json/wc-analytics/reports/products",
+                products = self._fetch_json(
+                    f"{base}/wp-json/wc-analytics/reports/products",
+                    auth_analytics,
                     {"after": after_api, "before": before_api, "per_page": 5},
-                    timeout=5,
                 ) or []
 
         intervals = sorted(intervals_map.values(), key=lambda x: x["interval"])
 
         if total_customers == 0:
-            total_customers = self._customer_count(selected_instances)
+            total_customers = self._customer_count_from_orders(selected_instances)
 
-        # BUG-16: the dashboard previously took ``max()`` of the WooCommerce
-        # X-WP-Total header (which reports all-time counts for the resource,
-        # not a date-windowed slice) and the locally summed value. When the
-        # user picked "Today", local was small (0 or 1) but the WC header
-        # was the all-time total — ``max`` returned the all-time number and
-        # the user saw 30-day-ish data in a 1-day filter.
-        #
-        # Source of truth must be the locally synced records inside the
-        # selected window, since that's what every other dashboard tile and
-        # the Orders list view reflect.
-        total_products = base_totals["products"]
-        total_orders = window_totals["orders"]
-        total_customers = base_totals["customers"]
-        total_categories = base_totals["categories"]
-        total_coupons = base_totals["coupons"]
-        # Revenue must also strictly follow selected date range.
-        total_sales = window_totals["total_sales"]
-        net_sales = window_totals["net_sales"]
+        local_totals = self._totals_from_local_sync(selected_instances)
+
+        # Keep dashboard responsive for live webhook updates by preferring local synced data
+        # whenever remote analytics APIs are delayed.
+        total_products = max(total_products, local_totals["products"])
+        total_orders = max(total_orders, local_totals["orders"])
+        total_customers = max(total_customers, local_totals["customers"])
+        total_categories = max(total_categories, local_totals["categories"])
+        total_coupons = local_totals["coupons"]
+        total_sales = max(total_sales, local_totals["total_sales"])
+        net_sales = max(net_sales, local_totals["net_sales"])
 
         return {
             "totals": {
-                "instances": base_totals["instances"],
+                "instances": len(instances),
                 "products": total_products,
                 "orders": total_orders,
                 "customers": total_customers,
@@ -796,149 +599,58 @@ class WooDashboard(models.AbstractModel):
 
     @api.model
     def manual_sync(self, instance_id=None):
-        def _sync_instance(instance):
-            errors = []
-            success = []
-            for method_name in ("action_sync_products", "action_sync_categories", "action_sync_orders", "action_sync_coupons"):
-                method = getattr(instance, method_name, False)
-                if not method:
-                    continue
-                try:
-                    # Isolate each sync stage so a single DB/HTTP failure
-                    # does not poison the whole manual sync transaction.
-                    with self.env.cr.savepoint():
-                        method()
-                    success.append(method_name)
-                except Exception as exc:
-                    errors.append(f"{method_name}: {exc}")
-            return {
-                "instance": instance.display_name,
-                "success": success,
-                "errors": errors,
-            }
-
-        results = []
         if instance_id and str(instance_id).lower() != "all":
             instance = self._get_instance_or_raise(instance_id)
-            results.append(_sync_instance(instance))
-        else:
-            instances = self._get_active_instances()
-            for instance in instances:
-                results.append(_sync_instance(instance))
+            instance.auto_sync_all(force=True)
+            return True
 
-        total_success = sum(len(item["success"]) for item in results)
-        total_errors = sum(len(item["errors"]) for item in results)
-        all_errors = [err for item in results for err in item["errors"]]
-
-        return {
-            "ok": total_errors == 0,
-            "total_success": total_success,
-            "total_errors": total_errors,
-            "errors": all_errors,
-            "results": results,
-        }
+        instances = self._get_active_instances()
+        for instance in instances:
+            instance.auto_sync_all(force=True)
+        return True
 
     @api.model
     def generate_ai_insights(self, range="30", instance_id=None):
-        """Generate AI insights for the dashboard.
+        from ..services.woo_ai_service import WooAIService
 
-        This method never raises: every failure path returns a JSON-able dict
-        with ``status`` set to ``"failed"`` and a human-readable
-        ``error_message``. The frontend renders that message in a single
-        toast, which avoids the stacked "Odoo Server Error" modals that would
-        otherwise appear (one from the framework error_service plus one from
-        our own catch block plus a lingering "Generating..." info toast).
-        """
-        try:
-            from ..services.woo_ai_service import WooAIService
+        days = int(range or 30)
+        instances = self._get_active_instances()
+        if not instances:
+            raise UserError("No active WooCommerce instance found.")
 
-            try:
-                days = int(range or 30)
-            except (TypeError, ValueError):
-                days = 30
+        if instance_id and str(instance_id).lower() == "all":
+            selected_instances = instances
+            scope = "all"
+            instance = False
+            instance_name = "All Instances"
+        else:
+            instance = self._get_instance_or_raise(instance_id)
+            selected_instances = self.env["woo.instance"].browse(instance.id)
+            scope = "instance"
+            instance_name = selected_instances[:1].name
 
-            instances = self._get_active_instances()
-            if not instances:
-                return self._ai_insight_error_payload(
-                    "No active WooCommerce instance found. "
-                    "Configure an instance before generating AI insights."
-                )
+        metrics = self._build_ai_metrics(selected_instances)
+        service = WooAIService(self.env)
+        result = service.generate_sales_inventory_insights(
+            metrics,
+            {
+                "instance_name": instance_name,
+                "range_days": days,
+                "instance_count": len(selected_instances),
+            },
+        )
 
-            if instance_id and str(instance_id).lower() == "all":
-                selected_instances = instances
-                scope = "all"
-                instance = False
-                instance_name = "All Instances"
-            else:
-                try:
-                    instance = self._get_instance_or_raise(instance_id)
-                except Exception as exc:
-                    return self._ai_insight_error_payload(str(exc))
-                selected_instances = self.env["woo.instance"].browse(instance.id)
-                scope = "instance"
-                instance_name = selected_instances[:1].name or "Instance"
-
-            try:
-                metrics = self._build_ai_metrics(selected_instances)
-            except Exception as exc:
-                _logger.exception("Failed to build AI metrics: %s", exc)
-                return self._ai_insight_error_payload(
-                    "Could not collect dashboard metrics: %s" % exc
-                )
-
-            service = WooAIService(self.env)
-            result = service.generate_sales_inventory_insights(
-                metrics,
-                {
-                    "instance_name": instance_name,
-                    "range_days": days,
-                    "instance_count": len(selected_instances),
-                },
-            )
-
-            try:
-                record = self.env["woo.ai.insight"].sudo().upsert_latest(
-                    {
-                        "name": "AI Insight - %s" % instance_name,
-                        "instance_id": instance.id if instance else False,
-                        "scope": scope,
-                        "range_days": days,
-                        "summary_text": result["summary_text"],
-                        "insight_json": json.dumps(result["insight_payload"], default=str),
-                        "status": result["status"],
-                        "generated_at": result["generated_at"],
-                        "error_message": result.get("error_message") or False,
-                    }
-                )
-                return record.get_payload()
-            except Exception as exc:
-                _logger.exception("Failed to persist AI insight record: %s", exc)
-                payload = dict(result.get("insight_payload") or {})
-                payload.update(
-                    {
-                        "summary_text": result.get("summary_text") or "",
-                        "status": "fallback",
-                        "generated_at": result.get("generated_at"),
-                        "error_message": "Could not save insight: %s" % exc,
-                    }
-                )
-                return payload
-        except Exception as exc:
-            _logger.exception("Unexpected error in generate_ai_insights: %s", exc)
-            return self._ai_insight_error_payload(
-                "Unexpected error while generating AI insights: %s" % exc
-            )
-
-    def _ai_insight_error_payload(self, message):
-        return {
-            "summary_text": "",
-            "status": "failed",
-            "generated_at": fields.Datetime.now(),
-            "error_message": message,
-            "actionable_recommendations": [],
-            "predicted_top_products_to_restock": [],
-            "products_at_risk_of_stockout": [],
-            "low_sales_products": [],
-            "sales_summary": {},
-            "repeat_customers": [],
-        }
+        record = self.env["woo.ai.insight"].sudo().upsert_latest(
+            {
+                "name": "AI Insight - %s" % instance_name,
+                "instance_id": instance.id if instance else False,
+                "scope": scope,
+                "range_days": days,
+                "summary_text": result["summary_text"],
+                "insight_json": json.dumps(result["insight_payload"], default=str),
+                "status": result["status"],
+                "generated_at": result["generated_at"],
+                "error_message": result.get("error_message") or False,
+            }
+        )
+        return record.get_payload()

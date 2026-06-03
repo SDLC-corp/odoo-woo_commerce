@@ -1,6 +1,5 @@
 <form string="WooCommerce Analytics" create="0" edit="0">
     <sheet>
-                    <widget name="woo_field_help"/>
 
         <group col="5" string="Overview">
             <field name="total_products"/>
@@ -16,3 +15,4 @@
 
     </sheet>
 </form>
+

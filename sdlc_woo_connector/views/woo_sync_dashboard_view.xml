@@ -98,3 +98,4 @@
         <field name="code">action = model.action_open_default_dashboard()</field>
     </record>
 </odoo>
+

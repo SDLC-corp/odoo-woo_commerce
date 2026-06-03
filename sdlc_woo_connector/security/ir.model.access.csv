@@ -7,25 +7,14 @@ access_woo_order_sync,woo.order.sync,model_woo_order_sync,base.group_user,1,1,1,
 access_woo_category_sync,woo.category.sync,model_woo_category_sync,base.group_user,1,1,1,1
 access_woo_report,woo.report,model_woo_report,base.group_user,1,1,1,1
 access_woo_coupon_sync,woo.coupon.sync,model_woo_coupon_sync,base.group_user,1,1,1,0
+access_woo_report,access_woo_report,model_woo_report,base.group_user,1,1,1,1
 access_woo_report_line,woo.report.line,model_woo_report_line,base.group_user,1,1,1,1
-access_woo_order_line_sync,woo.order.line.sync,model_woo_order_line_sync,base.group_user,1,1,1,1
-access_woo_sync_status,woo.sync.status,model_woo_sync_status,base.group_system,1,1,1,1
-access_woo_field_mapping,woo.field.mapping,model_woo_field_mapping,base.group_user,1,1,1,1
-access_woo_field_user,woo.field.user,model_woo_field,base.group_user,1,1,1,1
-access_woo_field_mapping_user,woo.field.mapping.user,model_woo_field_mapping,base.group_user,1,1,1,1
-access_woo_inventory_user,woo.inventory.user,model_woo_inventory,base.group_user,1,1,1,1
-access_woo_ai_insight_user,woo.ai.insight.user,model_woo_ai_insight,base.group_user,1,1,1,1
-access_woo_ai_content_wizard_user,woo.ai.content.wizard.user,model_woo_ai_content_wizard,base.group_user,1,1,1,1
-access_woo_connector_user,woo.connector.user,model_woo_connector,base.group_user,1,1,1,1
-access_woo_import_by_id_wizard_user,woo.import.by.id.wizard.user,model_woo_import_by_id_wizard,base.group_user,1,1,1,1
-access_woo_import_date_range_wizard_user,woo.import.date.range.wizard.user,model_woo_import_date_range_wizard,base.group_user,1,1,1,1
-access_woo_manual_record_sync_wizard_user,woo.manual.record.sync.wizard.user,model_woo_manual_record_sync_wizard,base.group_user,1,1,1,1
-access_woo_sync_preview_user,woo.sync.preview.user,model_woo_sync_preview,base.group_user,1,1,1,1
-access_woo_sync_preview_line_user,woo.sync.preview.line.user,model_woo_sync_preview_line,base.group_user,1,0,1,1
-access_woo_webhook_log_user,woo.webhook.log.user,model_woo_webhook_log,base.group_user,1,1,1,1
-access_woo_sync_timeline_user,woo.sync.timeline.user,model_woo_sync_timeline,base.group_user,1,0,0,0
-access_woo_connection_health_log_user,woo.connection.health.log.user,model_woo_connection_health_log,base.group_user,1,1,1,0
-access_woo_sync_dashboard_user,woo.sync.dashboard.user,model_woo_sync_dashboard,base.group_user,1,1,1,1
-access_woo_auto_mapping_user,woo.auto.mapping.user,model_woo_auto_mapping,base.group_user,1,1,1,1
-
-access_product_brand,product.brand,model_product_brand,base.group_user,1,1,1,1
+access_woo_order_line_sync,woo.order.line.sync,model_woo_order_line_sync,,1,1,1,1
+access_woo_sync_status,access.woo.sync.status,model_woo_sync_status,base.group_system,1,1,1,1
+access_woo_field_mapping,woo.field.mapping,model_woo_field_mapping,,1,1,1,1
+access_woo_instance,woo.instance,model_woo_instance,,1,1,1,1
+access_woo_field_user,woo.field user,model_woo_field,base.group_user,1,1,1,1
+access_woo_field_mapping_user,woo.field.mapping user,model_woo_field_mapping,base.group_user,1,1,1,1
+access_woo_inventory_user,woo.inventory user,model_woo_inventory,base.group_user,1,1,1,1
+access_woo_ai_insight_user,woo.ai.insight user,model_woo_ai_insight,base.group_user,1,1,1,1
+access_woo_ai_content_wizard_user,woo.ai.content.wizard user,model_woo_ai_content_wizard,base.group_user,1,1,1,1

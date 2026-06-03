@@ -4,14 +4,13 @@
         <field name="name">woo.coupon.sync.list</field>
         <field name="model">woo.coupon.sync</field>
         <field name="arch" type="xml">
-            <list class="o_woo_coupon_list">
+            <list>
                 <field name="name"/>
-                <field name="woo_coupon_id" string="Woo ID" width="140px"/>
-                <field name="discount_type" width="140px"/>
-                <field name="amount" width="120px"/>
-                <field name="usage_limit" width="130px"/>
-                <field name="usage_count" optional="show" width="160px"/>
-                <field name="expiry_date" optional="show" width="220px"/>
+                <field name="discount_type"/>
+                <field name="amount"/>
+                <field name="usage_limit"/>
+                <field name="usage_count"/>
+                <field name="expiry_date"/>
                 <field name="status"/>
                 <field name="synced_on"/>
             </list>
@@ -26,20 +25,14 @@
                 <header>
                     <button name="action_push_to_woo"
                             type="object"
-                            string="Export / Update to Woo"
+                            string="Create / Update in WooCommerce"
                             class="btn-primary"/>
-                    <button name="action_manual_preview_from_woo"
-                            type="object"
-                            string="Preview Sync"
-                            class="btn-secondary"
-                            invisible="not woo_coupon_id"/>
                     <button name="action_pull_from_woo"
                             type="object"
-                            string="Import / Refresh from Woo"
+                            string="Pull from WooCommerce"
                             class="btn-secondary"/>
                 </header>
                 <sheet>
-                    <widget name="woo_field_help"/>
                     <group>
                         <field name="name"/>
                         <field name="discount_type"/>
@@ -58,3 +51,4 @@
     </record>
 
 </odoo>
+

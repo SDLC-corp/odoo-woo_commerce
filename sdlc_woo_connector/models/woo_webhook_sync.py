@@ -8,63 +8,24 @@ class WooWebhookSync(models.AbstractModel):
     _name = "woo.webhook.sync"
     _description = "WooCommerce Webhook Sync"
 
-    def _log_webhook(
-            self,
-            instance,
-            operation,
-            status,
-            message="",
-            source_action=None,
-            reference=None,
-            payload_data=None,
-    ):
-        report = False
+    def _log_webhook(self, instance, operation, status, message="", source_action=None, reference=None):
         try:
             if instance:
-                webhook_log_id = self.env.context.get("woo_webhook_log_id")
-                report = instance._create_sync_report(
+                instance._create_sync_report(
                     operation=operation,
                     status=status,
                     message=message or "",
-                    error_message=message if status == "failed" else False,
                     mode="webhook",
                     source_action=source_action or "webhook",
                     reference=reference,
-                    sync_direction="import",
-                    woo_id=reference,
-                    payload_data=payload_data,
-                    webhook_log_id=webhook_log_id,
                 )
-                if webhook_log_id and report:
-                    log_rec = self.env["woo.webhook.log"].sudo().browse(webhook_log_id)
-                    if log_rec.exists():
-                        log_rec.write({"related_report_id": report.id})
         except Exception as e:
             _logger.warning("Failed to log Woo webhook: %s", e)
-        return report
-
-    def process_single_import(self, record_type, payload, instance, source_action=None, log_result=False):
-        method_map = {
-            "product": self.sync_product,
-            "order": self.sync_order,
-            "customer": self.sync_customer,
-            "category": self.sync_category,
-            "coupon": self.sync_coupon,
-        }
-        sync_method = method_map.get(record_type)
-        if not sync_method:
-            raise ValueError(f"Unsupported record type for single import: {record_type}")
-        return sync_method(
-            payload,
-            instance,
-            source_action=source_action or "manual_import_by_id",
-            log_result=log_result,
-        )
 
     # -----------------------------
     # PRODUCT
     # -----------------------------
-    def sync_product(self, data, instance, source_action=None, log_result=True):
+    def sync_product(self, data, instance, source_action=None):
         try:
             ProductTemplate = self.env["product.template"]
             WooProduct = self.env["woo.product.sync"]
@@ -74,29 +35,11 @@ class WooWebhookSync(models.AbstractModel):
                 return
 
             name = data.get("name")
-            sku = instance._normalize_sku(data.get("sku") or data.get("slug"))
-            instance._apply_auto_mappings_from_product_payload(data)
+            sku = data.get("sku") or data.get("slug")
 
             product = ProductTemplate.search(
-                [
-                    ("woo_product_id", "=", str(woo_id)),
-                    ("woo_instance_id", "in", [False, instance.id]),
-                ],
-                limit=1,
+                [("default_code", "=", sku)], limit=1
             )
-            matched_by_sku = False
-            if not product and instance.smart_sku_matching and sku:
-                match_info = instance._find_odoo_product_by_sku(sku, instance=instance)
-                product = match_info.get("product_tmpl")
-                if product:
-                    matched_by_sku = True
-                    instance._link_product_with_woo_id(product, woo_id, instance=instance)
-                    _logger.info(
-                        "Product matched by SKU %s and Woo ID %s was linked.",
-                        sku,
-                        woo_id,
-                    )
-
             if not product:
                 product = ProductTemplate.create({
                     "name": name or f"Woo Product {woo_id}",
@@ -104,7 +47,6 @@ class WooWebhookSync(models.AbstractModel):
                     "sale_ok": True,
                     "purchase_ok": True,
                 })
-            instance._link_product_with_woo_id(product, woo_id, instance=instance)
 
             # Categories
             category_ids = []
@@ -132,27 +74,14 @@ class WooWebhookSync(models.AbstractModel):
                     })
                 tag_ids.append(tag.id)
 
-            sale_price_raw = data.get("sale_price")
-            regular_price_raw = data.get("regular_price")
-            # Map WooCommerce fields 1:1 to Odoo fields:
-            #   list_price (Regular Price) <- regular_price
-            #   sale_price                  <- sale_price (0 if not on sale)
-            # Conflating these is BUG-37 and made Sale Price equal Regular Price.
-            regular_price_value = float(regular_price_raw or 0.0)
-            sale_price_value = (
-                float(sale_price_raw)
-                if sale_price_raw not in (None, "")
-                else 0.0
-            )
-
             vals = {
                 "instance_id": instance.id,
                 "woo_product_id": str(woo_id),
                 "product_tmpl_id": product.id,
                 "name": name,
                 "sku": sku,
-                "list_price": regular_price_value,
-                "sale_price": sale_price_value,
+                "list_price": float(data.get("regular_price") or 0.0),
+                "sale_price": float(data.get("sale_price") or 0.0),
                 "manage_stock": data.get("manage_stock", False),
                 "qty_available": float(data.get("stock_quantity") or 0.0),
                 "stock_status": data.get("stock_status"),
@@ -161,15 +90,6 @@ class WooWebhookSync(models.AbstractModel):
                 "state": "synced",
                 "synced_on": fields.Datetime.now(),
             }
-            if product:
-                write_vals = {
-                    "name": name or product.name,
-                    "default_code": sku or product.default_code,
-                    "list_price": regular_price_value,
-                }
-                if "sale_price" in product._fields:
-                    write_vals["sale_price"] = sale_price_value
-                product.write(write_vals)
 
             existing = WooProduct.search(
                 [
@@ -191,86 +111,30 @@ class WooWebhookSync(models.AbstractModel):
                 record=sync_record,
             )
 
-            if log_result:
-                self._log_webhook(
-                    instance,
-                    "Webhook Product",
-                    "success",
-                    (
-                        "Product matched by SKU %s and Woo ID %s was linked."
-                        % (sku, woo_id)
-                    )
-                    if matched_by_sku
-                    else name,
-                    source_action,
-                    str(woo_id),
-                    payload_data=data,
-                )
-            return {
-                "woo_id": str(woo_id),
-                "sku": sku,
-                "matched_by": "sku" if matched_by_sku else "woo_id",
-                "message": (
-                    "Product matched by SKU %s and Woo ID %s was linked."
-                    % (sku, woo_id)
-                )
-                if matched_by_sku
-                else False,
-            }
+            self._log_webhook(instance, "Webhook Product", "success", name, source_action, str(woo_id))
         except Exception as e:
-            if log_result:
-                self._log_webhook(
-                    instance,
-                    "Webhook Product",
-                    "failed",
-                    str(e),
-                    source_action,
-                    str(woo_id),
-                    payload_data=data,
-                )
+            self._log_webhook(instance, "Webhook Product", "failed", str(e), source_action, str(woo_id))
             raise
 
     # -----------------------------
     # CUSTOMER
     # -----------------------------
-    def sync_customer(self, data, instance, source_action=None, log_result=True):
+    def sync_customer(self, data, instance, source_action=None):
         try:
             WooCustomer = self.env["woo.customer.sync"]
-            from .woo_customer_sync import (
-                PHONE_MIN_DIGITS,
-                PHONE_MAX_DIGITS,
-            )
 
             woo_id = data.get("id")
-            email = (data.get("email") or "").strip().lower()
+            email = data.get("email")
             first = data.get("first_name") or ""
             last = data.get("last_name") or ""
             name = (f"{first} {last}".strip() or email)
-
-            raw_phone = (
-                data.get("billing", {}).get("phone")
-                if isinstance(data.get("billing"), dict)
-                else data.get("phone")
-            )
-            # WooCommerce stores billing phone as a free-text field —
-            # ``+91 98765 43210``, ``(415) 555-1234``, ``N/A`` etc. The
-            # Odoo-side field now requires exactly ``PHONE_MAX_DIGITS``
-            # digits and no separators. Strip non-digit characters and only
-            # keep the result when it fits the policy; drop everything else
-            # silently so junk values from Woo never block the customer
-            # sync.
-            phone = False
-            if raw_phone:
-                digits_only = "".join(ch for ch in str(raw_phone) if ch.isdigit())
-                if PHONE_MIN_DIGITS <= len(digits_only) <= PHONE_MAX_DIGITS:
-                    phone = digits_only
 
             vals = {
                 "instance_id": instance.id,
                 "woo_customer_id": str(woo_id) if woo_id else f"guest_{email}",
                 "name": name,
                 "email": email,
-                "phone": phone,
+                "phone": data.get("billing", {}).get("phone") if isinstance(data.get("billing"), dict) else data.get("phone"),
                 "state": "synced",
                 "synced_on": fields.Datetime.now(),
             }
@@ -294,33 +158,15 @@ class WooWebhookSync(models.AbstractModel):
                 record=customer_rec,
             )
 
-            if log_result:
-                self._log_webhook(
-                    instance,
-                    "Webhook Customer",
-                    "success",
-                    name,
-                    source_action,
-                    str(woo_id),
-                    payload_data=data,
-                )
+            self._log_webhook(instance, "Webhook Customer", "success", name, source_action, str(woo_id))
         except Exception as e:
-            if log_result:
-                self._log_webhook(
-                    instance,
-                    "Webhook Customer",
-                    "failed",
-                    str(e),
-                    source_action,
-                    str(woo_id),
-                    payload_data=data,
-                )
+            self._log_webhook(instance, "Webhook Customer", "failed", str(e), source_action, str(woo_id))
             raise
 
     # -----------------------------
     # ORDER
     # -----------------------------
-    def sync_order(self, data, instance, source_action=None, log_result=True):
+    def sync_order(self, data, instance, source_action=None):
         try:
             WooOrder = self.env["woo.order.sync"]
             woo_id = data.get("id")
@@ -328,7 +174,6 @@ class WooWebhookSync(models.AbstractModel):
                 return
 
             billing = data.get("billing") or {}
-            mapping_context = instance._apply_auto_mappings_from_order_payload(data)
 
             # Sync customer from order payload
             instance._sync_customer_from_order(data)
@@ -347,7 +192,6 @@ class WooWebhookSync(models.AbstractModel):
                 "state": "synced",
                 "synced_on": fields.Datetime.now(),
                 "instance_id": instance.id,
-                "order_state": (mapping_context or {}).get("mapped_order_state") or "draft",
             }
 
             order = WooOrder.search(
@@ -372,33 +216,15 @@ class WooWebhookSync(models.AbstractModel):
             )
             order.sync_order_lines(order, data)
 
-            if log_result:
-                self._log_webhook(
-                    instance,
-                    "Webhook Order",
-                    "success",
-                    vals.get("name"),
-                    source_action,
-                    str(woo_id),
-                    payload_data=data,
-                )
+            self._log_webhook(instance, "Webhook Order", "success", vals.get("name"), source_action, str(woo_id))
         except Exception as e:
-            if log_result:
-                self._log_webhook(
-                    instance,
-                    "Webhook Order",
-                    "failed",
-                    str(e),
-                    source_action,
-                    str(woo_id),
-                    payload_data=data,
-                )
+            self._log_webhook(instance, "Webhook Order", "failed", str(e), source_action, str(woo_id))
             raise
 
     # -----------------------------
     # CATEGORY
     # -----------------------------
-    def sync_category(self, data, instance, source_action=None, log_result=True):
+    def sync_category(self, data, instance, source_action=None):
         try:
             WooCategory = self.env["woo.category.sync"]
             woo_id = data.get("id")
@@ -416,8 +242,6 @@ class WooWebhookSync(models.AbstractModel):
                 "synced_on": fields.Datetime.now(),
                 "instance_id": instance.id,
             }
-            if data.get("name"):
-                instance._ensure_auto_mapping("category", data.get("name"), payload_data=data)
 
             existing = WooCategory.search(
                 [
@@ -431,51 +255,29 @@ class WooWebhookSync(models.AbstractModel):
             else:
                 WooCategory.create(vals)
 
-            if log_result:
-                self._log_webhook(
-                    instance,
-                    "Webhook Category",
-                    "success",
-                    vals.get("name"),
-                    source_action,
-                    str(woo_id),
-                    payload_data=data,
-                )
+            self._log_webhook(instance, "Webhook Category", "success", vals.get("name"), source_action, str(woo_id))
         except Exception as e:
-            if log_result:
-                self._log_webhook(
-                    instance,
-                    "Webhook Category",
-                    "failed",
-                    str(e),
-                    source_action,
-                    str(woo_id),
-                    payload_data=data,
-                )
+            self._log_webhook(instance, "Webhook Category", "failed", str(e), source_action, str(woo_id))
             raise
 
     # -----------------------------
     # COUPON
     # -----------------------------
-    def sync_coupon(self, data, instance, source_action=None, log_result=True):
+    def sync_coupon(self, data, instance, source_action=None):
         try:
             WooCoupon = self.env["woo.coupon.sync"]
             woo_id = data.get("id")
             if not woo_id:
                 return
 
-            allowed_types = {"percent", "fixed_cart", "fixed_product"}
-            raw_discount_type = (data.get("discount_type") or "").strip().lower()
-            discount_type = raw_discount_type if raw_discount_type in allowed_types else False
-
             vals = {
                 "instance_id": instance.id,
                 "name": data.get("code"),
                 "woo_coupon_id": str(woo_id),
-                "discount_type": discount_type,
-                "amount": instance._parse_coupon_amount(data.get("amount")),
-                "usage_limit": data.get("usage_limit") or 0,
-                "usage_count": data.get("usage_count") or 0,
+                "discount_type": data.get("discount_type"),
+                "amount": float(data.get("amount") or 0.0),
+                "usage_limit": data.get("usage_limit"),
+                "usage_count": data.get("usage_count"),
                 "expiry_date": instance._parse_woo_datetime(data.get("date_expires")),
                 "status": data.get("status"),
                 "state": "synced",
@@ -494,25 +296,7 @@ class WooWebhookSync(models.AbstractModel):
             else:
                 WooCoupon.create(vals)
 
-            if log_result:
-                self._log_webhook(
-                    instance,
-                    "Webhook Coupon",
-                    "success",
-                    vals.get("name"),
-                    source_action,
-                    str(woo_id),
-                    payload_data=data,
-                )
+            self._log_webhook(instance, "Webhook Coupon", "success", vals.get("name"), source_action, str(woo_id))
         except Exception as e:
-            if log_result:
-                self._log_webhook(
-                    instance,
-                    "Webhook Coupon",
-                    "failed",
-                    str(e),
-                    source_action,
-                    str(woo_id),
-                    payload_data=data,
-                )
+            self._log_webhook(instance, "Webhook Coupon", "failed", str(e), source_action, str(woo_id))
             raise

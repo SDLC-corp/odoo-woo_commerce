@@ -14,23 +14,18 @@
                 </header>
 
                 <sheet>
-                    <widget name="woo_field_help"/>
                     <group>
                         <field name="instance_id"/>
-                        <field name="model"/>
+                        <field name="model" invisible="1"/>
+                        <field name="odoo_model_name" invisible="1"/>
                         <field name="active"/>
                     </group>
 
                     <group>
-                        <field name="odoo_field_id"
-                               options="{'no_create': true, 'no_open': true}"/>
+                        <field name="odoo_field_id"/>
+<!--                        <field name="product_tmpl_id"/>-->
                         <field name="woo_field_key"
                                options="{'no_create': true, 'no_open': true}"/>
-                    </group>
-
-                    <group string="Live Preview">
-                        <field name="woo_preview" readonly="1"/>
-                        <field name="odoo_preview" readonly="1"/>
                     </group>
 
 <!--                    <group string="Live Preview">-->
@@ -103,3 +98,4 @@
     </record>
 
 </odoo>
+

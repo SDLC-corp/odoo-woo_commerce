@@ -13,25 +13,21 @@
             <attribute name="create">false</attribute>
         </xpath>
 
-        <!-- Buttons: parent view may not have a header; insert into the sheet instead -->
-        <xpath expr="//sheet" position="inside">
-            <group name="woo_buttons_group" colspan="4">
-                <button name="action_woo_create"
-                        string="Export / Update to Woo"
-                        type="object"
-                        class="btn-primary"/>
+        <xpath expr="//notebook" position="before">
+            <group name="woo_product_actions" col="4">
+                <button
+                    name="action_woo_create"
+                    string="Create in WooCommerce"
+                    type="object"
+                    class="btn-primary"
+                    invisible="woo_product_id"/>
 
-                <button name="action_manual_import_from_woo"
-                        string="Import from Woo"
-                        type="object"
-                        class="btn-secondary"
-                        invisible="not woo_product_id"/>
-
-                <button name="action_manual_preview_from_woo"
-                        string="Preview Sync"
-                        type="object"
-                        class="btn-secondary"
-                        invisible="not woo_product_id"/>
+                <button
+                    name="action_woo_update"
+                    string="Update in WooCommerce"
+                    type="object"
+                    class="btn-secondary"
+                    invisible="not woo_product_id"/>
             </group>
         </xpath>
 
@@ -63,3 +59,4 @@
 </record>
 
 </odoo>
+

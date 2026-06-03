@@ -71,7 +71,6 @@
                 </header>
 
                 <sheet>
-                    <widget name="woo_field_help"/>
                     <group>
                         <field name="name"/>
                         <field name="woo_order_id"/>
@@ -117,3 +116,4 @@
     </record>
 
 </odoo>
+

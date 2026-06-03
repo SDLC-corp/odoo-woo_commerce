@@ -5,7 +5,6 @@ from odoo.exceptions import UserError
 class WooCategorySync(models.Model):
     _name = "woo.category.sync"
     _description = "WooCommerce Category Sync"
-    _inherit = "woo.sync.engine"
     _rec_name = "name"
     _order = "synced_on desc"
 
@@ -35,8 +34,11 @@ class WooCategorySync(models.Model):
     product_count = fields.Integer(string="Woo Product Count")
 
     state = fields.Selection(
-        selection_add=[("failed", "Failed")],
-        ondelete={"failed": "set default"},
+        [
+            ("draft", "Draft"),
+            ("synced", "Synced"),
+            ("failed", "Failed"),
+        ],
         default="draft",
         tracking=True,
     )
@@ -153,6 +155,6 @@ class WooCategorySync(models.Model):
             "type": "ir.actions.act_window",
             "name": _("Products"),
             "res_model": "product.template",
-            "view_mode": "list,form",
+            "view_mode": "tree,form",
             "domain": [("categ_id.name", "=", self.name)],
         }

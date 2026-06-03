@@ -12,58 +12,25 @@ class WooCouponSync(models.Model):
         string="Woo Instance",
         required=True,
         ondelete="cascade",
-        help="WooCommerce Instance this coupon belongs to.",
     )
 
-    name = fields.Char(
-        string="Coupon Code",
-        required=True,
-        help="The unique coupon code customers enter at checkout (e.g. SUMMER25).",
-    )
-    woo_coupon_id = fields.Char(
-        string="Woo Coupon ID",
-        index=True,
-        help="Numeric coupon ID in WooCommerce. Used for Import by Woo ID and to update the existing coupon on push.",
-    )
+    name = fields.Char(string="Coupon Code", required=True)
+    woo_coupon_id = fields.Char(string="Woo Coupon ID", index=True)
     discount_type = fields.Selection([
         ("percent", "Percentage"),
         ("fixed_cart", "Fixed Cart"),
         ("fixed_product", "Fixed Product"),
-    ], help="Discount mode applied by the coupon: percentage of total, fixed amount off the cart, or fixed amount off each matching product.")
-    amount = fields.Float(help="Discount value. Interpreted as percent or currency depending on Discount Type.")
-    usage_limit = fields.Integer(help="Maximum number of times this coupon may be redeemed in WooCommerce. 0 / empty means unlimited.")
-    usage_count = fields.Integer(help="How many times the coupon has already been used in WooCommerce.")
-    expiry_date = fields.Datetime(help="Date after which the coupon is no longer valid.")
-    status = fields.Char(help="Free-text status reported by WooCommerce (e.g. publish, draft, expired).")
+    ])
+    amount = fields.Float()
+    usage_limit = fields.Integer()
+    usage_count = fields.Integer()
+    expiry_date = fields.Datetime()
+    status = fields.Char()
     state = fields.Selection([
         ("synced", "Synced"),
         ("failed", "Failed"),
-    ], default="synced", help="Sync state with WooCommerce: Synced if last push/pull succeeded, Failed otherwise.")
-    synced_on = fields.Datetime(help="Last date/time this coupon was successfully pushed to or pulled from WooCommerce.")
-
-    def _manual_sync_report(self, status, message, sync_direction, payload=None, error_message=None):
-        self.ensure_one()
-        return self.instance_id._create_sync_report(
-            operation="Manual Record Sync (Coupon)",
-            status=status,
-            message=message,
-            mode="manual",
-            source_action="manual_record_sync",
-            reference=self.woo_coupon_id or False,
-            operation_type="coupon",
-            sync_direction=sync_direction,
-            woo_id=self.woo_coupon_id or False,
-            payload_data={
-                "source": "manual_record_sync",
-                "target_model": self._name,
-                "target_id": self.id,
-                "operation_type": "coupon",
-                "sync_direction": sync_direction,
-                "woo_id": self.woo_coupon_id or False,
-                "payload": payload or {},
-            },
-            error_message=error_message,
-        )
+    ], default="synced")
+    synced_on = fields.Datetime()
 
     def _format_woo_datetime(self, value):
         if not value:
@@ -87,136 +54,51 @@ class WooCouponSync(models.Model):
         }
         payload = {k: v for k, v in payload.items() if v not in (None, False, "")}
 
-        response_data = False
-        try:
-            if self.woo_coupon_id:
-                response = wcapi.put(
-                    f"coupons/{self.woo_coupon_id}",
-                    payload
-                )
-            else:
-                response = wcapi.post(
-                    "coupons",
-                    payload
-                )
-
-            if response.status_code not in (200, 201):
-                raise UserError(response.text)
-
-            response_data = response.json()
-            self.write({
-                "woo_coupon_id": str(response_data.get("id")),
-                "state": "synced",
-                "synced_on": fields.Datetime.now(),
-            })
-
-            message = _("Coupon synced successfully.")
-            self._manual_sync_report(
-                status="success",
-                message=message,
-                sync_direction="export",
-                payload={"request": payload, "response": response_data},
+        if self.woo_coupon_id:
+            response = wcapi.put(
+                f"coupons/{self.woo_coupon_id}",
+                payload
             )
-            return {
-                "type": "ir.actions.client",
-                "tag": "display_notification",
-                "params": {
-                    "title": _("WooCommerce"),
-                    "message": message,
-                    "type": "success",
-                },
-            }
-        except Exception as exc:
-            error_message = str(exc)
-            self._manual_sync_report(
-                status="failed",
-                message=error_message,
-                sync_direction="export",
-                payload={"request": payload, "response": response_data},
-                error_message=error_message,
+        else:
+            response = wcapi.post(
+                "coupons",
+                payload
             )
-            raise UserError(error_message)
+
+        if response.status_code not in (200, 201):
+            raise UserError(response.text)
+
+        data = response.json()
+        self.write({
+            "woo_coupon_id": str(data.get("id")),
+            "state": "synced",
+            "synced_on": fields.Datetime.now(),
+        })
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("WooCommerce"),
+                "message": _("Coupon synced successfully."),
+                "type": "success",
+            },
+        }
 
     def action_pull_from_woo(self):
         self.ensure_one()
 
         if not self.instance_id:
             raise UserError(_("Woo instance missing."))
-        if not self.woo_coupon_id:
-            raise UserError(_("Woo Coupon ID is required to import/refresh this coupon."))
 
-        payload = False
-        try:
-            wcapi = self.instance_id._get_wcapi(self.instance_id)
-            response = wcapi.get(f"coupons/{self.woo_coupon_id}")
-            if response.status_code != 200:
-                raise UserError(response.text)
-            payload = response.json()
-            if not isinstance(payload, dict):
-                raise UserError(_("Unexpected WooCommerce coupon response format."))
+        self.instance_id.action_sync_coupons()
 
-            self.env["woo.webhook.sync"].sudo().process_single_import(
-                record_type="coupon",
-                payload=payload,
-                instance=self.instance_id,
-                source_action="manual_record_sync",
-                log_result=False,
-            )
-
-            self.write(
-                {
-                    "woo_coupon_id": str(payload.get("id") or self.woo_coupon_id),
-                    "name": payload.get("code") or self.name,
-                    "state": "synced",
-                    "synced_on": fields.Datetime.now(),
-                }
-            )
-
-            message = _("Coupon refreshed from WooCommerce.")
-            self._manual_sync_report(
-                status="success",
-                message=message,
-                sync_direction="import",
-                payload=payload,
-            )
-            return {
-                "type": "ir.actions.client",
-                "tag": "display_notification",
-                "params": {
-                    "title": _("WooCommerce"),
-                    "message": message,
-                    "type": "success",
-                },
-            }
-        except Exception as exc:
-            error_message = str(exc)
-            self._manual_sync_report(
-                status="failed",
-                message=error_message,
-                sync_direction="import",
-                payload=payload,
-                error_message=error_message,
-            )
-            raise UserError(error_message)
-
-    def action_manual_preview_from_woo(self, instance=False, via_wizard=False):
-        self.ensure_one()
-        resolved_instance = instance or self.instance_id
-        if not resolved_instance:
-            raise UserError(_("Woo instance missing."))
-        woo_id = (self.woo_coupon_id or "").strip()
-        if not woo_id:
-            raise UserError(_("Woo Coupon ID is required to preview this import."))
-        preview = self.env["woo.sync.preview"].create_and_run_preview(
-            {
-                "name": _("Preview - Manual Record Import"),
-                "source_mode": "manual_record",
-                "instance_id": resolved_instance.id,
-                "record_type": "coupon",
-                "woo_id": woo_id,
-                "target_model": self._name,
-                "target_id": self.id,
-                "update_existing": True,
-            }
-        )
-        return preview.action_open_preview()
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("WooCommerce"),
+                "message": _("Coupons refreshed from WooCommerce."),
+                "type": "success",
+            },
+        }
