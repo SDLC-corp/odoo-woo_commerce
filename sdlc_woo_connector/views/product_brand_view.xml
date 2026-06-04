@@ -24,7 +24,6 @@
                             class="btn-primary"/>
                 </header>
                 <sheet>
-                    <widget name="woo_field_help"/>
                     <group>
                         <field name="name"/>
                         <field name="display_name" readonly="1"/>
@@ -46,4 +45,5 @@
     <menuitem id="menu_product_brand" name="Product Brands" parent="menu_product_brand_root" action="action_product_brand"/>
 
 </odoo>
+
 

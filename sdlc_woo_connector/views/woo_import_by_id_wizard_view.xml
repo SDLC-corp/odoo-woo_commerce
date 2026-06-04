@@ -5,7 +5,6 @@
         <field name="arch" type="xml">
             <form string="Import by Woo ID">
                 <sheet>
-                    <widget name="woo_field_help"/>
                     <group>
                         <field name="instance_id" required="1"/>
                         <field name="record_type" required="1"/>
@@ -38,4 +37,5 @@
         <field name="target">new</field>
     </record>
 </odoo>
+
 

@@ -5,7 +5,6 @@
         <field name="arch" type="xml">
             <form string="Select Woo Instance">
                 <sheet>
-                    <widget name="woo_field_help"/>
                     <group>
                         <field name="instance_id" required="1"/>
                     </group>
@@ -112,4 +111,5 @@
         </field>
     </record>
 </odoo>
+
 

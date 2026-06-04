@@ -40,7 +40,6 @@
         <field name="arch" type="xml">
             <form string="Connection Health Log" create="0" delete="0" edit="0">
                 <sheet>
-                    <widget name="woo_field_help"/>
                     <group col="2">
                         <field name="instance_id"/>
                         <field name="checked_at"/>
@@ -66,4 +65,5 @@
         <field name="search_view_id" ref="woo_connection_health_log_search_view"/>
     </record>
 </odoo>
+
 

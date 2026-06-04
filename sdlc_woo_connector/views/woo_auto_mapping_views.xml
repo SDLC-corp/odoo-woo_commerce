@@ -32,7 +32,6 @@
                             class="btn-secondary"/>
                 </header>
                 <sheet>
-                    <widget name="woo_field_help"/>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_test_mapping"
                                 type="object"
@@ -83,4 +82,5 @@
         <field name="search_view_id" ref="view_woo_auto_mapping_search"/>
     </record>
 </odoo>
+
 

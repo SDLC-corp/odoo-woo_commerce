@@ -23,6 +23,7 @@
     <menuitem id="woo_data_menu"
               name="WooCommerce Data"
               parent="woo_root_menu"
+              action="action_woo_orders"
               sequence="3"/>
 
     <!-- ================= DATA SUB MENUS ================= -->
@@ -50,6 +51,18 @@
               action="action_woo_categories"
               sequence="4"/>
 
+    <menuitem id="woo_import_by_id_menu"
+              name="Import by Woo ID"
+              parent="woo_data_menu"
+              action="action_woo_import_by_id_wizard"
+              sequence="5"/>
+
+    <menuitem id="woo_import_by_date_range_menu"
+              name="Import by Date Range"
+              parent="woo_data_menu"
+              action="action_woo_import_date_range_wizard"
+              sequence="6"/>
+
 
 
 
@@ -63,6 +76,7 @@
     <menuitem id="woo_field_mapping_root_menu"
               name="Field Mapping"
               parent="woo_root_menu"
+              action="action_woo_auto_mapping"
               sequence="5"/>
 
     <menuitem id="woo_field_mapping_product_menu"
@@ -77,17 +91,23 @@
               action="action_woo_field_mapping_customer"
               sequence="2"/>
 
-<!--    <menuitem id="woo_field_mapping_order_menu"-->
-<!--              name="Order Field Mapping"-->
-<!--              parent="woo_field_mapping_root_menu"-->
-<!--              action="action_woo_field_mapping_order"-->
-<!--              sequence="3"/>-->
+    <menuitem id="woo_field_mapping_order_menu"
+              name="Order Field Mapping"
+              parent="woo_field_mapping_root_menu"
+              action="action_woo_field_mapping_order"
+              sequence="3"/>
 
     <menuitem id="woo_field_mapping_category_menu"
               name="Category Field Mapping"
               parent="woo_field_mapping_root_menu"
               action="action_woo_field_mapping_category"
               sequence="4"/>
+
+    <menuitem id="woo_auto_mapping_menu"
+              name="Auto Field Mapping"
+              parent="woo_field_mapping_root_menu"
+              action="action_woo_auto_mapping"
+              sequence="5"/>
 
     <menuitem id="woo_inventory_menu"
               name="Inventory"
@@ -98,6 +118,7 @@
     <menuitem id="woo_shipping_menu"
               name="Shipping"
               parent="woo_root_menu"
+              action="action_woo_delivery_orders"
               sequence="7"/>
 
     <menuitem id="woo_delivery_orders_menu"
@@ -115,6 +136,7 @@
     <menuitem id="woo_reports_menu"
               name="Reports"
               parent="woo_root_menu"
+              action="action_woo_sync_reports"
               sequence="8"/>
 
     <menuitem id="woo_sync_reports_menu"
@@ -128,6 +150,12 @@
               parent="woo_reports_menu"
               action="action_woo_sales_report"
               sequence="3"/>
+
+    <menuitem id="woo_order_report_menu"
+              name="Order Report"
+              parent="woo_reports_menu"
+              action="action_woo_order_report"
+              sequence="4"/>
 
     <menuitem id="woo_webhook_reports_menu"
               name="Webhook Reports"
@@ -146,6 +174,36 @@
               parent="woo_reports_menu"
               action="action_woo_mapping_reports"
               sequence="50"/>
+
+    <menuitem id="woo_operations_menu"
+              name="Operations"
+              parent="woo_root_menu"
+              action="action_woo_sync_dashboard_open_default"
+              sequence="9"/>
+
+    <menuitem id="woo_sync_dashboard_menu"
+              name="Operations Dashboard"
+              parent="woo_operations_menu"
+              action="action_woo_sync_dashboard_open_default"
+              sequence="1"/>
+
+    <menuitem id="woo_queue_monitor_menu"
+              name="Queue Monitor"
+              parent="woo_operations_menu"
+              action="action_woo_queue_monitor"
+              sequence="2"/>
+
+    <menuitem id="woo_sync_timeline_menu"
+              name="Sync Timeline"
+              parent="woo_operations_menu"
+              action="action_woo_sync_timeline"
+              sequence="3"/>
+
+    <menuitem id="woo_connection_health_logs_menu"
+              name="Connection Health Logs"
+              parent="woo_operations_menu"
+              action="action_woo_connection_health_logs"
+              sequence="4"/>
 
 </odoo>
 

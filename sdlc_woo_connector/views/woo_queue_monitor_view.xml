@@ -94,7 +94,6 @@
                     <field name="status" widget="badge"/>
                 </header>
                 <sheet>
-                    <widget name="woo_field_help"/>
                     <group col="4">
                         <field name="instance_id"/>
                         <field name="operation"/>
@@ -147,4 +146,5 @@
         <field name="search_view_id" ref="view_woo_queue_monitor_search"/>
     </record>
 </odoo>
+
 
