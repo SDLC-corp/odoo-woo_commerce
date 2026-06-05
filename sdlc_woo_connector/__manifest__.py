@@ -1,10 +1,50 @@
 {
-    "name": "Odoo WooCommerce Connector",
+    "name": "WooCommerce Odoo Connector",
     "version": "19.0.1.0.0",
-    "summary": "Sync WooCommerce data with Odoo",
     "category": "Sales",
-    "author": "Your Company",
-    "license": "LGPL-3",
+    "summary": "Two-way WooCommerce Odoo integration to sync products, orders, "
+               "customers, inventory, categories and coupons using webhooks, "
+               "scheduled jobs and manual sync.",
+    "description": """
+    WooCommerce Odoo Connector
+    ==========================
+
+    Connect one or more WooCommerce stores to Odoo and keep your catalog, sales and
+    customers up to date without re-entering data by hand. The connector works
+    through real-time webhooks, scheduled (cron) jobs and on-demand manual sync, so
+    you can decide how WooCommerce and Odoo stay aligned.
+
+    Key features
+    ------------
+    * Two-way sync between WooCommerce and Odoo (import from Woo and push changes back to Woo).
+    * Products and categories: bulk and single import, SKU based product matching, tag and category creation, and product updates pushed back to WooCommerce.
+    * Orders: import WooCommerce orders with their order lines, push order status updates, and convert synced orders into Odoo sale orders.
+    * Customers: import customers and create them automatically from order billing data, including guest checkout handling and push back to Woo.
+    * Coupons: import and export coupons with discount type, usage limits and expiry dates.
+    * Inventory: sync stock levels and stock status from WooCommerce.
+    * Multi-store: manage several WooCommerce instances from one Odoo database.
+    * Real-time webhooks: signed (HMAC-SHA256) endpoints for products, customers, orders, categories and coupons.
+    * Scheduled automation: per-entity auto sync with hourly, daily, weekly or monthly intervals.
+    * Custom field mapping: map WooCommerce fields to Odoo fields, including nested keys, with protected core fields and a live sample test.
+    * Reports and monitoring: sync dashboard, sync reports, webhook logs, connection health and a sync timeline.
+
+    Every sync is logged and errors are recorded, so you can check the status of
+    each WooCommerce store from one place. The connector fits B2B, electronics,
+    fashion, food, health and home and furniture stores.
+
+    Support
+    -------
+    For setup help, documentation and support, contact SDLC Corp.
+    """,
+    "author": "SDLC Corp",
+    "maintainer": "SDLC Corp",
+    "company": "SDLC Corp",
+    "website": "https://sdlccorp.com/products/odoo-woocommerce-connector/",
+    "support": "sales@sdlccorp.com",
+    "license": "OPL-1",
+    'price': 19.99,
+    'currency': 'USD',
+    "images": ["static/description/banner.gif"],
     "depends": [
         "base",
         "web",
@@ -68,4 +108,5 @@
     },
     "installable": True,
     "application": True,
+    'auto_install': False,
 }
