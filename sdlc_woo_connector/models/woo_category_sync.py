@@ -40,7 +40,6 @@ class WooCategorySync(models.Model):
             ("failed", "Failed"),
         ],
         default="draft",
-        tracking=True,
     )
 
     synced_on = fields.Datetime()

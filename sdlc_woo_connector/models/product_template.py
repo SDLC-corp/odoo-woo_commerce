@@ -74,13 +74,16 @@ class ProductTemplate(models.Model):
             },
         }
 
-    @api.model
-    def create(self, vals):
-        if not vals.get("woo_instance_id"):
-            instance = self.env["woo.instance"].search(
-                [("active", "=", True)],
-                limit=1
-            )
-            if instance:
-                vals["woo_instance_id"] = instance.id
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        instance = False
+        for vals in vals_list:
+            if not vals.get("woo_instance_id"):
+                if instance is False:
+                    instance = self.env["woo.instance"].search(
+                        [("active", "=", True)],
+                        limit=1,
+                    )
+                if instance:
+                    vals["woo_instance_id"] = instance.id
+        return super().create(vals_list)

@@ -1,16 +1,11 @@
-from odoo import models, fields
+from odoo import models
 import requests
 from odoo.exceptions import UserError
 
 
-class WooDashboardGraph(models.Model):
+class WooDashboardGraph(models.AbstractModel):
     _name = "woo.dashboard.graph"
     _description = "Woo Dashboard Graph"
-    _auto = False
-
-    date = fields.Date()
-    revenue = fields.Float()
-    orders = fields.Integer()
 
     def get_graph_data(self, date_from, date_to):
         instance = self.env["woo.instance"].search(

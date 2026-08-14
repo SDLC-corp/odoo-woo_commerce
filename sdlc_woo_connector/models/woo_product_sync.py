@@ -89,6 +89,23 @@ class WooProductSync(models.Model):
     seo_description = fields.Text(string="SEO Description")
     ai_content_last_generated = fields.Datetime(string="AI Content Last Generated")
 
+    @staticmethod
+    def _normalize_woo_named_items(values):
+        items = values if isinstance(values, list) else [values]
+        normalized = []
+        for item in items:
+            if isinstance(item, dict):
+                normalized.append(item)
+            elif isinstance(item, str) and item.strip():
+                normalized.append({"name": item.strip()})
+            elif isinstance(item, list):
+                normalized.extend(
+                    nested
+                    for nested in WooProductSync._normalize_woo_named_items(item)
+                    if isinstance(nested, dict)
+                )
+        return normalized
+
     # --------------------------------------------------
     # SMART BUTTON ACTION
     # --------------------------------------------------
@@ -293,6 +310,9 @@ class WooProductSync(models.Model):
     #         "product_tmpl_id": product.id,
     #     }
     def _prepare_vals(self, p):
+        if not isinstance(p, dict):
+            raise UserError(_("Unexpected WooCommerce product payload format."))
+
         sku = p.get("sku") or p.get("slug")
 
         ProductTmpl = self.env["product.template"]
@@ -322,7 +342,7 @@ class WooProductSync(models.Model):
         # CATEGORIES
         # -----------------------------
         category_ids = []
-        for c in p.get("categories", []):
+        for c in self._normalize_woo_named_items(p.get("categories", [])):
             category = Category.search(
                 [("name", "=", c.get("name"))],
                 limit=1
@@ -337,7 +357,7 @@ class WooProductSync(models.Model):
         # TAGS
         # -----------------------------
         tag_ids = []
-        for t in p.get("tags", []):
+        for t in self._normalize_woo_named_items(p.get("tags", [])):
             tag = Tag.search(
                 [("name", "=", t.get("name"))],
                 limit=1

@@ -2,6 +2,8 @@ import json
 
 from odoo import api, fields, models
 
+from ..compat import resolve_woo_xmlid
+
 
 class WooSyncTimeline(models.Model):
     _name = "woo.sync.timeline"
@@ -373,7 +375,9 @@ class WooSyncTimelineProductTemplate(models.Model):
 
     def action_open_woo_sync_history(self):
         self.ensure_one()
-        action = self.env.ref("woo_connector.action_woo_sync_timeline").read()[0]
+        action = resolve_woo_xmlid(
+            self.env, "action_woo_sync_timeline"
+        ).read()[0]
         action["domain"] = [("product_tmpl_id", "=", self.id)]
         action["context"] = {"default_product_tmpl_id": self.id}
         return action
@@ -397,7 +401,9 @@ class WooSyncTimelineSaleOrder(models.Model):
 
     def action_open_woo_sync_history(self):
         self.ensure_one()
-        action = self.env.ref("woo_connector.action_woo_sync_timeline").read()[0]
+        action = resolve_woo_xmlid(
+            self.env, "action_woo_sync_timeline"
+        ).read()[0]
         action["domain"] = [("sale_order_id", "=", self.id)]
         action["context"] = {"default_sale_order_id": self.id}
         return action
@@ -421,7 +427,9 @@ class WooSyncTimelinePartner(models.Model):
 
     def action_open_woo_sync_history(self):
         self.ensure_one()
-        action = self.env.ref("woo_connector.action_woo_sync_timeline").read()[0]
+        action = resolve_woo_xmlid(
+            self.env, "action_woo_sync_timeline"
+        ).read()[0]
         action["domain"] = [("partner_id", "=", self.id)]
         action["context"] = {"default_partner_id": self.id}
         return action
@@ -445,7 +453,9 @@ class WooSyncTimelineCategory(models.Model):
 
     def action_open_woo_sync_history(self):
         self.ensure_one()
-        action = self.env.ref("woo_connector.action_woo_sync_timeline").read()[0]
+        action = resolve_woo_xmlid(
+            self.env, "action_woo_sync_timeline"
+        ).read()[0]
         action["domain"] = [("category_id", "=", self.id)]
         action["context"] = {"default_category_id": self.id}
         return action
@@ -469,7 +479,9 @@ class WooSyncTimelineCoupon(models.Model):
 
     def action_open_woo_sync_history(self):
         self.ensure_one()
-        action = self.env.ref("woo_connector.action_woo_sync_timeline").read()[0]
+        action = resolve_woo_xmlid(
+            self.env, "action_woo_sync_timeline"
+        ).read()[0]
         action["domain"] = [("coupon_sync_id", "=", self.id)]
         action["context"] = {"default_coupon_sync_id": self.id}
         return action

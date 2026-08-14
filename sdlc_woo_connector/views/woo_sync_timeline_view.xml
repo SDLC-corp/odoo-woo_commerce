@@ -98,7 +98,7 @@
     <record id="view_product_template_form_woo_sync_timeline" model="ir.ui.view">
         <field name="name">product.template.form.woo.sync.timeline</field>
         <field name="model">product.template</field>
-        <field name="inherit_id" ref="woo_connector.view_product_template_form_woo"/>
+        <field name="inherit_id" ref="view_product_template_form_woo"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <div class="oe_button_box" name="woo_sync_timeline_button_box_product">
@@ -133,7 +133,7 @@
     <record id="view_sale_order_form_woo_sync_timeline" model="ir.ui.view">
         <field name="name">sale.order.form.woo.sync.timeline</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="woo_connector.view_sale_order_form_woo_manual_sync"/>
+        <field name="inherit_id" ref="view_sale_order_form_woo_manual_sync"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <div class="oe_button_box" name="woo_sync_timeline_button_box_sale_order">
@@ -168,7 +168,7 @@
     <record id="view_res_partner_form_woo_sync_timeline" model="ir.ui.view">
         <field name="name">res.partner.form.woo.sync.timeline</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="woo_connector.view_res_partner_form_woo_manual_sync"/>
+        <field name="inherit_id" ref="view_res_partner_form_woo_manual_sync"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <div class="oe_button_box" name="woo_sync_timeline_button_box_partner">
@@ -203,7 +203,7 @@
     <record id="view_product_category_form_woo_sync_timeline" model="ir.ui.view">
         <field name="name">product.category.form.woo.sync.timeline</field>
         <field name="model">product.category</field>
-        <field name="inherit_id" ref="woo_connector.view_product_category_form_woo_manual_sync"/>
+        <field name="inherit_id" ref="view_product_category_form_woo_manual_sync"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <div class="oe_button_box" name="woo_sync_timeline_button_box_category">
@@ -240,7 +240,7 @@
     <record id="view_woo_coupon_sync_form_sync_timeline" model="ir.ui.view">
         <field name="name">woo.coupon.sync.form.sync.timeline</field>
         <field name="model">woo.coupon.sync</field>
-        <field name="inherit_id" ref="woo_connector.woo_coupon_sync_form"/>
+        <field name="inherit_id" ref="woo_coupon_sync_form"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <div class="oe_button_box" name="woo_sync_timeline_button_box_coupon">

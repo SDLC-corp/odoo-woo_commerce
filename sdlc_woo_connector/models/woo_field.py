@@ -38,10 +38,7 @@ class WooField(models.Model):
 
     active = fields.Boolean(default=True)
 
-    _sql_constraints = [
-        (
-            "uniq_field_per_instance_model",
-            "unique(instance_id, model, name)",
-            "Woo field must be unique per instance and model.",
-        )
-    ]
+    _uniq_field_per_instance_model = models.Constraint(
+        "unique(instance_id, model, name)",
+        "Woo field must be unique per instance and model.",
+    )

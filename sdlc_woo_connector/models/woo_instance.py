@@ -272,6 +272,53 @@ class WooInstance(models.Model):
     def _woo_delete(self, url, params=None, timeout=30):
         return self._woo_request("delete", url, params=params, timeout=timeout)
 
+    @staticmethod
+    def _normalize_woo_named_items(values):
+        items = values if isinstance(values, list) else [values]
+        normalized = []
+        for item in items:
+            if isinstance(item, dict):
+                normalized.append(item)
+            elif isinstance(item, str) and item.strip():
+                normalized.append({"name": item.strip()})
+            elif isinstance(item, list):
+                normalized.extend(
+                    nested
+                    for nested in WooInstance._normalize_woo_named_items(item)
+                    if isinstance(nested, dict)
+                )
+        return normalized
+
+    @staticmethod
+    def _normalize_woo_recordset(payload, collection_name="records"):
+        if isinstance(payload, dict):
+            for key in (
+                collection_name,
+                "data",
+                "items",
+                "results",
+                "products",
+            ):
+                nested = payload.get(key)
+                if isinstance(nested, list):
+                    payload = nested
+                    break
+            else:
+                return [payload]
+
+        if not isinstance(payload, list):
+            raise UserError(
+                _("Unexpected WooCommerce response format for %s.") % collection_name
+            )
+
+        records = []
+        for item in payload:
+            if isinstance(item, dict):
+                records.append(item)
+            elif isinstance(item, list):
+                records.extend(subitem for subitem in item if isinstance(subitem, dict))
+        return records
+
     def _success_toast(self, title, message):
         return {
             "type": "ir.actions.client",
@@ -435,6 +482,9 @@ class WooInstance(models.Model):
             products = self.fetch_products()
 
             for p in products:
+                if not isinstance(p, dict):
+                    continue
+
                 woo_id = p.get("id")
                 if not woo_id:
                     continue
@@ -483,7 +533,7 @@ class WooInstance(models.Model):
 
                 # Categories
                 category_ids = []
-                for c in p.get("categories", []):
+                for c in self._normalize_woo_named_items(p.get("categories", [])):
                     category = self.env["product.category"].search(
                         [("name", "=", c.get("name"))],
                         limit=1
@@ -496,7 +546,7 @@ class WooInstance(models.Model):
 
                 # Tags
                 tag_ids = []
-                for t in p.get("tags", []):
+                for t in self._normalize_woo_named_items(p.get("tags", [])):
                     tag = self.env["product.tag"].search(
                         [("name", "=", t.get("name"))],
                         limit=1
@@ -1195,7 +1245,7 @@ class WooInstance(models.Model):
             )
 
         response.raise_for_status()
-        return response.json()
+        return self._normalize_woo_recordset(response.json(), collection_name="products")
 
     def fetch_sample_product(self):
         self.ensure_one()
@@ -1209,7 +1259,10 @@ class WooInstance(models.Model):
             raise UserError("Woo API Unauthorized (401)")
 
         response.raise_for_status()
-        products = response.json()
+        products = self._normalize_woo_recordset(
+            response.json(),
+            collection_name="products",
+        )
         return products[0] if products else {}
 
     def action_sync_woo_fields(self):

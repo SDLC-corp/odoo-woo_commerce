@@ -3,6 +3,8 @@ import logging
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from ..compat import resolve_woo_xmlid
+
 _logger = logging.getLogger(__name__)
 
 
@@ -234,7 +236,9 @@ class WooReport(models.Model):
 
     def action_open_related_timeline(self):
         self.ensure_one()
-        action = self.env.ref("woo_connector.action_woo_sync_timeline").read()[0]
+        action = resolve_woo_xmlid(
+            self.env, "action_woo_sync_timeline"
+        ).read()[0]
         action["domain"] = [("report_id", "=", self.id)]
         action["context"] = {"default_report_id": self.id}
         return action

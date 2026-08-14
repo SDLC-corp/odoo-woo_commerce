@@ -1,12 +1,5 @@
 <odoo>
 
-    <!-- ================= INSTANCES ================= -->
-    <record id="action_woo_instance" model="ir.actions.act_window">
-        <field name="name">WooCommerce Instances</field>
-        <field name="res_model">woo.instance</field>
-        <field name="view_mode">kanban,list,form</field>
-    </record>
-
     <!-- ================= PRODUCTS ================= -->
     <record id="action_woo_products" model="ir.actions.act_window">
         <field name="name">WooCommerce Products</field>
@@ -65,12 +58,6 @@
     </record>
 
     <!-- ================= CLIENT PLACEHOLDERS ================= -->
-<!--    <record id="action_woo_dashboard" model="ir.actions.client">-->
-<!--        <field name="name">WooCommerce Dashboard</field>-->
-<!--        <field name="tag">display_notification</field>-->
-<!--        <field name="params"-->
-<!--               eval="{'title': 'Dashboard', 'message': 'Dashboard coming soon', 'type': 'info'}"/>-->
-<!--    </record>-->
     <record id="action_woo_dashboard" model="ir.actions.client">
         <field name="name">Woo Dashboard</field>
         <field name="tag">woo_dashboard</field>

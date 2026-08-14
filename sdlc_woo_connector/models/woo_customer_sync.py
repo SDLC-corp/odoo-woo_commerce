@@ -35,7 +35,6 @@ class WooCustomerSync(models.Model):
         ],
         default="synced",
         string="Status",
-        tracking=True,
     )
 
     synced_on = fields.Datetime(string="Synced On")

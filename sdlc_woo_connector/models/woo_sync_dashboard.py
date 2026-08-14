@@ -3,6 +3,8 @@ from datetime import datetime, time, timedelta
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
+from ..compat import resolve_woo_xmlid
+
 
 class WooSyncDashboard(models.Model):
     _name = "woo.sync.dashboard"
@@ -256,7 +258,9 @@ class WooSyncDashboard(models.Model):
 
     def action_open_queue_monitor(self):
         self.ensure_one()
-        action = self.env.ref("woo_connector.action_woo_queue_monitor").read()[0]
+        action = resolve_woo_xmlid(
+            self.env, "action_woo_queue_monitor"
+        ).read()[0]
         action["domain"] = self._build_domain("create_date")
         return action
 
@@ -300,14 +304,18 @@ class WooSyncDashboard(models.Model):
 
     def action_open_import_by_id(self):
         self.ensure_one()
-        action = self.env.ref("woo_connector.action_woo_import_by_id_wizard").read()[0]
+        action = resolve_woo_xmlid(
+            self.env, "action_woo_import_by_id_wizard"
+        ).read()[0]
         if self.instance_id:
             action["context"] = dict(self._context, default_instance_id=self.instance_id.id)
         return action
 
     def action_open_import_by_date_range(self):
         self.ensure_one()
-        action = self.env.ref("woo_connector.action_woo_import_date_range_wizard").read()[0]
+        action = resolve_woo_xmlid(
+            self.env, "action_woo_import_date_range_wizard"
+        ).read()[0]
         if self.instance_id:
             action["context"] = dict(self._context, default_instance_id=self.instance_id.id)
         return action

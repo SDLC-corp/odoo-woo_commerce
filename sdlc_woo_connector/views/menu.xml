@@ -20,6 +20,17 @@
               action="action_woo_dashboard"
               sequence="2"/>
 
+    <menuitem id="menu_product_brand_root"
+              name="Brands"
+              parent="woo_root_menu"
+              sequence="10"/>
+
+    <menuitem id="menu_product_brand"
+              name="Product Brands"
+              parent="menu_product_brand_root"
+              action="action_product_brand"
+              sequence="1"/>
+
     <menuitem id="woo_data_menu"
               name="WooCommerce Data"
               parent="woo_root_menu"

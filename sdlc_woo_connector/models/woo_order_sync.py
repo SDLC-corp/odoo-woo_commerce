@@ -11,13 +11,10 @@ class WooOrderSync(models.Model):
     _description = "WooCommerce Order"
     _rec_name = "name"
     _order = "synced_on desc"
-    _sql_constraints = [
-        (
-            "woo_order_instance_uniq",
-            "unique(instance_id, woo_order_id)",
-            "Duplicate Woo order for the same instance is not allowed.",
-        ),
-    ]
+    _woo_order_instance_uniq = models.Constraint(
+        "unique(instance_id, woo_order_id)",
+        "Duplicate Woo order for the same instance is not allowed.",
+    )
 
     def init(self):
         super().init()
@@ -30,7 +27,7 @@ class WooOrderSync(models.Model):
             where_instance = "AND a.instance_id = %s"
             params.append(instance_id)
 
-        self._cr.execute(
+        self.env.cr.execute(
             f"""
             DELETE FROM woo_order_sync a
             USING woo_order_sync b
@@ -74,7 +71,6 @@ class WooOrderSync(models.Model):
             ("failed", "Failed"),
         ],
         default="draft",
-        tracking=True,
     )
 
     # --------------------------------------------------
@@ -134,7 +130,6 @@ class WooOrderSync(models.Model):
         ],
         string="Order Tracking Status",
         # default="draft",
-        tracking=True,
     )
     # woo_status = fields.Char(
     #     string="Woo Order Status",
@@ -151,7 +146,6 @@ class WooOrderSync(models.Model):
             ("failed", "Failed"),
         ],
         string="Woo Order Status",
-        tracking=True,
         # default="pending",
     )
 
