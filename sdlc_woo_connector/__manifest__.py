@@ -41,9 +41,10 @@
     "company": "SDLC Corp",
     "website": "https://sdlccorp.com/products/odoo-woocommerce-connector/",
     "support": "sales@sdlccorp.com",
-    "license": "OPL-1",
-    "price": 19.99,
-    "currency": 'USD',
+    "license": "LGPL-3",
+    # "license": "OPL-1",
+    # "price": 19.99,
+    # "currency": 'USD',
     "images": ["static/description/banner.gif"],
     "depends": [
         "base",
