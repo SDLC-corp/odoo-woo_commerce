@@ -1,117 +1,139 @@
 {
     'name': 'Odoo WooCommerce Connector',
     'version': '18.0.1.0.0',
-    'summary': 'Odoo WooCommerce Connector for real-time two-way WooCommerce Odoo integration - sync products, orders, customers, inventory, coupons & categories via the WooCommerce REST API, with webhooks, automated cron sync, field mapping, multi-store support, dashboards, reports & built-in AI',
+    'summary': 'WooCommerce Odoo integration for Odoo 18: two-way sync of products, '
+               'orders, customers, inventory, categories and coupons via signed '
+               'webhooks, scheduled actions and field mapping. Multi-store, AI.',
     'description': """
-    Odoo WooCommerce Connector - WooCommerce Odoo Integration & Sync
-    ================================================================
+    Odoo WooCommerce Connector
+    ==========================
 
-    The Odoo WooCommerce Connector is a complete WooCommerce Odoo integration that keeps your
-    WooCommerce store and Odoo in sync in real time. Connect one or more WooCommerce stores to a
-    single Odoo database and manage products, categories, customers, orders, inventory, and coupons
-    with reliable two-way (bidirectional) synchronization built on the official WooCommerce REST API.
+    The Odoo 18 WooCommerce Connector is a complete Odoo WooCommerce integration for stores that
+    need a real WooCommerce ERP integration rather than a one-way importer. Connect one or more
+    WooCommerce stores to a single Odoo database and manage products, categories, customers,
+    orders, inventory and coupons with two-way synchronization built on the standard WooCommerce
+    REST API.
 
-    Import WooCommerce orders into Odoo, push Odoo products to WooCommerce, automate order status
-    updates, and run your entire eCommerce back office from Odoo - with real-time webhooks, scheduled
-    automatic sync, configurable field mapping, dashboards, reports, and built-in AI assistance.
+    Import WooCommerce orders into Odoo, push Odoo products to WooCommerce, keep stock accurate on
+    both sides, and run the whole WooCommerce Odoo sync from one back office. No custom WordPress
+    plugin is required on your store.
 
-    Why choose this WooCommerce connector for Odoo?
-    -----------------------------------------------
-    * Real-time, two-way synchronization between WooCommerce and Odoo
-    * Built on the standard WooCommerce REST API - no custom WordPress plugin required
-    * Connect multiple WooCommerce stores to one Odoo database (multi-store / multi-instance)
-    * Built-in AI (insights, product content assistant, chatbot) - a step beyond a basic connector
-    * Works with Odoo Community & Enterprise on Odoo Online, Odoo.sh, and On-Premise
+    Multi-store WooCommerce instance management
+    -------------------------------------------
+    * Multiple WooCommerce store / instance support, each enabled or disabled independently.
+    * Store URL, consumer key and consumer secret configuration, plus WordPress username and
+      application password support where your host requires it.
+    * Test Connection before you sync a single record.
+    * Per-instance statistics: total products, total orders, total customers and total revenue.
+    * Last synchronization tracking per instance and per record type.
 
-    Product Synchronization
-    -----------------------
-    * Two-way product sync between Odoo and WooCommerce
-    * Sync SKU, regular price and sale price
-    * Sync product categories and product tags
-    * Keep stock quantities aligned between Odoo and WooCommerce
+    WooCommerce product sync and catalog
+    ------------------------------------
+    * Import products from WooCommerce into Odoo and push products from Odoo to WooCommerce.
+    * Bulk product sync, or pull a single product by its WooCommerce product ID.
+    * SKU based matching against existing Odoo products, linked to product.template.
+    * Syncs name, SKU, regular price, sale price, description, short description, stock quantity,
+      stock status, manage-stock flag, categories and tags.
+    * Missing categories and tags are created automatically on import.
+    * Open the matching Odoo product, or jump straight to the product in the WooCommerce admin.
 
-    Order Management
-    ----------------
-    * Import WooCommerce orders into Odoo with full order lines
-    * Two-way order status sync (processing, completed, cancelled, refunded, and more)
-    * Automatic order status updates on a schedule
-    * Cancelled-order reporting
-
-    Customers, Categories & Coupons
-    -------------------------------
-    * Sync WooCommerce customers into Odoo contacts
-    * Manage and sync WooCommerce product categories
-    * Sync WooCommerce coupons and gift cards
-
-    Inventory & Stock
-    -----------------
-    * Track and update WooCommerce inventory from Odoo
-    * Keep stock levels accurate to reduce overselling
-
-    Real-Time Webhooks & Automation
-    -------------------------------
-    * Near-instant sync via WooCommerce webhooks for products, customers, orders,
-      categories, and gift cards
-    * Scheduled background synchronization with configurable cron intervals
-      (hourly, daily, weekly, or monthly per record type)
-    * Sync logs, webhook reports, and status tracking to monitor and troubleshoot
-
-    Field Mapping
-    -------------
-    * Configurable field mapping for products, customers, and categories
-    * Map WooCommerce fields to the matching Odoo fields with full control
-
-    Shipping & Fulfillment
+    WooCommerce order sync
     ----------------------
-    * Manage delivery orders and shipment tracking
-    * Keep fulfillment status aligned with WooCommerce
+    * Import WooCommerce orders in bulk, or pull an individual order by its WooCommerce order ID.
+    * Order line synchronization with SKU and product matching.
+    * Syncs customer information, billing details, payment method, order status, customer notes,
+      order amount and currency.
+    * Converts each WooCommerce order into a linked Odoo sales order.
+    * Pushes order updates and status changes back to WooCommerce.
+    * Duplicate order detection and cleanup per instance.
+    * Scheduled WooCommerce order status synchronization.
 
-    Dashboards & Reports
-    --------------------
-    * Interactive dashboard with charts and store performance insights
-    * Reports: sync reports, sales reports, cancelled orders, webhook reports,
-      and field-mapping reports
+    WooCommerce customer sync
+    -------------------------
+    * Import customers from WooCommerce and create or update customers back in WooCommerce.
+    * Syncs name, email, phone and billing information.
+    * Creates and updates customers automatically from WooCommerce orders.
+    * Guest customer handling, identified by email, with a WooCommerce order count per contact.
 
-    Built-in AI Assistance
-    ----------------------
-    * AI Sales & Inventory Insights generated from your store data
-    * AI Product Content Assistant (descriptions, short descriptions, SEO text, tags)
-    * Built-in AI chatbot assistant for WooCommerce operations
-    * AI is optional and degrades gracefully when disabled or unavailable
+    WooCommerce category and coupon sync
+    ------------------------------------
+    * Import WooCommerce categories, and create or update categories from Odoo.
+    * Category parent relationship, slug, description and product count on both sides.
+    * Import and export coupons with code, discount type, discount amount, usage limit,
+      usage count, expiry date and status, with sync state tracked per record.
 
-    Keywords: WooCommerce Odoo connector, WooCommerce Odoo integration, sync WooCommerce with Odoo,
-    import WooCommerce orders into Odoo, WooCommerce product sync, WooCommerce inventory sync,
-    WooCommerce order sync, real-time WooCommerce integration, WooCommerce REST API, multi-store
-    WooCommerce connector, eCommerce connector.
+    WooCommerce inventory sync
+    --------------------------
+    * WooCommerce inventory synchronization by product and by instance.
+    * SKU based inventory information, stock quantity, and in-stock / out-of-stock status.
+    * Manage-stock support, including quantity handling for products where WooCommerce stock
+      management is switched off.
+    * Manual and multi-instance inventory refresh.
 
-    Business Benefits
-    -----------------
-    * Reduce manual data entry between Odoo and WooCommerce
-    * Improve eCommerce order management and fulfillment
-    * Keep product, stock, and pricing data accurate across channels
-    * Centralize customer and sales information in Odoo
-    * Save time with real-time webhooks and automated synchronization
-    * Gain insights faster with dashboards, reports, and AI assistance
+    Odoo WooCommerce field mapping
+    ------------------------------
+    * Separate, configurable mappings for products, orders, customers and categories.
+    * WooCommerce field catalog with Odoo field selection.
+    * Nested WooCommerce field support such as billing.email and other nested JSON values.
+    * Live preview showing the WooCommerce value beside the Odoo value.
+    * Test a mapping against real store data before you commit it.
+    * Individual mappings can be enabled or disabled, and core identity fields are protected.
 
-    Best For
-    --------
-    * WooCommerce store owners and online retailers
-    * eCommerce, D2C, and B2B brands
-    * Wholesale and distribution companies
-    * Dropshippers and multi-store sellers
-    * Businesses using Odoo as their ERP backend
+    WooCommerce webhooks and scheduled sync
+    ---------------------------------------
+    * WooCommerce webhook endpoint with HMAC SHA-256 signature validation and a configurable secret.
+    * Product, customer, order, category and coupon webhooks, plus a separate order status webhook.
+    * Automatic synchronization for products, customers, orders, categories and coupons.
+    * Per-entity intervals: hourly, daily, weekly or monthly, with configurable hour, minute,
+      weekday and day of month.
+    * Automatic sync can be enabled or disabled per record type and per instance.
 
-    Odoo WooCommerce Connector is designed to simplify WooCommerce integration with Odoo and help
-    businesses manage eCommerce workflows from one centralized system.
+    WooCommerce dashboard and analytics in Odoo
+    -------------------------------------------
+    * WooCommerce dashboard inside Odoo with multi-instance filtering.
+    * Total sales, orders, customers and products, plus recent orders.
+    * Payment method breakdown and order status breakdown, with dashboard graphs.
+    * WooCommerce Analytics API integration: daily gross sales, net sales, order count and
+      items sold, plus revenue and units by product and by category.
+    * Real-time dashboard refresh over the Odoo bus, with a local database fallback when the
+      WooCommerce analytics endpoints are slow or unavailable.
+
+    Built-in AI for WooCommerce
+    ---------------------------
+    * AI product content assistant: long description, short description, SEO title, SEO meta
+      description and product tag suggestions, with selectable tone and an SEO mode.
+    * Preview generated content before applying it to the product.
+    * AI sales and inventory insights over a 7-day or 30-day window, stored with status and
+      timestamp, covering restocking priorities and stock risk.
+    * AI chatbot assistant that answers operational questions about orders, products, inventory
+      and synchronization status.
+    * OpenAI-compatible provider configuration: provider, model, API key, maximum tokens and a
+      custom endpoint, with a graceful fallback that keeps the connector working when AI is off.
+
+    Sync reports and monitoring
+    ---------------------------
+    * Synchronization reports with detailed report lines, per instance and per operation.
+    * Manual, scheduled and webhook runs are recorded separately, with the WooCommerce reference,
+      success or failure status and the error message.
+    * Sales reports, order reports, cancelled order reports and inventory reports.
+    * Per-record sync state, last sync time and last error message.
+
+    Every sync is logged and errors are recorded, so you can check the status of each
+    WooCommerce store from one place. The connector fits B2B, electronics, fashion, food,
+    health, home and furniture stores.
+
+    Support
+    -------
+    For setup help, documentation and support, contact SDLC Corp.
     """,
     'author': 'SDLC Corp',
-    'support': 'sales@sdlccorp.com',
+    'support': 'support@sdlccorp.com',
     'maintainer': 'SDLC Corp',
     'auto_install': False,
     'sequence': 1,
     'category': 'Sales',
     'website': 'https://sdlccorp.com/products/odoo-woocommerce-connector/',
-    'price': 19.99,
+    'price': 129.99,
     'currency': 'USD',
     'license': 'OPL-1',
     'depends': ["base",
