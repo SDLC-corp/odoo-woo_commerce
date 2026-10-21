@@ -20,14 +20,14 @@
                 string="Create in WooCommerce"
                 type="object"
                 class="btn-primary"
-                invisible="woo_product_id"/>
+                attrs="{'invisible': [('woo_product_id', '!=', False)]}"/>
 
             <button
                 name="action_woo_update"
                 string="Update in WooCommerce"
                 type="object"
                 class="btn-secondary"
-                invisible="not woo_product_id"/>
+                attrs="{'invisible': [('woo_product_id', '=', False)]}"/>
 
         </xpath>
 

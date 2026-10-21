@@ -12,6 +12,7 @@ export class WooDashboard extends Component {
         this.rpc = useService("rpc");
         this.busService = this.env.services.bus_service || null;
         this.onDashboardBusMessage = this.onDashboardBusMessage.bind(this);
+        this.onBusNotification = this.onBusNotification.bind(this);
         this.state = useState({
             range: "30",
             instanceId: "all",
@@ -70,7 +71,9 @@ export class WooDashboard extends Component {
             await this.loadInstances();
             await this.loadData();
             if (this.busService) {
-                this.busService.subscribe("woo_dashboard_update", this.onDashboardBusMessage);
+                // Odoo 16's bus service has no subscribe(type): it dispatches every
+                // notification of the subscribed channels ("broadcast" included).
+                this.busService.addEventListener("notification", this.onBusNotification);
                 this.busService.start();
             }
             this.startAutoRefresh();
@@ -78,6 +81,9 @@ export class WooDashboard extends Component {
 
         onWillUnmount(() => {
             this.stopAutoRefresh();
+            if (this.busService) {
+                this.busService.removeEventListener("notification", this.onBusNotification);
+            }
         });
     }
 
@@ -207,6 +213,14 @@ export class WooDashboard extends Component {
         if (this.refreshTimer) {
             clearInterval(this.refreshTimer);
             this.refreshTimer = null;
+        }
+    }
+
+    onBusNotification({ detail: notifications }) {
+        for (const { type, payload } of notifications) {
+            if (type === "woo_dashboard_update") {
+                this.onDashboardBusMessage(payload);
+            }
         }
     }
 

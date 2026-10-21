@@ -112,20 +112,20 @@
                             <group col="2">
                                 <group string="Products">
                                     <field name="auto_product_sync"/>
-                                    <field name="auto_product_interval_type" invisible="not auto_product_sync"/>
-                                    <group invisible="auto_product_interval_type != 'hours' or not auto_product_sync">
+                                    <field name="auto_product_interval_type" attrs="{'invisible': [('auto_product_sync', '=', False)]}"/>
+                                    <group attrs="{'invisible': ['|', ('auto_product_interval_type', '!=', 'hours'), ('auto_product_sync', '=', False)]}">
                                         <field name="auto_sync_hour"/>
                                     </group>
-                                    <group invisible="auto_product_interval_type != 'days' or not auto_product_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_product_interval_type', '!=', 'days'), ('auto_product_sync', '=', False)]}">
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
                                     </group>
-                                    <group invisible="auto_product_interval_type != 'weeks' or not auto_product_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_product_interval_type', '!=', 'weeks'), ('auto_product_sync', '=', False)]}">
                                         <field name="auto_sync_weekday"/>
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
                                     </group>
-                                    <group invisible="auto_product_interval_type != 'months' or not auto_product_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_product_interval_type', '!=', 'months'), ('auto_product_sync', '=', False)]}">
                                         <field name="auto_sync_month_day"/>
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
@@ -133,20 +133,20 @@
                                 </group>
                                 <group string="Customers">
                                     <field name="auto_customer_sync"/>
-                                    <field name="auto_customer_interval_type" invisible="not auto_customer_sync"/>
-                                    <group invisible="auto_customer_interval_type != 'hours' or not auto_customer_sync">
+                                    <field name="auto_customer_interval_type" attrs="{'invisible': [('auto_customer_sync', '=', False)]}"/>
+                                    <group attrs="{'invisible': ['|', ('auto_customer_interval_type', '!=', 'hours'), ('auto_customer_sync', '=', False)]}">
                                         <field name="auto_sync_hour"/>
                                     </group>
-                                    <group invisible="auto_customer_interval_type != 'days' or not auto_customer_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_customer_interval_type', '!=', 'days'), ('auto_customer_sync', '=', False)]}">
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
                                     </group>
-                                    <group invisible="auto_customer_interval_type != 'weeks' or not auto_customer_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_customer_interval_type', '!=', 'weeks'), ('auto_customer_sync', '=', False)]}">
                                         <field name="auto_sync_weekday"/>
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
                                     </group>
-                                    <group invisible="auto_customer_interval_type != 'months' or not auto_customer_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_customer_interval_type', '!=', 'months'), ('auto_customer_sync', '=', False)]}">
                                         <field name="auto_sync_month_day"/>
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
@@ -154,20 +154,20 @@
                                 </group>
                                 <group string="Orders">
                                     <field name="auto_order_sync"/>
-                                    <field name="auto_order_interval_type" invisible="not auto_order_sync"/>
-                                    <group invisible="auto_order_interval_type != 'hours' or not auto_order_sync">
+                                    <field name="auto_order_interval_type" attrs="{'invisible': [('auto_order_sync', '=', False)]}"/>
+                                    <group attrs="{'invisible': ['|', ('auto_order_interval_type', '!=', 'hours'), ('auto_order_sync', '=', False)]}">
                                         <field name="auto_sync_hour"/>
                                     </group>
-                                    <group invisible="auto_order_interval_type != 'days' or not auto_order_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_order_interval_type', '!=', 'days'), ('auto_order_sync', '=', False)]}">
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
                                     </group>
-                                    <group invisible="auto_order_interval_type != 'weeks' or not auto_order_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_order_interval_type', '!=', 'weeks'), ('auto_order_sync', '=', False)]}">
                                         <field name="auto_sync_weekday"/>
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
                                     </group>
-                                    <group invisible="auto_order_interval_type != 'months' or not auto_order_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_order_interval_type', '!=', 'months'), ('auto_order_sync', '=', False)]}">
                                         <field name="auto_sync_month_day"/>
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
@@ -175,20 +175,20 @@
                                 </group>
                                 <group string="Categories">
                                     <field name="auto_category_sync"/>
-                                    <field name="auto_category_interval_type" invisible="not auto_category_sync"/>
-                                    <group invisible="auto_category_interval_type != 'hours' or not auto_category_sync">
+                                    <field name="auto_category_interval_type" attrs="{'invisible': [('auto_category_sync', '=', False)]}"/>
+                                    <group attrs="{'invisible': ['|', ('auto_category_interval_type', '!=', 'hours'), ('auto_category_sync', '=', False)]}">
                                         <field name="auto_sync_hour"/>
                                     </group>
-                                    <group invisible="auto_category_interval_type != 'days' or not auto_category_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_category_interval_type', '!=', 'days'), ('auto_category_sync', '=', False)]}">
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
                                     </group>
-                                    <group invisible="auto_category_interval_type != 'weeks' or not auto_category_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_category_interval_type', '!=', 'weeks'), ('auto_category_sync', '=', False)]}">
                                         <field name="auto_sync_weekday"/>
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
                                     </group>
-                                    <group invisible="auto_category_interval_type != 'months' or not auto_category_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_category_interval_type', '!=', 'months'), ('auto_category_sync', '=', False)]}">
                                         <field name="auto_sync_month_day"/>
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
@@ -196,20 +196,20 @@
                                 </group>
                                 <group string="Coupons">
                                     <field name="auto_coupon_sync"/>
-                                    <field name="auto_coupon_interval_type" invisible="not auto_coupon_sync"/>
-                                    <group invisible="auto_coupon_interval_type != 'hours' or not auto_coupon_sync">
+                                    <field name="auto_coupon_interval_type" attrs="{'invisible': [('auto_coupon_sync', '=', False)]}"/>
+                                    <group attrs="{'invisible': ['|', ('auto_coupon_interval_type', '!=', 'hours'), ('auto_coupon_sync', '=', False)]}">
                                         <field name="auto_sync_hour"/>
                                     </group>
-                                    <group invisible="auto_coupon_interval_type != 'days' or not auto_coupon_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_coupon_interval_type', '!=', 'days'), ('auto_coupon_sync', '=', False)]}">
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
                                     </group>
-                                    <group invisible="auto_coupon_interval_type != 'weeks' or not auto_coupon_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_coupon_interval_type', '!=', 'weeks'), ('auto_coupon_sync', '=', False)]}">
                                         <field name="auto_sync_weekday"/>
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>
                                     </group>
-                                    <group invisible="auto_coupon_interval_type != 'months' or not auto_coupon_sync">
+                                    <group attrs="{'invisible': ['|', ('auto_coupon_interval_type', '!=', 'months'), ('auto_coupon_sync', '=', False)]}">
                                         <field name="auto_sync_month_day"/>
                                         <field name="auto_sync_hour"/>
                                         <field name="auto_sync_minute"/>

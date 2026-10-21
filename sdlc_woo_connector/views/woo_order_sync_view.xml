@@ -48,25 +48,25 @@
                             string="Add Order"
                             type="object"
                             class="btn-primary"
-                            invisible="id"/>
+                            attrs="{'invisible': [('id', '!=', False)]}"/>
 
                     <button name="action_pull_from_woo"
                             string="Pull from WooCommerce"
                             type="object"
                             class="btn-secondary"
-                            invisible="not id"/>
+                            attrs="{'invisible': [('id', '=', False)]}"/>
 
                     <button name="action_push_to_woo"
                             string="Push to WooCommerce"
                             type="object"
                             class="btn-primary"
-                            invisible="not id"/>
+                            attrs="{'invisible': [('id', '=', False)]}"/>
 
                     <button name="action_create_sale_order"
                             string="Create Sale Order"
                             type="object"
                             class="btn-primary"
-                            invisible="sale_order_id"/>
+                            attrs="{'invisible': [('sale_order_id', '!=', False)]}"/>
 
                 </header>
 

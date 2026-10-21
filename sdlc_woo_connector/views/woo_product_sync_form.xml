@@ -19,7 +19,7 @@
                             type="object"
                             string="Open in WooCommerce"
                             class="btn-secondary"
-                            invisible="not woo_product_id"/>
+                            attrs="{'invisible': [('woo_product_id', '=', False)]}"/>
                     <button name="action_ai_generate_description"
                             type="object"
                             string="Generate Description"

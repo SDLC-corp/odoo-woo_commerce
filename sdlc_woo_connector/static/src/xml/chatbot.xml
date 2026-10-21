@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="woo_connector.SimpleChatbot">
+    <t t-name="woo_connector.SimpleChatbot" owl="1">
         <div t-if="state.isVisible" class="woo-chatbot-root">
             <button t-if="!state.isOpen" class="woo-chatbot-toggle" t-on-click="toggleOpen" title="Open AI Assistant">
                 <span>AI</span>
