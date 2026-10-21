@@ -364,12 +364,12 @@ class WooSyncTimelineProductTemplate(models.Model):
     woo_timeline_count = fields.Integer(compute="_compute_woo_timeline_count")
 
     def _compute_woo_timeline_count(self):
-        grouped = self.env["woo.sync.timeline"].read_group(
-            [("product_tmpl_id", "in", self.ids)],
-            ["product_tmpl_id"],
-            ["product_tmpl_id"],
+        grouped = self.env["woo.sync.timeline"]._read_group(
+            [("product_tmpl_id", "in", self.ids)],
+            ["product_tmpl_id"],
+            ["__count"],
         )
-        counts = {entry["product_tmpl_id"][0]: entry["product_tmpl_id_count"] for entry in grouped}
+        counts = {group.id: count for group, count in grouped}
         for rec in self:
             rec.woo_timeline_count = counts.get(rec.id, 0)
 
@@ -390,12 +390,12 @@ class WooSyncTimelineSaleOrder(models.Model):
     woo_timeline_count = fields.Integer(compute="_compute_woo_timeline_count")
 
     def _compute_woo_timeline_count(self):
-        grouped = self.env["woo.sync.timeline"].read_group(
-            [("sale_order_id", "in", self.ids)],
-            ["sale_order_id"],
-            ["sale_order_id"],
+        grouped = self.env["woo.sync.timeline"]._read_group(
+            [("sale_order_id", "in", self.ids)],
+            ["sale_order_id"],
+            ["__count"],
         )
-        counts = {entry["sale_order_id"][0]: entry["sale_order_id_count"] for entry in grouped}
+        counts = {group.id: count for group, count in grouped}
         for rec in self:
             rec.woo_timeline_count = counts.get(rec.id, 0)
 
@@ -416,12 +416,12 @@ class WooSyncTimelinePartner(models.Model):
     woo_timeline_count = fields.Integer(compute="_compute_woo_timeline_count")
 
     def _compute_woo_timeline_count(self):
-        grouped = self.env["woo.sync.timeline"].read_group(
-            [("partner_id", "in", self.ids)],
-            ["partner_id"],
-            ["partner_id"],
+        grouped = self.env["woo.sync.timeline"]._read_group(
+            [("partner_id", "in", self.ids)],
+            ["partner_id"],
+            ["__count"],
         )
-        counts = {entry["partner_id"][0]: entry["partner_id_count"] for entry in grouped}
+        counts = {group.id: count for group, count in grouped}
         for rec in self:
             rec.woo_timeline_count = counts.get(rec.id, 0)
 
@@ -442,12 +442,12 @@ class WooSyncTimelineCategory(models.Model):
     woo_timeline_count = fields.Integer(compute="_compute_woo_timeline_count")
 
     def _compute_woo_timeline_count(self):
-        grouped = self.env["woo.sync.timeline"].read_group(
-            [("category_id", "in", self.ids)],
-            ["category_id"],
-            ["category_id"],
+        grouped = self.env["woo.sync.timeline"]._read_group(
+            [("category_id", "in", self.ids)],
+            ["category_id"],
+            ["__count"],
         )
-        counts = {entry["category_id"][0]: entry["category_id_count"] for entry in grouped}
+        counts = {group.id: count for group, count in grouped}
         for rec in self:
             rec.woo_timeline_count = counts.get(rec.id, 0)
 
@@ -468,12 +468,12 @@ class WooSyncTimelineCoupon(models.Model):
     woo_timeline_count = fields.Integer(compute="_compute_woo_timeline_count")
 
     def _compute_woo_timeline_count(self):
-        grouped = self.env["woo.sync.timeline"].read_group(
-            [("coupon_sync_id", "in", self.ids)],
-            ["coupon_sync_id"],
-            ["coupon_sync_id"],
+        grouped = self.env["woo.sync.timeline"]._read_group(
+            [("coupon_sync_id", "in", self.ids)],
+            ["coupon_sync_id"],
+            ["__count"],
         )
-        counts = {entry["coupon_sync_id"][0]: entry["coupon_sync_id_count"] for entry in grouped}
+        counts = {group.id: count for group, count in grouped}
         for rec in self:
             rec.woo_timeline_count = counts.get(rec.id, 0)
 

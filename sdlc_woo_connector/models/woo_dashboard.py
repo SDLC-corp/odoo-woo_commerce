@@ -69,8 +69,8 @@ class WooDashboard(models.AbstractModel):
             return 0
         Order = self.env["woo.order.sync"]
         domain = [("instance_id", "in", instances.ids)]
-        groups = Order.read_group(domain, ["customer_email"], ["customer_email"])
-        return sum(1 for g in groups if g.get("customer_email"))
+        groups = Order._read_group(domain, ["customer_email"])
+        return sum(1 for (email,) in groups if email)
 
     def _totals_from_snapshots(self, instances):
         if not instances:
@@ -132,8 +132,8 @@ class WooDashboard(models.AbstractModel):
                 ("date_created", "<=", date_to),
             ]
 
-        groups = Order.read_group(domain, ["status"], ["status"])
-        counts = {g["status"]: g["status_count"] for g in groups if g.get("status")}
+        groups = Order._read_group(domain, ["status"], ["__count"])
+        counts = {status: count for status, count in groups if status}
         return {
             "pending": counts.get("pending", 0),
             "processing": counts.get("processing", 0),
@@ -153,18 +153,18 @@ class WooDashboard(models.AbstractModel):
                 ("date_created", "<=", date_to),
             ]
 
-        groups = Order.read_group(
+        groups = Order._read_group(
             domain,
-            ["payment_method_title", "total_amount:sum"],
             ["payment_method_title"],
+            ["__count", "total_amount:sum"],
         )
         return [
             {
-                "title": g.get("payment_method_title") or "Unknown",
-                "count": g.get("payment_method_title_count", 0),
-                "amount": g.get("total_amount", 0.0),
+                "title": title or "Unknown",
+                "count": count,
+                "amount": amount or 0.0,
             }
-            for g in groups
+            for title, count, amount in groups
         ]
 
     def _recent_orders(self, instances, date_from, date_to, limit=6):

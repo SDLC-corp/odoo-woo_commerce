@@ -46,7 +46,7 @@
                         <button name="action_view_products"
                                 type="object"
                                 class="oe_stat_button"
-                                icon="fa-cubes">
+                                icon="inventory_2">
                             <field name="product_count_odoo"
                                    widget="statinfo"
                                    string="Products"/>

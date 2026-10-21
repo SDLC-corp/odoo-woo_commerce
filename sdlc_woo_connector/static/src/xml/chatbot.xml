@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="woo_connector.SimpleChatbot">
-        <div t-if="state.isVisible" class="woo-chatbot-root">
-            <button t-if="!state.isOpen" class="woo-chatbot-toggle" t-on-click="toggleOpen" title="Open AI Assistant">
+        <div t-if="this.state.isVisible" class="woo-chatbot-root">
+            <button t-if="!this.state.isOpen" class="woo-chatbot-toggle" t-on-click="this.toggleOpen" title="Open AI Assistant">
                 <span>AI</span>
             </button>
 
-            <div t-if="state.isOpen" class="woo-chatbot-popup">
+            <div t-if="this.state.isOpen" class="woo-chatbot-popup">
                 <div class="woo-chatbot-header">
                     <span class="woo-chatbot-title">AI Assistant</span>
-                    <button class="woo-chatbot-close" t-on-click="closePopup">x</button>
+                    <button class="woo-chatbot-close" t-on-click="this.closePopup">x</button>
                 </div>
 
                 <div class="woo-chatbot-quick-actions">
-                    <button t-foreach="state.quickActions" t-as="action" t-key="action" class="woo-chatbot-chip" t-att-data-prompt="action" t-on-click="sendQuickAction">
-                        <t t-esc="action"/>
+                    <button t-foreach="this.state.quickActions" t-as="action" t-key="action" class="woo-chatbot-chip" t-att-data-prompt="action" t-on-click="this.sendQuickAction">
+                        <t t-out="action"/>
                     </button>
                 </div>
 
                 <div class="woo-chatbot-body">
-                    <div t-foreach="state.messages" t-as="message" t-key="message_index" t-att-class="'woo-chatbot-message ' + message.role">
+                    <div t-foreach="this.state.messages" t-as="message" t-key="message_index" t-att-class="'woo-chatbot-message ' + message.role">
                         <div class="woo-chatbot-bubble">
-                            <t t-esc="message.text"/>
+                            <t t-out="message.text"/>
                         </div>
                     </div>
-                    <div t-if="state.isLoading" class="woo-chatbot-loading">Replying...</div>
+                    <div t-if="this.state.isLoading" class="woo-chatbot-loading">Replying...</div>
                 </div>
 
                 <div class="woo-chatbot-footer">
-                    <textarea class="woo-chatbot-input" rows="2" placeholder="Ask about WooCommerce data" t-att-value="state.input" t-on-input="onInput" t-on-keydown="onKeydown"></textarea>
-                    <button class="btn btn-primary woo-chatbot-send" t-on-click="sendMessage" t-att-disabled="state.isLoading">Send</button>
+                    <textarea class="woo-chatbot-input" rows="2" placeholder="Ask about WooCommerce data" t-att-value="this.state.input" t-on-input="this.onInput" t-on-keydown="this.onKeydown"></textarea>
+                    <button class="btn btn-primary woo-chatbot-send" t-on-click="this.sendMessage" t-att-disabled="this.state.isLoading">Send</button>
                 </div>
             </div>
         </div>

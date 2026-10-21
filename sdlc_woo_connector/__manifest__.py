@@ -1,8 +1,8 @@
 {
     "name": "Odoo WooCommerce Connector",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "Sales",
-    "summary": "WooCommerce Odoo integration for Odoo 19: two-way sync of products, "
+    "summary": "WooCommerce Odoo integration for Odoo 20: two-way sync of products, "
                "orders, customers, inventory, categories and coupons via signed "
                "webhooks, scheduled actions and field mapping. Multi-store, AI.",
     "description": """
@@ -113,7 +113,7 @@
         "mail",
     ],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/cron.xml",
         "views/woo_instance_view.xml",
         "views/woo_import_by_id_wizard_view.xml",

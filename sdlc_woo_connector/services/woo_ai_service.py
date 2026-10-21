@@ -38,7 +38,7 @@ class WooAIService:
         return json.loads(cleaned) if cleaned else {}
 
     def _get_prompt_template(self, key, default):
-        return self.params.get_param(key) or default
+        return self.params.get_str(key) or default
 
     def _format_currency(self, amount):
         return "%.2f" % float(amount or 0.0)

@@ -47,7 +47,7 @@
                         <button name="action_view_orders"
                                 type="object"
                                 class="oe_stat_button"
-                                icon="fa-shopping-cart">
+                                icon="shopping_cart">
                             <field name="order_count"
                                    widget="statinfo"
                                    string="Orders"/>

@@ -265,7 +265,7 @@
                                 <div class="woo-title">
                                     <strong><field name="name"/></strong>
                                     <span class="woo-status">
-                                        <t t-esc="record.active.raw_value ? 'Active' : 'Inactive'"/>
+                                        <t t-out="record.active.raw_value ? 'Active' : 'Inactive'"/>
                                     </span>
                                 </div>
                                 <div class="woo-url">

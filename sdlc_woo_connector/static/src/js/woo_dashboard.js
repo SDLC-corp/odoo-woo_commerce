@@ -1,10 +1,14 @@
 /** @odoo-module **/
 
 import { registry } from "@web/core/registry";
-import { Component, useState, onMounted, onWillUnmount } from "@odoo/owl";
+import { Component, onMounted, onWillUnmount, proxy, useProps } from "@odoo/owl";
+import { standardActionServiceProps } from "@web/webclient/actions/action_plugin";
 import { useService } from "@web/core/utils/hooks";
 
 export class WooDashboard extends Component {
+    static template = "woo_dashboard_template";
+    props = useProps({ ...standardActionServiceProps });
+
     setup() {
         this.refreshIntervalMs = 60000;
         this.refreshTimer = null;
@@ -12,7 +16,7 @@ export class WooDashboard extends Component {
         this.orm = useService("orm");
         this.busService = this.env.services.bus_service || null;
         this.onDashboardBusMessage = this.onDashboardBusMessage.bind(this);
-        this.state = useState({
+        this.state = proxy({
             range: "30",
             instanceId: "all",
             instances: [],
@@ -244,5 +248,4 @@ export class WooDashboard extends Component {
     }
 }
 
-WooDashboard.template = "woo_dashboard_template";
 registry.category("actions").add("woo_dashboard", WooDashboard);

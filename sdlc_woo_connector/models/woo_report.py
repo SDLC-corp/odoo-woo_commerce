@@ -182,12 +182,12 @@ class WooReport(models.Model):
                 )
 
     def _compute_timeline_count(self):
-        grouped = self.env["woo.sync.timeline"].read_group(
-            [("report_id", "in", self.ids)],
-            ["report_id"],
-            ["report_id"],
+        grouped = self.env["woo.sync.timeline"]._read_group(
+            [("report_id", "in", self.ids)],
+            ["report_id"],
+            ["__count"],
         )
-        counts = {entry["report_id"][0]: entry["report_id_count"] for entry in grouped}
+        counts = {group.id: count for group, count in grouped}
         for rec in self:
             rec.timeline_count = counts.get(rec.id, 0)
 

@@ -1,26 +1,20 @@
 /** @odoo-module **/
 import { registry } from "@web/core/registry";
-import { Component, useState } from "@odoo/owl";
+import { Component, proxy, t, useProps } from "@odoo/owl";
 import { standardWidgetProps } from "@web/views/widgets/standard_widget_props";
 
 export class WooFieldHelpPanel extends Component {
     static template = "woo_connector.WooFieldHelpPanel";
-    static props = {
+    props = useProps({
         ...standardWidgetProps,
-        title: { type: String, optional: true },
-        only_with_help: { type: Boolean, optional: true },
-        default_collapsed: { type: Boolean, optional: true },
-        auto_collapse_threshold: { type: Number, optional: true },
-    };
-    static defaultProps = {
-        title: "Fields and their uses :-",
-        only_with_help: false,
-        default_collapsed: false,
-        auto_collapse_threshold: 30,
-    };
+        title: t.string().optional("Fields and their uses :-"),
+        only_with_help: t.boolean().optional(false),
+        default_collapsed: t.boolean().optional(false),
+        auto_collapse_threshold: t.number().optional(30),
+    });
 
     setup() {
-        this.state = useState({
+        this.state = proxy({
             collapsed:
                 this.props.default_collapsed ||
                 this.fieldEntries.length > this.props.auto_collapse_threshold,

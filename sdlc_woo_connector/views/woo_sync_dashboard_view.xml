@@ -21,40 +21,40 @@
                     </group>
 
                     <group string="Sync Overview" col="5">
-                        <button name="action_open_sync_reports" type="object" class="oe_stat_button" icon="fa-files-o">
+                        <button name="action_open_sync_reports" type="object" class="oe_stat_button" icon="content_copy">
                             <field name="total_sync_reports" widget="statinfo" string="Total Sync Reports"/>
                         </button>
-                        <button name="action_open_sync_reports" type="object" class="oe_stat_button" icon="fa-check-circle">
+                        <button name="action_open_sync_reports" type="object" class="oe_stat_button" icon="check_circle">
                             <field name="success_sync_count" widget="statinfo" string="Successful Syncs"/>
                         </button>
-                        <button name="action_open_failed_sync_reports" type="object" class="oe_stat_button" icon="fa-exclamation-triangle">
+                        <button name="action_open_failed_sync_reports" type="object" class="oe_stat_button" icon="warning">
                             <field name="failed_sync_count" widget="statinfo" string="Failed Syncs"/>
                         </button>
-                        <button name="action_open_running_sync_reports" type="object" class="oe_stat_button" icon="fa-spinner">
+                        <button name="action_open_running_sync_reports" type="object" class="oe_stat_button" icon="progress_activity">
                             <field name="running_sync_count" widget="statinfo" string="Pending/Running"/>
                         </button>
-                        <button name="action_open_webhook_logs" type="object" class="oe_stat_button" icon="fa-bolt">
+                        <button name="action_open_webhook_logs" type="object" class="oe_stat_button" icon="flash_on">
                             <field name="webhook_today_count" widget="statinfo" string="Webhook Logs Today"/>
                         </button>
-                        <button name="action_open_failed_webhook_logs" type="object" class="oe_stat_button" icon="fa-times-circle">
+                        <button name="action_open_failed_webhook_logs" type="object" class="oe_stat_button" icon="cancel">
                             <field name="failed_webhook_count" widget="statinfo" string="Failed Webhooks"/>
                         </button>
-                        <button name="action_open_instances" type="object" class="oe_stat_button" icon="fa-sitemap">
+                        <button name="action_open_instances" type="object" class="oe_stat_button" icon="account_tree">
                             <field name="active_instance_count" widget="statinfo" string="Active Instances"/>
                         </button>
                     </group>
 
                     <group string="Queue Monitor" col="4">
-                        <button name="action_open_queue_pending" type="object" class="oe_stat_button" icon="fa-clock-o">
+                        <button name="action_open_queue_pending" type="object" class="oe_stat_button" icon="schedule">
                             <field name="pending_queue_count" widget="statinfo" string="Pending Jobs"/>
                         </button>
-                        <button name="action_open_queue_running" type="object" class="oe_stat_button" icon="fa-spinner">
+                        <button name="action_open_queue_running" type="object" class="oe_stat_button" icon="progress_activity">
                             <field name="running_queue_count" widget="statinfo" string="Running Jobs"/>
                         </button>
-                        <button name="action_open_queue_failed" type="object" class="oe_stat_button" icon="fa-exclamation-circle">
+                        <button name="action_open_queue_failed" type="object" class="oe_stat_button" icon="error">
                             <field name="failed_queue_count" widget="statinfo" string="Failed Jobs"/>
                         </button>
-                        <button name="action_open_retried_today" type="object" class="oe_stat_button" icon="fa-repeat">
+                        <button name="action_open_retried_today" type="object" class="oe_stat_button" icon="repeat">
                             <field name="retried_jobs_today" widget="statinfo" string="Retried Jobs Today"/>
                         </button>
                         <button name="action_open_queue_monitor" type="object" class="btn-secondary" string="Open Queue Monitor"/>

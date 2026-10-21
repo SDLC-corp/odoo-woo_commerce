@@ -72,7 +72,7 @@
                 <button name="action_woo_create"
                         type="object"
                         class="oe_stat_button btn-primary"
-                        icon="fa-cloud-upload"
+                        icon="cloud_upload"
                         invisible="woo_product_id">
                     <div class="o_stat_info">
                         <span class="o_stat_text">Create in WooCommerce</span>

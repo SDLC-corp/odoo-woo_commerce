@@ -46,13 +46,13 @@
                         type="object"
                         string="Retry"
                         class="btn-link"
-                        icon="fa-refresh"
+                        icon="refresh"
                         invisible="status != 'failed'"/>
                 <button name="action_explain_webhook_error_with_ai"
                         type="object"
                         string="Explain with AI"
                         class="btn-link"
-                        icon="fa-magic"
+                        icon="wand_stars"
                         invisible="status != 'failed'"/>
             </list>
         </field>

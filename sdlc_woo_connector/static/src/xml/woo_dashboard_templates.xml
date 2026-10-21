@@ -10,33 +10,33 @@
         <div class="woo-subtitle">
           <span class="woo-badge">LIVE</span>
           <span class="woo-instance-name">
-            <t t-esc="state.data.meta.instance_name"/>
+            <t t-out="this.state.data.meta.instance_name"/>
           </span>
         </div>
       </div>
       <div class="woo-hero-right">
         <div class="woo-control">
           <label>Instance</label>
-          <select t-model="state.instanceId" t-on-change="loadData">
-            <option value="all">All</option>
-            <option t-foreach="state.instances" t-as="i" t-key="i.id" t-att-value="i.id">
-              <t t-esc="i.name"/>
+          <select t-on-change="(ev) => { this.state.instanceId = ev.target.value; this.loadData(); }">
+            <option value="all" t-att-selected="this.state.instanceId === 'all'">All</option>
+            <option t-foreach="this.state.instances" t-as="i" t-key="i.id" t-att-value="i.id" t-att-selected="('' + i.id) === ('' + this.state.instanceId)">
+              <t t-out="i.name"/>
             </option>
           </select>
         </div>
         <div class="woo-control">
           <label>Date Range</label>
-          <select t-model="state.range" t-on-change="loadData">
-            <option value="0">Today</option>
-            <option value="7">Last 7 days</option>
-            <option value="30">Last 30 days</option>
-            <option value="90">Last 90 days</option>
+          <select t-on-change="(ev) => { this.state.range = ev.target.value; this.loadData(); }">
+            <option value="0" t-att-selected="this.state.range === '0'">Today</option>
+            <option value="7" t-att-selected="this.state.range === '7'">Last 7 days</option>
+            <option value="30" t-att-selected="this.state.range === '30'">Last 30 days</option>
+            <option value="90" t-att-selected="this.state.range === '90'">Last 90 days</option>
           </select>
         </div>
-        <button class="btn btn-primary" t-on-click="syncNow">
+        <button class="btn btn-primary" t-on-click="this.syncNow">
           Sync Now
         </button>
-        <button class="btn btn-secondary" t-on-click="generateInsights">
+        <button class="btn btn-secondary" t-on-click="this.generateInsights">
           Generate AI Insights
         </button>
       </div>
@@ -46,37 +46,37 @@
     <div class="woo-kpis">
       <div class="kpi-card soft-blue">
         <div class="label">Instances</div>
-        <div class="value"><t t-esc="state.data.totals.instances"/></div>
+        <div class="value"><t t-out="this.state.data.totals.instances"/></div>
       </div>
       <div class="kpi-card soft-green">
         <div class="label">Customers</div>
-        <div class="value"><t t-esc="state.data.totals.customers"/></div>
+        <div class="value"><t t-out="this.state.data.totals.customers"/></div>
       </div>
       <div class="kpi-card soft-yellow">
         <div class="label">Products</div>
-        <div class="value"><t t-esc="state.data.totals.products"/></div>
+        <div class="value"><t t-out="this.state.data.totals.products"/></div>
       </div>
       <div class="kpi-card soft-pink">
         <div class="label">Categories</div>
-        <div class="value"><t t-esc="state.data.totals.categories"/></div>
+        <div class="value"><t t-out="this.state.data.totals.categories"/></div>
       </div>
       <div class="kpi-card soft-lavender">
         <div class="label">Orders</div>
-        <div class="value"><t t-esc="state.data.totals.orders"/></div>
+        <div class="value"><t t-out="this.state.data.totals.orders"/></div>
       </div>
       <div class="kpi-card soft-cream">
         <div class="label">Coupons</div>
-        <div class="value"><t t-esc="state.data.totals.coupons"/></div>
+        <div class="value"><t t-out="this.state.data.totals.coupons"/></div>
       </div>
       <div class="kpi-card soft-slate">
         <div class="label">Revenue</div>
-        <div class="value">$<t t-esc="state.data.totals.total_sales"/></div>
+        <div class="value">$<t t-out="this.state.data.totals.total_sales"/></div>
       </div>
       <div class="kpi-card soft-ice">
         <div class="label">Selected Range</div>
         <div class="value small">
-          From: <t t-esc="state.data.meta.date_from"/><br/>
-          To: <t t-esc="state.data.meta.date_to"/>
+          From: <t t-out="this.state.data.meta.date_from"/><br/>
+          To: <t t-out="this.state.data.meta.date_to"/>
         </div>
       </div>
     </div>
@@ -86,32 +86,32 @@
       <div class="pulse-card">
         <div class="pulse-title">Order Mix</div>
         <div class="pulse-list">
-          <div class="pulse-row" t-foreach="state.viz.statusRows" t-as="row" t-key="row.key">
-            <div class="pulse-label"><t t-esc="row.label"/></div>
+          <div class="pulse-row" t-foreach="this.state.viz.statusRows" t-as="row" t-key="row.key">
+            <div class="pulse-label"><t t-out="row.label"/></div>
             <div class="pulse-bar">
               <div class="pulse-fill" t-att-style="'width:' + row.pct + '%'"/>
             </div>
-            <div class="pulse-value"><t t-esc="row.value"/></div>
+            <div class="pulse-value"><t t-out="row.value"/></div>
           </div>
         </div>
         <div class="pulse-spectrum">
-          <div class="spectrum-dot" t-foreach="state.viz.statusRows" t-as="row" t-key="row.key"
+          <div class="spectrum-dot" t-foreach="this.state.viz.statusRows" t-as="row" t-key="row.key"
                t-att-style="'--dot:' + row.pct + '%'"></div>
         </div>
       </div>
       <div class="pulse-card">
         <div class="pulse-title">Revenue Ring</div>
         <div class="ring-wrap">
-          <div class="ring" t-att-style="'--ring:' + state.viz.revenuePct + '%'">
+          <div class="ring" t-att-style="'--ring:' + this.state.viz.revenuePct + '%'">
             <div class="ring-core">
-              <div class="ring-value">$<t t-esc="state.data.totals.total_sales"/></div>
+              <div class="ring-value">$<t t-out="this.state.data.totals.total_sales"/></div>
               <div class="ring-sub">Net sales</div>
             </div>
           </div>
           <div class="ring-meta">
-            <div>Orders: <strong><t t-esc="state.data.totals.orders"/></strong></div>
-            <div>Products: <strong><t t-esc="state.data.totals.products"/></strong></div>
-            <div>Customers: <strong><t t-esc="state.data.totals.customers"/></strong></div>
+            <div>Orders: <strong><t t-out="this.state.data.totals.orders"/></strong></div>
+            <div>Products: <strong><t t-out="this.state.data.totals.products"/></strong></div>
+            <div>Customers: <strong><t t-out="this.state.data.totals.customers"/></strong></div>
           </div>
         </div>
         <div class="ring-glow"></div>
@@ -122,31 +122,31 @@
       <div class="woo-ai-card">
         <div class="pulse-title">AI Insights</div>
         <div class="woo-ai-status-line">
-          <span class="woo-badge"><t t-esc="state.data.ai_insight.status || 'draft'"/></span>
-          <span t-if="state.data.ai_insight.generated_at">
-            Last generated: <t t-esc="state.data.ai_insight.generated_at"/>
+          <span class="woo-badge"><t t-out="this.state.data.ai_insight.status || 'draft'"/></span>
+          <span t-if="this.state.data.ai_insight.generated_at">
+            Last generated: <t t-out="this.state.data.ai_insight.generated_at"/>
           </span>
         </div>
         <div class="woo-ai-summary">
-          <t t-esc="state.data.ai_insight.summary_text || 'Generate AI insights to see a sales and inventory summary.'"/>
+          <t t-out="this.state.data.ai_insight.summary_text || 'Generate AI insights to see a sales and inventory summary.'"/>
         </div>
-        <div class="woo-ai-list" t-if="(state.data.ai_insight.actionable_recommendations || []).length">
+        <div class="woo-ai-list" t-if="(this.state.data.ai_insight.actionable_recommendations || []).length">
           <div class="woo-ai-subtitle">Recommendations</div>
           <ul>
-            <li t-foreach="state.data.ai_insight.actionable_recommendations" t-as="item" t-key="item">
-              <t t-esc="item"/>
+            <li t-foreach="this.state.data.ai_insight.actionable_recommendations" t-as="item" t-key="item">
+              <t t-out="item"/>
             </li>
           </ul>
         </div>
       </div>
       <div class="woo-ai-card">
         <div class="pulse-title">Stock Risk</div>
-        <div class="woo-ai-list" t-if="(state.data.ai_insight.products_at_risk_of_stockout || []).length">
+        <div class="woo-ai-list" t-if="(this.state.data.ai_insight.products_at_risk_of_stockout || []).length">
           <ul>
-            <li t-foreach="state.data.ai_insight.products_at_risk_of_stockout" t-as="item" t-key="item.sku || item.name">
-              <strong><t t-esc="item.name"/></strong>
-              <span> | Stock: <t t-esc="item.current_stock"/></span>
-              <span t-if="item.days_to_stockout"> | <t t-esc="item.days_to_stockout"/> days left</span>
+            <li t-foreach="this.state.data.ai_insight.products_at_risk_of_stockout" t-as="item" t-key="item.sku || item.name">
+              <strong><t t-out="item.name"/></strong>
+              <span> | Stock: <t t-out="item.current_stock"/></span>
+              <span t-if="item.days_to_stockout"> | <t t-out="item.days_to_stockout"/> days left</span>
             </li>
           </ul>
         </div>
@@ -154,11 +154,11 @@
       </div>
       <div class="woo-ai-card">
         <div class="pulse-title">Low Sales Products</div>
-        <div class="woo-ai-list" t-if="(state.data.ai_insight.low_sales_products || []).length">
+        <div class="woo-ai-list" t-if="(this.state.data.ai_insight.low_sales_products || []).length">
           <ul>
-            <li t-foreach="state.data.ai_insight.low_sales_products" t-as="item" t-key="item.sku || item.name">
-              <strong><t t-esc="item.name"/></strong>
-              <span> | Sold 30d: <t t-esc="item.units_sold_30_days"/></span>
+            <li t-foreach="this.state.data.ai_insight.low_sales_products" t-as="item" t-key="item.sku || item.name">
+              <strong><t t-out="item.name"/></strong>
+              <span> | Sold 30d: <t t-out="item.units_sold_30_days"/></span>
             </li>
           </ul>
         </div>

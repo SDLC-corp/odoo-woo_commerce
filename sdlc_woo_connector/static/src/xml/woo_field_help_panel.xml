@@ -3,29 +3,29 @@
 
     <t t-name="woo_connector.WooFieldHelpPanel">
         <div class="o_woo_help_panel"
-             t-att-class="{ o_woo_help_collapsed: state.collapsed }"
-             t-if="fieldEntries.length">
+             t-att-class="{ o_woo_help_collapsed: this.state.collapsed }"
+             t-if="this.fieldEntries.length">
             <div class="o_woo_help_header">
                 <span>
                     <span class="o_woo_help_title">
-                        <t t-esc="props.title"/>
+                        <t t-out="this.props.title"/>
                     </span>
                     <span class="o_woo_help_meta">
-                        (<t t-esc="fieldEntries.length"/> fields)
+                        (<t t-out="this.fieldEntries.length"/> fields)
                     </span>
                 </span>
                 <button type="button" class="o_woo_help_toggle btn btn-link btn-sm"
                         t-on-click="() => this.toggle()"
-                        t-att-aria-expanded="state.collapsed ? 'false' : 'true'"
-                        t-att-title="state.collapsed ? 'Show field help' : 'Hide field help'">
-                    <i t-att-class="state.collapsed ? 'fa fa-chevron-down' : 'fa fa-chevron-up'"/>
+                        t-att-aria-expanded="this.state.collapsed ? 'false' : 'true'"
+                        t-att-title="this.state.collapsed ? 'Show field help' : 'Hide field help'">
+                    <i class="oi" t-att-data-icon="this.state.collapsed ? 'expand_more' : 'expand_less'"/>
                 </button>
             </div>
             <ul class="o_woo_help_list">
-                <li t-foreach="fieldEntries" t-as="f" t-key="f.name">
-                    <strong t-esc="f.label"/>
+                <li t-foreach="this.fieldEntries" t-as="f" t-key="f.name">
+                    <strong t-out="f.label"/>
                     <span class="o_woo_help_sep"> : </span>
-                    <span t-esc="f.help"/>
+                    <span t-out="f.help"/>
                 </li>
             </ul>
         </div>
