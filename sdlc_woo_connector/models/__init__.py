@@ -1,5 +1,6 @@
 
 from . import connector
+from . import product_brand
 from . import woo_instance
 from . import woo_sync_base
 from . import woo_sync_engine
