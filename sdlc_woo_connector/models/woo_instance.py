@@ -506,6 +506,8 @@ class WooInstance(models.Model):
                         "default_code": sku,
                         "sale_ok": True,
                         "purchase_ok": True,
+                        # the store's price, not Odoo's default of 1.0
+                        "list_price": float(p.get("regular_price") or p.get("price") or 0.0),
                     })
 
                 # -----------------------------------------

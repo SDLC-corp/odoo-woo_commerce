@@ -26,3 +26,8 @@ access_woo_import_date_range_wizard_user,woo.import.date.range.wizard user,model
 access_woo_sync_preview_user,woo.sync.preview user,model_woo_sync_preview,base.group_user,1,1,1,1
 access_woo_sync_preview_line_user,woo.sync.preview.line user,model_woo_sync_preview_line,base.group_user,1,1,1,1
 access_woo_manual_record_sync_wizard_user,woo.manual.record.sync.wizard user,model_woo_manual_record_sync_wizard,base.group_user,1,1,1,1
+access_woo_connector_user,woo.connector user,model_woo_connector,base.group_user,1,1,1,1
+access_product_brand_user,product.brand user,model_product_brand,base.group_user,1,1,1,1
+access_woo_analytics_category_user,woo.analytics.category user,model_woo_analytics_category,base.group_user,1,1,1,1
+access_woo_analytics_daily_user,woo.analytics.daily user,model_woo_analytics_daily,base.group_user,1,1,1,1
+access_woo_analytics_product_user,woo.analytics.product user,model_woo_analytics_product,base.group_user,1,1,1,1
