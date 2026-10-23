@@ -175,6 +175,8 @@
 
         "views/woo_dashboard_action.xml",
 
+        'views/product_brand_view.xml',
+
         # 4️⃣ ACTIONS (must be AFTER models + views)
         'views/woo_actions.xml',
 
