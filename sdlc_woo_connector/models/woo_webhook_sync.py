@@ -46,6 +46,8 @@ class WooWebhookSync(models.AbstractModel):
                     "default_code": sku,
                     "sale_ok": True,
                     "purchase_ok": True,
+                    # the store's price, not Odoo's default of 1.0
+                    "list_price": float(data.get("regular_price") or data.get("price") or 0.0),
                 })
 
             # Categories
