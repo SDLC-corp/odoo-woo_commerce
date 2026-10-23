@@ -1,6 +1,6 @@
 {
     'name': 'WooCommerce Odoo Connector',
-    'version': '16.0.1.0.0',
+    'version': '15.0.1.0.0',
     'category': 'Sales',
     'summary': 'Two-way WooCommerce Odoo integration to sync products, orders, '
                'customers, inventory, categories and coupons using webhooks, '
@@ -92,14 +92,17 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "sdlc_woo_connector/static/src/xml/chatbot.xml",
             "sdlc_woo_connector/static/src/js/chatbot.js",
             "sdlc_woo_connector/static/src/scss/chatbot.scss",
-            "sdlc_woo_connector/static/src/xml/woo_dashboard_templates.xml",
             "sdlc_woo_connector/static/src/js/woo_dashboard.js",
             "sdlc_woo_connector/static/src/css/woo_dashboard.css",
             "sdlc_woo_connector/static/src/css/woo_instance_kanban.css",
             "sdlc_woo_connector/static/src/css/woo_product_list.css",
+        ],
+        # Odoo 15 compiles the Owl templates from this bundle.
+        "web.assets_qweb": [
+            "sdlc_woo_connector/static/src/xml/chatbot.xml",
+            "sdlc_woo_connector/static/src/xml/woo_dashboard_templates.xml",
         ],
     },
 

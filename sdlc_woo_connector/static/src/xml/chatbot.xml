@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="woo_connector.SimpleChatbot" owl="1">
+        <!-- Owl 1 (Odoo 15) needs a component to render one root element always -->
+        <div class="o_woo_chatbot_host">
         <div t-if="state.isVisible" class="woo-chatbot-root">
             <button t-if="!state.isOpen" class="woo-chatbot-toggle" t-on-click="toggleOpen" title="Open AI Assistant">
                 <span>AI</span>
@@ -32,6 +34,7 @@
                     <button class="btn btn-primary woo-chatbot-send" t-on-click="sendMessage" t-att-disabled="state.isLoading">Send</button>
                 </div>
             </div>
+        </div>
         </div>
     </t>
 </templates>

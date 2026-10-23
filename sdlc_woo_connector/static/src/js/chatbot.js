@@ -1,6 +1,8 @@
 /** @odoo-module **/
 
-import { Component, onWillUnmount, useState } from "@odoo/owl";
+// Odoo 15 ships Owl 1: components and hooks come from the global `owl` object.
+const { Component, useState } = owl;
+const { onWillUnmount } = owl.hooks;
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 
@@ -26,9 +28,10 @@ export class WooSimpleChatbot extends Component {
         });
 
         this.onAppChanged = this.onAppChanged.bind(this);
-        this.env.bus.addEventListener("MENUS:APP-CHANGED", this.onAppChanged);
+        // Odoo 15's env.bus is an Owl 1 EventBus (on/off).
+        this.env.bus.on("MENUS:APP-CHANGED", this, this.onAppChanged);
         onWillUnmount(() => {
-            this.env.bus.removeEventListener("MENUS:APP-CHANGED", this.onAppChanged);
+            this.env.bus.off("MENUS:APP-CHANGED", this);
         });
     }
 

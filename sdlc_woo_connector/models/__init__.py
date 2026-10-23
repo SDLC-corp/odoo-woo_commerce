@@ -1,4 +1,5 @@
 
+from . import product_tag
 from . import connector
 from . import woo_instance
 from . import woo_sync_base

@@ -1,7 +1,9 @@
 /** @odoo-module **/
 
 import { registry } from "@web/core/registry";
-import { Component, useState, onMounted, onWillUnmount } from "@odoo/owl";
+// Odoo 15 ships Owl 1: components and hooks come from the global `owl` object.
+const { Component, useState } = owl;
+const { onMounted, onWillUnmount } = owl.hooks;
 import { useService } from "@web/core/utils/hooks";
 
 export class WooDashboard extends Component {
@@ -10,7 +12,9 @@ export class WooDashboard extends Component {
         this.refreshTimer = null;
         this.refreshQueued = false;
         this.rpc = useService("rpc");
-        this.busService = this.env.services.bus_service || null;
+        // Odoo 15 has no bus service in the web client: the legacy one (owl.Component.env)
+        // delivers the same {type, payload} notifications, as core's calendar alarms use it.
+        this.busService = (owl.Component.env.services || {}).bus_service || null;
         this.onDashboardBusMessage = this.onDashboardBusMessage.bind(this);
         this.onBusNotification = this.onBusNotification.bind(this);
         this.state = useState({
@@ -71,10 +75,10 @@ export class WooDashboard extends Component {
             await this.loadInstances();
             await this.loadData();
             if (this.busService) {
-                // Odoo 16's bus service has no subscribe(type): it dispatches every
-                // notification of the subscribed channels ("broadcast" included).
-                this.busService.addEventListener("notification", this.onBusNotification);
-                this.busService.start();
+                // Every notification of the subscribed channels ("broadcast" included).
+                this.busService.onNotification(this, (notifications) =>
+                    this.onBusNotification({ detail: notifications }));
+                this.busService.startPolling();
             }
             this.startAutoRefresh();
         });
@@ -82,7 +86,7 @@ export class WooDashboard extends Component {
         onWillUnmount(() => {
             this.stopAutoRefresh();
             if (this.busService) {
-                this.busService.removeEventListener("notification", this.onBusNotification);
+                this.busService.off("notification", this);
             }
         });
     }
@@ -95,6 +99,18 @@ export class WooDashboard extends Component {
             kwargs: {},
         });
         this.state.instances = res || [];
+    }
+
+    // Owl 1 (Odoo 15) runs the select's change handler before t-model has
+    // written the new value: take it from the select itself, then reload.
+    onInstanceChange(ev) {
+        this.state.instanceId = ev.target.value;
+        return this.loadData();
+    }
+
+    onRangeChange(ev) {
+        this.state.range = ev.target.value;
+        return this.loadData();
     }
 
     async loadData() {
